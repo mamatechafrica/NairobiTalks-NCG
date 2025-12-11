@@ -1,24 +1,133 @@
-# README
+# NairobiTalks-NCG
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A comprehensive Rails application for managing citizen submissions and community engagement in Nairobi, Kenya. This platform enables citizens to submit feedback, ideas, and concerns while providing administrators with powerful tools to manage, filter, and respond to submissions effectively.
 
-Things you may want to cover:
+## 🌟 Features
 
-* Ruby version
+### For Citizens
 
-* System dependencies
+- **Easy Submission**: Simple forms for submitting community ideas, planning documents, and general feedback
+- **Progress Tracking**: Monitor the status of submitted items
+- **Community Engagement**: Participate in Nairobi's development discussions
 
-* Configuration
+### For Administrators
 
-* Database creation
+- **Advanced Admin Interface**: Comprehensive dashboard for managing all submissions
+- **Smart Filtering**: Filter submissions by status, type, date, and other criteria
+- **Bulk Operations**: Perform bulk actions on multiple submissions simultaneously
+- **Status Management**: Update submission statuses with visual indicators
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
 
-* Database initialization
+## 🛠 Technology Stack
 
-* How to run the test suite
+- **Backend**: Ruby on Rails 8.1.1
+- **Frontend**: Bootstrap 5, Turbo/Stimulus
+- **Database**: SQLite (development), PostgreSQL (production)
+- **Authentication**: Devise
+- **File Storage**: Active Storage
+- **AI Integration**: OpenAI API for content analysis
+- **Deployment**: Ready for Kamal deployment
 
-* Services (job queues, cache servers, search engines, etc.)
+## 🚀 Quick Start
 
-* Deployment instructions
+### Prerequisites
 
-* ...
+- Ruby 3.2.0 or higher
+- Rails 8.1.1
+- Node.js and Yarn
+- PostgreSQL (for production)
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/mamatechafrica/NairobiTalks-NCG.git
+   cd NairobiTalks-NCG
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   bundle install
+   yarn install
+   ```
+
+3. **Database setup**
+
+   ```bash
+   rails db:create
+   rails db:migrate
+   rails db:seed
+   ```
+
+4. **Environment configuration**
+
+   ```bash
+   cp config/credentials.yml.enc.example config/credentials.yml.enc
+   # Edit credentials as needed
+   ```
+
+5. **Start the application**
+
+   ```bash
+   rails server
+   ```
+
+   Visit `http://localhost:3000` to access the application.
+
+## 📁 Project Structure
+
+This application is organized into three main modules:
+
+- **Admin Module** (`admin` branch): Administrative interface for managing submissions
+- **Public Module** (`main` branch): Public-facing citizen submission forms
+- **API Module** (`api` branch): RESTful API for external integrations
+
+## 🔧 Development
+
+### Running Tests
+
+```bash
+rails test
+```
+
+### Code Quality
+
+```bash
+rubocop
+brakeman
+```
+
+### Database Management
+
+```bash
+rails db:migrate
+rails db:rollback
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built for the Nairobi County Government
+- Powered by Ruby on Rails and modern web technologies
+- Designed to enhance citizen participation in local governance
+
+## 📞 Support
+
+For support or questions, please contact the development team or create an issue in this repository.
+
+---
+
+**NairobiTalks-NCG** - Connecting Citizens with Their Government
