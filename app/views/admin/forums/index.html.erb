@@ -1,0 +1,155 @@
+<div class="admin-forum">
+  <%= render 'shared/placeholder_alert' %>
+  <!-- Header Section -->
+  <div class="d-flex justify-content-between align-items-center mb-4 px-3 py-3 bg-white rounded shadow-sm">
+    <div class="flex-grow-1">
+      <h2 class="mb-1 fw-bold" style="color: #009339;">Forum</h2>
+      <p class="text-muted mb-0">Community engagement and civic discussions</p>
+    </div>
+    <div class="d-flex align-items-center">
+      <div class="d-flex align-items-center">
+        <div class="rounded-circle text-white text-center me-3 d-flex align-items-center justify-content-center fw-bold" style="width: 45px; height: 45px; background-color: #3AA966;">
+          <%= current_user.email.first.upcase %>
+        </div>
+        <span class="text-dark fw-medium d-none d-lg-inline"><%= current_user.email %></span>
+      </div>
+    </div>
+  </div>
+  <!-- Main Content Grid -->
+  <div class="row g-4">
+    <!-- Left Column -->
+    <div class="col-lg-8">
+      <!-- About Forum Card -->
+      <div class="card shadow-sm border-0 mb-4" style="background-color: #EDF6F2;">
+        <div class="card-body p-4">
+          <h3 class="card-title fw-bold mb-3" style="color: #3AA966;">
+            <i class="bi bi-question-circle-fill me-2" aria-hidden="true"></i>
+            What is This Forum?
+          </h3>
+          <p class="card-text text-dark mb-0" style="line-height: 1.6;">
+            This forum will allow civic engagement via online meetups and text-based discussions between Nairobi residents and county officials.
+            Community members can participate in virtual town halls, share ideas, and engage directly with local government representatives.
+          </p>
+        </div>
+      </div>
+      <!-- Upcoming Virtual Calls -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+          <h4 class="card-title fw-bold mb-3" style="color: #3AA966;">
+            <i class="bi bi-calendar-event-fill me-2" aria-hidden="true"></i>
+            Upcoming Zoom/Google Meet Forums
+          </h4>
+          <p class="text-muted mb-3">Join virtual community meetings and engage with county officials</p>
+          <% events = [
+            { title: "Public Consultation - Urban Planning 2026", date: "January 25, 2026", time: "2:00 PM EAT", status: "open", registered: 47, max: 100 },
+            { title: "Environment Planning Meetup", date: "February 10, 2026", time: "10:00 AM EAT", status: "closed", registered: 85, max: 100 },
+            { title: "Budget Forum 2026", date: "March 5, 2026", time: "3:00 PM EAT", status: "open", registered: 23, max: 50 }
+          ] %>
+          <div class="row g-3">
+            <% events.each do |event| %>
+              <div class="col-md-6">
+                <div class="card h-100 shadow-sm">
+                  <div class="card-body">
+                    <h5 class="card-title fw-bold mb-2" style="color: #1E1E1E;"><%= event[:title] %></h5>
+                    <p class="card-text text-muted small mb-2">
+                      <i class="bi bi-calendar me-1" aria-hidden="true"></i><%= event[:date] %> •
+                      <i class="bi bi-clock me-1" aria-hidden="true"></i><%= event[:time] %>
+                    </p>
+                    <% if event[:status] == "open" %>
+                      <span class="badge bg-success mb-2">🟢 Open Registration</span>
+                    <% else %>
+                      <span class="badge bg-danger mb-2">🔴 Closed Registration</span>
+                    <% end %>
+                    <div class="mb-0">
+                      <small class="text-muted">
+                        <i class="bi bi-people me-1" aria-hidden="true"></i>👥 Registered Users: <%= event[:registered] %><br>
+                        <i class="bi bi-check-circle me-1" aria-hidden="true"></i>✅ Max Allowed: <%= event[:max] %>
+                      </small>
+                    </div>
+                  </div>
+                  <div class="card-footer bg-transparent border-0 pt-0">
+                    <% if event[:status] == "open" %>
+                      <button class="btn btn-danger btn-sm float-end" disabled title="This is a preview button only" aria-label="Close registration for <%= event[:title] %> (preview only)">
+                        <i class="bi bi-x-circle me-1" aria-hidden="true"></i>Close Registration
+                      </button>
+                    <% else %>
+                      <button class="btn btn-success btn-sm float-end" disabled title="This is a preview button only" aria-label="Open registration for <%= event[:title] %> (preview only)">
+                        <i class="bi bi-check-circle me-1" aria-hidden="true"></i>Open Registration
+                      </button>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Right Column -->
+    <div class="col-lg-4">
+      <!-- Community Discussions (Coming Soon) -->
+      <div class="card shadow-sm border-0 mb-4" style="background-color: #EDF6F2;">
+        <div class="card-body p-4">
+          <h4 class="card-title fw-bold mb-3" style="color: #3AA966;">
+            <i class="bi bi-chat-dots-fill me-2" aria-hidden="true"></i>
+            Community Discussions
+          </h4>
+          <div class="text-center py-4">
+            <div class="rounded-circle bg-white mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+              <i class="bi bi-chat-quote text-muted fs-1" aria-hidden="true"></i>
+            </div>
+            <h6 class="fw-bold text-muted mb-2">Coming Soon</h6>
+            <p class="text-muted small mb-0">
+              In future versions, users will post, reply, and react to community topics.
+              Create discussions, share ideas, and engage with fellow Nairobi residents.
+            </p>
+          </div>
+          <hr class="my-3" style="border-color: rgba(58, 169, 102, 0.2);">
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary" disabled aria-label="Start New Discussion (Coming Soon)">
+              <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>Start Discussion
+            </button>
+            <button class="btn btn-outline-secondary" disabled aria-label="Browse Topics (Coming Soon)">
+              <i class="bi bi-search me-2" aria-hidden="true"></i>Browse Topics
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Quick Stats -->
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h5 class="card-title fw-bold mb-3" style="color: #3AA966;">
+            <i class="bi bi-bar-chart-line-fill me-2" aria-hidden="true"></i>
+            Forum Statistics
+          </h5>
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="text-center">
+                <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
+                <small class="text-muted">Active Discussions</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="text-center">
+                <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
+                <small class="text-muted">Registered Users</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="text-center">
+                <div class="fw-bold fs-4" style="color: #3AA966;">2</div>
+                <small class="text-muted">Upcoming Events</small>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="text-center">
+                <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
+                <small class="text-muted">Total Posts</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,211 @@
+<div class="admin-planning-documents">
+  <div class="page-header">
+    <h1><i class="bi bi-file-earmark-text me-2"></i> Planning Documents Management</h1>
+    <p>Manage CIDP and ADP documents for Nairobi County</p>
+    <div class="actions">
+      <%= link_to '<i class="bi bi-upload me-2"></i> Upload New Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+  <div class="documents-table-container">
+    <table class="documents-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Status</th>
+          <th>Year Range</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @planning_documents.each do |doc| %>
+          <tr>
+            <td class="title-cell"><%= doc.title %></td>
+            <td>
+              <span class="badge bg-<%= doc.document_type == 'CIDP' ? 'primary' : 'secondary' %>">
+                <%= doc.document_type %>
+              </span>
+            </td>
+            <td>
+              <span class="badge bg-<%= doc.status == 'approved' ? 'success' : 'warning' %>">
+                <%= doc.status.titleize %>
+              </span>
+            </td>
+            <td><%= "#{doc.start_year} - #{doc.end_year}" %></td>
+            <td><%= doc.created_at.strftime("%b %d, %Y") %></td>
+            <td class="text-nowrap">
+              <%= link_to admin_planning_document_path(doc), class: "btn btn-sm btn-outline-primary me-1", aria: { label: "View Document" } do %>
+                <i class="bi bi-eye"></i>
+                View
+              <% end %>
+              <%= link_to edit_admin_planning_document_path(doc), class: "btn btn-sm btn-outline-warning me-1", aria: { label: "Edit Document" } do %>
+                <i class="bi bi-pencil"></i>
+                Edit
+              <% end %>
+              <%= link_to admin_planning_document_path(doc), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", aria: { label: "Delete Document" } do %>
+                <i class="bi bi-trash"></i>
+                Delete
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <% if @planning_documents.empty? %>
+    <div class="empty-state">
+      <i class="fas fa-file-alt"></i>
+      <h3>No planning documents yet</h3>
+      <p>Get started by uploading your first CIDP or ADP document.</p>
+      <%= link_to '<i class="fas fa-upload"></i> Upload First Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+<style>
+  .admin-planning-documents {
+    max-width: none;
+    padding: 0;
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, #024731 0%, #0C9F5E 50%, #F7B500 100%);
+    color: white;
+    padding: 40px 30px;
+    margin: -30px -30px 40px -30px;
+    border-radius: 0 0 15px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(2, 71, 49, 0.3);
+    border-bottom: 4px solid #F7B500;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    border-radius: 0 0 15px 15px;
+    pointer-events: none;
+  }
+
+  .page-header h1 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header h1 i {
+    font-size: 2.5rem;
+    color: #F7B500;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+
+  .page-header p {
+    margin: 0.5rem 0 0 0;
+    opacity: 0.9;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  .documents-table-container {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .documents-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .documents-table th {
+    background: #f8f9fa;
+    color: #024731;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #e9ecef;
+  }
+
+  .documents-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+  }
+
+  .documents-table tbody tr:hover {
+    background: #f8f9fa;
+  }
+
+  .title-cell {
+    font-weight: 600;
+    color: #024731;
+    max-width: 300px;
+  }
+
+  .actions-cell {
+    white-space: nowrap;
+  }
+
+  .actions-cell .btn {
+    margin-right: 5px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+
+  .empty-state i {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 20px;
+  }
+
+  .empty-state h3 {
+    margin: 0 0 10px 0;
+    color: #024731;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 15px;
+    }
+
+    .documents-table-container {
+      overflow-x: auto;
+    }
+
+    .documents-table {
+      min-width: 600px;
+    }
+
+    .actions-cell .btn {
+      margin-right: 2px;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+    <h1 class="h3 mb-0">
+      <i class="bi bi-lightbulb text-warning me-2"></i>
+      Community Ideas
+    </h1>
+    <span class="badge bg-primary fs-6"><%= @community_ideas.size %> ideas</span>
+  </div>
+  <% if @community_ideas.any? %>
+    <div class="row g-4">
+      <% @community_ideas.each do |idea| %>
+        <div class="col-lg-6 col-xl-4">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title text-truncate mb-2"><%= idea.title %></h5>
+              <p class="card-text text-muted small mb-3 flex-grow-1"><%= truncate(idea.description, length: 120) %></p>
+              <div class="mb-3">
+                <span class="badge bg-light text-dark me-2">
+                  <i class="bi bi-geo-alt me-1"></i><%= idea.ward %>
+                </span>
+                <span class="badge bg-secondary">
+                  <i class="bi bi-tag me-1"></i><%= idea.topic %>
+                </span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <div class="vote-buttons">
+                  <%= button_to upvote_community_idea_path(idea), method: :post, class: "btn btn-outline-success btn-sm me-2", title: "Upvote" do %>
+                    <i class="bi bi-hand-thumbs-up"></i> <%= idea.upvotes %>
+                  <% end %>
+                  <%= button_to downvote_community_idea_path(idea), method: :post, class: "btn btn-outline-danger btn-sm", title: "Downvote" do %>
+                    <i class="bi bi-hand-thumbs-down"></i> <%= idea.downvotes %>
+                  <% end %>
+                </div>
+                <small class="text-muted">
+                  <i class="bi bi-clock me-1"></i>
+                  <%= time_ago_in_words(idea.created_at) %> ago
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-5">
+      <i class="bi bi-lightbulb text-warning" style="font-size: 4rem;"></i>
+      <h3 class="mt-3 text-muted">No ideas yet</h3>
+      <p class="text-muted">Be the first to submit a community idea!</p>
+      <%= link_to "Submit an Idea", new_submission_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

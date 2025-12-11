@@ -1,0 +1,14 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  start_year: "2023"
+  end_year: "2027"
+  status: 1
+  document_type: CIDP
+
+two:
+  title: MyString
+  start_year: "2024"
+  status: 1
+  document_type: ADP

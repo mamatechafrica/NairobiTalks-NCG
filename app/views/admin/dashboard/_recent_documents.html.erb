@@ -1,0 +1,25 @@
+<div class="activity-section bg-white rounded p-4 shadow-sm border mt-4">
+  <h2 class="h4 mb-3"><i class="fas fa-file-upload text-success me-2" aria-hidden="true"></i> Recent Documents</h2>
+  <div class="activity-list">
+    <% @recent_documents.each do |doc| %>
+      <div class="activity-item border-bottom pb-3 mb-3 d-flex align-items-start gap-3">
+        <div class="activity-icon flex-shrink-0">
+          📄
+        </div>
+        <div class="activity-content flex-grow-1">
+          <h4 class="h6 mb-1"><%= doc.title %></h4>
+          <p class="mb-1 text-muted small"><%= doc.document_type %> • <%= doc.status.titleize %></p>
+          <small class="text-muted">
+            <i class="fas fa-clock me-1" aria-hidden="true"></i><%= time_ago_in_words(doc.created_at) %> ago
+          </small>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% if @recent_documents.empty? %>
+    <div class="text-center py-4">
+      <i class="fas fa-file-alt text-success" style="font-size: 3rem;" aria-hidden="true"></i>
+      <p class="text-muted mt-2">No recent documents yet</p>
+    </div>
+  <% end %>
+</div>

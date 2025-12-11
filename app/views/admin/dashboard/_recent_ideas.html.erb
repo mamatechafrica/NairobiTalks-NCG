@@ -1,0 +1,23 @@
+<div class="activity-section bg-white rounded p-4 shadow-sm border mb-4">
+  <h5 class="text-accent mb-3 fw-bold">Recent Community Ideas</h5>
+  <div class="activity-list">
+    <% @recent_ideas.each do |idea| %>
+      <div class="border rounded p-3 mb-2 bg-white">
+        <i class="bi bi-lightbulb-fill" style="color:#3AA966;"></i>
+        <strong><%= idea.title %></strong>
+        <p class="mb-1 small text-muted"><%= idea.description.truncate(100) %></p>
+        <p class="mb-0 text-muted small">
+          <i class="bi bi-clock"></i> <%= time_ago_in_words(idea.created_at) %> ago •
+          <i class="bi bi-geo-alt"></i> <%= idea.ward %> •
+          <i class="bi bi-hand-thumbs-up"></i> <%= idea.upvotes %> upvotes
+        </p>
+      </div>
+    <% end %>
+  </div>
+  <% if @recent_ideas.empty? %>
+    <div class="text-center py-4">
+      <i class="bi bi-lightbulb text-warning" style="font-size: 3rem;"></i>
+      <p class="text-muted mt-2">No recent ideas yet</p>
+    </div>
+  <% end %>
+</div>

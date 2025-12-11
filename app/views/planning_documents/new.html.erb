@@ -1,0 +1,36 @@
+<h2>Upload CIDP/ADP Document</h2>
+<%= form_with model: @planning_document, local: true do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+  <%= form.label :document_type %>
+  <%= form.select :document_type, ["CIDP", "ADP"], {}, { id: "doc_type_select" } %>
+  <%= form.label :status %>
+  <%= form.select :status, PlanningDocument.statuses.keys.map { |s| [s.titleize, s] } %>
+  <%= form.label :start_year %>
+  <%= form.text_field :start_year, placeholder: "Start Year (e.g. 2023)" %>
+  <%= form.label :end_year, "End Year (CIDP only)", id: "end_year_label" %>
+  <%= form.text_field :end_year, id: "end_year_field" %>
+  <%= form.label :file %>
+  <%= form.file_field :file %>
+  <%= form.submit "Upload Document" %>
+<% end %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const typeSelect = document.getElementById("document_type_select");
+    const endYearField = document.getElementById("end_year_field");
+    const endYearLabel = document.getElementById("end_year_label");
+
+    function toggleEndYear() {
+      if (typeSelect.value === "CIDP") {
+        endYearField.style.display = 'block';
+        endYearLabel.style.display = 'block';
+      } else {
+        endYearField.style.display = 'none';
+        endYearLabel.style.display = 'none';
+      }
+    }
+
+    typeSelect.addEventListener("change", toggleEndYear);
+    toggleEndYear();
+  });
+</script>

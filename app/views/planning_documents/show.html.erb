@@ -1,0 +1,23 @@
+<h2><%= @planning_document.title %></h2>
+<p>Document Type: <%= @planning_document.document_type %></p>
+<p>Status: <%= @planning_document.status.titleize %></p>
+<p>Year(s): <%= display_year_range(@planning_document) %></p>
+<% if @planning_document.file.attached? %>
+  <%= link_to 'View Document', rails_blob_url(@planning_document.file), target: "_blank" %>
+  <%= button_to "AI Summary", ai_summary_planning_document_path(@planning_document), method: :get, remote: true, id: "summary-button" %>
+<% else %>
+  <p>No file uploaded.</p>
+<% end %>
+<div id="summary-result"></div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("summary-button")
+    if (button) {
+      button.addEventListener("ajax:success", (event) => {
+        const [data] = event.detail
+        document.getElementById("summary-result").innerText = data.summary
+      })
+    }
+  })
+</script>
+<%= link_to 'Delete', planning_document_path(@planning_document), method: :delete, data: { confirm: 'Are you sure?' } %>

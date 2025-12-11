@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: First Idea
+  description: First idea description
+  ward: Example Ward
+  topic: Infrastructure
+  upvotes: 2
+  downvotes: 1
+  status: pending
+  admin_comment: Needs more context
+
+two:
+  title: Second Idea
+  description: Second idea description
+  ward: Example Ward
+  topic: Environment
+  upvotes: 5
+  downvotes: 0
+  status: approved
+  admin_comment: Approved by system

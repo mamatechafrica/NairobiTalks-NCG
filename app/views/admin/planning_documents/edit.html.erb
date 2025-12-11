@@ -1,0 +1,288 @@
+<div class="admin-edit-document">
+  <div class="page-header">
+    <h1><i class="bi bi-pencil-square me-2"></i> Edit Planning Document</h1>
+    <p>Update document information and metadata</p>
+  </div>
+  <div class="form-container">
+    <%= form_with(model: @planning_document, url: admin_planning_document_path(@planning_document), method: :patch, local: true, class: "document-form") do |f| %>
+      <% if @planning_document.errors.any? %>
+        <div class="alert alert-danger">
+          <h4><%= pluralize(@planning_document.errors.count, "error") %> prohibited this document from being saved:</h4>
+          <ul class="mb-0">
+            <% @planning_document.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <div class="form-section">
+        <h3>Document Information</h3>
+        <div class="form-group">
+          <%= f.label :title, "Document Title", class: "form-label" %>
+          <%= f.text_field :title, class: "form-control", placeholder: "e.g., Nairobi County Integrated Development Plan 2024-2028" %>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= f.label :document_type, "Document Type", class: "form-label" %>
+              <%= f.select :document_type, [["CIDP", "CIDP"], ["ADP", "ADP"]], {}, class: "form-select" %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= f.label :status, "Status", class: "form-label" %>
+              <%= f.select :status, [["Draft", 0], ["Approved", 1]], {}, class: "form-select" %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= f.label :start_year, "Start Year", class: "form-label" %>
+              <%= f.number_field :start_year, class: "form-control", placeholder: "2024" %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <%= f.label :end_year, "End Year", class: "form-label" %>
+              <%= f.number_field :end_year, class: "form-control", placeholder: "2028" %>
+              <div class="form-text">Required for CIDP documents</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <h3>Document File</h3>
+        <% if @planning_document.file.attached? %>
+          <div class="current-file">
+            <p><strong>Current file:</strong> <%= @planning_document.file.filename %></p>
+            <p class="text-muted">Upload a new file to replace the current one</p>
+          </div>
+        <% end %>
+        <div class="form-group">
+          <%= f.label :file, "Upload New PDF Document (optional)", class: "form-label" %>
+          <%= f.file_field :file, accept: ".pdf", class: "form-control" %>
+          <div class="form-text">Only PDF files are accepted. Leave empty to keep current file. Maximum file size: 10MB</div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <%= f.submit "Update Document", class: "btn btn-primary btn-lg" %>
+        <%= link_to "Cancel", admin_planning_documents_path, class: "btn btn-secondary btn-lg" %>
+        <%= link_to "View Document", admin_planning_document_path(@planning_document), class: "btn btn-outline-info btn-lg" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<style>
+  .admin-edit-document {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, #024731 0%, #0C9F5E 50%, #F7B500 100%);
+    color: white;
+    padding: 40px 30px;
+    margin: -30px -30px 40px -30px;
+    border-radius: 0 0 15px 15px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(2, 71, 49, 0.3);
+    border-bottom: 4px solid #F7B500;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    border-radius: 0 0 15px 15px;
+    pointer-events: none;
+  }
+
+  .page-header h1 {
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-header h1 i {
+    font-size: 2.5rem;
+    color: #F7B500;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+
+  .page-header p {
+    margin: 0;
+    font-size: 1.1rem;
+    opacity: 0.95;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .form-container {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .form-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 40px;
+  }
+
+  .form-section h3 {
+    color: #024731;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #024731;
+    margin-bottom: 8px;
+  }
+
+  .form-control, .form-select {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-control:focus, .form-select:focus {
+    border-color: #0C9F5E;
+    box-shadow: 0 0 0 0.2rem rgba(12, 159, 94, 0.25);
+  }
+
+  .form-text {
+    color: #6c757d;
+    font-size: 0.875rem;
+    margin-top: 4px;
+  }
+
+  .current-file {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #0C9F5E;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #0C9F5E, #059669);
+    border: none;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #059669, #0C9F5E);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(12, 159, 94, 0.3);
+  }
+
+  .btn-secondary {
+    background: #6c757d;
+    border: none;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+  }
+
+  .btn-outline-info {
+    border: 2px solid #0dcaf0;
+    color: #0dcaf0;
+    background: transparent;
+  }
+
+  .btn-outline-info:hover {
+    background: #0dcaf0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(13, 202, 240, 0.3);
+  }
+
+  .alert {
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 30px;
+  }
+
+  .alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+  }
+
+  @media (max-width: 768px) {
+    .admin-edit-document {
+      margin: 0;
+    }
+
+    .page-header {
+      padding: 20px;
+      margin: -30px -30px 20px -30px;
+    }
+
+    .form-container {
+      padding: 20px;
+      border-radius: 0;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
