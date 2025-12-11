@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Prototype" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Prototype">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  </head>
+  <body>
+    <% unless current_user&.admin? %>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+          <a class="navbar-brand fw-bold" href="<%= root_path %>">
+            <i class="bi bi-house-heart-fill me-2"></i>
+            Timiza
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+              <li class="nav-item">
+                <%= link_to '<i class="bi bi-house me-1"></i>Home'.html_safe, root_path, class: "nav-link #{current_page?(root_path) ? 'active' : ''}" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '<i class="bi bi-lightbulb me-1"></i>Community Ideas'.html_safe, community_ideas_path, class: "nav-link #{current_page?(community_ideas_path) ? 'active' : ''}" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '<i class="bi bi-file-earmark-text me-1"></i>Browse Documents'.html_safe, planning_documents_path, class: "nav-link #{current_page?(planning_documents_path) ? 'active' : ''}" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to '<i class="bi bi-plus-circle me-1"></i>Submit Idea'.html_safe, new_submission_path, class: "nav-link #{current_page?(new_submission_path) ? 'active' : ''}" %>
+              </li>
+              <% if user_signed_in? && current_user.admin? %>
+                <li class="nav-item">
+                  <%= link_to '<i class="bi bi-upload me-1"></i>Upload'.html_safe, new_planning_document_path, class: "nav-link" %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to '<i class="bi bi-gear me-1"></i>Admin'.html_safe, admin_root_path, class: "nav-link" %>
+                </li>
+              <% end %>
+            </ul>
+            <ul class="navbar-nav">
+              <% if user_signed_in? %>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="user-avatar me-2"><%= current_user.email.first.upcase %></span>
+                    <%= current_user.email.split('@').first %>
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><%= link_to '<i class="bi bi-person me-2"></i>Profile'.html_safe, edit_user_registration_path, class: "dropdown-item" %></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><%= link_to '<i class="bi bi-box-arrow-right me-2"></i>Logout'.html_safe, destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+                  </ul>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to '<i class="bi bi-box-arrow-in-right me-1"></i>Login'.html_safe, new_user_session_path, class: "nav-link" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <% end %>
+    <%= yield %>
+    <% unless current_user&.admin? %>
+      <footer class="bg-dark text-light mt-5 py-4">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <h5 class="mb-3">
+                <i class="bi bi-house-heart-fill me-2"></i>
+                Timiza
+              </h5>
+              <p class="mb-0 text-muted">Nairobi County Civic Tech Platform - Empowering community voices for better governance.</p>
+            </div>
+            <div class="col-md-3">
+              <h6 class="mb-3">Quick Links</h6>
+              <ul class="list-unstyled">
+                <li class="mb-2"><%= link_to "Home", root_path, class: "text-muted text-decoration-none" %></li>
+                <li class="mb-2"><%= link_to "Community Ideas", community_ideas_path, class: "text-muted text-decoration-none" %></li>
+                <li class="mb-2"><%= link_to "Browse Documents", planning_documents_path, class: "text-muted text-decoration-none" %></li>
+                <li class="mb-2"><%= link_to "Submit Idea", new_submission_path, class: "text-muted text-decoration-none" %></li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <h6 class="mb-3">Platform</h6>
+              <ul class="list-unstyled">
+                <% if user_signed_in? && current_user.admin? %>
+                  <li class="mb-2"><%= link_to "Admin Dashboard", admin_root_path, class: "text-muted text-decoration-none" %></li>
+                <% end %>
+                <li class="mb-2">
+                  <small class="text-muted">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Public Access
+                  </small>
+                </li>
+                <li class="mb-2">
+                  <small class="text-muted">
+                    <i class="bi bi-bootstrap me-1"></i>
+                    Bootstrap 5.3
+                  </small>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <hr class="my-4">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <p class="mb-0 text-muted small">
+                © <%= Time.current.year %> Nairobi County - Civic Tech Platform
+              </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+              <small class="text-muted">
+                Built with <i class="bi bi-heart-fill text-danger"></i> for community engagement
+              </small>
+            </div>
+          </div>
+        </div>
+      </footer>
+    <% end %>
+    <% unless current_user&.admin? %>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <div class="mobile-nav d-lg-none fixed-bottom bg-light border-top py-2">
+        <div class="container">
+          <div class="row text-center">
+            <div class="col">
+              <%= link_to '<i class="bi bi-house fs-5 d-block"></i><small>Home</small>'.html_safe, root_path, class: "text-decoration-none text-primary" %>
+            </div>
+            <div class="col">
+              <%= link_to '<i class="bi bi-lightbulb fs-5 d-block"></i><small>Ideas</small>'.html_safe, community_ideas_path, class: "text-decoration-none text-primary" %>
+            </div>
+            <div class="col">
+              <%= link_to '<i class="bi bi-file-earmark-text fs-5 d-block"></i><small>Docs</small>'.html_safe, planning_documents_path, class: "text-decoration-none text-primary" %>
+            </div>
+            <div class="col">
+              <%= link_to '<i class="bi bi-plus-circle fs-5 d-block"></i><small>Submit</small>'.html_safe, new_submission_path, class: "text-decoration-none text-primary" %>
+            </div>
+            <% if user_signed_in? %>
+              <div class="col">
+                <% if current_user.admin? %>
+                  <%= link_to '<i class="bi bi-gear fs-5 d-block"></i><small>Admin</small>'.html_safe, admin_root_path, class: "text-decoration-none text-primary" %>
+                <% else %>
+                  <%= link_to '<i class="bi bi-person fs-5 d-block"></i><small>Profile</small>'.html_safe, edit_user_registration_path, class: "text-decoration-none text-primary" %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="col">
+                <%= link_to '<i class="bi bi-box-arrow-in-right fs-5 d-block"></i><small>Login</small>'.html_safe, new_user_session_path, class: "text-decoration-none text-primary" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

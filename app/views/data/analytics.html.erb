@@ -1,0 +1,152 @@
+<h1>📊 Community Ideas Analytics Dashboard</h1>
+<div class="analytics-grid">
+  <div class="metric-card">
+    <h3>Total Ideas</h3>
+    <div class="metric-value"><%= @total_ideas %></div>
+  </div>
+  <div class="metric-card">
+    <h3>Total Upvotes</h3>
+    <div class="metric-value"><%= @total_upvotes %></div>
+  </div>
+  <div class="metric-card">
+    <h3>Total Downvotes</h3>
+    <div class="metric-value"><%= @total_downvotes %></div>
+  </div>
+  <div class="metric-card">
+    <h3>Avg Upvotes/Idea</h3>
+    <div class="metric-value"><%= @avg_upvotes %></div>
+  </div>
+</div>
+<h2>🏆 Top 10 Ideas by Popularity</h2>
+<table class="analytics-table">
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Title</th>
+      <th>Ward</th>
+      <th>Topic</th>
+      <th>Upvotes</th>
+      <th>Downvotes</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @top_ideas.each_with_index do |idea, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= idea.title %></td>
+        <td><%= idea.ward %></td>
+        <td><%= idea.topic %></td>
+        <td><%= idea.upvotes %></td>
+        <td><%= idea.downvotes %></td>
+        <td><%= idea.upvotes - idea.downvotes %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div class="analytics-charts">
+  <div class="chart-section">
+    <h2>📍 Ideas by Ward</h2>
+    <ul class="chart-list">
+      <% @ward_counts.each do |ward, count| %>
+        <li><%= ward %>: <%= count %> ideas</li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="chart-section">
+    <h2>🏷️ Ideas by Topic</h2>
+    <ul class="chart-list">
+      <% @topic_counts.each do |topic, count| %>
+        <li><%= topic %>: <%= count %> ideas</li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<style>
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .metric-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .metric-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #024731;
+    font-size: 0.9rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0C9F5E;
+  }
+
+  .analytics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .analytics-table th,
+  .analytics-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  .analytics-table th {
+    background: #024731;
+    color: white;
+    font-weight: bold;
+  }
+
+  .analytics-charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .chart-section {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .chart-section h2 {
+    margin-top: 0;
+    color: #024731;
+  }
+
+  .chart-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .chart-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .chart-list li:last-child {
+    border-bottom: none;
+  }
+</style>

@@ -1,0 +1,62 @@
+<div class="admin-dashboard">
+  <!-- Header Section with improved alignment and padding -->
+  <div class="d-flex justify-content-between align-items-center mb-4 px-3 py-3 bg-white rounded shadow-sm">
+    <div class="flex-grow-1">
+      <h2 class="mb-1 fw-bold" style="color: #009339;">Dashboard</h2>
+      <p class="text-muted mb-0">Welcome back, <%= current_user.email %>! Here's an overview of your platform.</p>
+    </div>
+    <div class="d-flex align-items-center">
+      <!-- User Info -->
+      <div class="d-flex align-items-center">
+        <div class="rounded-circle text-white text-center me-3 d-flex align-items-center justify-content-center fw-bold" style="width: 45px; height: 45px; background-color: #3AA966;">
+          <%= current_user.email.first.upcase %>
+        </div>
+        <span class="text-dark fw-medium d-none d-lg-inline"><%= current_user.email %></span>
+      </div>
+    </div>
+  </div>
+  <%= render 'stats_cards' %>
+  <%= render 'submission_notifications' %>
+  <!-- Recent Ideas & System Status -->
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <%= render 'recent_ideas' %>
+    </div>
+    <div class="col-lg-4">
+      <%= render 'quick_actions' %>
+    </div>
+  </div>
+</div>
+<script>
+  // Theme toggle functionality
+  function toggleTheme() {
+    const body = document.body;
+    const toggle = document.getElementById('themeToggle');
+    const label = toggle.nextElementSibling;
+
+    if (toggle.checked) {
+      body.classList.add('dark-mode');
+      label.innerHTML = '<i class="bi bi-sun-fill me-1"></i><span class="d-none d-md-inline">Light Mode</span>';
+      localStorage.setItem('theme', 'dark');
+    } else {
+      body.classList.remove('dark-mode');
+      label.innerHTML = '<i class="bi bi-moon-fill me-1"></i><span class="d-none d-md-inline">Dark Mode</span>';
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  // Load saved theme on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    const toggle = document.getElementById('themeToggle');
+
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      toggle.checked = true;
+      toggle.nextElementSibling.innerHTML = '<i class="bi bi-sun-fill me-1"></i><span class="d-none d-md-inline">Light Mode</span>';
+    } else {
+      document.body.classList.remove('dark-mode');
+      toggle.nextElementSibling.innerHTML = '<i class="bi bi-moon-fill me-1"></i><span class="d-none d-md-inline">Dark Mode</span>';
+    }
+  });
+</script>

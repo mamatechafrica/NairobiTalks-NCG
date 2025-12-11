@@ -1,0 +1,385 @@
+<div class="admin-submissions">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="h3 mb-1"><i class="bi bi-people-fill me-2"></i>Citizen Submissions</h1>
+      <p class="text-muted mb-0">Monitor all ideas, add feedback, and track administrator decisions in one place.</p>
+    </div>
+    <div class="btn-group" role="group" aria-label="Submission view toggle">
+      <%= link_to admin_submissions_path(view: "table"), class: "btn btn-outline-primary #{'active' if @view_mode == 'table'}" do %>
+        <i class="bi bi-list"></i>
+        <span class="ms-1">Table</span>
+      <% end %>
+      <%= link_to admin_submissions_path(view: "grid"), class: "btn btn-outline-primary #{'active' if @view_mode == 'grid'}" do %>
+        <i class="bi bi-grid-3x3-gap"></i>
+        <span class="ms-1">Grid</span>
+      <% end %>
+    </div>
+  </div>
+  <% if @submissions.empty? %>
+    <div class="alert alert-info" role="status">
+      No submissions yet. Connect your public form or import citizen ideas to start tracking them here.
+    </div>
+  <% else %>
+    <% if @view_mode == 'table' %>
+      <!-- Filter Bar -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 p-3 bg-light rounded">
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="fw-semibold text-muted me-2">Filter by:</span>
+          <%= link_to admin_submissions_path(view: "table", filter: "all"), 
+                class: "btn btn-sm #{'btn-primary' if @filter == 'all' || @filter.nil?} #{'btn-outline-primary' unless @filter == 'all' || @filter.nil?}" do %>
+            All (<%= @submissions.count %>)
+          <% end %>
+          <%= link_to admin_submissions_path(view: "table", filter: "flagged"), 
+                class: "btn btn-sm #{'btn-warning' if @filter == 'flagged'} #{'btn-outline-warning' unless @filter == 'flagged'}" do %>
+            <i class="bi bi-flag-fill me-1"></i>Flagged (<%= @submissions.where(flagged: true).count %>)
+          <% end %>
+          <%= link_to admin_submissions_path(view: "table", filter: "approved"), 
+                class: "btn btn-sm #{'btn-success' if @filter == 'approved'} #{'btn-outline-success' unless @filter == 'approved'}" do %>
+            Approved (<%= @submissions.where(status: 'approved').count %>)
+          <% end %>
+          <%= link_to admin_submissions_path(view: "table", filter: "rejected"), 
+                class: "btn btn-sm #{'btn-danger' if @filter == 'rejected'} #{'btn-outline-danger' unless @filter == 'rejected'}" do %>
+            Rejected (<%= @submissions.where(status: 'rejected').count %>)
+          <% end %>
+          <%= link_to admin_submissions_path(view: "table", filter: "under_review"), 
+                class: "btn btn-sm #{'btn-info' if @filter == 'under_review'} #{'btn-outline-info' unless @filter == 'under_review'}" do %>
+            Under Review (<%= @submissions.where(status: 'under_review').count %>)
+          <% end %>
+          <%= link_to admin_submissions_path(view: "table", filter: "submitted"), 
+                class: "btn btn-sm #{'btn-secondary' if @filter == 'submitted'} #{'btn-outline-secondary' unless @filter == 'submitted'}" do %>
+            Submitted (<%= @submissions.where(status: 'submitted').count %>)
+          <% end %>
+        </div>
+        <div class="text-muted small">
+          Showing <%= @filtered_submissions.count %> of <%= @submissions.count %> submissions
+        </div>
+      </div>
+      <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-sm align-middle text-nowrap">
+          <thead class="table-light sticky-top" style="top: 0; z-index: 10;">
+            <tr>
+              <th scope="col" class="text-center">
+                <input type="checkbox" class="form-check-input" id="select-all" aria-label="Select all submissions">
+              </th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Location</th>
+              <th scope="col">Topic</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Submitted</th>
+              <th scope="col">Status</th>
+              <th scope="col">Admin Comment</th>
+              <th scope="col">Flag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @filtered_submissions.each do |submission| %>
+              <tr class="<%= 'table-warning' if submission.flagged? %> align-middle">
+                <td class="text-center">
+                  <input type="checkbox" class="form-check-input submission-checkbox" 
+                         value="<%= submission.id %>" name="submission_ids[]" 
+                         aria-label="Select submission <%= submission.title %>">
+                </td>
+                <td>
+                  <strong><%= submission.title %></strong><br>
+                  # <small class="text-muted">ID: <%= submission.id %></small>
+                  <% if submission.flagged? %>
+                    <span class="badge bg-warning text-dark ms-2">Flagged</span>
+                  <% end %>
+                </td>
+                <td class="text-muted">
+                  <%= truncate(submission.description, length: 100) %>
+                </td>
+                <td>
+                  <%= submission.location.presence || "N/A" %>
+                </td>
+                <td>
+                  <span class="badge bg-secondary"><%= submission.topic %></span>
+                </td>
+                <td>
+                  <%= submission.citizen_contact.presence || content_tag(:span, "Anonymous", class: "text-muted") %>
+                </td>
+                <td class="text-nowrap">
+                  <%= submission.created_at.strftime("%m/%d/%y %I:%M%p") %>
+                </td>
+                <td>
+                  <%= form_with url: update_status_admin_submission_path(submission), method: :patch, class: "d-flex flex-column gap-2", local: true do |form| %>
+                    <%= hidden_field_tag :view, @view_mode %>
+                    <div class="input-group input-group-sm" style="max-width: 300px;">
+                      <%= form.select :status, CitizenSubmission::STATUS_OPTIONS, { selected: submission.status }, class: "form-select form-select-sm" %>
+                      <button class="btn btn-sm btn-outline-primary d-flex align-items-center px-3" type="submit">
+                        <i class="bi bi-check2-circle me-1"></i> Save
+                      </button>
+                    </div>
+                  <% end %>
+                </td>
+                <td>
+                  <%= form_with url: update_comment_admin_submission_path(submission), method: :patch, class: "d-flex flex-column gap-2", local: true do |form| %>
+                    <%= hidden_field_tag :view, @view_mode %>
+                    <%= form.text_area :admin_comment, value: submission.admin_comment, class: "form-control form-control-sm", rows: 2, placeholder: "Leave admin note or feedback" %>
+                    <div class="d-flex justify-content-end mt-2">
+                      <%= form.submit "Save note", class: "btn btn-sm btn-outline-secondary" %>
+                    </div>
+                  <% end %>
+                </td>
+                <td>
+                  <%= button_to toggle_flag_admin_submission_path(submission), method: :patch,
+                        class: "btn btn-sm btn-outline-warning",
+                        title: (submission.flagged? ? "Unflag" : "Flag"),
+                        form: { data: { turbo_confirm: submission.flagged? ? "Remove flag?" : "Flag this submission?" } } do %>
+                    <i class="bi bi-flag-fill"></i> <%= submission.flagged? ? "Unflag" : "Flag" %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <!-- Bulk Actions Form -->
+      <div id="bulk-actions" class="d-none mt-3 p-3 bg-light rounded">
+        <h6 class="mb-3">Bulk Actions</h6>
+        <%= form_with url: bulk_update_admin_submissions_path, method: :patch, local: true, 
+                      data: { turbo_confirm: "Are you sure you want to update the selected submissions?" } do %>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="bulk_status" class="form-label">Update Status:</label>
+              <%= select_tag :status, options_for_select(CitizenSubmission::STATUS_OPTIONS, ""), 
+                           { class: "form-select", id: "bulk_status", include_blank: "Select status..." } %>
+            </div>
+            <div class="col-md-6">
+              <label for="bulk_admin_comment" class="form-label">Add Admin Note:</label>
+              <%= text_area_tag :admin_comment, "", class: "form-control", rows: 2, 
+                              placeholder: "Add this note to selected submissions..." %>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <%= submit_tag "Update Selected", class: "btn btn-primary w-100", disabled: true, id: "bulk-update-btn" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="row g-4">
+        <% @submissions.each do |submission| %>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-sm h-100">
+              <% if submission.image.attached? %>
+                <%= image_tag submission.image.variant(resize_to_limit: [400, 200]), class: "card-img-top", alt: "Submission image for #{submission.title}" %>
+              <% else %>
+                <%= image_tag "icon.png", class: "card-img-top", alt: "Placeholder image" %>
+              <% end %>
+              <div class="card-body d-flex flex-column">
+                <% if submission.flagged? %>
+                  <div class="alert alert-warning d-flex align-items-center gap-2 py-2 px-3 mb-3" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <span>This submission is flagged for follow-up.</span>
+                  </div>
+                <% end %>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h5 class="mb-0">Citizen Submission #<%= submission.id %></h5>
+                  <span class="badge rounded-pill <%= status_badge_class(submission) %>"><%= submission.status_label %></span>
+                </div>
+                <p class="text-muted mb-2"><%= truncate(submission.description, length: 150) %></p>
+                <div class="d-flex flex-wrap gap-3 small text-muted mb-3">
+                  <span><i class="bi bi-geo-alt-fill me-1"></i><strong>Ward:</strong> <%= submission.location.presence || "N/A" %></span>
+                  <span><i class="bi bi-tags-fill me-1"></i><strong>Topic:</strong> <%= submission.topic %></span>
+                  <span><i class="bi bi-envelope-fill me-1"></i><strong>Contact:</strong> <%= submission.citizen_contact.presence || "Anonymous" %></span>
+                </div>
+                <div class="small text-muted mb-3">
+                  <i class="bi bi-clock me-1"></i> <%= submission.created_at.strftime("%b %d, %Y %I:%M %p") %>
+                </div>
+                <div class="submission-actions d-flex flex-column gap-3 mt-auto">
+                  <!-- Status Form -->
+                  <%= form_with url: update_status_admin_submission_path(submission), method: :patch, local: true do |form| %>
+                    <%= hidden_field_tag :view, @view_mode %>
+                    <div class="input-group input-group-sm" style="max-width: 300px;">
+                      <%= form.select :status, CitizenSubmission::STATUS_OPTIONS, { selected: submission.status }, class: "form-select form-select-sm" %>
+                      <button class="btn btn-sm btn-outline-primary d-flex align-items-center px-3" type="submit">
+                        <i class="bi bi-check2-circle me-1"></i> Save
+                      </button>
+                    </div>
+                  <% end %>
+                  <!-- Admin Note Form -->
+                  <%= form_with url: update_comment_admin_submission_path(submission), method: :patch, local: true do |form| %>
+                    <%= hidden_field_tag :view, @view_mode %>
+                    <%= form.text_area :admin_comment, value: submission.admin_comment, class: "form-control form-control-sm", rows: 2, placeholder: "Leave admin note or feedback" %>
+                    <div class="d-flex justify-content-end mt-2">
+                      <%= form.submit "Save note", class: "btn btn-sm btn-outline-secondary" %>
+                    </div>
+                  <% end %>
+                  <!-- Flag Button -->
+                  <div class="d-flex justify-content-end">
+                    <%= button_to toggle_flag_admin_submission_path(submission), method: :patch,
+                          class: "btn btn-sm btn-outline-warning",
+                          title: (submission.flagged? ? "Unflag" : "Flag"),
+                          form: { data: { turbo_confirm: submission.flagged? ? "Remove flag?" : "Flag this submission?" } } do %>
+                      <i class="bi bi-flag-fill"></i> <%= submission.flagged? ? "Unflag" : "Flag" %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+<style>
+  .submission-image-cell img {
+    object-fit: cover;
+    height: 60px;
+    width: 60px;
+  }
+
+  .card-text {
+    min-height: 4.5rem;
+  }
+
+  .table-responsive {
+    border: 1px solid #e9ecef;
+  }
+
+  .review-stepper > div {
+    flex: 1;
+    font-size: 0.7rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .status-pill:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .status-pill-submitted {
+    background-color: #2E86C1;
+    color: #ffffff;
+  }
+
+  .status-pill-under-review {
+    background-color: #F1C40F;
+    color: #000000;
+  }
+
+  .status-pill-reviewed {
+    background-color: #16A085;
+    color: #ffffff;
+  }
+
+  .status-pill-approved {
+    background-color: #27AE60;
+    color: #ffffff;
+  }
+
+  .status-pill-rejected {
+    background-color: #C0392B;
+    color: #ffffff;
+  }
+
+  .status-pill-pending {
+    background-color: #f8f9fa;
+    color: #343a40;
+    border: 1px solid #dee2e6;
+  }
+
+  .status-pill-current {
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .status-pill-completed {
+    opacity: 0.9;
+  }
+
+  .status-pill-default {
+    background-color: #6c757d;
+    color: #ffffff;
+  }
+  .submission-card {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .submission-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .submission-card-image {
+    min-height: 90px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .submission-card-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+  }
+
+  .submission-card-actions .btn-outline-warning {
+    border-width: 1px;
+  }
+
+  .submission-actions .input-group {
+  max-width: 300px;
+  }
+
+  .submission-actions textarea {
+  max-width: 100%;
+  resize: vertical;
+  }
+
+  .submission-actions .btn {
+  white-space: nowrap;
+  }
+</style>
+<script>
+  // Bulk actions functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('select-all');
+    const submissionCheckboxes = document.querySelectorAll('.submission-checkbox');
+    const bulkActionsDiv = document.getElementById('bulk-actions');
+    const bulkUpdateBtn = document.getElementById('bulk-update-btn');
+
+    // Handle select all checkbox
+    selectAllCheckbox.addEventListener('change', function() {
+      submissionCheckboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+      updateBulkActionsVisibility();
+    });
+
+    // Handle individual checkboxes
+    submissionCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
+        selectAllCheckbox.checked = checkedBoxes.length === submissionCheckboxes.length;
+        selectAllCheckbox.indeterminate = checkedBoxes.length > 0 && checkedBoxes.length < submissionCheckboxes.length;
+        updateBulkActionsVisibility();
+      });
+    });
+
+    function updateBulkActionsVisibility() {
+      const checkedBoxes = document.querySelectorAll('.submission-checkbox:checked');
+      if (checkedBoxes.length > 0) {
+        bulkActionsDiv.classList.remove('d-none');
+        bulkUpdateBtn.disabled = false;
+        bulkUpdateBtn.textContent = `Update ${checkedBoxes.length} Selected`;
+      } else {
+        bulkActionsDiv.classList.add('d-none');
+        bulkUpdateBtn.disabled = true;
+        bulkUpdateBtn.textContent = 'Update Selected';
+      }
+    }
+  });
+</script>
+</div>

@@ -1,0 +1,102 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+          <h1 class="h4 mb-0">
+            <i class="bi bi-lightbulb text-warning me-2"></i>
+            Submit a Community Idea
+          </h1>
+        </div>
+        <div class="card-body">
+          <%= form_with model: @submission, local: true, html: { role: "form", aria: { labelledby: "ideaForm" }, novalidate: true } do |f| %>
+            <% if @submission.errors.any? %>
+              <div class="alert alert-danger" role="alert">
+                <h5 class="alert-heading">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  Please fix the following errors:
+                </h5>
+                <ul class="mb-0">
+                  <% @submission.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <fieldset aria-labelledby="ideaForm">
+              <legend id="ideaForm" class="visually-hidden">Community Idea Submission Form</legend>
+              <div class="mb-3">
+                <%= f.label :title, "Idea Title", class: "form-label fw-bold" %>
+                <%= f.text_field :title, class: "form-control form-control-lg", required: true, aria: { required: true, describedby: "titleHelp" } %>
+                <div id="titleHelp" class="form-text">Give your idea a clear, concise title</div>
+              </div>
+              <div class="mb-3">
+                <%= f.label :description, "Description", class: "form-label fw-bold" %>
+                <%= f.text_area :description, class: "form-control", rows: 5, required: true, aria: { required: true, describedby: "descriptionHelp" } %>
+                <div id="descriptionHelp" class="form-text">Describe your idea in detail. What problem does it solve? How would it benefit the community?</div>
+              </div>
+              <div class="mb-3">
+                <%= f.label :location, "Your Ward / Location", class: "form-label fw-bold" %>
+                <%= f.select :location, WARD_LIST.sort_by { |w| w[:name] }.map { |w| [w[:name], w[:name]] }, { prompt: "Select your ward" }, class: "form-select", required: true, aria: { required: true } %>
+              </div>
+              <div class="mb-3">
+                <%= f.label :topic, "Relevant Topic", class: "form-label fw-bold" %>
+                <%= f.select :topic, ['Health', 'Education', 'Environment', 'Infrastructure', 'Security', 'Other'], {}, class: "form-select", aria: { describedby: "topicHelp" } %>
+                <div id="topicHelp" class="form-text">Choose the most relevant category for your idea</div>
+              </div>
+              <div class="mb-3" id="other_topic_container" style="display: none;">
+                <%= f.label :other_topic, "Please specify other topic", class: "form-label fw-bold" %>
+                <%= f.text_field :other_topic, class: "form-control" %>
+              </div>
+              <div class="mb-3">
+                <%= f.label :anonymity, "Privacy Preference", class: "form-label fw-bold" %>
+                <%= f.select :anonymity, ['Anonymous', 'Share my contact'], {}, class: "form-select", aria: { describedby: "anonymityHelp" } %>
+                <div id="anonymityHelp" class="form-text">Choose whether to submit anonymously or share your contact information</div>
+              </div>
+              <div class="mb-4">
+                <%= f.label :citizen_contact, "Optional: Contact Info (phone/email)", class: "form-label fw-bold" %>
+                <%= f.text_field :citizen_contact, class: "form-control", aria: { describedby: "contactHelp" } %>
+                <div id="contactHelp" class="form-text">If you chose to share contact info, please provide your phone number or email address</div>
+              </div>
+              <div class="d-grid">
+                <%= f.submit "Submit Idea", class: "btn btn-success btn-lg" %>
+              </div>
+            </fieldset>
+          <% end %>
+        </div>
+        <div class="card-footer text-muted small">
+          <i class="bi bi-shield-check me-1"></i>
+          Your privacy is protected. Ideas are submitted anonymously unless you choose to share contact information.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Show/hide other topic field based on topic selection
+  document.addEventListener('DOMContentLoaded', function() {
+    const topicSelect = document.querySelector('#submission_topic');
+    const otherTopicContainer = document.getElementById('other_topic_container');
+
+    if (topicSelect && otherTopicContainer) {
+      topicSelect.addEventListener('change', function() {
+        if (this.value === 'Other') {
+          otherTopicContainer.style.display = 'block';
+        } else {
+          otherTopicContainer.style.display = 'none';
+        }
+      });
+    }
+  });
+</script>
+-->
+<script>
+  document.getElementById('submission_topic').addEventListener('change', function() {
+    var container = document.getElementById('other_topic_container');
+    if (this.value === 'Other') {
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'none';
+    }
+  });
+</script>

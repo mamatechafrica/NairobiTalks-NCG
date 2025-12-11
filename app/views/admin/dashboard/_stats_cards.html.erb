@@ -1,0 +1,46 @@
+<div class="dashboard-stats row g-3 mb-4">
+  <div class="col-md-3 col-6">
+    <div class="card stat-card bg-white border-0 shadow-sm h-100">
+      <div class="card-body text-center p-4">
+        <div class="stat-icon mb-3">
+          <i class="bi bi-lightbulb-fill text-warning" style="font-size: 2.5rem;"></i>
+        </div>
+        <h3 class="mb-1 text-dark fw-bold"><%= @total_ideas %></h3>
+        <p class="mb-0 text-muted">Community Ideas</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card stat-card bg-white border-0 shadow-sm h-100">
+      <div class="card-body text-center p-4">
+        <div class="stat-icon mb-3">
+          <i class="bi bi-file-earmark-text-fill text-primary" style="font-size: 2.5rem;"></i>
+        </div>
+        <h3 class="mb-1 text-dark fw-bold"><%= @total_documents %></h3>
+        <p class="mb-0 text-muted">Planning Documents</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card stat-card bg-white border-0 shadow-sm h-100">
+      <div class="card-body text-center p-4">
+        <div class="stat-icon mb-3">
+          <i class="bi bi-graph-up-arrow text-success" style="font-size: 2.5rem;"></i>
+        </div>
+        <h3 class="mb-1 text-dark fw-bold"><%= @total_votes %></h3>
+        <p class="mb-0 text-muted">Total Updates</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="card stat-card bg-white border-0 shadow-sm h-100">
+      <div class="card-body text-center p-4">
+        <div class="stat-icon mb-3">
+          <i class="bi bi-people-fill text-info" style="font-size: 2.5rem;"></i>
+        </div>
+        <h3 class="mb-1 text-dark fw-bold"><%= User.count %></h3>
+        <p class="mb-0 text-muted">Registered Users</p>
+      </div>
+    </div>
+  </div>
+</div>

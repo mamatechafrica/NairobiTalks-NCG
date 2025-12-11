@@ -1,0 +1,107 @@
+<div class="container-fluid py-4">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-3">
+    <div>
+      <h1 class="h4 mb-1">Community Ideas overview</h1>
+      <p class="text-muted mb-0">Review and manage all submitted ideas, filter by ward/topic/status, and take action without leaving the admin console.</p>
+    </div>
+    <div>
+      <span class="badge bg-primary">Total ideas: <%= @total_count %></span>
+    </div>
+  </div>
+  <%= form_with url: admin_community_ideas_path, method: :get, local: false, data: { turbo_frame: "admin-community-ideas-table" }, class: "row gy-3 gx-3 align-items-end" do |form| %>
+    <div class="col-md-3">
+      <%= form.label :status, "Status", class: "form-label" %>
+      <%= form.select :status, options_for_select([["All", ""]] + @statuses.map { |key, label| [label, key.to_s] }, @filters[:status]), { }, class: "form-select" %>
+    </div>
+    <div class="col-md-3">
+      <%= form.label :ward, "Ward", class: "form-label" %>
+      <%= form.select :ward, options_for_select([["All", ""]] + @wards.map { |ward| [ward, ward] }, @filters[:ward]), { }, class: "form-select" %>
+    </div>
+    <div class="col-md-3">
+      <%= form.label :topic, "Topic", class: "form-label" %>
+      <%= form.select :topic, options_for_select([["All", ""]] + @topics.map { |topic| [topic, topic] }, @filters[:topic]), { }, class: "form-select" %>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+      <%= form.submit "Apply filters", class: "btn btn-primary w-100" %>
+      <%= link_to "Reset", admin_community_ideas_path, class: "btn btn-outline-secondary w-100" %>
+    </div>
+  <% end %>
+  <turbo-frame id="admin-community-ideas-table">
+    <div class="card border-0 shadow-sm">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Topic</th>
+              <th>Ward</th>
+              <th>Upvotes</th>
+              <th>Downvotes</th>
+              <th>Net score</th>
+              <th>Status</th>
+              <th>Created at</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @community_ideas.any? %>
+              <% @community_ideas.each do |idea| %>
+                <tr id="idea-<%= idea.id %>">
+                  <td><%= idea.id %></td>
+                  <td><strong><%= idea.title %></strong></td>
+                  <td><%= truncate(idea.description, length: 100) %></td>
+                  <td><%= idea.topic.presence || "—" %></td>
+                  <td><%= idea.ward.presence || "—" %></td>
+                  <td><%= idea.upvotes %></td>
+                  <td><%= idea.downvotes %></td>
+                  <td><%= idea.net_score %></td>
+                  <td><%= community_idea_status_badge(idea) %></td>
+                  <td><%= idea.created_at.strftime("%b %d, %Y") %></td>
+                  <td class="text-nowrap">
+                    <div class="btn-group" role="group">
+                      <%= link_to "View", admin_community_idea_path(idea), class: "btn btn-sm btn-outline-primary" %>
+                      <%= button_to approve_admin_community_idea_path(idea), method: :patch, class: "btn btn-sm btn-success", form: { data: { turbo_confirm: "Approve this idea?" } } do %>
+                        Approve
+                      <% end %>
+                      <%= button_to reject_admin_community_idea_path(idea), method: :patch, class: "btn btn-sm btn-outline-danger", form: { data: { turbo_confirm: "Reject this idea?" } } do %>
+                        Reject
+                      <% end %>
+                    </div>
+                    <%= link_to "Add feedback", admin_community_idea_path(idea, anchor: "feedback"), class: "d-block mt-1 text-decoration-none" %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="11" class="text-center py-4 text-muted">No community ideas match the filters.</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      <% total_pages = [@total_pages, 1].max %>
+      <% prev_page = [@page - 1, 1].max %>
+      <% next_page = [@page + 1, total_pages].min %>
+      <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 px-3 py-2 border-top">
+        <small class="text-muted">Page <%= @page %> of <%= total_pages %></small>
+        <nav aria-label="Community ideas pagination">
+          <ul class="pagination mb-0">
+            <li class="page-item <%= "disabled" if @page <= 1 %>">
+              <%= link_to "Previous", admin_community_ideas_path(request.query_parameters.merge(page: prev_page)), class: "page-link" %>
+            </li>
+            <% 1.upto(total_pages) do |page_number| %>
+              <li class="page-item <%= "active" if page_number == @page %>">
+                <%= link_to page_number, admin_community_ideas_path(request.query_parameters.merge(page: page_number)), class: "page-link" %>
+              </li>
+            <% end %>
+            <li class="page-item <%= "disabled" if @page >= total_pages %>">
+              <%= link_to "Next", admin_community_ideas_path(request.query_parameters.merge(page: next_page)), class: "page-link" %>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </turbo-frame>
+</div>
