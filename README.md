@@ -1,133 +1,257 @@
-# NairobiTalks-NCG
+# NairobiTalks (NCG)
 
-A comprehensive Rails application for managing citizen submissions and community engagement in Nairobi, Kenya. This platform enables citizens to submit feedback, ideas, and concerns while providing administrators with powerful tools to manage, filter, and respond to submissions effectively.
+**NairobiTalks** is an open, civic‑tech platform designed to strengthen **public participation, transparency, and trust** between citizens and the Nairobi County Government.
 
-## 🌟 Features
+It enables citizens to submit ideas and engage in planning processes (CIDP/ADP), while giving county officials structured tools to review, track, and act on public input in a transparent, auditable way.
 
-### For Citizens
-
-- **Easy Submission**: Simple forms for submitting community ideas, planning documents, and general feedback
-- **Progress Tracking**: Monitor the status of submitted items
-- **Community Engagement**: Participate in Nairobi's development discussions
-
-### For Administrators
-
-- **Advanced Admin Interface**: Comprehensive dashboard for managing all submissions
-- **Smart Filtering**: Filter submissions by status, type, date, and other criteria
-- **Bulk Operations**: Perform bulk actions on multiple submissions simultaneously
-- **Status Management**: Update submission statuses with visual indicators
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-
-## 🛠 Technology Stack
-
-- **Backend**: Ruby on Rails 8.1.1
-- **Frontend**: Bootstrap 5, Turbo/Stimulus
-- **Database**: SQLite (development), PostgreSQL (production)
-- **Authentication**: Devise
-- **File Storage**: Active Storage
-- **AI Integration**: OpenAI API for content analysis
-- **Deployment**: Ready for Kamal deployment
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Ruby 3.2.0 or higher
-- Rails 8.1.1
-- Node.js and Yarn
-- PostgreSQL (for production)
-
-### Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/mamatechafrica/NairobiTalks-NCG.git
-   cd NairobiTalks-NCG
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   bundle install
-   yarn install
-   ```
-
-3. **Database setup**
-
-   ```bash
-   rails db:create
-   rails db:migrate
-   rails db:seed
-   ```
-
-4. **Environment configuration**
-
-   ```bash
-   cp config/credentials.yml.enc.example config/credentials.yml.enc
-   # Edit credentials as needed
-   ```
-
-5. **Start the application**
-
-   ```bash
-   rails server
-   ```
-
-   Visit `http://localhost:3000` to access the application.
-
-## 📁 Project Structure
-
-This application is organized into three main modules:
-
-- **Admin Module** (`admin` branch): Administrative interface for managing submissions
-- **Public Module** (`main` branch): Public-facing citizen submission forms
-- **API Module** (`api` branch): RESTful API for external integrations
-
-## 🔧 Development
-
-### Running Tests
-
-```bash
-rails test
-```
-
-### Code Quality
-
-```bash
-rubocop
-brakeman
-```
-
-### Database Management
-
-```bash
-rails db:migrate
-rails db:rollback
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built for the Nairobi County Government
-- Powered by Ruby on Rails and modern web technologies
-- Designed to enhance citizen participation in local governance
-
-## 📞 Support
-
-For support or questions, please contact the development team or create an issue in this repository.
+> **Core belief**: Civic participation should be accessible, traceable, inclusive, and action‑oriented — not performative.
 
 ---
 
-**NairobiTalks-NCG** - Connecting Citizens with Their Government
+## 🧽 Problem We Are Solving
+
+Public participation processes in Nairobi (and many similar contexts) face recurring challenges:
+
+* Citizens submit ideas but never hear back
+* Feedback is fragmented across meetings, PDFs, WhatsApp groups, and emails
+* County teams lack a structured workflow to review, approve, or escalate ideas
+* Planning documents (CIDP / ADP) are published but hard to access and understand
+* No visible link between citizen ideas and funded or implemented projects
+* Limited digital tools that work well for low‑bandwidth and mobile‑first users
+
+**NairobiTalks addresses this gap** by creating a single platform that connects:
+
+```text
+citizen ideas → review workflows → planning documents → decision outcomes
+```
+
+---
+
+## 🌟 What NairobiTalks Enables
+
+### For Citizens (Public, No Login Required)
+
+* 📬 **Submit community ideas** (ward + topic based)
+* 👍👎 **Vote on ideas** to surface priorities
+* 📄 **Browse CIDP & ADP planning documents**
+* 🔎 **Track idea lifecycle** (submitted → under review → approved / rejected)
+* 📱 **Mobile‑friendly, low‑friction participation**
+
+> ✅ Citizens never need to create an account to participate.
+
+---
+
+### For County Officials & Admins (Secure Admin Panel)
+
+#### 📊 Admin Dashboard
+
+* Total ideas, documents, votes, system health
+* Recent activity feed
+
+#### 💡 Idea Review & Moderation
+
+* Review submissions card‑by‑card or in tables
+* Update idea status:
+
+  * Submitted
+  * Under Review
+  * Reviewed
+  * Approved
+  * Submitted for Funding
+  * Rejected
+* Flag delayed reviews
+* Leave internal feedback/comments
+
+#### 📄 Planning Document Management
+
+* Upload & manage CIDP / ADP documents
+* Assign status (Draft / Approved)
+* Associate financial years
+* AI‑generated summaries (prototype)
+
+#### 📈 Analytics & Reporting
+
+* Engagement by ward and topic
+* Top‑voted ideas
+* CSV exports
+
+#### 📣 Broadcast Center *(Planned / Placeholder)*
+
+* Announce public participation sessions
+* CIDP / ADP review notices
+* Calls for idea submissions or voting
+
+#### 🗣 Forum & Virtual Engagement *(Planned / Placeholder)*
+
+* Future support for discussions
+* Zoom / Google Meet sessions
+* Calendar‑based participation
+
+---
+
+## 🧹 Key Design Principles
+
+* ✅ Human‑centered & inclusive
+* ✅ Mobile‑first
+* ✅ Low‑bandwidth friendly
+* ✅ Transparent workflows
+* ✅ Open by default
+* ✅ Extensible for future integrations (WhatsApp, ticketing systems, PFM tools)
+
+---
+
+## 🛠 Technology Stack
+
+* **Backend**: Ruby on Rails 8.1.1
+* **Frontend**: Bootstrap 5, Hotwire (Turbo + Stimulus)
+* **Database**: SQLite (dev), PostgreSQL (prod)
+* **Authentication**: Devise (admin‑only)
+* **File Storage**: ActiveStorage
+* **AI (Prototype)**: OpenAI API (document summaries)
+* **External Data**: Google Sheets (citizen submissions)
+* **Deployment**: Kamal‑ready
+
+---
+
+## 🏗 Architecture Overview
+
+### Public Layer
+
+* Idea submission
+* Voting
+* Document browsing
+
+### Admin Layer (`/admin`)
+
+* Secure, role‑based access
+* Sidebar navigation
+* Moderation workflows
+
+### Future Integrations
+
+* WhatsApp bots
+* County ticketing systems
+* Participatory budgeting tools
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Ruby ≥ 3.2
+* Rails 8.1.1
+* Node.js + Yarn
+* PostgreSQL (production)
+
+### Setup
+
+```bash
+git clone https://github.com/mamatechafrica/NairobiTalks-NCG.git
+cd NairobiTalks-NCG
+bundle install
+yarn install
+rails db:create db:migrate db:seed
+rails server
+```
+
+Visit: `http://localhost:3000`
+Admin panel: `http://localhost:3000/admin`
+
+---
+
+## 🔐 Security & Data Protection
+
+* Admin‑only authentication (Devise)
+* CSRF protection enabled
+* Role‑based route protection
+* No citizen login required (privacy‑preserving)
+* Environment variables for secrets
+* Designed to align with data minimization principles
+
+> ⚠️ **Before production**:
+>
+> * Add rate‑limiting
+> * Add CAPTCHA or spam protection
+> * Review file upload restrictions
+> * Enable audit logging for admin actions
+
+---
+
+## 🌍 Digital Public Goods (DPG) Alignment
+
+NairobiTalks is designed to align with **DPG best practices**:
+
+* ✅ Open‑source license (MIT)
+* ✅ Reusable across counties and cities
+* ✅ Vendor‑neutral architecture
+* ✅ Clear documentation
+* ✅ Modular and extensible
+* ✅ Designed for public value, not lock‑in
+
+---
+
+## 📦 Open‑Source Readiness Checklist
+
+### 🔧 Repository Hygiene
+
+* [ ] `CODE_OF_CONDUCT.md`
+* [ ] `CONTRIBUTING.md`
+* [ ] `SECURITY.md`
+* [ ] Issue templates
+* [ ] Pull Request templates
+
+### 📒 Documentation
+
+* [ ] Architecture diagram
+* [ ] Admin user guide
+* [ ] Deployment guide
+* [ ] Data model documentation
+
+### 🧪 Engineering
+
+* [ ] System + controller tests
+* [ ] Background jobs for AI
+* [ ] Pagination & caching
+* [ ] Remove hard‑coded values
+
+### 🏠 Governance
+
+* [ ] Define maintainer roles
+* [ ] Contribution review process
+* [ ] Roadmap (`ROADMAP.md`)
+
+---
+
+## 🤝 Contributing
+
+We welcome civic technologists, designers, policymakers, and researchers.
+
+```bash
+git checkout -b feature/your-feature
+git commit -m "Describe your change"
+git push origin feature/your-feature
+```
+
+Then open a Pull Request.
+
+---
+
+## 📜 License
+
+MIT License — free to use, adapt, and deploy with attribution.
+
+---
+
+## 🙌 Acknowledgements
+
+* Nairobi County Government
+* Civic technologists and public participation advocates
+* Open‑source community
+
+---
+
+## ✨ Vision
+
+**NairobiTalks is not just a platform.
+It’s infrastructure for democratic participation.**
