@@ -39,6 +39,27 @@ Rails.application.routes.draw do
         patch :approve
         patch :reject
       end
+  end
+
+  # WhatsApp API endpoints
+  namespace :api do
+    namespace :v1 do
+      namespace :whatsapp do
+        # Idea submission and tracking
+        post 'submit_idea', to: 'ideas#create'
+        get 'track/:tracking_id', to: 'ideas#track'
+        get 'recent_ideas', to: 'ideas#recent'
+        post 'vote', to: 'ideas#vote'
+
+        # Notifications and subscriptions
+        post 'subscribe', to: 'notifications#subscribe'
+        delete 'unsubscribe', to: 'notifications#unsubscribe'
+        get 'subscribers', to: 'notifications#index'
+        post 'broadcast', to: 'notifications#broadcast'
+
+        # Health check
+        get 'health', to: 'health#check'
+      end
     end
   end
 end
