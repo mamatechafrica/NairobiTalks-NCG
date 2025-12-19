@@ -6,6 +6,7 @@ const path = require('path');
 // Import routes
 const webhookRoutes = require('./routes/webhook');
 const apiRoutes = require('./routes/api');
+const notificationRoutes = require('./routes/notifications');
 
 // Import services
 const schedulerService = require('./services/schedulerService');
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, '../dashboard')));
 // API Routes
 app.use('/webhook', webhookRoutes);
 app.use('/api', apiRoutes);
+app.use('/notifications', notificationRoutes);
 
 // Dashboard route
 app.get('/', (req, res) => {

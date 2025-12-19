@@ -7,6 +7,9 @@ class CitizenSubmission < ApplicationRecord
     rejected: "rejected"
   }
 
+  # Notify user via WhatsApp when status changes
+  after_update :send_status_notification, if: :saved_change_to_status?
+
   STATUS_LABELS = {
     submitted: "Submitted",
     under_review: "Under Review",
@@ -29,5 +32,11 @@ class CitizenSubmission < ApplicationRecord
 
   def net_status_position
     REVIEW_STEPS.index(status_label) || 0
+  end
+
+  private
+
+  def send_status_notification
+    WhatsappNotificationService.notify_status_change(self)
   end
 end
