@@ -33,3 +33,7 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+
+# WhatsApp Bot
+whatsapp_bot/node_modules/
+whatsapp_bot/.env

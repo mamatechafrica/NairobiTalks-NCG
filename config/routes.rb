@@ -39,6 +39,7 @@ Rails.application.routes.draw do
         patch :approve
         patch :reject
       end
+    end
   end
 
   # WhatsApp API endpoints
