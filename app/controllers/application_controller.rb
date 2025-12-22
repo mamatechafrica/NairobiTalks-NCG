@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+
+    include CableReady::Broadcaster
   include Devise::Controllers::Helpers
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
@@ -10,15 +12,22 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.admin?
-      admin_root_path
+      admin_dashboard_path
     else
-      root_path
+      profile_path
     end
+  end
+
+  def after_sign_up_path_for(resource)
+    profile_path
   end
 
   def after_sign_out_path_for(resource)
     root_path
   end
+
+  # Ensure admin and citizen sessions are isolated
+  before_action :enforce_session_scope
 
   private
 
@@ -27,6 +36,17 @@ class ApplicationController < ActionController::Base
       "admin_sidebar"
     else
       "application"
+    end
+  end
+
+  def enforce_session_scope
+    if session[:admin] && !request.path.start_with?("/admin")
+      # If admin session, but accessing citizen side, force logout
+      sign_out(current_user)
+      session.delete(:admin)
+    elsif !session[:admin] && request.path.start_with?("/admin")
+      # If citizen session, but accessing admin, force logout
+      sign_out(current_user)
     end
   end
 end

@@ -1,0 +1,88 @@
+<div class="ideas-explorer-page bg-[#edf6f2] py-10">
+  <div class="container mx-auto px-6 lg:px-12">
+    <header class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-[#009339]">Explore Ideas</h1>
+      <p class="text-lg text-gray-600 mt-4">Search and filter ideas to find what inspires you.</p>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-bar mb-6">
+      <form action="<%= ideas_explorer_path %>" method="get" class="flex items-center gap-4">
+        <input
+          type="text"
+          name="query"
+          placeholder="Search ideas..."
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#009339]"
+        />
+        <button
+          type="submit"
+          class="px-6 py-2 bg-[#009339] text-white rounded-lg hover:bg-[#3aa966] transition-smooth"
+        >
+          Search
+        </button>
+      </form>
+    </div>
+
+    <!-- Filter Panel -->
+    <div class="filter-panel mb-8">
+      <form action="<%= ideas_explorer_path %>" method="get" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label for="ward" class="block text-sm font-medium text-gray-700">Ward</label>
+          <select
+            name="ward"
+            id="ward"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#009339]"
+          >
+            <option value="">All Wards</option>
+            <option value="westlands">Westlands</option>
+            <option value="langata">Langata</option>
+            <option value="kibra">Kibra</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="topic" class="block text-sm font-medium text-gray-700">Topic</label>
+          <select
+            name="topic"
+            id="topic"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#009339]"
+          >
+            <option value="">All Topics</option>
+            <option value="transportation">Transportation</option>
+            <option value="education">Education</option>
+            <option value="health">Health</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="sort" class="block text-sm font-medium text-gray-700">Sort By</label>
+          <select
+            name="sort"
+            id="sort"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#009339]"
+          >
+            <option value="recent">Most Recent</option>
+            <option value="popular">Most Popular</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% @ideas.each do |idea| %>
+          <div class="idea-card bg-white shadow-md rounded-lg p-6">
+            <h3 class="text-xl font-semibold text-[#009339] mb-2"><%= idea.title %></h3>
+            <p class="text-sm text-gray-600 mb-4"><%= idea.description.truncate(100) %></p>
+            <%= link_to "View Details", community_idea_path(idea), class: "text-sm text-[#009339] hover:underline" %>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @ideas.empty? %>
+        <p class="text-center text-gray-600 mt-8">No ideas found. Try adjusting your filters or search query.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

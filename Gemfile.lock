@@ -57,6 +57,12 @@ GEM
       activemodel (= 8.1.1)
       activesupport (= 8.1.1)
       timeout (>= 0.4.0)
+    activerecord-session_store (2.2.0)
+      actionpack (>= 7.0)
+      activerecord (>= 7.0)
+      cgi (>= 0.3.6)
+      rack (>= 2.0.8, < 4)
+      railties (>= 7.0)
     activestorage (8.1.1)
       actionpack (= 8.1.1)
       activejob (= 8.1.1)
@@ -93,6 +99,13 @@ GEM
     bundler-audit (0.9.3)
       bundler (>= 1.2.0)
       thor (~> 1.0)
+    cable_ready (5.0.6)
+      actionpack (>= 5.2)
+      actionview (>= 5.2)
+      activesupport (>= 5.2)
+      observer (~> 0.1)
+      railties (>= 5.2)
+      thread-local (>= 1.1.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -102,8 +115,19 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    carrierwave (2.2.0)
+      activemodel (>= 5.0.0)
+      activesupport (>= 5.0.0)
+      addressable (~> 2.6)
+      image_processing (~> 1.1)
+      mimemagic (>= 0.3.0)
+      mini_mime (>= 0.1.3)
+      ssrf_filter (~> 1.0)
+    cgi (0.5.1)
+    childprocess (5.1.0)
+      logger (~> 1.5)
     concurrent-ruby (1.3.5)
-    connection_pool (3.0.2)
+    connection_pool (2.5.5)
     crass (1.0.6)
     date (3.5.0)
     debug (1.11.0)
@@ -215,6 +239,17 @@ GEM
       thor (~> 1.3)
       zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.5)
+    launchy (3.1.1)
+      addressable (~> 2.8)
+      childprocess (~> 5.0)
+      logger (~> 1.6)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
+    letter_opener_web (3.0.0)
+      actionmailer (>= 6.1)
+      letter_opener (~> 1.9)
+      railties (>= 6.1)
+      rexml
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.1)
@@ -229,6 +264,9 @@ GEM
     marcel (1.1.0)
     matrix (0.4.3)
     memoist (0.16.2)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
@@ -254,6 +292,9 @@ GEM
     nio4r (2.7.5)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
+    nokogiri-html5-inference (0.3.0)
+      nokogiri (~> 1.14)
+    observer (0.1.2)
     orm_adapter (0.5.0)
     os (1.1.4)
     ostruct (0.6.3)
@@ -327,6 +368,13 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
+    redis (5.4.1)
+      redis-client (>= 0.22.0)
+    redis-client (0.26.2)
+      connection_pool
+    redis-session-store (0.11.6)
+      actionpack (>= 5.2.4.1, < 9)
+      redis (>= 3, < 6)
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
@@ -414,13 +462,29 @@ GEM
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
       ostruct
+    ssrf_filter (1.3.0)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
+    stimulus_reflex (3.5.5)
+      actioncable (>= 5.2)
+      actionpack (>= 5.2)
+      actionview (>= 5.2)
+      activesupport (>= 5.2)
+      cable_ready (~> 5.0)
+      nokogiri (~> 1.0)
+      nokogiri-html5-inference (~> 0.3)
+      ostruct (~> 0.6)
+      rack (>= 2, < 4)
+      railties (>= 5.2)
+      redis (>= 4.0, < 6.0)
     stringio (3.1.9)
     thor (1.4.0)
+    thread-local (1.1.0)
     thruster (0.1.16-x86_64-linux)
     timeout (0.5.0)
     trailblazer-option (0.1.2)
+    trix (0.10.1)
+      rails
     tsort (0.2.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
@@ -455,10 +519,13 @@ PLATFORMS
   x86_64-linux-gnu
 
 DEPENDENCIES
+  activerecord-session_store
   bootsnap
   brakeman
   bundler-audit
   capybara
+  carrierwave (~> 2.0)
+  connection_pool (~> 2.2)
   debug
   devise
   dotenv-rails
@@ -467,10 +534,15 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  letter_opener
+  letter_opener_web
+  mimemagic (~> 0.3.10)
   pdf-reader
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.1)
+  redis (~> 5.0)
+  redis-session-store (~> 0.11.5)
   rubocop-rails-omakase
   ruby-openai
   selenium-webdriver
@@ -479,7 +551,9 @@ DEPENDENCIES
   solid_queue
   sqlite3 (>= 2.1)
   stimulus-rails
+  stimulus_reflex
   thruster
+  trix
   turbo-rails
   tzinfo-data
   web-console

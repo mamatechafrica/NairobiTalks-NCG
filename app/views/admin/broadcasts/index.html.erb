@@ -1,127 +1,53 @@
 <div class="container-fluid py-4" style="background-color: var(--nairobi-talks-mint); min-height: 100vh;">
   <div class="row">
     <div class="col-12">
-      <h2 class="text-center mb-2" style="color: var(--nairobi-talks-dark);">📢 Broadcast Center</h2>
-      <p class="text-center text-muted mb-4">Use this center to share public notices about idea submissions, participation sessions, and document reviews.</p>
-      <div class="alert alert-warning text-center" role="alert">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        This is a static preview. Broadcast delivery to users will be implemented in a future release.
-      </div>
+      <h2 class="text-center mb-2" style="color: var(--nairobi-talks-dark);">
+        📢 Broadcast Center
+      </h2>
+      <p class="text-center text-muted mb-4">
+        Use this center to share public notices about idea submissions, participation sessions, and document reviews.
+      </p>
     </div>
   </div>
-  <!-- Optional Filters (inactive) -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label for="audience_filter" class="form-label">Audience Type</label>
-              <select class="form-select" id="audience_filter" disabled>
-                <option>All Audiences</option>
-                <option>All Wards</option>
-                <option>Specific Ward</option>
-              </select>
-            </div>
-            <div class="col-md-4">
-              <label for="delivery_filter" class="form-label">Delivery Type</label>
-              <select class="form-select" id="delivery_filter" disabled>
-                <option>All Types</option>
-                <option>SMS</option>
-                <option>Email</option>
-                <option>Push Notification</option>
-              </select>
-            </div>
-            <div class="col-md-4">
-              <label for="status_filter" class="form-label">Status</label>
-              <select class="form-select" id="status_filter" disabled>
-                <option>All Statuses</option>
-                <option>Sent</option>
-                <option>Scheduled</option>
-                <option>Draft</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
+      <%= link_to 'New Broadcast', new_admin_broadcast_path, class: 'btn btn-primary mb-3' %>
     </div>
   </div>
-  <!-- Notices Preview Section -->
   <div class="row g-4">
-    <% broadcasts = [
-      {
-        title: "🗳️ Vote on Top Community Ideas for World Bank Project",
-        description: "The top 10 community ideas have been selected for voting. Residents can now vote on their preferred initiatives for the upcoming World Bank-funded project. Voting closes on December 20, 2025.",
-        audience: "📍 All Wards",
-        delivery: "🟢 Scheduled (SMS)",
-        status: "🕒 Scheduled",
-        cta: "Preview Broadcast"
-      },
-      {
-        title: "📄 CIDP 2026 Public Participation Review — Now Open",
-        description: "The County Integrated Development Plan 2026 is now open for public review and comments. Residents are encouraged to provide feedback on proposed development priorities and budget allocations.",
-        audience: "📍 All Wards",
-        delivery: "🔵 Draft (Poster)",
-        status: "✏️ Draft",
-        cta: "Edit"
-      },
-      {
-        title: "💡 Submit Ideas for ADP 2026 Before June 15",
-        description: "Annual Development Plan submissions are now open. Share your ideas for community development projects. All submissions must be received by June 15, 2026 for consideration.",
-        audience: "📍 All Wards",
-        delivery: "🟢 Scheduled (SMS)",
-        status: "✅ Sent",
-        cta: "View Details"
-      },
-      {
-        title: "🏛️ Community Forum on Infrastructure Planning This Saturday",
-        description: "Join us for a virtual community forum to discuss infrastructure planning priorities. County officials will present proposed projects and answer questions from residents.",
-        audience: "📍 Westlands Only",
-        delivery: "🔵 Draft (Poster)",
-        status: "✏️ Draft",
-        cta: "Edit"
-      }
-    ] %>
-    <% broadcasts.each do |broadcast| %>
+    <% @broadcasts.each do |broadcast| %>
       <div class="col-lg-6 col-xl-4">
         <div class="card h-100 shadow-sm">
           <div class="card-body">
             <h5 class="card-title fw-bold mb-3" style="color: var(--nairobi-talks-dark);">
-              <%= broadcast[:title] %>
+              <%= broadcast.title %>
             </h5>
+            <%= image_tag broadcast.image.url, class: 'img-fluid mb-3' if broadcast.image.present? %>
             <p class="card-text text-muted mb-3">
-              <%= broadcast[:description] %>
+              <%= broadcast.message.truncate(100) %>
             </p>
             <div class="mb-2">
               <small class="text-muted d-block">
-                <strong><%= broadcast[:audience] %></strong>
+                <strong>Audience:</strong> <%= broadcast.target_audience %>
               </small>
               <small class="text-muted d-block">
-                <strong><%= broadcast[:delivery] %></strong>
+                <strong>Delivery Type:</strong> <%= broadcast.delivery_type %>
+              </small>
+              <small class="text-muted d-block">
+                <strong>Status:</strong> <%= broadcast.status %>
+              </small>
+              <small class="text-muted d-block">
+                <strong>Created At:</strong> <%= broadcast.created_at.strftime('%Y-%m-%d %H:%M') %>
               </small>
             </div>
-            <div class="mb-3">
-              <% if broadcast[:status].include?("✅") %>
-                <span class="badge bg-success"><%= broadcast[:status] %></span>
-              <% elsif broadcast[:status].include?("🕒") %>
-                <span class="badge bg-warning text-dark"><%= broadcast[:status] %></span>
-              <% else %>
-                <span class="badge bg-secondary"><%= broadcast[:status] %></span>
-              <% end %>
-            </div>
           </div>
-          <div class="card-footer bg-transparent border-0">
-            <button class="btn btn-outline-primary btn-sm w-100" disabled aria-label="<%= broadcast[:cta] %> for <%= broadcast[:title] %> (preview only)" title="This is a preview button only">
-              <%= broadcast[:cta] %>
-            </button>
+          <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
+            <%= link_to 'Preview', admin_broadcast_path(broadcast), class: 'btn btn-outline-primary btn-sm' %>
+            <%= link_to 'Edit', edit_admin_broadcast_path(broadcast), class: 'btn btn-outline-secondary btn-sm' %>
+            <%= link_to 'Archive', admin_broadcast_path(broadcast), method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, class: 'btn btn-outline-danger btn-sm' %>
           </div>
         </div>
       </div>
     <% end %>
   </div>
-  <!-- Optional: Future feature notes -->
-  <!-- TODO: Integrate with SMS gateway for broadcast delivery -->
-  <!-- TODO: Add email template system -->
-  <!-- TODO: Implement push notification service -->
-  <!-- TODO: Add scheduling and automation features -->
 </div>

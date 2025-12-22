@@ -1,26 +1,32 @@
 class SubmissionsController < ApplicationController
   def new
     @submission = Submission.new
+    @community_ideas = CommunityIdea.order(upvotes: :desc).limit(20)
   end
 
   def create
     @submission = Submission.new(submission_params)
 
-    if @submission.valid?
-      if save_to_google_sheet(@submission)
-        flash[:notice] = "Thanks! Your idea was submitted."
-        redirect_to new_submission_path
-      else
-        flash[:alert] = "Error saving to Google Sheets. Please try again."
-        render :new
-      end
+    if @submission.save
+      CommunityIdea.create!(
+        title: @submission.title,
+        description: @submission.description,
+        ward: @submission.location,
+        topic: @submission.topic == 'Other' ? @submission.other_topic : @submission.topic,
+        upvotes: 0,
+        downvotes: 0,
+        status: "pending"
+      )
+
+      redirect_to root_path, notice: "Thank you! Your idea is now live for community voting."
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   def index
     @submission = Submission.new
+    @community_ideas = CommunityIdea.order(upvotes: :desc).limit(20)
     render :new
   end
 

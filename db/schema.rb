@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_11_127000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_22_170000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -39,6 +39,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_127000) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "broadcasts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "delivery_method", default: "in_app"
+    t.string "delivery_type", default: "SMS", null: false
+    t.string "image"
+    t.text "message", null: false
+    t.string "status", default: "Draft", null: false
+    t.string "target_audience"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.integer "ward_id"
+  end
+
   create_table "citizen_submissions", force: :cascade do |t|
     t.text "admin_comment"
     t.string "anonymity"
@@ -53,6 +66,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_127000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "body"
+    t.integer "community_idea_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["community_idea_id"], name: "index_comments_on_community_idea_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "community_ideas", force: :cascade do |t|
     t.text "admin_comment"
     t.datetime "created_at", null: false
@@ -63,7 +86,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_127000) do
     t.string "topic"
     t.datetime "updated_at", null: false
     t.integer "upvotes", default: 0
+    t.integer "user_id"
     t.string "ward"
+    t.index ["user_id"], name: "index_community_ideas_on_user_id"
   end
 
   create_table "planning_documents", force: :cascade do |t|
@@ -76,19 +101,54 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_127000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "data"
+    t.string "session_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "admin"
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "phone_number"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
     t.datetime "updated_at", null: false
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.integer "community_idea_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.string "vote_type", null: false
+    t.index ["community_idea_id"], name: "index_votes_on_community_idea_id"
+    t.index ["user_id", "community_idea_id"], name: "index_votes_on_user_id_and_community_idea_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
+  create_table "wards", force: :cascade do |t|
+    t.string "constituency", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "broadcasts", "wards"
+  add_foreign_key "comments", "community_ideas"
+  add_foreign_key "comments", "users"
+  add_foreign_key "community_ideas", "users"
+  add_foreign_key "votes", "community_ideas"
+  add_foreign_key "votes", "users"
 end

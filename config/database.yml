@@ -9,10 +9,16 @@ default: &default
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
-development:
+# Shared development database
+shared_development: &shared_development
   <<: *default
   database: storage/development.sqlite3
 
+# Development environment
+development:
+  <<: *shared_development
+
+# Test environment
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.

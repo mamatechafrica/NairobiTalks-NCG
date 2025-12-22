@@ -13,23 +13,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
   </head>
   <body>
     <!-- Admin Layout Wrapper -->
     <div class="admin-layout d-flex" style="min-height: 100vh;">
       <!-- Fixed Sidebar -->
-      <nav class="sidebar d-flex flex-column justify-content-between" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000;" aria-label="Admin Navigation">
-        <!-- Top Section: Logo and Navigation -->
-        <div>
+      <nav class="sidebar d-flex flex-column" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000;" aria-label="Admin Navigation">
+        <!-- Top Section: Logo (Fixed) -->
+        <div class="flex-shrink-0">
           <div class="text-center py-4 px-3">
             <h5 class="fw-bold text-white mb-0" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.3);" aria-label="Nairobi Talks Admin Panel">
               Nairobi Talks<br>
               <small class="fw-normal">Admin</small>
             </h5>
           </div>
-          <ul class="nav flex-column px-3">
+        </div>
+        <!-- Middle Section: Navigation (Scrollable) -->
+        <div class="flex-grow-1 overflow-auto px-3">
+          <ul class="nav flex-column">
             <li class="nav-item mb-2">
               <%= link_to '<i class="bi bi-speedometer2 me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Dashboard</span>'.html_safe, admin_root_path, class: "nav-link", aria_current: current_page?(admin_root_path) ? 'page' : nil %>
+            </li>
+            <li class="nav-item mb-2">
+              <%= link_to '<i class="bi bi-eye me-2" aria-hidden="true"></i><span class="d-none d-md-inline">App Preview</span>'.html_safe, admin_app_preview_path, class: "nav-link", aria_current: current_page?(admin_app_preview_path) ? 'page' : nil %>
             </li>
             <li class="nav-item mb-2">
               <%= link_to '<i class="bi bi-file-earmark-text me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Documents</span>'.html_safe, admin_planning_documents_path, class: "nav-link", aria_current: current_page?(admin_planning_documents_path) ? 'page' : nil %>
@@ -38,7 +45,7 @@
               <%= link_to '<i class="bi bi-upload me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Upload</span>'.html_safe, new_admin_planning_document_path, class: "nav-link", aria_current: current_page?(new_admin_planning_document_path) ? 'page' : nil %>
             </li>
             <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-people me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_submissions_path, class: "nav-link", aria_current: current_page?(admin_submissions_path) ? 'page' : nil %>
+              <%= link_to '<i class="bi bi-people me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_community_ideas_path, class: "nav-link", aria_current: current_page?(admin_community_ideas_path) ? 'page' : nil %>
             </li>
             <li class="nav-item mb-2">
               <%= link_to '<i class="bi bi-graph-up me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Analytics</span>'.html_safe, admin_analytics_path, class: "nav-link", aria_current: current_page?(admin_analytics_path) ? 'page' : nil %>
@@ -51,8 +58,8 @@
             </li>
           </ul>
         </div>
-        <!-- Bottom Section: Theme Toggle and Logout -->
-        <div class="px-3 pb-3">
+        <!-- Bottom Section: Theme Toggle and Logout (Fixed) -->
+        <div class="flex-shrink-0 px-3 pb-3">
           <hr class="border-white-50 my-3" aria-hidden="true">
           <!-- Theme Toggle -->
           <div class="form-check form-switch mb-3">
@@ -62,7 +69,9 @@
             </label>
           </div>
           <!-- Logout Button -->
-          <%= link_to '<i class="bi bi-power me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Logout</span>'.html_safe, destroy_user_session_path, method: :delete, class: "btn logout-btn w-100 fw-medium", aria_label: "Logout from admin panel" %>
+          <%= button_to destroy_user_session_path, method: :delete, class: "btn logout-btn w-100 fw-medium", aria: { label: "Logout from admin panel" } do %>
+            <i class="bi bi-power me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Logout</span>
+          <% end %>
         </div>
       </nav>
       <!-- Main Content Area -->
@@ -79,7 +88,6 @@
         </footer>
       </div>
     </div>
-    <%= javascript_importmap_tags %>
     <script>
       (() => {
         const themeToggleId = 'themeToggle';

@@ -21,6 +21,10 @@
       <%= form.label :topic, "Topic", class: "form-label" %>
       <%= form.select :topic, options_for_select([["All", ""]] + @topics.map { |topic| [topic, topic] }, @filters[:topic]), { }, class: "form-select" %>
     </div>
+    <div class="col-md-3">
+      <%= form.label :search, "Search", class: "form-label" %>
+      <%= form.text_field :search, value: @filters[:search], class: "form-control", placeholder: "Search title or description..." %>
+    </div>
     <div class="col-md-3 d-flex gap-2">
       <%= form.submit "Apply filters", class: "btn btn-primary w-100" %>
       <%= link_to "Reset", admin_community_ideas_path, class: "btn btn-outline-secondary w-100" %>

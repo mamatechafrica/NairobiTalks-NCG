@@ -8,22 +8,35 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+# Ensure WARD_LIST is defined for seeding
+WARD_LIST = [
+  { name: "Huruma" },
+  { name: "Kayole" },
+  { name: "Kibera" },
+  { name: "Mathare" },
+  { name: "Dandora" }
+] unless defined?(WARD_LIST)
+
 # Seed sample community ideas
 TOPICS = %w[Health Education Environment Infrastructure Security].freeze
 ward_names = WARD_LIST.map { |w| w[:name] }
 
-25.times do |i|
-  topic = TOPICS[i % TOPICS.size]
-  ward = ward_names[i % ward_names.size]
-  status = CommunityIdea::STATUSES.keys[i % CommunityIdea::STATUSES.size].to_s
+ideas = [
+  { title: "Build a playground in Huruma", description: "A safe space for children to play.", ward: "Huruma", topic: "Infrastructure" },
+  { title: "Solar lights for security in Kayole", description: "Improve safety with solar-powered streetlights.", ward: "Kayole", topic: "Security" },
+  { title: "Clean water project in Kibera", description: "Provide clean and safe drinking water.", ward: "Kibera", topic: "Health" },
+  { title: "Tree planting in Mathare", description: "Increase green cover and reduce pollution.", ward: "Mathare", topic: "Environment" },
+  { title: "Free tutoring for students in Dandora", description: "Help students excel academically.", ward: "Dandora", topic: "Education" }
+]
 
-  CommunityIdea.find_or_create_by!(title: "Idea ##{i + 1}") do |idea|
-    idea.description = "Community-driven project to improve #{topic} in #{ward}."
-    idea.ward = ward
-    idea.topic = topic
-    idea.upvotes = rand(0..50)
-    idea.downvotes = rand(0..10)
-    idea.status = status
+ideas.each do |idea|
+  CommunityIdea.find_or_create_by!(title: idea[:title]) do |ci|
+    ci.description = idea[:description]
+    ci.ward = idea[:ward]
+    ci.topic = idea[:topic]
+    ci.upvotes = rand(0..50)
+    ci.downvotes = rand(0..10)
+    ci.status = "approved"
   end
 end
 
@@ -56,16 +69,95 @@ submission_statuses = CitizenSubmission.statuses.keys
   end
 end
 
-# Seed sample community submissions (commented out as Submission is not persisted to DB)
-# ward_names = WARD_LIST.map { |w| w[:name] }
-# topics = ["Health", "Education", "Environment", "Infrastructure", "Security"]
-#
-# 25.times do |i|
-#   Submission.create!(
-#     title: "Community Idea ##{i + 1}",
-#     description: "A community-driven project to improve #{topics[i % topics.size]} services in #{ward_names[i % ward_names.size]}.",
-#     location: ward_names[i % ward_names.size],
-#     topic: topics[i % topics.size],
-#     anonymous: [true, false].sample
-#   )
-# end
+# Seed the database with the provided ward list.
+Ward.create([
+  { name: "Kitisuru", constituency: "Westlands" },
+  { name: "Parklands/Highridge", constituency: "Westlands" },
+  { name: "Karura", constituency: "Westlands" },
+  { name: "Kangemi", constituency: "Westlands" },
+  { name: "Mountain View", constituency: "Westlands" },
+  { name: "Kilimani", constituency: "Dagoretti North" },
+  { name: "Kawangware", constituency: "Dagoretti North" },
+  { name: "Gatina", constituency: "Dagoretti North" },
+  { name: "Kileleshwa", constituency: "Dagoretti North" },
+  { name: "Kabiro", constituency: "Dagoretti North" },
+  { name: "Mutu-ini", constituency: "Dagoretti South" },
+  { name: "Ngando", constituency: "Dagoretti South" },
+  { name: "Riruta", constituency: "Dagoretti South" },
+  { name: "Uthiru/Ruthimitu", constituency: "Dagoretti South" },
+  { name: "Waithaka", constituency: "Dagoretti South" },
+  { name: "Karen", constituency: "Langata" },
+  { name: "Nairobi West", constituency: "Langata" },
+  { name: "Mugumo-ini", constituency: "Langata" },
+  { name: "South C", constituency: "Langata" },
+  { name: "Nyayo Highrise", constituency: "Langata" },
+  { name: "Laini Saba", constituency: "Kibra" },
+  { name: "Lindi", constituency: "Kibra" },
+  { name: "Makina", constituency: "Kibra" },
+  { name: "Woodley/Kenyatta Golf Course", constituency: "Kibra" },
+  { name: "Sarang’ombe", constituency: "Kibra" },
+  { name: "Githurai", constituency: "Roysambu" },
+  { name: "Kahawa West", constituency: "Roysambu" },
+  { name: "Zimmerman", constituency: "Roysambu" },
+  { name: "Roysambu", constituency: "Roysambu" },
+  { name: "Kahawa", constituency: "Roysambu" },
+  { name: "Clay City", constituency: "Kasarani" },
+  { name: "Mwiki", constituency: "Kasarani" },
+  { name: "Kasarani", constituency: "Kasarani" },
+  { name: "Njiru", constituency: "Kasarani" },
+  { name: "Ruai", constituency: "Kasarani" },
+  { name: "Babadogo", constituency: "Ruaraka" },
+  { name: "Utalii", constituency: "Ruaraka" },
+  { name: "Mathare North", constituency: "Ruaraka" },
+  { name: "Lucky Summer", constituency: "Ruaraka" },
+  { name: "Korogocho", constituency: "Ruaraka" },
+  { name: "Imara Daima", constituency: "Embakasi South" },
+  { name: "Kwa Njenga", constituency: "Embakasi South" },
+  { name: "Kwa Reuben", constituency: "Embakasi South" },
+  { name: "Pipeline", constituency: "Embakasi South" },
+  { name: "Kware", constituency: "Embakasi South" },
+  { name: "Kariobangi North", constituency: "Embakasi North" },
+  { name: "Dandora Area I", constituency: "Embakasi North" },
+  { name: "Dandora Area II", constituency: "Embakasi North" },
+  { name: "Dandora Area III", constituency: "Embakasi North" },
+  { name: "Dandora Area IV", constituency: "Embakasi North" },
+  { name: "Kayole North", constituency: "Embakasi Central" },
+  { name: "Kayole Central", constituency: "Embakasi Central" },
+  { name: "Kayole South", constituency: "Embakasi Central" },
+  { name: "Komarock", constituency: "Embakasi Central" },
+  { name: "Matopeni/Spring Valley", constituency: "Embakasi Central" },
+  { name: "Upper Savanna", constituency: "Embakasi East" },
+  { name: "Lower Savanna", constituency: "Embakasi East" },
+  { name: "Embakasi", constituency: "Embakasi East" },
+  { name: "Utawala", constituency: "Embakasi East" },
+  { name: "Mihango", constituency: "Embakasi East" },
+  { name: "Umoja I", constituency: "Embakasi West" },
+  { name: "Umoja II", constituency: "Embakasi West" },
+  { name: "Mowlem", constituency: "Embakasi West" },
+  { name: "Kariobangi South", constituency: "Embakasi West" },
+  { name: "Maringo/Hamza", constituency: "Embakasi West" },
+  { name: "Viwandani", constituency: "Makadara" },
+  { name: "Harambee", constituency: "Makadara" },
+  { name: "Makongeni", constituency: "Makadara" },
+  { name: "Pumwani", constituency: "Makadara" },
+  { name: "Eastleigh North", constituency: "Makadara" },
+  { name: "Eastleigh South", constituency: "Kamukunji" },
+  { name: "Airbase", constituency: "Kamukunji" },
+  { name: "California", constituency: "Kamukunji" },
+  { name: "Ngara", constituency: "Kamukunji" },
+  { name: "Nairobi Central", constituency: "Kamukunji" },
+  { name: "Pangani", constituency: "Starehe" },
+  { name: "Ziwani/Kariokor", constituency: "Starehe" },
+  { name: "Landimawe", constituency: "Starehe" },
+  { name: "Nairobi South", constituency: "Starehe" },
+  { name: "Hospital", constituency: "Starehe" },
+  { name: "Mabatini", constituency: "Mathare" },
+  { name: "Huruma", constituency: "Mathare" },
+  { name: "Ngei", constituency: "Mathare" },
+  { name: "Mlango Kubwa", constituency: "Mathare" },
+  { name: "Kiamaiko", constituency: "Mathare" }
+])
+
+Broadcast.create!(title: "Email Broadcast", message: "This is an email broadcast.", delivery_method: :email, ward_id: Ward.first.id)
+Broadcast.create!(title: "SMS Broadcast", message: "This is an SMS broadcast.", delivery_method: :sms, ward_id: Ward.first.id)
+Broadcast.create!(title: "In-App Broadcast", message: "This is an in-app broadcast.", delivery_method: :in_app, ward_id: Ward.first.id)

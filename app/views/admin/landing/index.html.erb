@@ -1,0 +1,71 @@
+<div class="bg-light min-vh-100">
+  <!-- Access Cards Section -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-dark mb-3">Nairobi Talks</h1>
+            <p class="lead text-muted">Choose your access level</p>
+          </div>
+          <div class="row g-4">
+            <!-- Public App Card -->
+            <div class="col-md-6">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                  <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                    <i class="bi bi-house text-white fs-2"></i>
+                  </div>
+                  <h3 class="card-title fw-bold mb-3">Community Platform</h3>
+                  <p class="card-text text-muted mb-4">
+                    Submit ideas, explore community proposals, and participate in shaping Nairobi's future. No registration required.
+                  </p>
+                  <div class="d-grid">
+                    <%= link_to "Enter Public App", community_ideas_path, class: "btn btn-success btn-lg" %>
+                  </div>
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <i class="bi bi-unlock me-1"></i>
+                      Public access • No login required
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Admin Panel Card -->
+            <div class="col-md-6">
+              <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-5">
+                  <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
+                    <i class="bi bi-shield-lock text-white fs-2"></i>
+                  </div>
+                  <h3 class="card-title fw-bold mb-3">Admin Panel</h3>
+                  <p class="card-text text-muted mb-4">
+                    Manage submissions, moderate content, and oversee the platform. Administrative access required.
+                  </p>
+                  <div class="d-grid">
+                    <%= link_to "Admin Login", new_user_session_path, class: "btn btn-primary btn-lg" %>
+                  </div>
+                  <div class="mt-3">
+                    <small class="text-muted">
+                      <i class="bi bi-lock me-1"></i>
+                      Admin access • Login required
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Footer -->
+  <footer class="bg-white border-top py-4 mt-5">
+    <div class="container text-center">
+      <p class="text-muted mb-0">
+        <small>© 2025 Nairobi Talks - Empowering Community Voices</small>
+      </p>
+    </div>
+  </footer>
+</div>
