@@ -1,102 +1,155 @@
-<div class="container py-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-8 col-xl-6">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-          <h1 class="h4 mb-0">
-            <i class="bi bi-lightbulb text-warning me-2"></i>
-            Submit a Community Idea
+<div class="bg-light min-vh-100 py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="text-center mb-5">
+          <h1 class="display-4 fw-bold text-success mb-3">
+            Submit Your Idea
           </h1>
+          <p class="lead text-muted">
+            Share your vision for improving our community. Your ideas help shape our future.
+          </p>
         </div>
-        <div class="card-body">
-          <%= form_with model: @submission, local: true, html: { role: "form", aria: { labelledby: "ideaForm" }, novalidate: true } do |f| %>
-            <% if @submission.errors.any? %>
-              <div class="alert alert-danger" role="alert">
-                <h5 class="alert-heading">
-                  <i class="bi bi-exclamation-triangle me-2"></i>
-                  Please fix the following errors:
-                </h5>
-                <ul class="mb-0">
-                  <% @submission.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
+        <div class="card border-success shadow-sm">
+          <div class="card-body p-4 p-md-5">
+            <!-- Bootstrap Nav Tabs -->
+            <ul class="nav nav-tabs mb-4" id="submissionTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="form-tab" data-bs-toggle="tab" data-bs-target="#form" type="button" role="tab" aria-controls="form" aria-selected="false">Submit Idea</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="ideas-tab" data-bs-toggle="tab" data-bs-target="#ideas" type="button" role="tab" aria-controls="ideas" aria-selected="false">Vote Ideas</button>
+              </li>
+            </ul>
+            <div class="tab-content" id="submissionTabsContent">
+              <!-- Info Tab -->
+              <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                <div class="mb-4">
+                  <h4 class="fw-bold">How it works</h4>
+                  <p class="text-muted">Submit your idea for community improvement. Your submission will be reviewed by admins and visible to others for voting. The best ideas may be implemented in your ward!</p>
+                  <ul>
+                    <li>Ideas must be specific, actionable, and benefit the community.</li>
+                    <li>Include details about implementation, costs, and expected outcomes.</li>
+                    <li>You can post anonymously if you wish.</li>
+                  </ul>
+                </div>
+              </div>
+              <!-- Form Tab -->
+              <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="form-tab">
+                <form action="<%= submissions_path %>" method="post" class="needs-validation mt-3" novalidate>
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                  <% if @submission.errors.any? %>
+                    <div class="alert alert-danger mb-4">
+                      <h5 class="alert-heading fw-bold">Please fix the following errors:</h5>
+                      <ul class="mb-0">
+                        <% @submission.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                        <% end %>
+                      </ul>
+                    </div>
                   <% end %>
-                </ul>
+                  <!-- Title Field -->
+                  <div class="mb-4">
+                    <label for="submission_title" class="form-label fw-semibold">Idea Title</label>
+                    <input type="text" name="submission[title]" id="submission_title" class="form-control form-control-lg" maxlength="100" required aria-required="true" aria-describedby="titleHelp" />
+                    <div class="form-text">
+                      <span id="titleHelp">Give your idea a clear, concise title</span>
+                      <span class="float-end" id="titleCharCount">0/100</span>
+                    </div>
+                  </div>
+                  <!-- Description Field -->
+                  <div class="mb-4">
+                    <label for="submission_description" class="form-label fw-semibold">Description</label>
+                    <textarea name="submission[description]" id="submission_description" class="form-control" rows="6" maxlength="500" required aria-required="true" aria-describedby="descriptionHelp"></textarea>
+                    <div class="form-text">
+                      <span id="descriptionHelp">Provide details, benefits, and how it could be implemented.</span>
+                      <span class="float-end" id="descCharCount">0/500</span>
+                    </div>
+                  </div>
+                  <!-- Ward Selection -->
+                  <div class="mb-4">
+                    <label for="submission_ward" class="form-label fw-semibold">Ward</label>
+                    <select name="submission[ward]" id="submission_ward" class="form-select" required aria-required="true">
+                      <option value="">Select a ward</option>
+                      <option value="Ward 1">Ward 1</option>
+                      <option value="Ward 2">Ward 2</option>
+                      <option value="Ward 3">Ward 3</option>
+                      <option value="Ward 4">Ward 4</option>
+                      <option value="Ward 5">Ward 5</option>
+                    </select>
+                  </div>
+                  <!-- Topic Tags -->
+                  <div class="mb-4">
+                    <label for="submission_topics" class="form-label fw-semibold">Topic Tags</label>
+                    <select name="submission[topics][]" id="submission_topics" class="form-select" multiple aria-describedby="topicsHelp">
+                      <option value="Environment">Environment</option>
+                      <option value="Community">Community</option>
+                      <option value="Technology">Technology</option>
+                      <option value="Education">Education</option>
+                      <option value="Transportation">Transportation</option>
+                      <option value="Economy">Economy</option>
+                      <option value="Health">Health</option>
+                      <option value="Recreation">Recreation</option>
+                      <option value="Youth">Youth</option>
+                      <option value="Safety">Safety</option>
+                    </select>
+                    <div class="form-text" id="topicsHelp">Select up to 3 topics that best describe your idea.</div>
+                  </div>
+                  <!-- Privacy Toggle -->
+                  <div class="mb-4 p-3 border rounded bg-light">
+                    <div class="form-check">
+                      <input type="checkbox" name="submission[is_anonymous]" id="submission_is_anonymous" class="form-check-input" />
+                      <label for="submission_is_anonymous" class="form-check-label fw-medium">Post anonymously</label>
+                      <div class="form-text mt-1">Your name will not be displayed. Only admins can see your identity.</div>
+                    </div>
+                  </div>
+                  <!-- Action Buttons -->
+                  <div class="d-flex flex-column flex-sm-row gap-3 pt-3">
+                    <button type="submit" class="btn btn-success btn-lg flex-fill">Submit Idea</button>
+                    <a href="<%= submissions_path %>" class="btn btn-outline-success btn-lg flex-fill text-center">Cancel</a>
+                  </div>
+                </form>
+                <div class="mt-4 p-3 bg-light rounded">
+                  <p class="text-muted small mb-0">
+                    <strong>Tip:</strong> Great ideas are specific, actionable, and benefit the community. Include details about implementation, costs, and expected outcomes to help others understand your vision.
+                  </p>
+                </div>
               </div>
-            <% end %>
-            <fieldset aria-labelledby="ideaForm">
-              <legend id="ideaForm" class="visually-hidden">Community Idea Submission Form</legend>
-              <div class="mb-3">
-                <%= f.label :title, "Idea Title", class: "form-label fw-bold" %>
-                <%= f.text_field :title, class: "form-control form-control-lg", required: true, aria: { required: true, describedby: "titleHelp" } %>
-                <div id="titleHelp" class="form-text">Give your idea a clear, concise title</div>
+              <!-- Ideas/Voting Tab -->
+              <div class="tab-pane fade" id="ideas" role="tabpanel" aria-labelledby="ideas-tab">
+                <div class="mt-4">
+                  <h4 class="fw-bold mb-3">Vote for Community Ideas</h4>
+                  <%= render partial: 'community_ideas/voting_cards', locals: { ideas: @community_ideas || CommunityIdea.order(upvotes: :desc).limit(10) } %>
+                </div>
               </div>
-              <div class="mb-3">
-                <%= f.label :description, "Description", class: "form-label fw-bold" %>
-                <%= f.text_area :description, class: "form-control", rows: 5, required: true, aria: { required: true, describedby: "descriptionHelp" } %>
-                <div id="descriptionHelp" class="form-text">Describe your idea in detail. What problem does it solve? How would it benefit the community?</div>
-              </div>
-              <div class="mb-3">
-                <%= f.label :location, "Your Ward / Location", class: "form-label fw-bold" %>
-                <%= f.select :location, WARD_LIST.sort_by { |w| w[:name] }.map { |w| [w[:name], w[:name]] }, { prompt: "Select your ward" }, class: "form-select", required: true, aria: { required: true } %>
-              </div>
-              <div class="mb-3">
-                <%= f.label :topic, "Relevant Topic", class: "form-label fw-bold" %>
-                <%= f.select :topic, ['Health', 'Education', 'Environment', 'Infrastructure', 'Security', 'Other'], {}, class: "form-select", aria: { describedby: "topicHelp" } %>
-                <div id="topicHelp" class="form-text">Choose the most relevant category for your idea</div>
-              </div>
-              <div class="mb-3" id="other_topic_container" style="display: none;">
-                <%= f.label :other_topic, "Please specify other topic", class: "form-label fw-bold" %>
-                <%= f.text_field :other_topic, class: "form-control" %>
-              </div>
-              <div class="mb-3">
-                <%= f.label :anonymity, "Privacy Preference", class: "form-label fw-bold" %>
-                <%= f.select :anonymity, ['Anonymous', 'Share my contact'], {}, class: "form-select", aria: { describedby: "anonymityHelp" } %>
-                <div id="anonymityHelp" class="form-text">Choose whether to submit anonymously or share your contact information</div>
-              </div>
-              <div class="mb-4">
-                <%= f.label :citizen_contact, "Optional: Contact Info (phone/email)", class: "form-label fw-bold" %>
-                <%= f.text_field :citizen_contact, class: "form-control", aria: { describedby: "contactHelp" } %>
-                <div id="contactHelp" class="form-text">If you chose to share contact info, please provide your phone number or email address</div>
-              </div>
-              <div class="d-grid">
-                <%= f.submit "Submit Idea", class: "btn btn-success btn-lg" %>
-              </div>
-            </fieldset>
-          <% end %>
-        </div>
-        <div class="card-footer text-muted small">
-          <i class="bi bi-shield-check me-1"></i>
-          Your privacy is protected. Ideas are submitted anonymously unless you choose to share contact information.
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 <script>
-  // Show/hide other topic field based on topic selection
-  document.addEventListener('DOMContentLoaded', function() {
-    const topicSelect = document.querySelector('#submission_topic');
-    const otherTopicContainer = document.getElementById('other_topic_container');
+  // Character counters for title and description
+  document.addEventListener('turbo:load', function() {
+    var titleInput = document.getElementById('submission_title');
+    var titleCount = document.getElementById('titleCharCount');
+    var descInput = document.getElementById('submission_description');
+    var descCount = document.getElementById('descCharCount');
 
-    if (topicSelect && otherTopicContainer) {
-      topicSelect.addEventListener('change', function() {
-        if (this.value === 'Other') {
-          otherTopicContainer.style.display = 'block';
-        } else {
-          otherTopicContainer.style.display = 'none';
-        }
+    if (titleInput && titleCount) {
+      titleInput.addEventListener('input', function() {
+        titleCount.textContent = this.value.length + '/100';
       });
     }
-  });
-</script>
--->
-<script>
-  document.getElementById('submission_topic').addEventListener('change', function() {
-    var container = document.getElementById('other_topic_container');
-    if (this.value === 'Other') {
-      container.style.display = 'block';
-    } else {
-      container.style.display = 'none';
+
+    if (descInput && descCount) {
+      descInput.addEventListener('input', function() {
+        descCount.textContent = this.value.length + '/500';
+      });
     }
   });
 </script>

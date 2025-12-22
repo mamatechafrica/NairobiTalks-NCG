@@ -1,0 +1,19 @@
+<div class="container py-4">
+  <h1 class="mb-4">Broadcast Preview</h1>
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title"><%= @broadcast.title %></h2>
+      <p class="card-text text-muted"><%= @broadcast.message %></p>
+      <p class="card-text">
+        <strong>Target Audience:</strong> <%= @broadcast.target_audience %>
+      </p>
+      <p class="card-text">
+        <strong>Created At:</strong> <%= @broadcast.created_at.strftime('%Y-%m-%d %H:%M') %>
+      </p>
+    </div>
+  </div>
+  <div class="mt-4">
+    <%= link_to 'Back to Broadcasts', admin_broadcasts_path, class: 'btn btn-secondary' %>
+    <%= link_to 'Edit Broadcast', edit_admin_broadcast_path(@broadcast), class: 'btn btn-primary' %>
+  </div>
+</div>

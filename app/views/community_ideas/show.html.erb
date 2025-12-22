@@ -1,0 +1,79 @@
+<div class="bg-light min-vh-100">
+  <header class="bg-white shadow-sm py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col">
+          <a href="<%= community_ideas_path %>" class="text-success fw-medium text-decoration-none">
+            ← Back to Ideas
+          </a>
+        </div>
+        <div class="col text-center">
+          <h1 class="h4 fw-bold text-success mb-0">
+            Idea Details
+          </h1>
+        </div>
+        <div class="col"></div>
+      </div>
+    </div>
+  </header>
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="mb-5" style="max-width: 100%;">
+          <%= render partial: "community_ideas/idea_card", locals: { idea: @community_idea, large: true } %>
+        </div>
+        <section>
+          <h3 class="h4 fw-bold text-success mb-4">
+            Comments
+          </h3>
+          <% if @comment.errors.any? %>
+            <div class="alert alert-danger mb-4">
+              <strong>Error:</strong>
+              <ul class="mb-0">
+                <% @comment.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <form action="<%= community_idea_comments_path(@community_idea) %>" method="post" class="mb-5">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <div class="mb-3">
+              <label for="comment_body" class="form-label">Add a comment</label>
+              <textarea id="comment_body" name="comment[body]" class="form-control" rows="3" placeholder="Add a comment... 😊 😍 🤔 😢 🎉"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Post Comment</button>
+          </form>
+          <% if @community_idea.comments.any? %>
+            <div class="list-group" style="max-height: 320px; overflow-y: auto;">
+              <% @community_idea.comments.order(created_at: :desc).each do |comment| %>
+                <div class="list-group-item d-flex align-items-start gap-3">
+                  <% if comment.user && comment.user.respond_to?(:avatar_url) && comment.user.avatar_url.present? %>
+                    <img src="<%= comment.user.avatar_url %>" alt="avatar" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                  <% else %>
+                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                      <%= comment.user&.email&.first&.upcase || 'U' %>
+                    </div>
+                  <% end %>
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <span class="fw-bold text-success"><%= comment.user&.email || 'Anonymous' %></span>
+                      <span class="text-muted small"><%= comment.created_at.strftime('%b %d, %Y %H:%M') %></span>
+                    </div>
+                    <div class="mb-0 text-muted">
+                      <%= comment.body&.html_safe %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="text-center py-4">
+              <p class="text-muted mb-0">No comments yet. Be the first to comment!</p>
+            </div>
+          <% end %>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>

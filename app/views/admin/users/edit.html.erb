@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-sm rounded-lg">
+      <div class="px-4 py-5 sm:p-6">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-2xl font-bold text-gray-900">Edit User</h1>
+          <%= link_to "Back to User", admin_user_path(@user), class: "bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700" %>
+        </div>
+        <%= form_with(model: @user, url: admin_user_path(@user), method: :patch, local: true) do |f| %>
+          <div class="space-y-6">
+            <div>
+              <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                <%= f.email_field :email, class: "block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm", required: true %>
+              </div>
+            </div>
+            <div>
+              <%= f.label :admin, class: "block text-sm font-medium text-gray-700" %>
+              <div class="mt-1">
+                <%= f.check_box :admin, class: "h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" %>
+                <span class="ml-2 text-sm text-gray-600">Administrator privileges</span>
+              </div>
+              <p class="mt-1 text-xs text-gray-500">
+                Admins have access to user management and platform administration features.
+              </p>
+            </div>
+            <div class="flex justify-end space-x-3">
+              <%= link_to "Cancel", admin_user_path(@user), class: "bg-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-400" %>
+              <%= f.submit "Update User", class: "bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

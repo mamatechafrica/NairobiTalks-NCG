@@ -1,3 +1,4 @@
+gem 'trix'
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -22,6 +23,8 @@ gem "dotenv-rails", groups: [:development, :test]
 gem 'devise'
 gem 'ruby-openai'
 gem 'pdf-reader'
+gem 'carrierwave', '~> 2.0'
+gem 'mimemagic', '~> 0.3.10'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
@@ -46,6 +49,12 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+# Add StimulusReflex for real-time interactivity
+# StimulusReflex is a Ruby gem for building reactive applications
+# https://docs.stimulusreflex.com
+gem "stimulus_reflex"
+gem "activerecord-session_store"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -63,6 +72,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem 'letter_opener'
+  gem 'letter_opener_web'
 end
 
 group :test do
@@ -70,3 +81,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "redis-session-store", "~> 0.11.5"
+gem "redis", "~> 5.0"
+gem "connection_pool", "~> 2.2"

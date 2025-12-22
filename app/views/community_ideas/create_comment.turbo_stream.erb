@@ -1,0 +1,9 @@
+<turbo-stream action="append" target="comments">
+  <template>
+    <li class="bg-[var(--color-muted)] rounded-lg p-4 hover-effect">
+      <p class="text-[var(--color-muted-foreground)] text-sm">
+        <%= @comment.body %>
+      </p>
+    </li>
+  </template>
+</turbo-stream>

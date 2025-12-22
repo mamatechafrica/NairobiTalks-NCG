@@ -1,52 +1,112 @@
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-    <h1 class="h3 mb-0">
-      <i class="bi bi-lightbulb text-warning me-2"></i>
-      Community Ideas
-    </h1>
-    <span class="badge bg-primary fs-6"><%= @community_ideas.size %> ideas</span>
+<div class="bg-light min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+  <h1 class="display-4 fw-bold mb-5 text-center px-4 text-success">
+    Explore Community Ideas
+  </h1>
+  <div class="container mb-4">
+    <%= form_with url: community_ideas_path, method: :get, local: true, class: "row g-2 align-items-end" do |f| %>
+      <div class="col-md-4">
+        <%= f.label :search, "Search", class: "form-label" %>
+        <%= f.text_field :search, value: params[:search], class: "form-control", placeholder: "Search ideas..." %>
+      </div>
+      <div class="col-md-2">
+        <%= f.label :topic, "Topic", class: "form-label" %>
+        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select" %>
+      </div>
+      <div class="col-md-2">
+        <%= f.label :ward, "Ward", class: "form-label" %>
+        <%= f.select :ward, options_for_select(["All"] + CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward), params[:ward]), {}, class: "form-select" %>
+      </div>
+      <div class="col-md-2">
+        <%= f.label :status, "Status", class: "form-label" %>
+        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select" %>
+      </div>
+      <div class="col-md-2">
+        <%= f.submit "Filter", class: "btn btn-success w-100" %>
+      </div>
+    <% end %>
   </div>
-  <% if @community_ideas.any? %>
-    <div class="row g-4">
-      <% @community_ideas.each do |idea| %>
-        <div class="col-lg-6 col-xl-4">
-          <div class="card h-100 shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title text-truncate mb-2"><%= idea.title %></h5>
-              <p class="card-text text-muted small mb-3 flex-grow-1"><%= truncate(idea.description, length: 120) %></p>
-              <div class="mb-3">
-                <span class="badge bg-light text-dark me-2">
-                  <i class="bi bi-geo-alt me-1"></i><%= idea.ward %>
-                </span>
-                <span class="badge bg-secondary">
-                  <i class="bi bi-tag me-1"></i><%= idea.topic %>
-                </span>
-              </div>
-              <div class="d-flex justify-content-between align-items-center mt-auto">
-                <div class="vote-buttons">
-                  <%= button_to upvote_community_idea_path(idea), method: :post, class: "btn btn-outline-success btn-sm me-2", title: "Upvote" do %>
-                    <i class="bi bi-hand-thumbs-up"></i> <%= idea.upvotes %>
-                  <% end %>
-                  <%= button_to downvote_community_idea_path(idea), method: :post, class: "btn btn-outline-danger btn-sm", title: "Downvote" do %>
-                    <i class="bi bi-hand-thumbs-down"></i> <%= idea.downvotes %>
-                  <% end %>
-                </div>
-                <small class="text-muted">
-                  <i class="bi bi-clock me-1"></i>
-                  <%= time_ago_in_words(idea.created_at) %> ago
-                </small>
-              </div>
+  <% if user_signed_in? %>
+    <div class="container py-4">
+      <% if @community_ideas.any? %>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <% @community_ideas.each do |idea| %>
+            <div class="col">
+              <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
             </div>
-          </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
+          <p class="h5">No ideas yet. Be the first to submit one!</p>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="text-center py-5">
-      <i class="bi bi-lightbulb text-warning" style="font-size: 4rem;"></i>
-      <h3 class="mt-3 text-muted">No ideas yet</h3>
-      <p class="text-muted">Be the first to submit a community idea!</p>
-      <%= link_to "Submit an Idea", new_submission_path, class: "btn btn-primary" %>
+    <div class="position-relative w-100" style="max-width: 28rem; height: 24rem;">
+      <% if @community_ideas.any? %>
+        <div id="swipe-stack" class="position-absolute top-0 start-0 end-0 bottom-0">
+          <% @community_ideas.reverse.each_with_index do |idea, index| %>
+            <div
+              data-controller="swipe-card"
+              data-swipe-card-id-value="<%= idea.id %>"
+              data-swipe-card-upvote-url-value="<%= upvote_community_idea_path(idea) %>"
+              data-swipe-card-downvote-url-value="<%= downvote_community_idea_path(idea) %>"
+              data-action="
+                touchstart->swipe-card#start
+              touchmove->swipe-card#move
+              touchend->swipe-card#end
+              keydown->swipe-card#handleKey
+              "
+              tabindex="0"
+              role="article"
+              aria-label="Community idea: <%= idea.title %>"
+              class="position-absolute top-0 start-0 end-0 bottom-0 bg-white rounded-4 shadow-lg border border-success"
+              style="z-index: <%= @community_ideas.size - index %>; border-width: 2px !important; opacity: 0.8;"
+              >
+              <div class="p-4 d-flex flex-column justify-content-between h-100">
+                <div>
+                  <h2 class="h4 fw-bold mb-3"><%= idea.title %></h2>
+                  <% if idea.ward.present? %>
+                    <p class="text-muted small mb-2">Ward: <%= idea.ward %></p>
+                  <% end %>
+                  <% if idea.topic.present? %>
+                    <span class="badge bg-primary text-white small px-3 py-1 mb-3">
+                      <%= idea.topic %>
+                    </span>
+                  <% end %>
+                  <p class="text-dark" style="line-height: 1.5;"><%= idea.description %></p>
+                </div>
+                <div class="mt-4 d-flex justify-content-center gap-4 text-muted small">
+                  <span>👍 <%= idea.upvotes %></span>
+                  <span>👎 <%= idea.downvotes %></span>
+                </div>
+                <%= link_to "View Details & Comment",
+                            community_idea_path(idea),
+                            class: "mt-4 btn btn-primary w-100 fw-medium",
+                            data: { turbo_frame: "_top" } %>
+              </div>
+              <!-- Overlay feedback -->
+              <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center opacity-0 transition-opacity pointer-events-none">
+                <div class="display-1 fw-bold text-success border border-success border-4 px-5 py-3 rounded-4" style="transform: rotate(12deg);">
+                  LIKE
+                </div>
+              </div>
+              <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center opacity-0 transition-opacity pointer-events-none">
+                <div class="display-1 fw-bold text-danger border border-danger border-4 px-5 py-3 rounded-4" style="transform: rotate(-12deg);">
+                  NOPE
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
+          <p class="h5">No ideas yet. Be the first to submit one!</p>
+        </div>
+      <% end %>
     </div>
+    <p class="mt-5 text-muted small text-center px-4">
+      ← → Arrow keys to vote • Tap card for details
+    </p>
   <% end %>
 </div>

@@ -1,4 +1,5 @@
-class CommunityIdea < ApplicationRecord
+	class CommunityIdea < ApplicationRecord
+		has_many :votes, dependent: :destroy
 	STATUSES = {
 		pending: "Pending review",
 		approved: "Approved",
@@ -24,6 +25,9 @@ class CommunityIdea < ApplicationRecord
 	before_validation :set_default_status, on: :create
 
 	validates :status, inclusion: { in: STATUSES.keys.map(&:to_s) }
+
+	belongs_to :user, optional: true
+	has_many :comments, dependent: :destroy
 
 	def net_score
 		upvotes.to_i - downvotes.to_i

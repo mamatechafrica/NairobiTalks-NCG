@@ -1,0 +1,7 @@
+/*
+ * This is the main application stylesheet manifest.
+ * Include all application-wide styles here.
+ */
+
+@import "application.tailwind.css";
+@import "admin.css";

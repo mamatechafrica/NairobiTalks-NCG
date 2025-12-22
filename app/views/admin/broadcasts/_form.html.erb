@@ -1,0 +1,7 @@
+<div class="form-group">
+  <%= f.label :delivery_method, "Delivery Method" %>
+  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "form-control" %>
+</div>
+<div class="form-group mt-4">
+  <%= f.submit "Update Broadcast", class: "btn btn-success btn-lg w-100", aria: { label: "Update Broadcast" } %>
+</div>

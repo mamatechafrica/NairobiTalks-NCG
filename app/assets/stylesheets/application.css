@@ -10,6 +10,7 @@
  */
 
 @import "admin.css";
+@import "application.tailwind.css";
 
 /* Nairobi Talks Color Scheme */
 :root {

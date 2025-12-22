@@ -1,0 +1,39 @@
+<div class="card h-100 shadow-sm border-success <%= 'p-4' if local_assigns[:large] %>" style="<%= 'max-width: 700px; margin: 0 auto;' if local_assigns[:large] %>">
+  <%# Image section %>
+  <% img_height = local_assigns[:large] ? '340px' : '200px' %>
+  <% if idea.respond_to?(:image_url) && idea.image_url.present? %>
+    <img src="<%= idea.image_url %>" alt="Idea image" class="card-img-top" style="height: <%= img_height %>; object-fit: cover;">
+  <% else %>
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80" alt="Placeholder image" class="card-img-top" style="height: <%= img_height %>; object-fit: cover;">
+  <% end %>
+  <div class="card-body d-flex flex-column">
+    <h3 class="card-title fw-bold text-success mb-2 <%= 'fs-2' if local_assigns[:large] %>"><%= idea.title %></h3>
+    <div class="mb-2">
+      <% if idea.ward.present? %>
+        <span class="badge bg-secondary me-1"><%= idea.ward %></span>
+      <% end %>
+      <% if idea.topic.present? %>
+        <span class="badge bg-primary"><%= idea.topic %></span>
+      <% end %>
+    </div>
+    <p class="card-text text-muted mb-3" style="min-height: 3em; font-size: <%= local_assigns[:large] ? '1.15rem' : '1rem' %>"><%= local_assigns[:large] ? idea.description : truncate(idea.description, length: 100) %></p>
+    <div class="d-flex justify-content-between align-items-center mt-auto">
+      <span class="text-muted small fs-5">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
+      <% if local_assigns[:large] %>
+        <div class="d-flex justify-content-center gap-5">
+          <%= button_to upvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-success btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes' do %>
+            <span aria-hidden="true">✔</span>
+            <span class="visually-hidden">Yes</span>
+          <% end %>
+          <%= button_to downvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-danger btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote No' do %>
+            <span aria-hidden="true">✖</span>
+            <span class="visually-hidden">No</span>
+          <% end %>
+        </div>
+      </div>
+    <% else %>
+      <%= link_to "Details", community_idea_path(idea), class: "btn btn-outline-success btn-sm" %>
+    <% end %>
+  </div>
+</div>
+</div>

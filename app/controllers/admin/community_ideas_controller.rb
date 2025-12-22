@@ -44,15 +44,19 @@ module Admin
     end
 
     def filter_params
-      params.permit(:status, :ward, :topic, :page)
+      params.permit(:status, :ward, :topic, :search, :page)
     end
 
     def filter_scope
-      CommunityIdea.all
-                   .with_status(@filters[:status])
-                   .with_ward(@filters[:ward])
-                   .with_topic(@filters[:topic])
-                   .order(created_at: :desc)
+      scope = CommunityIdea.all
+      scope = scope.with_status(@filters[:status])
+      scope = scope.with_ward(@filters[:ward])
+      scope = scope.with_topic(@filters[:topic])
+      if @filters[:search].present?
+        search_term = "%#{@filters[:search]}%"
+        scope = scope.where("title ILIKE :q OR description ILIKE :q", q: search_term)
+      end
+      scope.order(created_at: :desc)
     end
 
     def set_idea
