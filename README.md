@@ -1,5 +1,5 @@
 <p align="center">
-   <img width="180" height="130" alt="NairobiTalksLogo" src="https://github.com/user-attachments/assets/7fafa469-97fb-4709-9491-29f73c2b4a7a" />
+   <img src="app/assets/images/NairobiTalksLogo.png" alt="NairobiTalks Logo" width="180" height="130" />
 </p>
 
 # NairobiTalks
