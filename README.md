@@ -1,8 +1,8 @@
-<p align="center">
-   <img src="app/assets/images/NairobiTalksLogo.png" alt="NairobiTalks Logo" width="180" height="130" />
-</p>
-
 # NairobiTalks
+
+<p align="center">
+   <img width="180" height="130" alt="NairobiTalksLogo" src="https://github.com/user-attachments/assets/7fafa469-97fb-4709-9491-29f73c2b4a7a" />
+</p>
 
 A comprehensive Rails application for managing citizen submissions and community engagement in Nairobi, Kenya. This platform enables citizens to submit feedback, ideas, and concerns while providing administrators with powerful tools to manage, filter, and respond to submissions effectively.
 
