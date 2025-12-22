@@ -1,3 +1,5 @@
+![NairobiTalks Logo](app/assets/images/NairobiTalksLogo.png)
+
 # NairobiTalks
 
 A comprehensive Rails application for managing citizen submissions and community engagement in Nairobi, Kenya. This platform enables citizens to submit feedback, ideas, and concerns while providing administrators with powerful tools to manage, filter, and respond to submissions effectively.
