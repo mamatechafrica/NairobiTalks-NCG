@@ -1,4 +1,5 @@
 ![NairobiTalks Logo](app/assets/images/NairobiTalksLogo.png)
+<img width="868" height="626" alt="NairobiTalksLogo" src="https://github.com/user-attachments/assets/f5ad93da-66d9-49ac-888b-d5258fd1d936" />
 
 # NairobiTalks
 
