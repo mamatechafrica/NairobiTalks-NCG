@@ -1,27 +1,27 @@
 <div class="bg-light min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
-  <h1 class="display-4 fw-bold mb-5 text-center px-4 text-success">
+  <h1 class="display-4 fw-bold mb-5 text-center px-4" style="color: #004225; text-shadow: 0 2px 8px #fff, 0 1px 0 #004225;">
     Explore Community Ideas
   </h1>
   <div class="container mb-4">
-    <%= form_with url: community_ideas_path, method: :get, local: true, class: "row g-2 align-items-end" do |f| %>
-      <div class="col-md-4">
-        <%= f.label :search, "Search", class: "form-label" %>
-        <%= f.text_field :search, value: params[:search], class: "form-control", placeholder: "Search ideas..." %>
+    <%= form_with url: community_ideas_path, method: :get, local: true, class: "row gx-3 gy-2 align-items-end flex-nowrap flex-md-nowrap flex-lg-nowrap p-3 rounded shadow-sm", style: 'background: #fff; border: 2px solid #004225; flex-wrap: wrap;' do |f| %>
+      <div class="col-md-3 col-6">
+        <%= f.label :search, "Search", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.text_field :search, value: params[:search], class: "form-control border-success fw-bold", placeholder: "Search ideas...", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2">
-        <%= f.label :topic, "Topic", class: "form-label" %>
-        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select" %>
+      <div class="col-md-2 col-6">
+        <%= f.label :ward, "Ward", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.select :ward, options_for_select(["All"] + CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward), params[:ward]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2">
-        <%= f.label :ward, "Ward", class: "form-label" %>
-        <%= f.select :ward, options_for_select(["All"] + CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward), params[:ward]), {}, class: "form-select" %>
+      <div class="col-md-2 col-6">
+        <%= f.label :topic, "Topic", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2">
-        <%= f.label :status, "Status", class: "form-label" %>
-        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select" %>
+      <div class="col-md-2 col-6">
+        <%= f.label :status, "Status", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2">
-        <%= f.submit "Filter", class: "btn btn-success w-100" %>
+      <div class="col-md-2 col-12 d-flex align-items-end">
+        <%= f.submit "Search", class: "btn btn-lg fw-bold w-100", style: 'background: #004225; color: #fff; border-width: 2px; border-color: #004225;' %>
       </div>
     <% end %>
   </div>
@@ -42,60 +42,12 @@
       <% end %>
     </div>
   <% else %>
-    <div class="position-relative w-100" style="max-width: 28rem; height: 24rem;">
+    <div class="container py-4">
       <% if @community_ideas.any? %>
-        <div id="swipe-stack" class="position-absolute top-0 start-0 end-0 bottom-0">
-          <% @community_ideas.reverse.each_with_index do |idea, index| %>
-            <div
-              data-controller="swipe-card"
-              data-swipe-card-id-value="<%= idea.id %>"
-              data-swipe-card-upvote-url-value="<%= upvote_community_idea_path(idea) %>"
-              data-swipe-card-downvote-url-value="<%= downvote_community_idea_path(idea) %>"
-              data-action="
-                touchstart->swipe-card#start
-              touchmove->swipe-card#move
-              touchend->swipe-card#end
-              keydown->swipe-card#handleKey
-              "
-              tabindex="0"
-              role="article"
-              aria-label="Community idea: <%= idea.title %>"
-              class="position-absolute top-0 start-0 end-0 bottom-0 bg-white rounded-4 shadow-lg border border-success"
-              style="z-index: <%= @community_ideas.size - index %>; border-width: 2px !important; opacity: 0.8;"
-              >
-              <div class="p-4 d-flex flex-column justify-content-between h-100">
-                <div>
-                  <h2 class="h4 fw-bold mb-3"><%= idea.title %></h2>
-                  <% if idea.ward.present? %>
-                    <p class="text-muted small mb-2">Ward: <%= idea.ward %></p>
-                  <% end %>
-                  <% if idea.topic.present? %>
-                    <span class="badge bg-primary text-white small px-3 py-1 mb-3">
-                      <%= idea.topic %>
-                    </span>
-                  <% end %>
-                  <p class="text-dark" style="line-height: 1.5;"><%= idea.description %></p>
-                </div>
-                <div class="mt-4 d-flex justify-content-center gap-4 text-muted small">
-                  <span>👍 <%= idea.upvotes %></span>
-                  <span>👎 <%= idea.downvotes %></span>
-                </div>
-                <%= link_to "View Details & Comment",
-                            community_idea_path(idea),
-                            class: "mt-4 btn btn-primary w-100 fw-medium",
-                            data: { turbo_frame: "_top" } %>
-              </div>
-              <!-- Overlay feedback -->
-              <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center opacity-0 transition-opacity pointer-events-none">
-                <div class="display-1 fw-bold text-success border border-success border-4 px-5 py-3 rounded-4" style="transform: rotate(12deg);">
-                  LIKE
-                </div>
-              </div>
-              <div class="position-absolute top-0 start-0 end-0 bottom-0 d-flex align-items-center justify-content-center opacity-0 transition-opacity pointer-events-none">
-                <div class="display-1 fw-bold text-danger border border-danger border-4 px-5 py-3 rounded-4" style="transform: rotate(-12deg);">
-                  NOPE
-                </div>
-              </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+          <% @community_ideas.each do |idea| %>
+            <div class="col">
+              <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
             </div>
           <% end %>
         </div>
@@ -105,8 +57,5 @@
         </div>
       <% end %>
     </div>
-    <p class="mt-5 text-muted small text-center px-4">
-      ← → Arrow keys to vote • Tap card for details
-    </p>
   <% end %>
 </div>

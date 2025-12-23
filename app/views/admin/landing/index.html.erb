@@ -14,18 +14,18 @@
               <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body text-center p-5">
                   <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
-                    <i class="bi bi-house text-white fs-2"></i>
+                    <i class="bi bi-house text-white fs-2" aria-hidden="true"></i>
                   </div>
-                  <h3 class="card-title fw-bold mb-3">Community Platform</h3>
+                  <h2 class="card-title fw-bold mb-3">Community Platform</h2>
                   <p class="card-text text-muted mb-4">
                     Submit ideas, explore community proposals, and participate in shaping Nairobi's future. No registration required.
                   </p>
                   <div class="d-grid">
-                    <%= link_to "Enter Public App", community_ideas_path, class: "btn btn-success btn-lg" %>
+                    <%= link_to "Enter Public App", community_ideas_path, class: "btn btn-success btn-lg", aria: { label: "Enter Public App" } %>
                   </div>
                   <div class="mt-3">
                     <small class="text-muted">
-                      <i class="bi bi-unlock me-1"></i>
+                      <i class="bi bi-unlock me-1" aria-hidden="true"></i>
                       Public access • No login required
                     </small>
                   </div>
@@ -37,18 +37,18 @@
               <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body text-center p-5">
                   <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 80px; height: 80px;">
-                    <i class="bi bi-shield-lock text-white fs-2"></i>
+                    <i class="bi bi-shield-lock text-white fs-2" aria-hidden="true"></i>
                   </div>
-                  <h3 class="card-title fw-bold mb-3">Admin Panel</h3>
+                  <h2 class="card-title fw-bold mb-3">Admin Panel</h2>
                   <p class="card-text text-muted mb-4">
                     Manage submissions, moderate content, and oversee the platform. Administrative access required.
                   </p>
                   <div class="d-grid">
-                    <%= link_to "Admin Login", new_user_session_path, class: "btn btn-primary btn-lg" %>
+                    <%= link_to "Admin Login", new_user_session_path, class: "btn btn-primary btn-lg", aria: { label: "Admin Login" } %>
                   </div>
                   <div class="mt-3">
                     <small class="text-muted">
-                      <i class="bi bi-lock me-1"></i>
+                      <i class="bi bi-lock me-1" aria-hidden="true"></i>
                       Admin access • Login required
                     </small>
                   </div>

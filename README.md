@@ -1,3 +1,12 @@
+## ♿ Non-Discrimination & Accessibility
+
+NairobiTalks is committed to providing an inclusive and accessible platform for all users.
+
+- We do not discriminate on the basis of race, ethnicity, gender, age, religion, disability, sexual orientation, or any other protected characteristic.
+- The platform is designed to meet accessibility standards (WCAG 2.1) and is regularly tested for usability by people of diverse backgrounds and abilities.
+- We welcome feedback to further improve accessibility and inclusivity.
+
+
 <p align="center">
    <img width="180" height="130" alt="NairobiTalksLogo" src="https://github.com/user-attachments/assets/7fafa469-97fb-4709-9491-29f73c2b4a7a" />
 </p>
@@ -5,6 +14,28 @@
 # NairobiTalks
 
 A comprehensive Rails application for managing citizen submissions and community engagement in Nairobi, Kenya. This platform enables citizens to submit feedback, ideas, and concerns while providing administrators with powerful tools to manage, filter, and respond to submissions effectively.
+
+## 🌍 SDG Relevance
+
+NairobiTalks directly supports the following United Nations Sustainable Development Goals (SDGs):
+
+- **SDG 16: Peace, Justice and Strong Institutions** — By enabling transparent citizen engagement, participatory governance, and accountability in local government.
+- **SDG 11: Sustainable Cities and Communities** — By empowering residents to contribute ideas and feedback for more inclusive, safe, resilient, and sustainable urban development.
+
+
+## 📐 Standards & Best Practices
+
+NairobiTalks adheres to the following standards and best practices:
+
+- **Accessibility:** Follows WCAG 2.1 guidelines for accessible web content and inclusive participation.
+- **Interoperability:** Uses open standards (RESTful APIs, JSON) for data exchange and integration.
+- **Security:** Implements secure authentication, encrypted data storage, and regular vulnerability checks.
+- **Data Protection:** Complies with data minimization and user privacy principles.
+- **Open Source:** Licensed under MIT, with transparent governance and contribution processes.
+- **User-Centered Design:** Prioritizes usability, mobile responsiveness, and clear communication.
+- **UI Consistency:** All dashboard cards now use a unified max-width and centered layout for improved readability and accessibility.
+- **Bootstrap 5 Best Practices:** Views have been refactored to follow Bootstrap 5 conventions, with improved color contrast and ARIA labeling.
+- **No Duplicate Content:** Dashboard sections are streamlined to avoid repetition and enhance user experience.
 
 ## 🌟 Features
 
@@ -51,7 +82,7 @@ A comprehensive Rails application for managing citizen submissions and community
 - Node.js and Yarn
 - PostgreSQL (for production)
 
-### Installation
+### Installation & Setup
 
 1. **Clone the repository**
 
@@ -88,15 +119,24 @@ A comprehensive Rails application for managing citizen submissions and community
    rails server
    ```
 
-Visit `http://localhost:3000` to access the application.
+Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
-## 📁 Project Structure
+## 🗂️ Project Structure & Architecture
 
-This application is organized into three main modules:
+The application is organized into three main modules:
 
-- **Admin Module** (`admin` branch): Administrative interface for managing submissions
-- **Public Module** (`main` branch): Public-facing citizen submission forms
+- **Admin Module** (`admin` branch): Administrative interface for managing submissions, users, and broadcasts
+- **Public Module** (`main` branch): Public-facing citizen submission forms and engagement
 - **API Module** (`api` branch): RESTful API for external integrations
+
+Key directories:
+
+- `app/controllers/` — Rails controllers for business logic
+- `app/models/` — Data models and associations
+- `app/views/` — User interface templates
+- `app/assets/` — Stylesheets, images, and JavaScript
+- `config/` — Application configuration and routes
+- `db/` — Database schema and seeds
 
 ## 🔧 Development
 
@@ -122,15 +162,22 @@ rails db:rollback
 
 ## 🤝 Contributing
 
+We welcome contributions from everyone! To contribute:
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
+Please read our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) and [GOVERNANCE.md](GOVERNANCE.md) before contributing.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## © Ownership & Copyright
+
+Copyright (c) 2025 Nairobi County Government & Contributors.
+All rights reserved. This project is open source under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 📄 License
 
 ## 🙏 Acknowledgments
 

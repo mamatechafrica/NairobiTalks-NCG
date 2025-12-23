@@ -1,9 +1,9 @@
 <div class="container-fluid py-4" style="background-color: var(--nairobi-talks-mint); min-height: 100vh;">
   <div class="row">
     <div class="col-12">
-      <h2 class="text-center mb-2" style="color: var(--nairobi-talks-dark);">
-        📢 Broadcast Center
-      </h2>
+      <h1 class="text-center mb-2" style="color: var(--nairobi-talks-dark);">
+        <span aria-hidden="true">📢</span> Broadcast Center
+      </h1>
       <p class="text-center text-muted mb-4">
         Use this center to share public notices about idea submissions, participation sessions, and document reviews.
       </p>
@@ -11,7 +11,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-12">
-      <%= link_to 'New Broadcast', new_admin_broadcast_path, class: 'btn btn-primary mb-3' %>
+      <%= link_to 'New Broadcast', new_admin_broadcast_path, class: 'btn btn-primary mb-3', aria: { label: 'Create New Broadcast' } %>
     </div>
   </div>
   <div class="row g-4">
@@ -19,10 +19,10 @@
       <div class="col-lg-6 col-xl-4">
         <div class="card h-100 shadow-sm">
           <div class="card-body">
-            <h5 class="card-title fw-bold mb-3" style="color: var(--nairobi-talks-dark);">
+            <h2 class="card-title fw-bold mb-3" style="color: var(--nairobi-talks-dark);">
               <%= broadcast.title %>
-            </h5>
-            <%= image_tag broadcast.image.url, class: 'img-fluid mb-3' if broadcast.image.present? %>
+            </h2>
+            <%= image_tag broadcast.image.url, class: 'img-fluid mb-3', alt: broadcast.title if broadcast.image.present? %>
             <p class="card-text text-muted mb-3">
               <%= broadcast.message.truncate(100) %>
             </p>
@@ -42,9 +42,9 @@
             </div>
           </div>
           <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-            <%= link_to 'Preview', admin_broadcast_path(broadcast), class: 'btn btn-outline-primary btn-sm' %>
-            <%= link_to 'Edit', edit_admin_broadcast_path(broadcast), class: 'btn btn-outline-secondary btn-sm' %>
-            <%= link_to 'Archive', admin_broadcast_path(broadcast), method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, class: 'btn btn-outline-danger btn-sm' %>
+            <%= link_to 'Preview', admin_broadcast_path(broadcast), class: 'btn btn-outline-primary btn-sm', aria: { label: "Preview Broadcast: #{broadcast.title}" } %>
+            <%= link_to 'Edit', edit_admin_broadcast_path(broadcast), class: 'btn btn-outline-secondary btn-sm', aria: { label: "Edit Broadcast: #{broadcast.title}" } %>
+            <%= link_to 'Archive', admin_broadcast_path(broadcast), method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, class: 'btn btn-outline-danger btn-sm', aria: { label: "Archive Broadcast: #{broadcast.title}" } %>
           </div>
         </div>
       </div>

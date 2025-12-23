@@ -1,33 +1,33 @@
 <div class="container-fluid py-4">
   <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-3">
     <div>
-      <h1 class="h4 mb-1">Community Ideas overview</h1>
+      <h1 class="mb-1">Community Ideas Overview</h1>
       <p class="text-muted mb-0">Review and manage all submitted ideas, filter by ward/topic/status, and take action without leaving the admin console.</p>
     </div>
     <div>
       <span class="badge bg-primary">Total ideas: <%= @total_count %></span>
     </div>
   </div>
-  <%= form_with url: admin_community_ideas_path, method: :get, local: false, data: { turbo_frame: "admin-community-ideas-table" }, class: "row gy-3 gx-3 align-items-end" do |form| %>
+  <%= form_with url: admin_community_ideas_path, method: :get, local: false, data: { turbo_frame: "admin-community-ideas-table" }, class: "row gy-3 gx-3 align-items-end", aria: { label: "Filter Community Ideas" } do |form| %>
     <div class="col-md-3">
-      <%= form.label :status, "Status", class: "form-label" %>
-      <%= form.select :status, options_for_select([["All", ""]] + @statuses.map { |key, label| [label, key.to_s] }, @filters[:status]), { }, class: "form-select" %>
+      <%= form.label :status, "Status", class: "form-label", aria: { label: "Status Filter" } %>
+      <%= form.select :status, options_for_select([["All", ""]] + @statuses.map { |key, label| [label, key.to_s] }, @filters[:status]), { }, class: "form-select", aria: { label: "Status" } %>
     </div>
     <div class="col-md-3">
-      <%= form.label :ward, "Ward", class: "form-label" %>
-      <%= form.select :ward, options_for_select([["All", ""]] + @wards.map { |ward| [ward, ward] }, @filters[:ward]), { }, class: "form-select" %>
+      <%= form.label :ward, "Ward", class: "form-label", aria: { label: "Ward Filter" } %>
+      <%= form.select :ward, options_for_select([["All", ""]] + @wards.map { |ward| [ward, ward] }, @filters[:ward]), { }, class: "form-select", aria: { label: "Ward" } %>
     </div>
     <div class="col-md-3">
-      <%= form.label :topic, "Topic", class: "form-label" %>
-      <%= form.select :topic, options_for_select([["All", ""]] + @topics.map { |topic| [topic, topic] }, @filters[:topic]), { }, class: "form-select" %>
+      <%= form.label :topic, "Topic", class: "form-label", aria: { label: "Topic Filter" } %>
+      <%= form.select :topic, options_for_select([["All", ""]] + @topics.map { |topic| [topic, topic] }, @filters[:topic]), { }, class: "form-select", aria: { label: "Topic" } %>
     </div>
     <div class="col-md-3">
-      <%= form.label :search, "Search", class: "form-label" %>
-      <%= form.text_field :search, value: @filters[:search], class: "form-control", placeholder: "Search title or description..." %>
+      <%= form.label :search, "Search", class: "form-label", aria: { label: "Search Filter" } %>
+      <%= form.text_field :search, value: @filters[:search], class: "form-control", placeholder: "Search title or description...", aria: { label: "Search" } %>
     </div>
     <div class="col-md-3 d-flex gap-2">
-      <%= form.submit "Apply filters", class: "btn btn-primary w-100" %>
-      <%= link_to "Reset", admin_community_ideas_path, class: "btn btn-outline-secondary w-100" %>
+      <%= form.submit "Apply filters", class: "btn btn-primary w-100", aria: { label: "Apply Filters" } %>
+      <%= link_to "Reset", admin_community_ideas_path, class: "btn btn-outline-secondary w-100", aria: { label: "Reset Filters" } %>
     </div>
   <% end %>
   <turbo-frame id="admin-community-ideas-table">
@@ -36,17 +36,17 @@
         <table class="table table-striped table-hover align-middle mb-0">
           <thead class="table-light">
             <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Topic</th>
-              <th>Ward</th>
-              <th>Upvotes</th>
-              <th>Downvotes</th>
-              <th>Net score</th>
-              <th>Status</th>
-              <th>Created at</th>
-              <th>Actions</th>
+              <th scope="col">ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Topic</th>
+              <th scope="col">Ward</th>
+              <th scope="col">Upvotes</th>
+              <th scope="col">Downvotes</th>
+              <th scope="col">Net score</th>
+              <th scope="col">Status</th>
+              <th scope="col">Created at</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
