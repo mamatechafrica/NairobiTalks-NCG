@@ -1,21 +1,21 @@
 <div class="admin-planning-documents">
   <div class="page-header">
-    <h1><i class="bi bi-file-earmark-text me-2"></i> Planning Documents Management</h1>
+    <h1><i class="bi bi-file-earmark-text me-2" aria-hidden="true"></i> Planning Documents Management</h1>
     <p>Manage CIDP and ADP documents for Nairobi County</p>
     <div class="actions">
-      <%= link_to '<i class="bi bi-upload me-2"></i> Upload New Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary" %>
+      <%= link_to '<i class="bi bi-upload me-2" aria-hidden="true"></i> Upload New Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary", aria: { label: "Upload New Document" } %>
     </div>
   </div>
   <div class="documents-table-container">
     <table class="documents-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Type</th>
-          <th>Status</th>
-          <th>Year Range</th>
-          <th>Created</th>
-          <th>Actions</th>
+          <th scope="col">Title</th>
+          <th scope="col">Type</th>
+          <th scope="col">Status</th>
+          <th scope="col">Year Range</th>
+          <th scope="col">Created</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -36,15 +36,15 @@
             <td><%= doc.created_at.strftime("%b %d, %Y") %></td>
             <td class="text-nowrap">
               <%= link_to admin_planning_document_path(doc), class: "btn btn-sm btn-outline-primary me-1", aria: { label: "View Document" } do %>
-                <i class="bi bi-eye"></i>
+                <i class="bi bi-eye" aria-hidden="true"></i>
                 View
               <% end %>
               <%= link_to edit_admin_planning_document_path(doc), class: "btn btn-sm btn-outline-warning me-1", aria: { label: "Edit Document" } do %>
-                <i class="bi bi-pencil"></i>
+                <i class="bi bi-pencil" aria-hidden="true"></i>
                 Edit
               <% end %>
               <%= link_to admin_planning_document_path(doc), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", aria: { label: "Delete Document" } do %>
-                <i class="bi bi-trash"></i>
+                <i class="bi bi-trash" aria-hidden="true"></i>
                 Delete
               <% end %>
             </td>
@@ -55,10 +55,10 @@
   </div>
   <% if @planning_documents.empty? %>
     <div class="empty-state">
-      <i class="fas fa-file-alt"></i>
+      <i class="fas fa-file-alt" aria-hidden="true"></i>
       <h3>No planning documents yet</h3>
       <p>Get started by uploading your first CIDP or ADP document.</p>
-      <%= link_to '<i class="fas fa-upload"></i> Upload First Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary" %>
+      <%= link_to '<i class="fas fa-upload" aria-hidden="true"></i> Upload First Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary", aria: { label: "Upload First Document" } %>
     </div>
   <% end %>
 </div>

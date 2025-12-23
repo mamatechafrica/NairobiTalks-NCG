@@ -1,7 +1,9 @@
-<div class="form-group">
-  <%= f.label :delivery_method, "Delivery Method" %>
-  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "form-control" %>
-</div>
+<fieldset class="form-group" aria-labelledby="delivery-method-legend">
+  <legend id="delivery-method-legend" class="sr-only">Broadcast Delivery Method</legend>
+  <%= f.label :delivery_method, "Delivery Method", class: "form-label" %>
+  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "form-control", aria: { describedby: 'delivery-method-desc' } %>
+  <span id="delivery-method-desc" class="form-text">Choose how this broadcast will be delivered.</span>
+</fieldset>
 <div class="form-group mt-4">
-  <%= f.submit "Update Broadcast", class: "btn btn-success btn-lg w-100", aria: { label: "Update Broadcast" } %>
+  <%= f.submit "Update Broadcast", class: "btn btn-success btn-lg w-100", aria: { label: "Update broadcast details" } %>
 </div>

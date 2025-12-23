@@ -6,5 +6,3 @@ class IdeasExplorerController < ApplicationController
     @ideas = @ideas.where(topic: params[:topic]) if params[:topic].present?
     @ideas = @ideas.order(created_at: :desc) if params[:sort] == "recent"
     @ideas = @ideas.order(votes_count: :desc) if params[:sort] == "popular"
-  end
-end

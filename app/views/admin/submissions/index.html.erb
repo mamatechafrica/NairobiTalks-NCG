@@ -1,16 +1,16 @@
 <div class="admin-submissions">
   <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
     <div>
-      <h1 class="h3 mb-1"><i class="bi bi-people-fill me-2"></i>Citizen Submissions</h1>
+      <h1 class="h3 mb-1"><i class="bi bi-people-fill me-2" aria-hidden="true"></i>Citizen Submissions</h1>
       <p class="text-muted mb-0">Monitor all ideas, add feedback, and track administrator decisions in one place.</p>
     </div>
     <div class="btn-group" role="group" aria-label="Submission view toggle">
-      <%= link_to admin_submissions_path(view: "table"), class: "btn btn-outline-primary #{'active' if @view_mode == 'table'}" do %>
-        <i class="bi bi-list"></i>
+      <%= link_to admin_submissions_path(view: "table"), class: "btn btn-outline-primary #{'active' if @view_mode == 'table'}", aria: { label: "Show submissions as table" } do %>
+        <i class="bi bi-list" aria-hidden="true"></i>
         <span class="ms-1">Table</span>
       <% end %>
-      <%= link_to admin_submissions_path(view: "grid"), class: "btn btn-outline-primary #{'active' if @view_mode == 'grid'}" do %>
-        <i class="bi bi-grid-3x3-gap"></i>
+      <%= link_to admin_submissions_path(view: "grid"), class: "btn btn-outline-primary #{'active' if @view_mode == 'grid'}", aria: { label: "Show submissions as grid" } do %>
+        <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i>
         <span class="ms-1">Grid</span>
       <% end %>
     </div>
@@ -26,27 +26,27 @@
         <div class="d-flex flex-wrap gap-2 align-items-center">
           <span class="fw-semibold text-muted me-2">Filter by:</span>
           <%= link_to admin_submissions_path(view: "table", filter: "all"), 
-                class: "btn btn-sm #{'btn-primary' if @filter == 'all' || @filter.nil?} #{'btn-outline-primary' unless @filter == 'all' || @filter.nil?}" do %>
+                class: "btn btn-sm #{'btn-primary' if @filter == 'all' || @filter.nil?} #{'btn-outline-primary' unless @filter == 'all' || @filter.nil?}", aria: { label: "Show all submissions" } do %>
             All (<%= @submissions.count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "flagged"), 
-                class: "btn btn-sm #{'btn-warning' if @filter == 'flagged'} #{'btn-outline-warning' unless @filter == 'flagged'}" do %>
-            <i class="bi bi-flag-fill me-1"></i>Flagged (<%= @submissions.where(flagged: true).count %>)
+                class: "btn btn-sm #{'btn-warning' if @filter == 'flagged'} #{'btn-outline-warning' unless @filter == 'flagged'}", aria: { label: "Show flagged submissions" } do %>
+            <i class="bi bi-flag-fill me-1" aria-hidden="true"></i>Flagged (<%= @submissions.where(flagged: true).count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "approved"), 
-                class: "btn btn-sm #{'btn-success' if @filter == 'approved'} #{'btn-outline-success' unless @filter == 'approved'}" do %>
+                class: "btn btn-sm #{'btn-success' if @filter == 'approved'} #{'btn-outline-success' unless @filter == 'approved'}", aria: { label: "Show approved submissions" } do %>
             Approved (<%= @submissions.where(status: 'approved').count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "rejected"), 
-                class: "btn btn-sm #{'btn-danger' if @filter == 'rejected'} #{'btn-outline-danger' unless @filter == 'rejected'}" do %>
+                class: "btn btn-sm #{'btn-danger' if @filter == 'rejected'} #{'btn-outline-danger' unless @filter == 'rejected'}", aria: { label: "Show rejected submissions" } do %>
             Rejected (<%= @submissions.where(status: 'rejected').count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "under_review"), 
-                class: "btn btn-sm #{'btn-info' if @filter == 'under_review'} #{'btn-outline-info' unless @filter == 'under_review'}" do %>
+                class: "btn btn-sm #{'btn-info' if @filter == 'under_review'} #{'btn-outline-info' unless @filter == 'under_review'}", aria: { label: "Show submissions under review" } do %>
             Under Review (<%= @submissions.where(status: 'under_review').count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "submitted"), 
-                class: "btn btn-sm #{'btn-secondary' if @filter == 'submitted'} #{'btn-outline-secondary' unless @filter == 'submitted'}" do %>
+                class: "btn btn-sm #{'btn-secondary' if @filter == 'submitted'} #{'btn-outline-secondary' unless @filter == 'submitted'}", aria: { label: "Show submitted submissions" } do %>
             Submitted (<%= @submissions.where(status: 'submitted').count %>)
           <% end %>
         </div>

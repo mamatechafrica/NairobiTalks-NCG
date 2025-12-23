@@ -13,7 +13,7 @@
     </div>
   </div>
   <div class="mt-4">
-    <%= link_to 'Back to Broadcasts', admin_broadcasts_path, class: 'btn btn-secondary' %>
-    <%= link_to 'Edit Broadcast', edit_admin_broadcast_path(@broadcast), class: 'btn btn-primary' %>
+    <%= link_to 'Back to Broadcasts', admin_broadcasts_path, class: 'btn btn-secondary', aria: { label: 'Back to broadcasts list' } %>
+    <%= link_to 'Edit Broadcast', edit_admin_broadcast_path(@broadcast), class: 'btn btn-primary', aria: { label: 'Edit this broadcast' } %>
   </div>
 </div>

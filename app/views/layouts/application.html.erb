@@ -21,10 +21,11 @@
     <!-- Bootstrap JS will be included at the end of body -->
   </head>
   <body class="bg-light">
-    <header class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top" role="navigation" aria-label="Main navigation" style="background-color: #004225 !important;">
       <div class="container-fluid">
         <%= link_to root_path, class: "navbar-brand d-flex align-items-center" do %>
-          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'me-2', style: 'width: 100px; height: 100px; object-fit: contain;' %>
+          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'me-2', style: 'width: 100px; height: 100px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
         <% end %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -32,10 +33,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <%= link_to "Community Ideas", community_ideas_path, class: "nav-link" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Ideas Explorer", ideas_explorer_path, class: "nav-link" %>
+              <%= link_to "Community Ideas", community_ideas_path, class: "nav-link fw-bold", style: 'color: #fff !important;' %>
             </li>
             <% if user_signed_in? %>
               <li class="nav-item">
@@ -44,7 +42,7 @@
             <% end %>
             <% if user_signed_in? && current_user.admin? %>
               <li class="nav-item">
-                <%= link_to "Admin", admin_root_path, class: "nav-link text-danger fw-bold" %>
+                <%= link_to "Admin", admin_root_path, class: "nav-link fw-bold", style: 'color: #ff3333 !important; text-shadow: 0 1px 2px #0002;' %>
               </li>
             <% end %>
           </ul>
@@ -52,15 +50,15 @@
             <% if user_signed_in? %>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px; font-size: 1.2rem;">
+                  <div class="rounded-circle" style="background-color: #004225; color: #fff; width: 40px; height: 40px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">
                     <%= current_user.email.first.upcase %>
                   </div>
-                  <span class="d-none d-md-inline fw-semibold"><%= current_user.email %></span>
+                  <span class="d-none d-md-inline fw-semibold" style="color: #fff;"><%= current_user.email %></span>
                   <% if current_user.admin? %>
                     <span class="badge bg-danger ms-1">Admin</span>
                   <% end %>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="navbarDropdown">
+                <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="navbarDropdown" style="color: #fff;">
                   <li><%= link_to "My Profile", profile_path, class: "dropdown-item" %></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger" %></li>
@@ -68,59 +66,59 @@
               </li>
             <% else %>
               <li class="nav-item">
-                <%= link_to "Sign In", new_user_session_path, class: "nav-link" %>
+                <%= link_to "Sign In", new_user_session_path, class: "nav-link fw-bold", style: 'color: #fff !important;' %>
               </li>
               <li class="nav-item">
-                <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success ms-2" %>
+                <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-light ms-2 fw-bold", style: 'color: #004225 !important;' %>
               </li>
             <% end %>
           </ul>
         </div>
       </div>
-    </header>
-    <main class="container-fluid mt-5 pt-4">
+    </nav>
+    <div style="height: 110px;"></div>
+    <main id="main-content" class="container-fluid mt-5 pt-4" tabindex="-1">
       <%= yield %>
     </main>
-    <footer class="bg-white border-top py-5 mt-5">
+    <footer class="border-top py-5 mt-5" style="background-color: #004225 !important; color: #fff;">
       <div class="container">
         <div class="row">
           <div class="col-md-4 mb-4">
             <div class="d-flex align-items-center mb-3">
               <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'me-2', style: 'width: 100px; height: 100px; object-fit: contain;' %>
             </div>
-            <p class="text-muted small">
+            <p class="small" style="color: #e0e0e0;">
               Empowering citizens to shape their community through anonymous idea submission and democratic voting.
             </p>
           </div>
           <div class="col-md-4 mb-4">
-            <h5 class="fw-bold mb-3">Quick Links</h5>
+            <h5 class="fw-bold mb-3" style="color: #fff;">Quick Links</h5>
             <ul class="list-unstyled">
-              <li class="mb-2"><%= link_to "Discover Ideas", community_ideas_path, class: "text-decoration-none text-muted" %></li>
-              <li class="mb-2"><%= link_to "Explore All", ideas_explorer_path, class: "text-decoration-none text-muted" %></li>
-              <li class="mb-2"><%= link_to "Submit Idea", new_submission_path, class: "text-decoration-none text-muted" %></li>
+              <li class="mb-2"><%= link_to "Discover Ideas", community_ideas_path, class: "text-decoration-none", style: 'color: #fff !important;' %></li>
+              <li class="mb-2"><%= link_to "Submit Idea", new_submission_path, class: "text-decoration-none", style: 'color: #fff !important;' %></li>
               <% if user_signed_in? %>
-                <li class="mb-2"><%= link_to "Your Profile", edit_user_registration_path, class: "text-decoration-none text-muted" %></li>
+                <li class="mb-2"><%= link_to "Your Profile", edit_user_registration_path, class: "text-decoration-none", style: 'color: #fff !important;' %></li>
               <% end %>
             </ul>
           </div>
           <div class="col-md-4 mb-4">
-            <h5 class="fw-bold mb-3">Community</h5>
+            <h5 class="fw-bold mb-3" style="color: #fff;">Community</h5>
             <div class="d-flex gap-3">
-              <button class="btn btn-outline-secondary btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                T
+              <button class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; color: #004225; background: #fff; border: 2px solid #fff;" aria-label="Twitter">
+                <span aria-hidden="true">T</span>
               </button>
-              <button class="btn btn-outline-secondary btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                F
+              <button class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; color: #004225; background: #fff; border: 2px solid #fff;" aria-label="Facebook">
+                <span aria-hidden="true">F</span>
               </button>
-              <button class="btn btn-outline-secondary btn-sm rounded-circle" style="width: 40px; height: 40px;">
-                I
+              <button class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; color: #004225; background: #fff; border: 2px solid #fff;" aria-label="Instagram">
+                <span aria-hidden="true">I</span>
               </button>
             </div>
           </div>
         </div>
         <hr class="my-4">
-        <div class="text-center text-muted small">
-          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', style: 'width: 84px; height: 84px; object-fit: contain;' %>
+        <div class="text-center small" style="color: #e0e0e0;">
+          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', style: 'width: 84px; height: 84px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
           <p class="mt-2">&copy; 2025. Powered by citizens like you.</p>
         </div>
       </div>

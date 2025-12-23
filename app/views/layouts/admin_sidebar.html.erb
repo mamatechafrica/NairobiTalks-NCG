@@ -19,7 +19,7 @@
     <!-- Admin Layout Wrapper -->
     <div class="admin-layout d-flex" style="min-height: 100vh;">
       <!-- Fixed Sidebar -->
-      <nav class="sidebar d-flex flex-column" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000;" aria-label="Admin Navigation">
+      <nav class="sidebar d-flex flex-column" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000;" aria-label="Admin Navigation" role="navigation">
         <!-- Top Section: Logo (Fixed) -->
         <div class="flex-shrink-0">
           <div class="text-center py-4 px-3">
@@ -31,30 +31,30 @@
         </div>
         <!-- Middle Section: Navigation (Scrollable) -->
         <div class="flex-grow-1 overflow-auto px-3">
-          <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-speedometer2 me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Dashboard</span>'.html_safe, admin_root_path, class: "nav-link", aria_current: current_page?(admin_root_path) ? 'page' : nil %>
+          <ul class="nav flex-column" role="menubar">
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-speedometer2 me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Dashboard</span>'.html_safe, admin_root_path, class: "nav-link", aria_current: current_page?(admin_root_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-eye me-2" aria-hidden="true"></i><span class="d-none d-md-inline">App Preview</span>'.html_safe, admin_app_preview_path, class: "nav-link", aria_current: current_page?(admin_app_preview_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-eye me-2" aria-hidden="true"></i><span class="d-none d-md-inline">App Preview</span>'.html_safe, admin_app_preview_path, class: "nav-link", aria_current: current_page?(admin_app_preview_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-file-earmark-text me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Documents</span>'.html_safe, admin_planning_documents_path, class: "nav-link", aria_current: current_page?(admin_planning_documents_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-file-earmark-text me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Documents</span>'.html_safe, admin_planning_documents_path, class: "nav-link", aria_current: current_page?(admin_planning_documents_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-upload me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Upload</span>'.html_safe, new_admin_planning_document_path, class: "nav-link", aria_current: current_page?(new_admin_planning_document_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-upload me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Upload</span>'.html_safe, new_admin_planning_document_path, class: "nav-link", aria_current: current_page?(new_admin_planning_document_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-people me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_community_ideas_path, class: "nav-link", aria_current: current_page?(admin_community_ideas_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-people me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_community_ideas_path, class: "nav-link", aria_current: current_page?(admin_community_ideas_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-graph-up me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Analytics</span>'.html_safe, admin_analytics_path, class: "nav-link", aria_current: current_page?(admin_analytics_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-graph-up me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Analytics</span>'.html_safe, admin_analytics_path, class: "nav-link", aria_current: current_page?(admin_analytics_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-megaphone me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Broadcasts</span>'.html_safe, admin_broadcasts_path, class: "nav-link", aria_current: current_page?(admin_broadcasts_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-megaphone me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Broadcasts</span>'.html_safe, admin_broadcasts_path, class: "nav-link", aria_current: current_page?(admin_broadcasts_path) ? 'page' : nil, role: "menuitem" %>
             </li>
-            <li class="nav-item mb-2">
-              <%= link_to '<i class="bi bi-calendar-event me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Forum</span>'.html_safe, admin_forum_path, class: "nav-link", aria_current: current_page?(admin_forum_path) ? 'page' : nil %>
+            <li class="nav-item mb-2" role="none">
+              <%= link_to '<i class="bi bi-calendar-event me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Forum</span>'.html_safe, admin_forum_path, class: "nav-link", aria_current: current_page?(admin_forum_path) ? 'page' : nil, role: "menuitem" %>
             </li>
           </ul>
         </div>

@@ -15,13 +15,13 @@
             <!-- Bootstrap Nav Tabs -->
             <ul class="nav nav-tabs mb-4" id="submissionTabs" role="tablist">
               <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Info</button>
+                <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true" tabindex="0" aria-label="Information Tab">Info</button>
               </li>
               <li class="nav-item" role="presentation">
-                <button class="nav-link" id="form-tab" data-bs-toggle="tab" data-bs-target="#form" type="button" role="tab" aria-controls="form" aria-selected="false">Submit Idea</button>
+                <button class="nav-link" id="form-tab" data-bs-toggle="tab" data-bs-target="#form" type="button" role="tab" aria-controls="form" aria-selected="false" tabindex="0" aria-label="Submit Idea Tab">Submit Idea</button>
               </li>
               <li class="nav-item" role="presentation">
-                <button class="nav-link" id="ideas-tab" data-bs-toggle="tab" data-bs-target="#ideas" type="button" role="tab" aria-controls="ideas" aria-selected="false">Vote Ideas</button>
+                <button class="nav-link" id="ideas-tab" data-bs-toggle="tab" data-bs-target="#ideas" type="button" role="tab" aria-controls="ideas" aria-selected="false" tabindex="0" aria-label="Vote Ideas Tab">Vote Ideas</button>
               </li>
             </ul>
             <div class="tab-content" id="submissionTabsContent">
@@ -42,7 +42,7 @@
                 <form action="<%= submissions_path %>" method="post" class="needs-validation mt-3" novalidate>
                   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
                   <% if @submission.errors.any? %>
-                    <div class="alert alert-danger mb-4">
+                    <div class="alert alert-danger mb-4" role="alert" aria-live="assertive">
                       <h5 class="alert-heading fw-bold">Please fix the following errors:</h5>
                       <ul class="mb-0">
                         <% @submission.errors.full_messages.each do |msg| %>
@@ -54,7 +54,7 @@
                   <!-- Title Field -->
                   <div class="mb-4">
                     <label for="submission_title" class="form-label fw-semibold">Idea Title</label>
-                    <input type="text" name="submission[title]" id="submission_title" class="form-control form-control-lg" maxlength="100" required aria-required="true" aria-describedby="titleHelp" />
+                    <input type="text" name="submission[title]" id="submission_title" class="form-control form-control-lg" maxlength="100" required aria-required="true" aria-describedby="titleHelp" aria-label="Idea Title" />
                     <div class="form-text">
                       <span id="titleHelp">Give your idea a clear, concise title</span>
                       <span class="float-end" id="titleCharCount">0/100</span>

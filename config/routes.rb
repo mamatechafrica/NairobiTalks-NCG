@@ -50,7 +50,6 @@ Rails.application.routes.draw do
   end
 
   # Ideas explorer
-  get 'ideas_explorer', to: 'ideas_explorer#index'
 
   # Data routes
   get "data/export_ideas", to: "data#export_ideas"

@@ -1,422 +1,557 @@
-      <!-- My Voted Ideas Section -->
-<div class="row mb-5">
-  <div class="col-12">
-    <div class="card border-primary shadow-sm">
-      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">
-          <i class="bi bi-hand-thumbs-up me-2"></i>
-          Ideas I've Voted For
-        </h5>
+<!-- Dashboard Header -->
+<div class="row mb-4 justify-content-center">
+  <div class="col-12" style="max-width: 700px;">
+    <div class="d-flex justify-content-between align-items-center bg-white p-4 rounded shadow-sm">
+      <div>
+        <h1 class="h3 fw-bold text-success mb-1">
+          <%= current_user.admin? ? "Admin Dashboard" : "My Dashboard" %>
+        </h1>
+        <p class="text-muted mb-0">
+          Welcome back,
+          <% if current_user.username.present? %>
+            <strong><%= current_user.username %></strong>
+          <% end %>
+          <% if current_user.email.present? %>
+            <span class="ms-2"><%= current_user.email %></span>
+          <% end %>
+          <% if current_user.phone_number.present? %>
+            <span class="ms-2">Phone: <%= current_user.phone_number %></span>
+          <% end %>
+          <%= current_user.admin? ? "(Admin)" : "(Citizen)" %>
+        </p>
       </div>
-      <div class="card-body">
-        <% if @voted_ideas.any? %>
-          <div class="row g-4">
-            <% @voted_ideas.each do |idea| %>
-              <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border">
-                  <div class="card-body d-flex flex-column">
-                    <h6 class="card-title fw-bold mb-2"><%= idea.title %></h6>
-                    <% if idea.ward.present? %>
-                      <p class="text-muted small mb-2">Ward: <%= idea.ward %></p>
-                    <% end %>
-                    <% if idea.topic.present? %>
-                      <span class="badge bg-primary"><%= idea.topic %></span>
-                    <% end %>
-                    <div class="mt-auto">
-                      <div class="d-flex justify-content-between align-items-center text-muted small">
-                        <span>👍 <%= idea.upvotes %> 👎 <%= idea.downvotes %></span>
-                        <%= link_to "View", community_idea_path(idea), class: "btn btn-outline-primary btn-sm" %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="text-center py-5">
-            <i class="bi bi-hand-thumbs-up text-muted fs-1 mb-3"></i>
-            <h5 class="text-muted mb-3">You haven't voted for any ideas yet</h5>
-            <p class="text-muted mb-4">Explore and vote for ideas to see them here!</p>
-            <%= link_to "Explore Ideas", community_ideas_path, class: "btn btn-primary" %>
-          </div>
-        <% end %>
+      <div>
+        <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-success" %>
       </div>
     </div>
   </div>
 </div>
-<div class="bg-light min-vh-100">
-  <div class="container py-5">
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center bg-white p-4 rounded shadow-sm">
-          <div>
-            <h1 class="h3 fw-bold text-success mb-1">
-              <%= current_user.admin? ? "Admin Dashboard" : "My Dashboard" %>
-            </h1>
-            <p class="text-muted mb-0">
-              Welcome back,
-              <% if current_user.username.present? %>
-                <strong><%= current_user.username %></strong>
-              <% end %>
-              <% if current_user.email.present? %>
-                <span class="ms-2"><%= current_user.email %></span>
-              <% end %>
-              <% if current_user.phone_number.present? %>
-                <span class="ms-2">Phone: <%= current_user.phone_number %></span>
-              <% end %>
-              <%= current_user.admin? ? "(Admin)" : "(Citizen)" %>
-            </p>
+<!-- User Info Card -->
+<div class="row mb-4 justify-content-center">
+  <div class="col-12" style="max-width: 700px;">
+    <div class="card border-success shadow-sm">
+      <div class="card-body p-4">
+        <div class="row align-items-center">
+          <div class="col-md-2 text-center">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+              <%= @user_data[:name].first.upcase %>
+            </div>
           </div>
-          <div>
-            <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-success" %>
+          <div class="col-md-7">
+            <h2 class="h4 fw-bold text-success mb-2"><%= @user_data[:name] %></h2>
+            <p class="text-muted mb-2">Member since <%= @user_data[:join_date] %></p>
+            <div class="row g-3">
+              <div class="col-auto">
+                <div class="text-center">
+                  <div class="fw-bold text-success fs-5"><%= @user_data[:total_ideas] %></div>
+                  <small class="text-muted">Ideas</small>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="text-center">
+                  <div class="fw-bold text-primary fs-5"><%= @user_data[:comments_count] %></div>
+                  <small class="text-muted">Comments</small>
+                </div>
+              </div>
+              <div class="col-auto">
+                <div class="text-center">
+                  <div class="fw-bold text-warning fs-5"><%= @user_data[:community_score] %></div>
+                  <small class="text-muted">Score</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 text-end"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filter Controls -->
+<div class="row mb-4 justify-content-center">
+  <div class="col-12" style="max-width: 700px;">
+    <div class="card border-success">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-filter text-success fs-5"></i>
+              <span class="fw-medium">Filter by:</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="d-flex gap-3 justify-content-end">
+              <select class="form-select" style="width: auto;">
+                <option value="all">All Time</option>
+                <option value="week">Last Week</option>
+                <option value="month">Last Month</option>
+                <option value="year">Last Year</option>
+              </select>
+              <select class="form-select" style="width: auto;">
+                <option value="all">All Activity</option>
+                <option value="ideas">Ideas Only</option>
+                <option value="votes">Votes Only</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <% if current_user.admin? %>
-      <!-- Admin Dashboard Content -->
-      <div class="row mb-4">
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 border-success">
-            <div class="card-body text-center">
-              <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <i class="bi bi-people-fill fs-4"></i>
-              </div>
-              <h5 class="card-title text-muted">Total Users</h5>
-              <h2 class="text-primary fw-bold"><%= @total_users %></h2>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 border-success">
-            <div class="card-body text-center">
-              <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <i class="bi bi-lightbulb-fill fs-4"></i>
-              </div>
-              <h5 class="card-title text-muted">Total Ideas</h5>
-              <h2 class="text-success fw-bold"><%= @total_ideas %></h2>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 border-success">
-            <div class="card-body text-center">
-              <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
-                <i class="bi bi-chat-fill fs-4"></i>
-              </div>
-              <h5 class="card-title text-muted">Total Comments</h5>
-              <h2 class="text-info fw-bold"><%= @total_comments %></h2>
-            </div>
-          </div>
-        </div>
+  </div>
+</div>
+<!-- Combined My Ideas & Voted Ideas Card (Uniform Width) -->
+<div class="row mb-5 justify-content-center">
+  <div class="col-12" style="max-width: 700px;">
+    <div class="card border-success shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #004225 !important;">
+        <h2 class="mb-0 h5" style="color: #fff; font-weight: bold;">
+          <i class="bi bi-lightbulb me-2" aria-hidden="true" style="color: #fff;"></i>
+          My Ideas & Voted Ideas
+        </h2>
+        <button class="btn btn-outline-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#ideasCollapse" aria-label="Toggle Ideas section">
+          <i class="bi bi-chevron-down" style="color: #004225;"></i>
+        </button>
       </div>
-      <!-- Quick Admin Actions -->
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card border-success">
-            <div class="card-header bg-success text-white">
-              <h5 class="mb-0">Quick Admin Actions</h5>
-            </div>
-            <div class="card-body">
-              <div class="d-flex gap-3 flex-wrap">
-                <%= link_to "Manage Users", admin_users_path, class: "btn btn-primary" %>
-                <%= link_to "View All Ideas", community_ideas_path, class: "btn btn-outline-success" %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Recent Platform Activity -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card border-success">
-            <div class="card-header bg-success text-white">
-              <h5 class="mb-0">Recent Platform Activity</h5>
-            </div>
-            <div class="card-body">
-              <% if @recent_activities.any? %>
-                <div class="list-group list-group-flush">
-                  <% @recent_activities.each do |activity| %>
-                    <div class="list-group-item px-0">
-                      <% if activity.is_a?(CommunityIdea) %>
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div>
-                            <h6 class="mb-1">
-                              <i class="bi bi-lightbulb text-warning me-2"></i>
-                              New idea: <%= link_to activity.title, community_idea_path(activity), class: "text-decoration-none text-success fw-bold" %>
-                            </h6>
-                            <p class="mb-1 text-muted small">by <%= activity.user.email %></p>
+      <div class="collapse show" id="ideasCollapse">
+        <div class="card-body">
+          <ul class="nav nav-tabs mb-4" id="ideasTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="my-ideas-tab" data-bs-toggle="tab" data-bs-target="#my-ideas" type="button" role="tab" aria-controls="my-ideas" aria-selected="true">My Ideas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="voted-ideas-tab" data-bs-toggle="tab" data-bs-target="#voted-ideas" type="button" role="tab" aria-controls="voted-ideas" aria-selected="false">Voted Ideas</button>
+            </li>
+          </ul>
+          <div class="tab-content" id="ideasTabContent">
+            <div class="tab-pane fade show active" id="my-ideas" role="tabpanel" aria-labelledby="my-ideas-tab">
+              <% if @submitted_ideas.any? %>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                  <% @submitted_ideas.each do |idea| %>
+                    <div class="col">
+                      <div class="card h-100 border shadow-sm" aria-label="Idea card for <%= idea[:title] %>">
+                        <div class="card-body d-flex flex-column">
+                          <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="card-title fw-bold mb-2 text-dark"><%= idea[:title] %></h6>
+                            <span class="badge <%= idea[:status] == 'active' ? 'bg-success' : idea[:status] == 'implemented' ? 'bg-primary' : 'bg-warning' %> text-light fw-bold" aria-label="Status: <%= idea[:status].capitalize %>">
+                              <%= idea[:status].capitalize %>
+                            </span>
                           </div>
-                          <small class="text-muted"><%= activity.created_at.strftime('%b %d, %Y') %></small>
-                        </div>
-                      <% else %>
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div>
-                            <h6 class="mb-1">
-                              <i class="bi bi-chat text-info me-2"></i>
-                              New comment on <%= link_to activity.community_idea.title, community_idea_path(activity.community_idea), class: "text-decoration-none text-success fw-bold" %>
-                            </h6>
-                            <p class="mb-1 text-muted small">by <%= activity.user.email %>: <%= activity.body.truncate(50) %></p>
+                          <% if idea[:ward].present? %>
+                            <p class="small mb-2 text-dark" aria-label="Ward: <%= idea[:ward] %>">Ward: <%= idea[:ward] %></p>
+                          <% end %>
+                          <% if idea[:topics].any? %>
+                            <div class="mb-3">
+                              <% idea[:topics].each do |topic| %>
+                                <span class="badge bg-secondary text-light small me-1" aria-label="Topic: <%= topic %>"><%= topic %></span>
+                              <% end %>
+                            </div>
+                          <% end %>
+                          <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center small">
+                              <span class="fw-bold text-success" aria-label="Upvotes">👍 <%= idea[:upvotes] %></span>
+                              <span class="fw-bold text-danger" aria-label="Downvotes">👎 <%= idea[:downvotes] %></span>
+                              <span class="fw-bold text-primary" aria-label="Comments">💬 <%= idea[:comments] %></span>
+                            </div>
+                            <small class="text-muted">Submitted: <%= idea[:submitted_date] %></small>
                           </div>
-                          <small class="text-muted"><%= activity.created_at.strftime('%b %d, %Y') %></small>
                         </div>
-                      <% end %>
+                      </div>
                     </div>
                   <% end %>
                 </div>
               <% else %>
-                <p class="text-muted mb-0">No recent activity on the platform.</p>
+                <div class="text-center py-5">
+                  <i class="bi bi-lightbulb text-muted fs-1 mb-3"></i>
+                  <h5 class="text-muted mb-3">No ideas submitted yet</h5>
+                  <p class="text-muted mb-4">Share your vision for improving our community!</p>
+                  <%= link_to "Submit Your First Idea", new_submission_path, class: "btn btn-success" %>
+                </div>
+              <% end %>
+            </div>
+            <div class="tab-pane fade" id="voted-ideas" role="tabpanel" aria-labelledby="voted-ideas-tab">
+              <% if @voted_ideas.any? %>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                  <% @voted_ideas.each do |idea| %>
+                    <div class="col">
+                      <div class="card h-100 shadow-sm border-success">
+                        <div class="card-body d-flex flex-column">
+                          <h3 class="card-title fw-bold text-success mb-2"><%= idea.title %></h3>
+                          <div class="mb-2">
+                            <% if idea.ward.present? %>
+                              <span class="badge bg-secondary me-1"><%= idea.ward %></span>
+                            <% end %>
+                            <% if idea.topic.present? %>
+                              <span class="badge bg-primary"><%= idea.topic %></span>
+                            <% end %>
+                          </div>
+                          <p class="card-text text-muted mb-3" style="min-height: 3em; font-size: 1rem;"><%= truncate(idea.description, length: 100) if idea.respond_to?(:description) %></p>
+                          <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="text-muted small fs-5">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
+                            <span class="text-primary small fw-bold">💬 <%= idea.comments.count if idea.respond_to?(:comments) %></span>
+                            <%= link_to "View", community_idea_path(idea), class: "btn btn-outline-success btn-sm" %>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="text-center py-5">
+                  <i class="bi bi-hand-thumbs-up text-primary fs-1 mb-3" aria-hidden="true"></i>
+                  <h5 class="text-muted mb-3">You haven't voted for any ideas yet</h5>
+                  <p class="text-muted mb-4">Explore and vote for ideas to see them here!</p>
+                  <%= link_to "Explore Ideas", community_ideas_path, class: "btn btn-primary" %>
+                </div>
               <% end %>
             </div>
           </div>
         </div>
       </div>
-    <% else %>
-      <!-- Citizen Dashboard Content -->
-      <!-- User Stats Header -->
-      <div class="row mb-5">
-        <div class="col-12">
-          <div class="card border-success shadow-sm">
-            <div class="card-body p-4">
-              <div class="row align-items-center">
-                <div class="col-md-2 text-center">
-                  <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
-                    <%= @user_data[:name].first.upcase %>
-                  </div>
-                </div>
-                <div class="col-md-7">
-                  <h2 class="h4 fw-bold text-success mb-2"><%= @user_data[:name] %></h2>
-                  <p class="text-muted mb-2">Member since <%= @user_data[:join_date] %></p>
-                  <div class="row g-3">
-                    <div class="col-auto">
-                      <div class="text-center">
-                        <div class="fw-bold text-success fs-5"><%= @user_data[:total_ideas] %></div>
-                        <small class="text-muted">Ideas</small>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <div class="text-center">
-                        <div class="fw-bold text-primary fs-5"><%= @user_data[:comments_count] %></div>
-                        <small class="text-muted">Comments</small>
-                      </div>
-                    </div>
-                    <div class="col-auto">
-                      <div class="text-center">
-                        <div class="fw-bold text-warning fs-5"><%= @user_data[:community_score] %></div>
-                        <small class="text-muted">Score</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-3 text-end">
-                  <%= link_to "Edit Profile", edit_profile_path, class: "btn btn-success" %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Filter Controls -->
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="card border-success">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-md-6">
-                  <div class="d-flex align-items-center gap-3">
-                    <i class="bi bi-filter text-success fs-5"></i>
-                    <span class="fw-medium">Filter by:</span>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="d-flex gap-3 justify-content-end">
-                    <select class="form-select" style="width: auto;">
-                      <option value="all">All Time</option>
-                      <option value="week">Last Week</option>
-                      <option value="month">Last Month</option>
-                      <option value="year">Last Year</option>
-                    </select>
-                    <select class="form-select" style="width: auto;">
-                      <option value="all">All Activity</option>
-                      <option value="ideas">Ideas Only</option>
-                      <option value="votes">Votes Only</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- My Ideas Section -->
-      <div class="row mb-5">
-        <div class="col-12">
-          <div class="card border-success shadow-sm">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">
-                <i class="bi bi-lightbulb me-2"></i>
-                My Ideas
-              </h5>
-              <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#ideasCollapse">
-                <i class="bi bi-chevron-down"></i>
-              </button>
-            </div>
-            <div class="collapse show" id="ideasCollapse">
-              <div class="card-body">
-                <% if @submitted_ideas.any? %>
-                  <div class="row g-4">
-                    <% @submitted_ideas.each do |idea| %>
-                      <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border">
-                          <div class="card-body d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                              <h6 class="card-title fw-bold mb-2"><%= idea[:title] %></h6>
-                              <span class="badge <%= idea[:status] == 'active' ? 'bg-success' : idea[:status] == 'implemented' ? 'bg-primary' : 'bg-warning' %>">
-                                <%= idea[:status].capitalize %>
-                              </span>
-                            </div>
-                            <% if idea[:ward].present? %>
-                              <p class="text-muted small mb-2">Ward: <%= idea[:ward] %></p>
-                            <% end %>
-                            <% if idea[:topics].any? %>
-                              <div class="mb-3">
-                                <% idea[:topics].each do |topic| %>
-                                  <span class="badge bg-light text-dark small me-1"><%= topic %></span>
-                                <% end %>
-                              </div>
-                            <% end %>
-                            <div class="mt-auto">
-                              <div class="d-flex justify-content-between align-items-center text-muted small">
-                                <span>👍 <%= idea[:upvotes] %> 👎 <%= idea[:downvotes] %></span>
-                                <span>💬 <%= idea[:comments] %></span>
-                              </div>
-                              <small class="text-muted">Submitted: <%= idea[:submitted_date] %></small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    <% end %>
-                  </div>
-                <% else %>
-                  <div class="text-center py-5">
-                    <i class="bi bi-lightbulb text-muted fs-1 mb-3"></i>
-                    <h5 class="text-muted mb-3">No ideas submitted yet</h5>
-                    <p class="text-muted mb-4">Share your vision for improving our community!</p>
-                    <%= link_to "Submit Your First Idea", new_submission_path, class: "btn btn-success" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Recent Activity Section -->
-      <div class="row mb-5">
-        <div class="col-12">
-          <div class="card border-success shadow-sm">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">
-                <i class="bi bi-activity me-2"></i>
-                Recent Activity
-              </h5>
-              <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#activityCollapse">
-                <i class="bi bi-chevron-down"></i>
-              </button>
-            </div>
-            <div class="collapse show" id="activityCollapse">
-              <div class="card-body">
-                <% if @recent_activity.any? %>
-                  <div class="list-group list-group-flush">
-                    <% @recent_activity.each do |activity| %>
-                      <div class="list-group-item px-0">
-                        <div class="d-flex justify-content-between align-items-start">
-                          <div class="flex-grow-1">
-                            <div class="d-flex align-items-center gap-2 mb-1">
-                              <span class="badge bg-info">
-                                💬 Commented
-                              </span>
-                              <small class="text-muted">Ward: <%= activity[:ward] %></small>
-                            </div>
-                            <h6 class="mb-1 fw-bold">On: <%= activity[:idea_title] %></h6>
-                            <p class="mb-1 text-muted small"><%= activity[:body] %></p>
-                            <small class="text-muted">Commented: <%= activity[:activity_date] %></small>
-                          </div>
-                        </div>
-                      </div>
-                    <% end %>
-                  </div>
-                <% else %>
-                  <div class="text-center py-5">
-                    <i class="bi bi-activity text-muted fs-1 mb-3"></i>
-                    <h5 class="text-muted mb-3">No recent activity</h5>
-                    <p class="text-muted mb-4">Start participating by commenting on community ideas!</p>
-                    <%= link_to "Explore Ideas", community_ideas_path, class: "btn btn-success" %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Community Stats Section -->
-      <div class="row">
-        <div class="col-12">
-          <div class="card border-success shadow-sm">
-            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-              <h5 class="mb-0">
-                <i class="bi bi-bar-chart me-2"></i>
-                Community Stats
-              </h5>
-              <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#statsCollapse">
-                <i class="bi bi-chevron-down"></i>
-              </button>
-            </div>
-            <div class="collapse show" id="statsCollapse">
-              <div class="card-body">
-                <div class="row g-4">
-                  <!-- Participation Trend -->
-                  <div class="col-md-4">
-                    <h6 class="fw-bold text-success mb-3">Participation Trend</h6>
-                    <div class="small">
-                      <% @community_stats[:participation_trend].each do |month| %>
-                        <div class="d-flex justify-content-between mb-1">
-                          <span><%= month[:month] %></span>
-                          <span class="text-muted">Ideas: <%= month[:ideas] %>, Comments: <%= month[:comments] %></span>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
-                  <!-- Ward Involvement -->
-                  <div class="col-md-4">
-                    <h6 class="fw-bold text-success mb-3">Ward Involvement</h6>
-                    <div class="small">
-                      <% @community_stats[:ward_involvement].first(5).each do |ward| %>
-                        <div class="d-flex justify-content-between mb-1">
-                          <span><%= ward[:ward] %></span>
-                          <span class="badge bg-primary"><%= ward[:count] %></span>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
-                  <!-- Topic Preferences -->
-                  <div class="col-md-4">
-                    <h6 class="fw-bold text-success mb-3">Topic Preferences</h6>
-                    <div class="small">
-                      <% @community_stats[:topic_preferences].first(5).each do |topic| %>
-                        <div class="d-flex justify-content-between mb-1">
-                          <span><%= topic[:topic] %></span>
-                          <span class="badge bg-success"><%= topic[:count] %></span>
-                        </div>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
+    </div>
   </div>
+</div>
+<!-- Removed duplicate header block -->
+<% if current_user.admin? %>
+  <!-- Admin Dashboard Content -->
+  <div class="row mb-4 justify-content-center">
+    <div class="col-12" style="max-width: 700px;">
+      <div class="card border-success">
+        <div class="card-body text-center">
+          <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="bi bi-people-fill fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Total Users</h5>
+          <h2 class="text-primary fw-bold"><%= @total_users %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12" style="max-width: 700px;">
+      <div class="card border-success">
+        <div class="card-body text-center">
+          <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="bi bi-lightbulb-fill fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Total Ideas</h5>
+          <h2 class="text-success fw-bold"><%= @total_ideas %></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-12" style="max-width: 700px;">
+      <div class="card border-success">
+        <div class="card-body text-center">
+          <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+            <i class="bi bi-chat-fill fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Total Comments</h5>
+          <h2 class="text-info fw-bold"><%= @total_comments %></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Quick Admin Actions -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-success">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Quick Admin Actions</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex gap-3 flex-wrap">
+            <%= link_to "Manage Users", admin_users_path, class: "btn btn-primary" %>
+            <%= link_to "View All Ideas", community_ideas_path, class: "btn btn-outline-success" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Recent Platform Activity -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-success">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Recent Platform Activity</h5>
+        </div>
+        <div class="card-body">
+          <% if @recent_activities.any? %>
+            <div class="list-group list-group-flush">
+              <% @recent_activities.each do |activity| %>
+                <div class="list-group-item px-0">
+                  <% if activity.is_a?(CommunityIdea) %>
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <h6 class="mb-1">
+                          <i class="bi bi-lightbulb text-warning me-2"></i>
+                          New idea: <%= link_to activity.title, community_idea_path(activity), class: "text-decoration-none text-success fw-bold" %>
+                        </h6>
+                        <p class="mb-1 text-muted small">by <%= activity.user.email %></p>
+                      </div>
+                      <small class="text-muted"><%= activity.created_at.strftime('%b %d, %Y') %></small>
+                    </div>
+                  <% else %>
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div>
+                        <h6 class="mb-1">
+                          <i class="bi bi-chat text-info me-2"></i>
+                          New comment on <%= link_to activity.community_idea.title, community_idea_path(activity.community_idea), class: "text-decoration-none text-success fw-bold" %>
+                        </h6>
+                        <p class="mb-1 text-muted small">by <%= activity.user.email %>: <%= activity.body.truncate(50) %></p>
+                      </div>
+                      <small class="text-muted"><%= activity.created_at.strftime('%b %d, %Y') %></small>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted mb-0">No recent activity on the platform.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <!-- Citizen Dashboard Content -->
+  <!-- User Stats Header -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-success shadow-sm">
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-md-2 text-center">
+              <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                <%= @user_data[:name].first.upcase %>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <h2 class="h4 fw-bold text-success mb-2"><%= @user_data[:name] %></h2>
+              <p class="text-muted mb-2">Member since <%= @user_data[:join_date] %></p>
+              <div class="row g-3">
+                <div class="col-auto">
+                  <div class="text-center">
+                    <div class="fw-bold text-success fs-5"><%= @user_data[:total_ideas] %></div>
+                    <small class="text-muted">Ideas</small>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="text-center">
+                    <div class="fw-bold text-primary fs-5"><%= @user_data[:comments_count] %></div>
+                    <small class="text-muted">Comments</small>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="text-center">
+                    <div class="fw-bold text-warning fs-5"><%= @user_data[:community_score] %></div>
+                    <small class="text-muted">Score</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 text-end">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Filter Controls -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card border-success">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-filter text-success fs-5"></i>
+                <span class="fw-medium">Filter by:</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex gap-3 justify-content-end">
+                <select class="form-select" style="width: auto;">
+                  <option value="all">All Time</option>
+                  <option value="week">Last Week</option>
+                  <option value="month">Last Month</option>
+                  <option value="year">Last Year</option>
+                </select>
+                <select class="form-select" style="width: auto;">
+                  <option value="all">All Activity</option>
+                  <option value="ideas">Ideas Only</option>
+                  <option value="votes">Votes Only</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- My Ideas Section -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-success shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #004225 !important;">
+          <h2 class="mb-0 h5" style="color: #fff; font-weight: bold;">
+            <i class="bi bi-lightbulb me-2" aria-hidden="true" style="color: #fff;"></i>
+            My Ideas
+          </h2>
+          <button class="btn btn-outline-success btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#ideasCollapse" aria-label="Toggle My Ideas section">
+            <i class="bi bi-chevron-down" style="color: #004225;"></i>
+          </button>
+        </div>
+        <div class="collapse show" id="ideasCollapse">
+          <div class="card-body">
+            <% if @submitted_ideas.any? %>
+              <div class="row g-4">
+                <% @submitted_ideas.each do |idea| %>
+                  <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border">
+                      <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                          <h6 class="card-title fw-bold mb-2"><%= idea[:title] %></h6>
+                          <span class="badge <%= idea[:status] == 'active' ? 'bg-success' : idea[:status] == 'implemented' ? 'bg-primary' : 'bg-warning' %>">
+                            <%= idea[:status].capitalize %>
+                          </span>
+                        </div>
+                        <% if idea[:ward].present? %>
+                          <p class="text-muted small mb-2">Ward: <%= idea[:ward] %></p>
+                        <% end %>
+                        <% if idea[:topics].any? %>
+                          <div class="mb-3">
+                            <% idea[:topics].each do |topic| %>
+                              <span class="badge bg-light text-dark small me-1"><%= topic %></span>
+                            <% end %>
+                          </div>
+                        <% end %>
+                        <div class="mt-auto">
+                          <div class="d-flex justify-content-between align-items-center text-muted small">
+                            <span>👍 <%= idea[:upvotes] %> 👎 <%= idea[:downvotes] %></span>
+                            <span>💬 <%= idea[:comments] %></span>
+                          </div>
+                          <small class="text-muted">Submitted: <%= idea[:submitted_date] %></small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-5">
+                <i class="bi bi-lightbulb text-muted fs-1 mb-3"></i>
+                <h5 class="text-muted mb-3">No ideas submitted yet</h5>
+                <p class="text-muted mb-4">Share your vision for improving our community!</p>
+                <%= link_to "Submit Your First Idea", new_submission_path, class: "btn btn-success" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Recent Activity Section (Refactored) -->
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="card border-success shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 h5 fw-bold">
+            <i class="bi bi-activity me-2" aria-hidden="true"></i>
+            Recent Activity
+          </h2>
+          <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#activityCollapse" aria-label="Toggle Recent Activity section">
+            <i class="bi bi-chevron-down text-success"></i>
+          </button>
+        </div>
+        <div class="collapse show" id="activityCollapse">
+          <div class="card-body">
+            <% if @recent_activity.any? %>
+              <div class="list-group list-group-flush">
+                <% @recent_activity.each do |activity| %>
+                  <div class="list-group-item px-0">
+                    <div class="d-flex justify-content-between align-items-start">
+                      <div class="flex-grow-1">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                          <span class="badge bg-info">
+                            💬 Commented
+                          </span>
+                          <small class="text-muted">Ward: <%= activity[:ward] %></small>
+                        </div>
+                        <h6 class="mb-1 fw-bold">On: <%= activity[:idea_title] %></h6>
+                        <p class="mb-1 text-muted small"><%= activity[:body] %></p>
+                        <small class="text-muted">Commented: <%= activity[:activity_date] %></small>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="text-center py-5">
+                <i class="bi bi-activity text-muted fs-1 mb-3"></i>
+                <h5 class="text-muted mb-3">No recent activity</h5>
+                <p class="text-muted mb-4">Start participating by commenting on community ideas!</p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Community Stats Section (Refactored) -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card border-success shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 h5 fw-bold">
+            <i class="bi bi-bar-chart me-2" aria-hidden="true"></i>
+            Community Stats
+          </h2>
+          <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#statsCollapse" aria-label="Toggle Community Stats section">
+            <i class="bi bi-chevron-down text-success"></i>
+          </button>
+        </div>
+        <div class="collapse show" id="statsCollapse">
+          <div class="card-body">
+            <div class="row g-4">
+              <!-- Participation Trend -->
+              <div class="col-md-4">
+                <h6 class="fw-bold text-success mb-3">Participation Trend</h6>
+                <div class="small">
+                  <% @community_stats[:participation_trend].each do |month| %>
+                    <div class="d-flex justify-content-between mb-1">
+                      <span><%= month[:month] %></span>
+                      <span class="text-muted">Ideas: <%= month[:ideas] %>, Comments: <%= month[:comments] %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <!-- Ward Involvement -->
+              <div class="col-md-4">
+                <h6 class="fw-bold text-success mb-3">Ward Involvement</h6>
+                <div class="small">
+                  <% @community_stats[:ward_involvement].first(5).each do |ward| %>
+                    <div class="d-flex justify-content-between mb-1">
+                      <span><%= ward[:ward] %></span>
+                      <span class="badge bg-primary"><%= ward[:count] %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <!-- Topic Preferences -->
+              <div class="col-md-4">
+                <h6 class="fw-bold text-success mb-3">Topic Preferences</h6>
+                <div class="small">
+                  <% @community_stats[:topic_preferences].first(5).each do |topic| %>
+                    <div class="d-flex justify-content-between mb-1">
+                      <span><%= topic[:topic] %></span>
+                      <span class="badge bg-success"><%= topic[:count] %></span>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div>
 </div>
