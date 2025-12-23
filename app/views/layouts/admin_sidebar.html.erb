@@ -19,47 +19,47 @@
     <!-- Admin Layout Wrapper -->
     <div class="admin-layout d-flex" style="min-height: 100vh;">
       <!-- Fixed Sidebar -->
-      <nav class="sidebar d-flex flex-column" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000;" aria-label="Admin Navigation" role="navigation">
+      <nav class="sidebar d-flex flex-column" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000; background: var(--color-primary); color: var(--color-primary-foreground);" aria-label="Admin Navigation" role="navigation">
         <!-- Top Section: Logo (Fixed) -->
-        <div class="flex-shrink-0">
-          <div class="text-center py-4 px-3">
-            <h5 class="fw-bold text-white mb-0" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.3);" aria-label="Nairobi Talks Admin Panel">
-              Nairobi Talks<br>
-              <small class="fw-normal">Admin</small>
-            </h5>
-          </div>
+        <div class="shrink-0 sidebar-header d-flex flex-column align-items-center pt-4 pb-2 px-3" style="gap: 0.5rem;">
+          <img src="<%= asset_path('NairobiTalksLogo.png') %>" alt="Nairobi Talks Admin Logo" style="max-width: 110px; height: auto; margin-bottom: 0.5rem; display: block; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); background: #fff;" />
+          <!-- Sidebar Collapse Button -->
+          <button class="toggle-sidebar-btn d-flex align-items-center justify-content-center w-100 mt-1 mb-2" id="sidebarCollapseBtn" aria-label="Collapse sidebar" type="button" style="max-width: 110px;">
+            <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
+            <span class="d-none d-md-inline ms-2">Collapse</span>
+          </button>
         </div>
         <!-- Middle Section: Navigation (Scrollable) -->
-        <div class="flex-grow-1 overflow-auto px-3">
-          <ul class="nav flex-column" role="menubar">
+        <div class="grow px-3" style="overflow-y: auto; min-height: 0; max-height: calc(100vh - 210px);">
+          <ul class="nav flex-column gap-1" role="menubar">
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-speedometer2 me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Dashboard</span>'.html_safe, admin_root_path, class: "nav-link", aria_current: current_page?(admin_root_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-speedometer2 me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Dashboard</span>'.html_safe, admin_root_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_root_path)}", aria_current: current_page?(admin_root_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Dashboard' } %>
             </li>
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-eye me-2" aria-hidden="true"></i><span class="d-none d-md-inline">App Preview</span>'.html_safe, admin_app_preview_path, class: "nav-link", aria_current: current_page?(admin_app_preview_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-eye me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">App Preview</span>'.html_safe, admin_app_preview_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_app_preview_path)}", aria_current: current_page?(admin_app_preview_path) ? 'page' : nil, role: "menuitem", aria: { label: 'App Preview' } %>
             </li>
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-file-earmark-text me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Documents</span>'.html_safe, admin_planning_documents_path, class: "nav-link", aria_current: current_page?(admin_planning_documents_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-file-earmark-text me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Documents</span>'.html_safe, admin_planning_documents_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_planning_documents_path)}", aria_current: current_page?(admin_planning_documents_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Documents' } %>
             </li>
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-upload me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Upload</span>'.html_safe, new_admin_planning_document_path, class: "nav-link", aria_current: current_page?(new_admin_planning_document_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-upload me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Upload</span>'.html_safe, new_admin_planning_document_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(new_admin_planning_document_path)}", aria_current: current_page?(new_admin_planning_document_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Upload' } %>
+            </li>
+            <li class="nav-item" role="none" style="display: flex; align-items: center;">
+              <%= link_to '<i class="bi bi-people me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_community_ideas_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_community_ideas_path)}", aria_current: current_page?(admin_community_ideas_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Community Ideas' }, style: 'display: flex; align-items: center;' %>
             </li>
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-people me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_community_ideas_path, class: "nav-link", aria_current: current_page?(admin_community_ideas_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-graph-up me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Analytics</span>'.html_safe, admin_analytics_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_analytics_path)}", aria_current: current_page?(admin_analytics_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Analytics' } %>
             </li>
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-graph-up me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Analytics</span>'.html_safe, admin_analytics_path, class: "nav-link", aria_current: current_page?(admin_analytics_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-megaphone me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Broadcasts</span>'.html_safe, admin_broadcasts_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_broadcasts_path)}", aria_current: current_page?(admin_broadcasts_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Broadcasts' } %>
             </li>
             <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-megaphone me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Broadcasts</span>'.html_safe, admin_broadcasts_path, class: "nav-link", aria_current: current_page?(admin_broadcasts_path) ? 'page' : nil, role: "menuitem" %>
-            </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-calendar-event me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Forum</span>'.html_safe, admin_forum_path, class: "nav-link", aria_current: current_page?(admin_forum_path) ? 'page' : nil, role: "menuitem" %>
+              <%= link_to '<i class="bi bi-calendar-event me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Forum</span>'.html_safe, admin_forum_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_forum_path)}", aria_current: current_page?(admin_forum_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Forum' } %>
             </li>
           </ul>
         </div>
         <!-- Bottom Section: Theme Toggle and Logout (Fixed) -->
-        <div class="flex-shrink-0 px-3 pb-3">
+        <div class="shrink-0 px-3 pb-3 mt-auto">
           <hr class="border-white-50 my-3" aria-hidden="true">
           <!-- Theme Toggle -->
           <div class="form-check form-switch mb-3">
@@ -69,15 +69,15 @@
             </label>
           </div>
           <!-- Logout Button -->
-          <%= button_to destroy_user_session_path, method: :delete, class: "btn logout-btn w-100 fw-medium", aria: { label: "Logout from admin panel" } do %>
+          <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-light logout-btn w-100 fw-medium", aria: { label: "Logout from admin panel" } do %>
             <i class="bi bi-power me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Logout</span>
           <% end %>
         </div>
       </nav>
       <!-- Main Content Area -->
-      <div class="main-content flex-grow-1 d-flex flex-column" style="margin-left: 240px; min-height: 100vh;">
+      <div class="main-content grow d-flex flex-column" style="margin-left: 240px; min-height: 100vh; transition: margin-left 0.3s;">
         <!-- Content -->
-        <main class="flex-grow-1 p-4" role="main">
+        <main class="grow p-4" role="main" style="width: 100%; margin: 0;">
           <%= yield %>
         </main>
         <!-- Footer - Full Width -->
@@ -91,12 +91,14 @@
     <script>
       (() => {
         const themeToggleId = 'themeToggle';
+        const sidebarCollapseBtnId = 'sidebarCollapseBtn';
+        const sidebarSelector = '.sidebar';
+        const mainContentSelector = '.main-content';
 
         const applyTheme = (theme, toggleElement) => {
           document.documentElement.setAttribute('data-theme', theme);
           document.body.setAttribute('data-theme', theme);
           document.body.classList.toggle('dark-mode', theme === 'dark');
-
           if (toggleElement) {
             toggleElement.checked = theme === 'dark';
           }
@@ -104,17 +106,10 @@
 
         const initializeThemeToggle = () => {
           const themeToggle = document.getElementById(themeToggleId);
-          if (!themeToggle) {
-            return;
-          }
-
+          if (!themeToggle) return;
           const storedTheme = localStorage.getItem('adminTheme') || 'light';
           applyTheme(storedTheme, themeToggle);
-
-          if (themeToggle.dataset.themeInitialized === 'true') {
-            return;
-          }
-
+          if (themeToggle.dataset.themeInitialized === 'true') return;
           themeToggle.dataset.themeInitialized = 'true';
           themeToggle.addEventListener('change', (event) => {
             const nextTheme = event.currentTarget.checked ? 'dark' : 'light';
@@ -123,11 +118,41 @@
           });
         };
 
-        document.addEventListener('DOMContentLoaded', initializeThemeToggle);
-        document.addEventListener('turbo:load', initializeThemeToggle);
+        const initializeSidebarCollapse = () => {
+          const sidebar = document.querySelector(sidebarSelector);
+          const mainContent = document.querySelector(mainContentSelector);
+          const collapseBtn = document.getElementById(sidebarCollapseBtnId);
+          if (!sidebar || !mainContent || !collapseBtn) return;
+          collapseBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.style.marginLeft = sidebar.classList.contains('collapsed') ? '60px' : '240px';
+            // Change icon direction
+            const icon = collapseBtn.querySelector('i');
+            if (sidebar.classList.contains('collapsed')) {
+              icon.classList.remove('bi-chevron-double-left');
+              icon.classList.add('bi-chevron-double-right');
+              collapseBtn.setAttribute('aria-label', 'Expand sidebar');
+              collapseBtn.querySelector('span').textContent = 'Expand';
+            } else {
+              icon.classList.remove('bi-chevron-double-right');
+              icon.classList.add('bi-chevron-double-left');
+              collapseBtn.setAttribute('aria-label', 'Collapse sidebar');
+              collapseBtn.querySelector('span').textContent = 'Collapse';
+            }
+          });
+        };
 
+        document.addEventListener('DOMContentLoaded', () => {
+          initializeThemeToggle();
+          initializeSidebarCollapse();
+        });
+        document.addEventListener('turbo:load', () => {
+          initializeThemeToggle();
+          initializeSidebarCollapse();
+        });
         if (document.readyState !== 'loading') {
           initializeThemeToggle();
+          initializeSidebarCollapse();
         }
       })();
     </script>

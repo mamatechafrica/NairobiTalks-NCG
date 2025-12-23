@@ -1,3 +1,29 @@
+/* Sidebar accessibility and contrast improvements */
+.sidebar-link {
+  color: var(--color-primary-foreground) !important;
+  background: none;
+  border-radius: 0.375rem;
+  outline: none;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar-link:focus {
+  box-shadow: 0 0 0 2px var(--color-accent, #2563eb);
+  background: var(--color-background, #f0f8f5);
+  color: var(--color-accent-foreground, #fff) !important;
+  outline: none;
+  z-index: 2;
+}
+.sidebar-link.active, .sidebar-link[aria-current="page"] {
+  background: var(--color-accent, #2563eb) !important;
+  color: var(--color-accent-foreground, #fff) !important;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  outline: none;
+}
+.sidebar-link:hover {
+  background: var(--color-secondary, #3aa966);
+  color: var(--color-secondary-foreground, #fff) !important;
+}
 /* Admin Sidebar Styles */
 
 .admin-layout .sidebar {

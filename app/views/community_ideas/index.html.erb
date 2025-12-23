@@ -1,7 +1,5 @@
 <div class="bg-light min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
-  <h1 class="display-4 fw-bold mb-5 text-center px-4" style="color: #004225; text-shadow: 0 2px 8px #fff, 0 1px 0 #004225;">
-    Explore Community Ideas
-  </h1>
+  <%= render partial: 'shared/header', locals: { title: 'Explore Community Ideas' } %>
   <div class="container mb-4">
     <%= form_with url: community_ideas_path, method: :get, local: true, class: "row gx-3 gy-2 align-items-end flex-nowrap flex-md-nowrap flex-lg-nowrap p-3 rounded shadow-sm", style: 'background: #fff; border: 2px solid #004225; flex-wrap: wrap;' do |f| %>
       <div class="col-md-3 col-6">

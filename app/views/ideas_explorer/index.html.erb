@@ -1,9 +1,7 @@
 <div class="ideas-explorer-page bg-[#edf6f2] py-10">
   <div class="container mx-auto px-6 lg:px-12">
-    <header class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-[#009339]">Explore Ideas</h1>
-      <p class="text-lg text-gray-600 mt-4">Search and filter ideas to find what inspires you.</p>
-    </header>
+    <%= render partial: 'shared/header', locals: { title: 'Explore Ideas' } %>
+    <p class="text-lg text-gray-600 mt-4 text-center">Search and filter ideas to find what inspires you.</p>
     <!-- Combined Search and Filter Bar (Bootstrap style) -->
     <div class="container mb-4">
       <form action="<%= ideas_explorer_path %>" method="get" class="row gx-3 gy-2 align-items-end flex-nowrap flex-md-nowrap flex-lg-nowrap p-3 rounded shadow-sm" style="background: #fff; border: 2px solid #004225; flex-wrap: wrap;">
