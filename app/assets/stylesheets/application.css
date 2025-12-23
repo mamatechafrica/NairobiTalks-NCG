@@ -1,3 +1,15 @@
+/* Comment Edit Button Accessibility Styles */
+.edit-btn {
+  background: #fff !important;
+  color: #222 !important;
+  border: 2px solid #198754 !important;
+  transition: background 0.2s, color 0.2s;
+}
+.edit-btn:hover, .edit-btn:focus {
+  background: #198754 !important;
+  color: #fff !important;
+  border: 2px solid #198754 !important;
+}
 /*
  * This is a manifest file that'll be compiled into application.css.
  *
