@@ -1,241 +1,194 @@
 <%= render partial: 'shared/header', locals: { title: (current_user.admin? ? "Admin Dashboard" : "My Dashboard") } %>
 <!-- User Info Card -->
-<div class="row mb-5 justify-content-center">
-  <div class="col-9" style="max-width: 75vw;">
-    <div class="card border-success shadow-sm">
-      <div class="card-body p-4">
-        <div class="row align-items-center">
-          <div class="col-md-2 text-center">
-            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
-              <%= @user_data[:name].first.upcase %>
-            </div>
-          </div>
-          <div class="col-md-7">
-            <h2 class="h4 fw-bold text-success mb-2"><%= @user_data[:name] %></h2>
-            <p class="text-muted mb-2">Member since <%= @user_data[:join_date] %></p>
-            <div class="row g-3">
-              <div class="col-auto">
-                <div class="text-center">
-                  <div class="fw-bold text-success fs-5"><%= @user_data[:total_ideas] %></div>
-                  <small class="text-muted">Ideas</small>
-                </div>
-              </div>
-              <div class="col-auto">
-                <div class="text-center">
-                  <div class="fw-bold text-primary fs-5"><%= @user_data[:comments_count] %></div>
-                  <small class="text-muted">Comments</small>
-                </div>
-              </div>
-              <div class="col-auto">
-                <div class="text-center">
-                  <div class="fw-bold text-warning fs-5"><%= @user_data[:community_score] %></div>
-                  <small class="text-muted">Score</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 text-end"></div>
+<div class="max-w-6xl mx-auto px-6 mb-8">
+  <div class="bg-white border rounded-lg shadow-sm p-4">
+    <div class="flex items-center gap-6">
+      <div class="flex-shrink-0">
+        <div class="bg-[var(--color-primary)] text-white rounded-full flex items-center justify-center" style="width: 80px; height: 80px; font-size: 2rem;">
+          <%= @user_data[:name].first.upcase %>
         </div>
       </div>
+      <div class="flex-1">
+        <h2 class="text-xl font-bold text-[var(--color-primary)] mb-1"><%= @user_data[:name] %></h2>
+        <p class="text-gray-500 mb-3">Member since <%= @user_data[:join_date] %></p>
+        <div class="flex gap-6">
+          <div class="text-center">
+            <div class="font-bold text-[var(--color-success)] text-lg"><%= @user_data[:total_ideas] %></div>
+            <small class="text-gray-500">Ideas</small>
+          </div>
+          <div class="text-center">
+            <div class="font-bold text-[var(--color-primary)] text-lg"><%= @user_data[:comments_count] %></div>
+            <small class="text-gray-500">Comments</small>
+          </div>
+          <div class="text-center">
+            <div class="font-bold text-yellow-500 text-lg"><%= @user_data[:community_score] %></div>
+            <small class="text-gray-500">Score</small>
+          </div>
+        </div>
+      </div>
+      <div class="flex-shrink-0 text-right"></div>
+    </div>
+  </div>
+</div> 
+<!-- Removed duplicate My Ideas & Voted Ideas card/tab section. -->
+<!-- My Ideas Section -->
+<div class="max-w-6xl mx-auto px-6 mb-8">
+  <div class="bg-white rounded-lg shadow-sm">
+    <div class="flex items-center justify-between px-4 py-3 bg-[var(--color-primary)] text-white rounded-t-lg">
+      <h2 class="mb-0 text-lg font-bold"><i class="bi bi-lightbulb mr-2" aria-hidden="true"></i> My Ideas &amp; Voted Ideas</h2>
+      <details class="text-sm">
+        <summary class="cursor-pointer text-white">Toggle</summary>
+      </details>
+    </div>
+    <div class="p-4">
+      <!-- Tabs converted to stacked sections for simplicity -->
+      <section aria-labelledby="my-ideas-heading" class="mb-6">
+        <h3 id="my-ideas-heading" class="text-lg font-semibold mb-4">My Ideas</h3>
+        <% if @submitted_ideas.any? %>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% @submitted_ideas.each do |idea| %>
+              <div class="bg-white border rounded-lg shadow-sm p-4" aria-label="Idea card for <%= idea[:title] %>">
+                <div class="flex items-start justify-between mb-2">
+                  <h6 class="font-semibold text-gray-800 mb-1"><%= idea[:title] %></h6>
+                  <span class="inline-block px-2 py-1 rounded text-white font-semibold <%= idea[:status] == 'active' ? 'bg-[var(--color-success)]' : idea[:status] == 'implemented' ? 'bg-[var(--color-primary)]' : 'bg-yellow-500' %>" aria-label="Status: <%= idea[:status].capitalize %>"><%= idea[:status].capitalize %></span>
+                </div>
+                <% if idea[:ward].present? %>
+                  <p class="text-sm text-gray-700 mb-2" aria-label="Ward: <%= idea[:ward] %>">Ward: <%= idea[:ward] %></p>
+                <% end %>
+                <% if idea[:topics].any? %>
+                  <div class="mb-3">
+                    <% idea[:topics].each do |topic| %>
+                      <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded mr-1" aria-label="Topic: <%= topic %>"><%= topic %></span>
+                    <% end %>
+                  </div>
+                <% end %>
+                <div class="mt-4">
+                  <div class="flex justify-between items-center text-sm text-gray-700">
+                    <span class="font-semibold text-[var(--color-success)]">👍 <%= idea[:upvotes] %></span>
+                    <span class="font-semibold text-red-600">👎 <%= idea[:downvotes] %></span>
+                    <span class="font-semibold text-[var(--color-primary)]">💬 <%= idea[:comments] %></span>
+                  </div>
+                  <small class="text-gray-500">Submitted: <%= idea[:submitted_date] %></small>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <i class="bi bi-lightbulb text-gray-400 text-3xl mb-3"></i>
+            <h5 class="text-gray-700 mb-2">No ideas submitted yet</h5>
+            <p class="text-gray-600 mb-4">Share your vision for improving our community!</p>
+            <%= link_to "Submit Your First Idea", new_submission_path, class: "inline-block px-4 py-2 rounded bg-[var(--color-success)] text-white" %>
+          </div>
+        <% end %>
+      </section>
+
+      <section aria-labelledby="voted-ideas-heading">
+        <h3 id="voted-ideas-heading" class="text-lg font-semibold mb-4">Voted Ideas</h3>
+        <% if @voted_ideas.any? %>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <% @voted_ideas.each do |idea| %>
+              <div class="bg-white rounded-lg shadow-sm p-4">
+                <h3 class="font-bold text-[var(--color-primary)] mb-2"><%= idea.title %></h3>
+                <div class="mb-2">
+                  <% if idea.ward.present? %>
+                    <span class="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded mr-1"><%= idea.ward %></span>
+                  <% end %>
+                  <% if idea.topic.present? %>
+                    <span class="inline-block bg-[var(--color-primary)] text-white px-2 py-1 rounded"><%= idea.topic %></span>
+                  <% end %>
+                </div>
+                <p class="text-sm text-gray-700 mb-3" style="min-height: 3em; font-size: 1rem;"><%= truncate(idea.description, length: 100) if idea.respond_to?(:description) %></p>
+                <div class="flex justify-between items-center mt-auto">
+                  <span class="text-gray-500 text-sm">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
+                  <span class="text-[var(--color-primary)] text-sm font-semibold">💬 <%= idea.comments.count if idea.respond_to?(:comments) %></span>
+                  <%= link_to "View", community_idea_path(idea), class: "inline-block px-3 py-1 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-sm text-sm" %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <i class="bi bi-hand-thumbs-up text-[var(--color-primary)] text-3xl mb-3" aria-hidden="true"></i>
+            <h5 class="text-gray-700 mb-2">You haven't voted for any ideas yet</h5>
+            <p class="text-gray-600 mb-4">Explore and vote for ideas to see them here!</p>
+            <%= link_to "Explore Ideas", community_ideas_path, class: "inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-white" %>
+          </div>
+        <% end %>
+      </section>
     </div>
   </div>
 </div>
-<!-- Removed duplicate My Ideas & Voted Ideas card/tab section. -->
-<!-- My Ideas Section -->
-<div class="row mb-5 justify-content-center">
-  <div class="col-9" style="max-width: 75vw;">
-    <div class="card border-success shadow-sm">
-      <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-        <h2 class="mb-0 h5 fw-bold">
-          <i class="bi bi-lightbulb me-2 text-white" aria-hidden="true"></i>
-          My Ideas &amp; Voted Ideas
-        </h2>
-        <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#ideasCollapse" aria-label="Toggle My Ideas section" aria-controls="ideasCollapse" aria-expanded="true">
-          <i class="bi bi-chevron-down text-success"></i>
-        </button>
-      </div>
-      <div class="collapse show" id="ideasCollapse">
-        <div class="card-body">
-          <ul class="nav nav-tabs mb-4" id="ideasTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="my-ideas-tab" data-bs-toggle="tab" data-bs-target="#my-ideas" type="button" role="tab" aria-controls="my-ideas" aria-selected="true">My Ideas</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="voted-ideas-tab" data-bs-toggle="tab" data-bs-target="#voted-ideas" type="button" role="tab" aria-controls="voted-ideas" aria-selected="false">Voted Ideas</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="ideasTabContent">
-            <div class="tab-pane fade show active" id="my-ideas" role="tabpanel" aria-labelledby="my-ideas-tab">
-              <% if @submitted_ideas.any? %>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                  <% @submitted_ideas.each do |idea| %>
-                    <div class="col">
-                      <div class="card h-100 border shadow-sm" aria-label="Idea card for <%= idea[:title] %>">
-                        <div class="card-body d-flex flex-column">
-                          <div class="d-flex justify-content-between align-items-start mb-2">
-                            <h6 class="card-title fw-bold mb-2 text-dark"><%= idea[:title] %></h6>
-                            <span class="badge <%= idea[:status] == 'active' ? 'bg-success' : idea[:status] == 'implemented' ? 'bg-primary' : 'bg-warning' %> text-light fw-bold" aria-label="Status: <%= idea[:status].capitalize %>">
-                              <%= idea[:status].capitalize %>
-                            </span>
-                          </div>
-                          <% if idea[:ward].present? %>
-                            <p class="small mb-2 text-dark" aria-label="Ward: <%= idea[:ward] %>">Ward: <%= idea[:ward] %></p>
-                          <% end %>
-                          <% if idea[:topics].any? %>
-                            <div class="mb-3">
-                              <% idea[:topics].each do |topic| %>
-                                <span class="badge bg-secondary text-light small me-1" aria-label="Topic: <%= topic %>"><%= topic %></span>
-                              <% end %>
-                            </div>
-                          <% end %>
-                          <div class="mt-auto">
-                            <div class="d-flex justify-content-between align-items-center small">
-                              <span class="fw-bold text-success" aria-label="Upvotes">👍 <%= idea[:upvotes] %></span>
-                              <span class="fw-bold text-danger" aria-label="Downvotes">👎 <%= idea[:downvotes] %></span>
-                              <span class="fw-bold text-primary" aria-label="Comments">💬 <%= idea[:comments] %></span>
-                            </div>
-                            <small class="text-muted">Submitted: <%= idea[:submitted_date] %></small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="text-center py-5">
-                  <i class="bi bi-lightbulb text-muted fs-1 mb-3"></i>
-                  <h5 class="text-muted mb-3">No ideas submitted yet</h5>
-                  <p class="text-muted mb-4">Share your vision for improving our community!</p>
-                  <%= link_to "Submit Your First Idea", new_submission_path, class: "btn btn-success" %>
-                </div>
-              <% end %>
-            </div>
-            <div class="tab-pane fade" id="voted-ideas" role="tabpanel" aria-labelledby="voted-ideas-tab">
-              <% if @voted_ideas.any? %>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                  <% @voted_ideas.each do |idea| %>
-                    <div class="col">
-                      <div class="card h-100 shadow-sm border-success">
-                        <div class="card-body d-flex flex-column">
-                          <h3 class="card-title fw-bold text-success mb-2"><%= idea.title %></h3>
-                          <div class="mb-2">
-                            <% if idea.ward.present? %>
-                              <span class="badge bg-secondary me-1"><%= idea.ward %></span>
-                            <% end %>
-                            <% if idea.topic.present? %>
-                              <span class="badge bg-primary"><%= idea.topic %></span>
-                            <% end %>
-                          </div>
-                          <p class="card-text text-muted mb-3" style="min-height: 3em; font-size: 1rem;"><%= truncate(idea.description, length: 100) if idea.respond_to?(:description) %></p>
-                          <div class="d-flex justify-content-between align-items-center mt-auto">
-                            <span class="text-muted small fs-5">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
-                            <span class="text-primary small fw-bold">💬 <%= idea.comments.count if idea.respond_to?(:comments) %></span>
-                            <%= link_to "View", community_idea_path(idea), class: "btn btn-outline-success btn-sm" %>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="text-center py-5">
-                  <i class="bi bi-hand-thumbs-up text-primary fs-1 mb-3" aria-hidden="true"></i>
-                  <h5 class="text-muted mb-3">You haven't voted for any ideas yet</h5>
-                  <p class="text-muted mb-4">Explore and vote for ideas to see them here!</p>
-                  <%= link_to "Explore Ideas", community_ideas_path, class: "btn btn-primary" %>
-                </div>
-              <% end %>
-            </div>
-            <%# Removed orphaned else block that caused syntax error %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <!-- User Recent Activity Section -->
-  <div class="row mb-5 justify-content-center">
-    <div class="col-9" style="max-width: 75vw;">
-      <div class="card border-success shadow-sm mt-4">
-        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-          <h2 class="mb-0 h5 fw-bold">
-            <i class="bi bi-clock-history me-2" aria-hidden="true"></i>
-            Recent Activity
-          </h2>
-        </div>
-        <div class="card-body">
-          <% if @recent_activities.present? %>
-            <ul class="list-group list-group-flush">
-              <% @recent_activities.each do |activity| %>
-                <li class="list-group-item">
-                  <span class="fw-bold"><%= activity[:type].capitalize %></span>:
-                  <%= activity[:description] %>
-                  <span class="text-muted small ms-2">- <%= activity[:date] %></span>
-                </li>
-              <% end %>
-            </ul>
-          <% else %>
-            <div class="text-center py-4">
-              <i class="bi bi-activity text-success fs-1 mb-3"></i>
-              <h5 class="text-muted mb-3">No recent activity</h5>
-              <p class="text-muted mb-0">Your latest comments, votes, and submissions will appear here.</p>
-            </div>
-          <% end %>
-        </div>
+  <div class="max-w-6xl mx-auto px-6 mb-8">
+    <div class="bg-white rounded-lg shadow-sm mt-4">
+      <div class="px-4 py-3 bg-[var(--color-success)] text-white rounded-t-lg">
+        <h2 class="mb-0 text-lg font-bold"><i class="bi bi-clock-history mr-2" aria-hidden="true"></i> Recent Activity</h2>
+      </div>
+      <div class="p-4">
+        <% if @recent_activities.present? %>
+          <ul class="space-y-2">
+            <% @recent_activities.each do |activity| %>
+              <li class="border rounded px-3 py-2">
+                <span class="font-semibold"><%= activity[:type].capitalize %></span>:
+                <span class="ml-1"><%= activity[:description] %></span>
+                <span class="text-gray-500 text-sm ml-2">- <%= activity[:date] %></span>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <div class="text-center py-6">
+            <i class="bi bi-activity text-[var(--color-success)] text-3xl mb-3"></i>
+            <h5 class="text-gray-700 mb-2">No recent activity</h5>
+            <p class="text-gray-600 mb-0">Your latest comments, votes, and submissions will appear here.</p>
+          </div>
+        <% end %>
       </div>
     </div>
-  </div>
+  </div> 
   <!-- Community Stats Section (Refactored) -->
-  <div class="row justify-content-center">
-    <div class="col-9" style="max-width: 75vw;">
-      <div class="card border-success shadow-sm">
-        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-          <h2 class="mb-0 h5 fw-bold">
-            <i class="bi bi-bar-chart me-2" aria-hidden="true"></i>
-            Community Stats
-          </h2>
-          <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#statsCollapse" aria-label="Toggle Community Stats section">
-            <i class="bi bi-chevron-down text-success"></i>
-          </button>
-        </div>
-        <div class="collapse show" id="statsCollapse">
-          <div class="card-body">
-            <div class="row g-4">
-              <!-- Participation Trend -->
-              <div class="col-md-4">
-                <h6 class="fw-bold text-success mb-3">Participation Trend</h6>
-                <div class="small">
-                  <% @community_stats[:participation_trend].each do |month| %>
-                    <div class="d-flex justify-content-between mb-1">
-                      <span><%= month[:month] %></span>
-                      <span class="text-muted">Ideas: <%= month[:ideas] %>, Comments: <%= month[:comments] %></span>
-                    </div>
-                  <% end %>
+  <div class="max-w-6xl mx-auto px-6 mb-8">
+    <div class="bg-white rounded-lg shadow-sm">
+      <div class="flex items-center justify-between px-4 py-3 bg-[var(--color-success)] text-white rounded-t-lg">
+        <h2 class="mb-0 text-lg font-bold"><i class="bi bi-bar-chart mr-2" aria-hidden="true"></i> Community Stats</h2>
+        <details class="text-sm"><summary class="cursor-pointer text-white">Toggle</summary></details>
+      </div>
+      <div class="p-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Participation Trend -->
+          <div>
+            <h6 class="font-semibold text-[var(--color-success)] mb-2">Participation Trend</h6>
+            <div class="text-sm text-gray-700">
+              <% @community_stats[:participation_trend].each do |month| %>
+                <div class="flex justify-between mb-1">
+                  <span><%= month[:month] %></span>
+                  <span class="text-gray-500">Ideas: <%= month[:ideas] %>, Comments: <%= month[:comments] %></span>
                 </div>
-              </div>
-              <!-- Ward Involvement -->
-              <div class="col-md-4">
-                <h6 class="fw-bold text-success mb-3">Ward Involvement</h6>
-                <div class="small">
-                  <% @community_stats[:ward_involvement].first(5).each do |ward| %>
-                    <div class="d-flex justify-content-between mb-1">
-                      <span><%= ward[:ward] %></span>
-                      <span class="badge bg-primary"><%= ward[:count] %></span>
-                    </div>
-                  <% end %>
+              <% end %>
+            </div>
+          </div>
+          <!-- Ward Involvement -->
+          <div>
+            <h6 class="font-semibold text-[var(--color-success)] mb-2">Ward Involvement</h6>
+            <div class="text-sm text-gray-700">
+              <% @community_stats[:ward_involvement].first(5).each do |ward| %>
+                <div class="flex justify-between mb-1">
+                  <span><%= ward[:ward] %></span>
+                  <span class="inline-block bg-[var(--color-primary)] text-white px-2 py-1 rounded"><%= ward[:count] %></span>
                 </div>
-              </div>
-              <!-- Topic Preferences -->
-              <div class="col-md-4">
-                <h6 class="fw-bold text-success mb-3">Topic Preferences</h6>
-                <div class="small">
-                  <% @community_stats[:topic_preferences].first(5).each do |topic| %>
-                    <div class="d-flex justify-content-between mb-1">
-                      <span><%= topic[:topic] %></span>
-                      <span class="badge bg-success"><%= topic[:count] %></span>
-                    </div>
-                  <% end %>
+              <% end %>
+            </div>
+          </div>
+          <!-- Topic Preferences -->
+          <div>
+            <h6 class="font-semibold text-[var(--color-success)] mb-2">Topic Preferences</h6>
+            <div class="text-sm text-gray-700">
+              <% @community_stats[:topic_preferences].first(5).each do |topic| %>
+                <div class="flex justify-between mb-1">
+                  <span><%= topic[:topic] %></span>
+                  <span class="inline-block bg-[var(--color-success)] text-white px-2 py-1 rounded"><%= topic[:count] %></span>
                 </div>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>
