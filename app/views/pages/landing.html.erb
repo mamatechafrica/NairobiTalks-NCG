@@ -1,16 +1,16 @@
-<div class="bg-light min-vh-100">
+<div class="bg-[var(--color-background)] min-h-screen">
   <!-- Hero Section -->
-  <section class="bg-success text-white py-5">
-    <div class="container">
-      <div class="row justify-content-center text-center">
-        <div class="col-lg-8">
-          <div class="bg-white rounded d-flex align-items-center justify-content-center me-3 mb-4" style="width: 80px; height: 80px;">
-            <span class="text-success fw-bold fs-2">NT</span>
+  <section class="bg-[var(--color-primary)] text-white py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex justify-center text-center">
+        <div class="w-full lg:w-8/12">
+          <div class="bg-white rounded flex items-center justify-center mr-3 mb-4" style="width: 80px; height: 80px;">
+            <span class="text-[var(--color-primary)] font-bold text-2xl">NT</span>
           </div>
-          <h1 class="display-4 fw-bold mb-4">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
             Nairobi Talks
           </h1>
-          <p class="lead mb-5">
+          <p class="text-lg mb-8 text-white/90">
             Empowering citizens to shape their community through anonymous idea submission and democratic voting.
           </p>
         </div>
@@ -30,24 +30,24 @@
     </div>
   </footer>
 </div>
-<section class="py-5 bg-white">
-  <div class="container">
-    <div class="row text-center">
-      <div class="col-md-4 mb-4">
-        <div class="h-100 p-4 border rounded">
-          <h2 class="text-success fw-bold display-4"><%= CommunityIdea.count %></h2>
+<section class="py-12 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-wrap -mx-4 text-center">
+      <div class="w-full md:w-1/3 px-4 mb-4">
+        <div class="h-full p-6 border rounded-lg">
+          <h2 class="text-[var(--color-primary)] font-bold text-4xl"><%= CommunityIdea.count %></h2>
           <p class="text-muted mb-0">Ideas Submitted</p>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
-        <div class="h-100 p-4 border rounded">
-          <h2 class="text-success fw-bold display-4"><%= Comment.count %></h2>
+      <div class="w-full md:w-1/3 px-4 mb-4">
+        <div class="h-full p-6 border rounded-lg">
+          <h2 class="text-[var(--color-primary)] font-bold text-4xl"><%= Comment.count %></h2>
           <p class="text-muted mb-0">Comments Made</p>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
-        <div class="h-100 p-4 border rounded">
-          <h2 class="text-success fw-bold display-4"><%= User.count %></h2>
+      <div class="w-full md:w-1/3 px-4 mb-4">
+        <div class="h-full p-6 border rounded-lg">
+          <h2 class="text-[var(--color-primary)] font-bold text-4xl"><%= User.count %></h2>
           <p class="text-muted mb-0">Citizens Engaged</p>
         </div>
       </div>
@@ -55,39 +55,37 @@
   </div>
 </section>
 <!-- Features Section -->
-<section class="py-5 bg-light">
-  <div class="container">
-    <div class="row text-center mb-5">
-      <div class="col-12">
-        <h2 class="fw-bold mb-3">How It Works</h2>
-        <p class="text-muted lead">Three simple steps to make your voice heard</p>
-      </div>
+<section class="py-12 bg-[var(--color-muted)]">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-8">
+      <h2 class="font-bold mb-3">How It Works</h2>
+      <p class="text-muted">Three simple steps to make your voice heard</p>
     </div>
-    <div class="row">
-      <div class="col-md-4 mb-4">
+    <div class="flex flex-wrap -mx-4">
+      <div class="w-full md:w-1/3 px-4 mb-4">
         <div class="text-center">
-          <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-            <span class="fw-bold fs-4">1</span>
+          <div class="bg-[var(--color-primary)] text-white rounded-full inline-flex items-center justify-center mb-3" style="width: 80px; height: 80px;">
+            <span class="font-bold text-lg">1</span>
           </div>
-          <h4 class="fw-bold mb-3">Submit Your Idea</h4>
+          <h4 class="font-bold mb-3">Submit Your Idea</h4>
           <p class="text-muted">Share your thoughts on how to improve Nairobi. From transportation to education, every idea counts.</p>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
+      <div class="w-full md:w-1/3 px-4 mb-4">
         <div class="text-center">
-          <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-            <span class="fw-bold fs-4">2</span>
+          <div class="bg-[var(--color-primary)] text-white rounded-full inline-flex items-center justify-center mb-3" style="width: 80px; height: 80px;">
+            <span class="font-bold text-lg">2</span>
           </div>
-          <h4 class="fw-bold mb-3">Community Discussion</h4>
+          <h4 class="font-bold mb-3">Community Discussion</h4>
           <p class="text-muted">Engage with fellow citizens. Comment, debate, and refine ideas together.</p>
         </div>
       </div>
-      <div class="col-md-4 mb-4">
+      <div class="w-full md:w-1/3 px-4 mb-4">
         <div class="text-center">
-          <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-            <span class="fw-bold fs-4">3</span>
+          <div class="bg-[var(--color-primary)] text-white rounded-full inline-flex items-center justify-center mb-3" style="width: 80px; height: 80px;">
+            <span class="font-bold text-lg">3</span>
           </div>
-          <h4 class="fw-bold mb-3">Vote & Impact</h4>
+          <h4 class="font-bold mb-3">Vote & Impact</h4>
           <p class="text-muted">Vote on ideas you support. Popular ideas get attention from local government.</p>
         </div>
       </div>
@@ -95,53 +93,51 @@
   </div>
 </section>
 <!-- Recent Ideas Preview -->
-<section class="py-5 bg-white">
-  <div class="container">
-    <div class="row mb-5">
-      <div class="col-12 text-center">
-        <h2 class="fw-bold mb-3">Recent Community Ideas</h2>
-        <p class="text-muted lead">See what Nairobi citizens are talking about</p>
-      </div>
+<section class="py-12 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-8 text-center">
+      <h2 class="font-bold mb-3">Recent Community Ideas</h2>
+      <p class="text-muted">See what Nairobi citizens are talking about</p>
     </div>
-    <div class="row">
+    <div class="flex flex-wrap -mx-4">
       <% CommunityIdea.order(created_at: :desc).limit(3).each do |idea| %>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title fw-bold text-success"><%= idea.title %></h5>
-              <p class="card-text text-muted"><%= idea.description.truncate(100) %></p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="w-full md:w-1/3 px-4 mb-4">
+          <div class="bg-white h-100 border-0 shadow-sm rounded-lg overflow-hidden">
+            <div class="p-6">
+              <h5 class="font-bold text-[var(--color-primary)]"><%= idea.title %></h5>
+              <p class="text-muted"><%= idea.description.truncate(100) %></p>
+              <div class="flex justify-between items-center mt-3">
                 <small class="text-muted">
                   <%= time_ago_in_words(idea.created_at) %> ago
                 </small>
-                <span class="badge bg-success">
+                <span class="inline-flex items-center bg-[var(--color-primary)] text-white text-sm font-medium px-2 py-1 rounded">
                   <%= idea.comments.count %> comments
                 </span>
               </div>
             </div>
-            <div class="card-footer bg-transparent border-0">
-              <%= link_to "Read More", community_idea_path(idea), class: "btn btn-outline-success btn-sm" %>
+            <div class="bg-white border-t">
+              <%= link_to "Read More", community_idea_path(idea), class: "inline-block px-3 py-2 text-[var(--color-primary)] border border-[var(--color-primary)] rounded-sm mx-4 my-3" %>
             </div>
           </div>
         </div>
       <% end %>
     </div>
-    <div class="text-center mt-4">
-      <%= link_to "View All Ideas", community_ideas_path, class: "btn btn-success btn-lg" %>
+    <div class="text-center mt-6">
+      <%= link_to "View All Ideas", community_ideas_path, class: "inline-block px-6 py-3 rounded-lg bg-[var(--color-primary)] text-white text-lg" %>
     </div>
   </div>
 </section>
 <!-- CTA Section -->
-<section class="bg-success text-white py-5">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-3">Ready to Make a Difference?</h2>
-    <p class="lead mb-4">Join thousands of Nairobi citizens shaping the future of our city.</p>
+<section class="bg-[var(--color-primary)] text-white py-12">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="font-bold mb-3">Ready to Make a Difference?</h2>
+    <p class="text-lg mb-6">Join thousands of Nairobi citizens shaping the future of our city.</p>
     <% if user_signed_in? %>
-      <%= link_to "Go to Dashboard", dashboard_user_path, class: "btn btn-light btn-lg me-3" %>
-      <%= link_to "Submit New Idea", new_submission_path, class: "btn btn-outline-light btn-lg" %>
+      <%= link_to "Go to Dashboard", dashboard_user_path, class: "inline-block px-6 py-3 rounded-lg bg-white text-[var(--color-primary)] font-medium mr-3" %>
+      <%= link_to "Submit New Idea", new_submission_path, class: "inline-block px-6 py-3 rounded-lg border border-white text-white" %>
     <% else %>
-      <%= link_to "Sign Up Now", new_user_registration_path, class: "btn btn-light btn-lg me-3" %>
-      <%= link_to "Learn More", "#", class: "btn btn-outline-light btn-lg" %>
+      <%= link_to "Sign Up Now", new_user_registration_path, class: "inline-block px-6 py-3 rounded-lg bg-white text-[var(--color-primary)] font-medium mr-3" %>
+      <%= link_to "Learn More", "#", class: "inline-block px-6 py-3 rounded-lg border border-white text-white" %>
     <% end %>
   </div>
 </section>

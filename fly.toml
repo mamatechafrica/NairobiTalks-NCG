@@ -1,0 +1,41 @@
+# Fly.io configuration for the Rails app
+# Replace "app" with the app name created with `flyctl apps create`
+app = "REPLACE_WITH_APP_NAME"
+
+[build]
+  # Use the existing Dockerfile in the repository
+  dockerfile = "Dockerfile"
+
+[env]
+  RAILS_ENV = "production"
+
+[deploy]
+  # Run migrations on deploy
+  release_command = "bin/rails db:migrate"
+
+[[services]]
+  internal_port = 80
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  # Basic TCP check; adjust if needed
+  [services.tcp_checks]
+    interval = 10000
+    timeout = 2000
+    grace_period = 10000
+    restart_limit = 0
+
+# Example mount for a persistent uploads volume (uncomment if you create a volume):
+# [[mounts]]
+#   source = "uploads"
+#   destination = "/rails/storage"
+#
+# To create the volume:
+#   flyctl volumes create uploads --size 1 --region <region>

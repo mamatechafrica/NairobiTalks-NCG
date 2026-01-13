@@ -1,7 +1,6 @@
 
 class Admin::LandingController < Admin::BaseController
-
   def index
-    # This is a public landing page for admins
+    puts "Admin landing accessed. current_user: #{current_user&.id}, admin?=#{current_user&.admin?}"
   end
 end

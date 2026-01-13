@@ -1,137 +1,118 @@
-<div class="bg-light min-vh-100 py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-10">
-        <div class="text-center mb-5">
-          <h1 class="display-4 fw-bold text-success mb-3">
-            Submit Your Idea
-          </h1>
-          <p class="lead text-muted">
-            Share your vision for improving our community. Your ideas help shape our future.
-          </p>
-        </div>
-        <div class="card border-success shadow-sm">
-          <div class="card-body p-4 p-md-5">
-            <!-- Bootstrap Nav Tabs -->
-            <ul class="nav nav-tabs mb-4" id="submissionTabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true" tabindex="0" aria-label="Information Tab">Info</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="form-tab" data-bs-toggle="tab" data-bs-target="#form" type="button" role="tab" aria-controls="form" aria-selected="false" tabindex="0" aria-label="Submit Idea Tab">Submit Idea</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="ideas-tab" data-bs-toggle="tab" data-bs-target="#ideas" type="button" role="tab" aria-controls="ideas" aria-selected="false" tabindex="0" aria-label="Vote Ideas Tab">Vote Ideas</button>
-              </li>
-            </ul>
-            <div class="tab-content" id="submissionTabsContent">
-              <!-- Info Tab -->
-              <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
-                <div class="mb-4">
-                  <h4 class="fw-bold">How it works</h4>
-                  <p class="text-muted">Submit your idea for community improvement. Your submission will be reviewed by admins and visible to others for voting. The best ideas may be implemented in your ward!</p>
-                  <ul>
-                    <li>Ideas must be specific, actionable, and benefit the community.</li>
-                    <li>Include details about implementation, costs, and expected outcomes.</li>
-                    <li>You can post anonymously if you wish.</li>
-                  </ul>
-                </div>
-              </div>
-              <!-- Form Tab -->
-              <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="form-tab">
-                <form action="<%= submissions_path %>" method="post" class="needs-validation mt-3" novalidate>
-                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-                  <% if @submission.errors.any? %>
-                    <div class="alert alert-danger mb-4" role="alert" aria-live="assertive">
-                      <h5 class="alert-heading fw-bold">Please fix the following errors:</h5>
-                      <ul class="mb-0">
-                        <% @submission.errors.full_messages.each do |msg| %>
-                          <li><%= msg %></li>
-                        <% end %>
-                      </ul>
-                    </div>
-                  <% end %>
-                  <!-- Title Field -->
-                  <div class="mb-4">
-                    <label for="submission_title" class="form-label fw-semibold">Idea Title</label>
-                    <input type="text" name="submission[title]" id="submission_title" class="form-control form-control-lg" maxlength="100" required aria-required="true" aria-describedby="titleHelp" aria-label="Idea Title" />
-                    <div class="form-text">
-                      <span id="titleHelp">Give your idea a clear, concise title</span>
-                      <span class="float-end" id="titleCharCount">0/100</span>
-                    </div>
-                  </div>
-                  <!-- Description Field -->
-                  <div class="mb-4">
-                    <label for="submission_description" class="form-label fw-semibold">Description</label>
-                    <textarea name="submission[description]" id="submission_description" class="form-control" rows="6" maxlength="500" required aria-required="true" aria-describedby="descriptionHelp"></textarea>
-                    <div class="form-text">
-                      <span id="descriptionHelp">Provide details, benefits, and how it could be implemented.</span>
-                      <span class="float-end" id="descCharCount">0/500</span>
-                    </div>
-                  </div>
-                  <!-- Ward Selection -->
-                  <div class="mb-4">
-                    <label for="submission_ward" class="form-label fw-semibold">Ward</label>
-                    <select name="submission[ward]" id="submission_ward" class="form-select" required aria-required="true">
-                      <option value="">Select a ward</option>
-                      <option value="Ward 1">Ward 1</option>
-                      <option value="Ward 2">Ward 2</option>
-                      <option value="Ward 3">Ward 3</option>
-                      <option value="Ward 4">Ward 4</option>
-                      <option value="Ward 5">Ward 5</option>
-                    </select>
-                  </div>
-                  <!-- Topic Tags -->
-                  <div class="mb-4">
-                    <label for="submission_topics" class="form-label fw-semibold">Topic Tags</label>
-                    <select name="submission[topics][]" id="submission_topics" class="form-select" multiple aria-describedby="topicsHelp">
-                      <option value="Environment">Environment</option>
-                      <option value="Community">Community</option>
-                      <option value="Technology">Technology</option>
-                      <option value="Education">Education</option>
-                      <option value="Transportation">Transportation</option>
-                      <option value="Economy">Economy</option>
-                      <option value="Health">Health</option>
-                      <option value="Recreation">Recreation</option>
-                      <option value="Youth">Youth</option>
-                      <option value="Safety">Safety</option>
-                    </select>
-                    <div class="form-text" id="topicsHelp">Select up to 3 topics that best describe your idea.</div>
-                  </div>
-                  <!-- Privacy Toggle -->
-                  <div class="mb-4 p-3 border rounded bg-light">
-                    <div class="form-check">
-                      <input type="checkbox" name="submission[is_anonymous]" id="submission_is_anonymous" class="form-check-input" />
-                      <label for="submission_is_anonymous" class="form-check-label fw-medium">Post anonymously</label>
-                      <div class="form-text mt-1">Your name will not be displayed. Only admins can see your identity.</div>
-                    </div>
-                  </div>
-                  <!-- Action Buttons -->
-                  <div class="d-flex flex-column flex-sm-row gap-3 pt-3">
-                    <button type="submit" class="btn btn-success btn-lg flex-fill">Submit Idea</button>
-                    <a href="<%= submissions_path %>" class="btn btn-outline-success btn-lg flex-fill text-center">Cancel</a>
-                  </div>
-                </form>
-                <div class="mt-4 p-3 bg-light rounded">
-                  <p class="text-muted small mb-0">
-                    <strong>Tip:</strong> Great ideas are specific, actionable, and benefit the community. Include details about implementation, costs, and expected outcomes to help others understand your vision.
-                  </p>
-                </div>
-              </div>
-              <!-- Ideas/Voting Tab -->
-              <div class="tab-pane fade" id="ideas" role="tabpanel" aria-labelledby="ideas-tab">
-                <div class="mt-4">
-                  <h4 class="fw-bold mb-3">Vote for Community Ideas</h4>
-                  <%= render partial: 'community_ideas/voting_cards', locals: { ideas: @community_ideas || CommunityIdea.order(upvotes: :desc).limit(10) } %>
-                </div>
-              </div>
+<div class="bg-[var(--color-background)] min-h-screen py-8">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-[var(--color-primary)] mb-3">Submit Your Idea</h1>
+      <p class="text-gray-600">Share your vision for improving our community. Your ideas help shape our future.</p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6">
+      <div class="mb-6">
+        <h3 class="font-semibold text-lg">How it works</h3>
+        <p class="text-gray-600">Submit your idea for community improvement. Your submission will be reviewed by admins and visible to others for voting. The best ideas may be implemented in your ward!</p>
+        <ul class="list-disc list-inside mt-2 text-gray-700">
+          <li>Ideas must be specific, actionable, and benefit the community.</li>
+          <li>Include details about implementation, costs, and expected outcomes.</li>
+          <li>You can post anonymously if you wish.</li>
+        </ul>
+      </div>
+
+      <div>
+        <form action="<%= submissions_path %>" method="post" class="space-y-4 mt-3" novalidate>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <% if @submission.errors.any? %>
+            <div class="bg-red-50 border border-red-200 p-4 rounded" role="alert" aria-live="assertive">
+              <h5 class="font-semibold text-red-700">Please fix the following errors:</h5>
+              <ul class="mt-2 list-disc list-inside text-red-700">
+                <% @submission.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <!-- Title Field -->
+          <div>
+            <label for="submission_title" class="block text-sm font-medium">Idea Title</label>
+            <input type="text" name="submission[title]" id="submission_title" class="mt-1 block w-full rounded border-gray-300 px-3 py-2 text-lg" maxlength="100" required aria-required="true" aria-describedby="titleHelp" aria-label="Idea Title" />
+            <div class="flex justify-between text-sm text-gray-500 mt-1">
+              <span id="titleHelp">Give your idea a clear, concise title</span>
+              <span id="titleCharCount">0/100</span>
             </div>
           </div>
+
+          <!-- Description Field -->
+          <div>
+            <label for="submission_description" class="block text-sm font-medium">Description</label>
+            <textarea name="submission[description]" id="submission_description" class="mt-1 block w-full rounded border-gray-300 px-3 py-2" rows="6" maxlength="500" required aria-required="true" aria-describedby="descriptionHelp"></textarea>
+            <div class="flex justify-between text-sm text-gray-500 mt-1">
+              <span id="descriptionHelp">Provide details, benefits, and how it could be implemented.</span>
+              <span id="descCharCount">0/500</span>
+            </div>
+          </div>
+
+          <!-- Ward Selection -->
+          <div>
+            <label for="submission_ward" class="block text-sm font-medium">Ward</label>
+            <select name="submission[ward]" id="submission_ward" class="mt-1 block w-full rounded border-gray-300 px-3 py-2" required aria-required="true">
+              <option value="">Select a ward</option>
+              <option value="Ward 1">Ward 1</option>
+              <option value="Ward 2">Ward 2</option>
+              <option value="Ward 3">Ward 3</option>
+              <option value="Ward 4">Ward 4</option>
+              <option value="Ward 5">Ward 5</option>
+            </select>
+          </div>
+
+          <!-- Topic Tags -->
+          <div>
+            <label for="submission_topics" class="block text-sm font-medium">Topic Tags</label>
+            <select name="submission[topics][]" id="submission_topics" class="mt-1 block w-full rounded border-gray-300 px-3 py-2" multiple aria-describedby="topicsHelp">
+              <option value="Environment">Environment</option>
+              <option value="Community">Community</option>
+              <option value="Technology">Technology</option>
+              <option value="Education">Education</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Economy">Economy</option>
+              <option value="Health">Health</option>
+              <option value="Recreation">Recreation</option>
+              <option value="Youth">Youth</option>
+              <option value="Safety">Safety</option>
+            </select>
+            <div class="text-sm text-gray-500 mt-1" id="topicsHelp">Select up to 3 topics that best describe your idea.</div>
+          </div>
+
+          <!-- Privacy Toggle -->
+          <div class="p-4 border rounded bg-white">
+            <div class="flex items-center">
+              <input type="checkbox" name="submission[is_anonymous]" id="submission_is_anonymous" class="h-4 w-4 text-[var(--color-primary)] border-gray-300 rounded" />
+              <label for="submission_is_anonymous" class="ml-2 font-medium">Post anonymously</label>
+            </div>
+            <div class="text-sm text-gray-500 mt-2">Your name will not be displayed. Only admins can see your identity.</div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-3">
+            <button type="submit" class="bg-[var(--color-success)] text-white px-6 py-3 rounded w-full sm:w-auto">Submit Idea</button>
+            <a href="<%= submissions_path %>" class="border border-[var(--color-success)] text-[var(--color-success)] px-6 py-3 rounded w-full sm:w-auto text-center">Cancel</a>
+          </div>
+        </form>
+
+        <div class="mt-4 p-3 bg-gray-50 rounded">
+          <p class="text-gray-600 text-sm mb-0">
+            <strong>Tip:</strong> Great ideas are specific, actionable, and benefit the community. Include details about implementation, costs, and expected outcomes to help others understand your vision.
+          </p>
         </div>
       </div>
+
+      <div class="mt-6">
+        <h4 class="font-semibold mb-3">Vote for Community Ideas</h4>
+        <%= render partial: 'community_ideas/voting_cards', locals: { ideas: @community_ideas || CommunityIdea.order(upvotes: :desc).limit(10) } %>
+      </div>
+
     </div>
   </div>
 </div>
+
 <script>
   // Character counters for title and description
   document.addEventListener('turbo:load', function() {

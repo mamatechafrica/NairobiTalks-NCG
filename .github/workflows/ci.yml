@@ -122,3 +122,33 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/tmp/screenshots
           if-no-files-found: ignore
+
+  cucumber:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Prepare DB for Cucumber
+        env:
+          RAILS_ENV: test
+        run: bin/rails db:test:prepare
+
+      - name: Run Cucumber features
+        env:
+          RAILS_ENV: test
+        run: bundle exec cucumber -f progress
+
+      - name: Keep screenshots from failed features
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cucumber_screenshots
+          path: ${{ github.workspace }}/tmp/screenshots
+          if-no-files-found: ignore

@@ -1,4 +1,4 @@
-gem 'trix'
+gem "trix"
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
@@ -18,13 +18,13 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem 'google_drive' # for Google Sheets integration
-gem "dotenv-rails", groups: [:development, :test]
-gem 'devise'
-gem 'ruby-openai'
-gem 'pdf-reader'
-gem 'carrierwave', '~> 2.0'
-gem 'mimemagic', '~> 0.3.10'
+gem "google_drive" # for Google Sheets integration
+gem "dotenv-rails", groups: [ :development, :test ]
+gem "devise"
+gem "ruby-openai"
+gem "pdf-reader"
+gem "carrierwave", "~> 2.0"
+gem "mimemagic", "~> 0.3.10"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
@@ -72,14 +72,22 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  gem 'letter_opener'
-  gem 'letter_opener_web'
+  gem "letter_opener"
+  gem "letter_opener_web"
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  # Behaviour-driven tests with Cucumber + Capybara
+  gem "cucumber-rails", require: false
+  # Ensures driver binaries (chromedriver) are available in CI and local dev
+  gem "webdrivers"
+  # Clean DB between scenarios
+  gem "database_cleaner-active_record"
+  # RSpec expectations for use in Cucumber steps
+  gem "rspec-expectations"
 end
 
 gem "redis-session-store", "~> 0.11.5"

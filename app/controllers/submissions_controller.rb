@@ -7,12 +7,17 @@ class SubmissionsController < ApplicationController
   def create
     @submission = Submission.new(submission_params)
 
+    # Accept 'ward' and 'topics' form fields and map them to the submission model
+    # so the existing front-end form doesn't need to be changed.
+    @submission.location ||= params.dig(:submission, :ward)
+    @submission.topic ||= params.dig(:submission, :topic) || params.dig(:submission, :topics)&.first
+
     if @submission.save
       CommunityIdea.create!(
         title: @submission.title,
         description: @submission.description,
         ward: @submission.location,
-        topic: @submission.topic == 'Other' ? @submission.other_topic : @submission.topic,
+        topic: @submission.topic == "Other" ? @submission.other_topic : @submission.topic,
         upvotes: 0,
         downvotes: 0,
         status: "pending"
@@ -38,12 +43,12 @@ class SubmissionsController < ApplicationController
 
   def save_to_google_sheet(submission)
     begin
-      session = GoogleDrive::Session.from_service_account_key(ENV['GOOGLE_SERVICE_ACCOUNT_JSON_PATH'])
+      session = GoogleDrive::Session.from_service_account_key(ENV["GOOGLE_SERVICE_ACCOUNT_JSON_PATH"])
       spreadsheet = session.spreadsheet_by_title("Timiza")
       return false if spreadsheet.nil?
       sheet = spreadsheet.worksheet_by_title("Submissions")
       return false if sheet.nil?
-      sheet.insert_rows(sheet.num_rows + 1, [[
+      sheet.insert_rows(sheet.num_rows + 1, [ [
         Time.now.to_s,
         submission.title,
         submission.description,
@@ -52,7 +57,7 @@ class SubmissionsController < ApplicationController
         submission.other_topic,
         submission.anonymity,
         submission.citizen_contact
-      ]])
+      ] ])
       sheet.save
       true
     rescue => e

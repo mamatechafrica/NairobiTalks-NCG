@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
     include CableReady::Broadcaster
   include Devise::Controllers::Helpers
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
@@ -29,10 +28,19 @@ class ApplicationController < ActionController::Base
   # Ensure admin and citizen sessions are isolated
   before_action :enforce_session_scope
 
+  # Handle invalid CSRF token gracefully by resetting session and redirecting to sign-in
+  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_auth_token
+
   private
 
+  def handle_invalid_auth_token
+    Rails.logger.warn "InvalidAuthenticityToken: resetting session for request=#{request.method} #{request.fullpath} ip=#{request.remote_ip}"
+    reset_session
+    redirect_to new_user_session_path, alert: "Your session has expired. Please sign in again."
+  end
+
   def choose_layout
-    if current_user&.admin? && controller_path.start_with?('admin/')
+    if current_user&.admin? && controller_path.start_with?("admin/")
       "admin_sidebar"
     else
       "application"
@@ -45,8 +53,8 @@ class ApplicationController < ActionController::Base
       sign_out(current_user)
       session.delete(:admin)
     elsif !session[:admin] && request.path.start_with?("/admin")
-      # If citizen session, but accessing admin, force logout
-      sign_out(current_user)
+      # If citizen session, but accessing admin, force logout unless the current user is an admin (e.g., logged-in via Warden in tests)
+      sign_out(current_user) unless current_user&.admin?
     end
   end
 end

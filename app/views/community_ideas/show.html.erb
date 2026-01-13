@@ -1,21 +1,21 @@
-<div class="bg-light min-vh-100">
+<div class="bg-[var(--color-background)] min-h-screen">
   <%= render partial: 'shared/header', locals: { title: 'Idea Details', back_path: community_ideas_path } %>
-  <main class="container py-5">
+  <main class="max-w-6xl mx-auto px-6 py-12">
     <% if !user_signed_in? %>
-      <div class="rounded-xl p-4 mb-4 bg-accent text-accent-foreground shadow-elevation-1 flex flex-col sm:flex-row items-center gap-4" role="status" aria-live="polite">
+      <div class="rounded-xl p-4 mb-4 bg-accent text-accent-foreground shadow flex flex-col sm:flex-row items-center gap-4" role="status" aria-live="polite">
         <div class="flex-1">
           <p class="font-semibold mb-1">Sign in to participate</p>
           <p class="text-sm text-accent-foreground/90 mb-0">Sign in to vote, comment, and track your submissions.</p>
         </div>
         <div class="flex gap-2">
-          <%= link_to 'Sign in', new_user_session_path, class: 'inline-flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground font-semibold', aria: { label: 'Sign in to NairobiTalks' } %>
-          <%= link_to 'Sign up', new_user_registration_path, class: 'inline-flex items-center px-4 py-2 rounded-md border border-primary text-primary font-semibold', aria: { label: 'Sign up for NairobiTalks' } %>
+          <%= link_to 'Sign in', new_user_session_path, class: 'inline-flex items-center px-4 py-2 rounded-md bg-[var(--color-primary)] text-white font-semibold', aria: { label: 'Sign in to NairobiTalks' } %>
+          <%= link_to 'Sign up', new_user_registration_path, class: 'inline-flex items-center px-4 py-2 rounded-md border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold', aria: { label: 'Sign up for NairobiTalks' } %>
         </div>
       </div>
     <% end %>
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="mb-5" style="max-width: 100%;">
+    <div class="flex justify-center">
+      <div class="w-full lg:w-8/12">
+        <div class="mb-5 w-full">
           <%= render partial: "community_ideas/idea_card", locals: { idea: @community_idea, large: true } %>
         </div>
         <section>
@@ -24,58 +24,56 @@
           <!-- Comments List -->
           <% if @community_idea.comments.any? %>
             <% @community_idea.comments.order(created_at: :desc).each do |comment| %>
-              <div class="card mb-4 shadow-sm border-0" style="border-radius: 1rem;">
-                <div class="card-body pb-3 pt-4 px-4">
-                  <div class="d-flex align-items-center mb-2">
+              <div class="bg-white rounded-lg shadow-sm mb-4 p-4">
+                  <div class="flex items-center mb-2">
                     <% if comment.user && comment.user.respond_to?(:avatar_url) && comment.user.avatar_url.present? %>
-                      <img src="<%= comment.user.avatar_url %>" alt="avatar" class="rounded-circle me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                      <img src="<%= comment.user.avatar_url %>" alt="avatar" class="rounded-full mr-3" style="width: 48px; height: 48px; object-fit: cover;">
                     <% else %>
-                      <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                      <div class="rounded-full bg-[var(--color-primary)] text-white flex items-center justify-center mr-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
                         <%= comment.user&.email&.first&.upcase || 'U' %>
                       </div>
                     <% end %>
                     <div>
-                      <div class="fw-bold" style="font-size: 1.1rem;">
+                      <div class="font-semibold" style="font-size: 1.1rem;">
                         @<%= comment.user&.username || comment.user&.email&.split('@')&.first || 'anonymous' %>
                       </div>
-                      <div class="text-muted small">
+                      <div class="text-muted text-sm">
                         <%= time_ago_in_words(comment.created_at) %> ago
                       </div>
                     </div>
                     <!-- No like button/icon -->
                   </div>
-                  <div class="mt-2 mb-0" style="font-size: 1.08rem; color: #222;">
+                  <div class="mt-2 mb-0 text-[18px] text-[#222]">
                     <%= comment.body&.html_safe %>
                   </div>
                   <% if comment.user == current_user %>
-                    <div class="d-flex justify-content-end gap-2 mt-3">
-                      <%= button_to 'Delete', community_idea_comment_path(@community_idea, comment), method: :delete, data: { confirm: 'Are you sure you want to delete this comment?' }, class: 'btn btn-danger px-3 py-2', style: 'font-weight: 600; font-size: 1rem; border-radius: 0.5rem; display: inline-block;', form: { style: 'display: inline;' }, aria: { label: 'Delete comment' } %>
-                      <button type="button" class="btn edit-btn px-3 py-2" style="font-weight: 600; font-size: 1rem; border-radius: 0.5rem; background: #fff; color: #222; border: 2px solid #198754;" aria-label="Edit comment" data-bs-toggle="modal" data-bs-target="#editCommentModal-<%= comment.id %>">Edit</button>
-                      <!-- Edit Comment Modal -->
-                      <div class="modal fade" id="editCommentModal-<%= comment.id %>" tabindex="-1" aria-labelledby="editCommentModalLabel-<%= comment.id %>" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="editCommentModalLabel-<%= comment.id %>">Edit Comment</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <%= form_with(model: [@community_idea, comment], local: true) do |f| %>
-                                <div class="mb-0">
-                                  <%= f.text_area :body, class: "form-control border-0 shadow-none", rows: 2, placeholder: "Edit your comment...", style: "background: transparent; resize: none; font-size: 1.1rem;" %>
-                                </div>
-                                <div class="d-flex justify-content-end mt-2">
-                                  <%= f.submit "Update", class: "btn btn-success px-4" %>
-                                </div>
-                              <% end %>
-                            </div>
+                    <div class="flex justify-end gap-2 mt-3">
+                      <%= button_to 'Delete', community_idea_comment_path(@community_idea, comment), method: :delete, data: { confirm: 'Are you sure you want to delete this comment?' }, class: 'bg-red-600 text-white px-3 py-2 rounded', form: { style: 'display: inline;' }, aria: { label: 'Delete comment' } %>
+                      <button type="button" class="px-3 py-2 rounded border border-[var(--color-primary)] bg-white text-[#222]" aria-label="Edit comment" data-bs-toggle="modal" data-bs-target="#editCommentModal-<%= comment.id %>">Edit</button>
+
+                      <!-- Edit Comment Modal (styled for Tailwind; if you want interactive modals, we can add Stimulus/Alpine) -->
+                      <div id="editCommentModal-<%= comment.id %>" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                        <div class="bg-white rounded-lg w-full max-w-md p-4">
+                          <div class="flex justify-between items-center mb-3">
+                            <h5 class="font-semibold">Edit Comment</h5>
+                            <button type="button" class="text-gray-500" aria-label="Close">✕</button>
+                          </div>
+                          <div>
+                            <%= form_with(model: [@community_idea, comment], local: true) do |f| %>
+                              <div class="mb-0">
+                                <%= f.text_area :body, class: "w-full bg-transparent resize-none text-lg", rows: 2, placeholder: "Edit your comment...", style: "font-size: 1.1rem;" %>
+                              </div>
+                              <div class="flex justify-end mt-2">
+                                <%= f.submit "Update", class: "bg-[var(--color-primary)] text-white px-4 py-2 rounded" %>
+                              </div>
+                            <% end %>
                           </div>
                         </div>
                       </div>
+
                     </div>
                   <% end %>
                 </div>
-              </div>
             <% end %>
           <% else %>
             <div class="text-center py-4">

@@ -1,57 +1,57 @@
-<div class="bg-light min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+<div class="bg-[var(--color-background)] min-h-screen flex flex-col items-center justify-center py-12">
   <%= render partial: 'shared/header', locals: { title: 'Explore Community Ideas' } %>
-  <div class="container mb-4">
-    <%= form_with url: community_ideas_path, method: :get, local: true, class: "row gx-3 gy-2 align-items-end flex-nowrap flex-md-nowrap flex-lg-nowrap p-3 rounded shadow-sm", style: 'background: #fff; border: 2px solid #004225; flex-wrap: wrap;' do |f| %>
-      <div class="col-md-3 col-6">
-        <%= f.label :search, "Search", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.text_field :search, value: params[:search], class: "form-control border-success fw-bold", placeholder: "Search ideas...", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+  <div class="max-w-6xl mx-auto px-6 mb-6">
+    <%= form_with url: community_ideas_path, method: :get, local: true, class: "w-full bg-white rounded-lg p-4 shadow-sm border-2 border-[var(--color-primary)] flex flex-wrap gap-4 items-end", style: 'flex-wrap: wrap;' do |f| %>
+      <div class="w-full md:w-1/4 lg:w-1/5">
+        <%= f.label :search, "Search", class: "block font-semibold", style: 'color: #004225;' %>
+        <%= f.text_field :search, value: params[:search], class: "block w-full border-2 border-[var(--color-primary)] bg-[#f8fff8] text-[var(--color-primary)] font-semibold px-3 py-2 rounded", placeholder: "Search ideas...", style: '' %>
       </div>
-      <div class="col-md-2 col-6">
-        <%= f.label :ward, "Ward", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.select :ward, options_for_select(["All"] + CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward), params[:ward]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      <div class="w-full md:w-1/6 lg:w-1/6">
+        <%= f.label :ward, "Ward", class: "block font-semibold", style: 'color: #004225;' %>
+        <%= f.select :ward, options_for_select(["All"] + CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward), params[:ward]), {}, class: "block w-full border-2 border-[var(--color-primary)] bg-[#f8fff8] text-[var(--color-primary)] font-semibold px-3 py-2 rounded", style: '' %>
       </div>
-      <div class="col-md-2 col-6">
-        <%= f.label :topic, "Topic", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      <div class="w-full md:w-1/6 lg:w-1/6">
+        <%= f.label :topic, "Topic", class: "block font-semibold", style: 'color: #004225;' %>
+        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "block w-full border-2 border-[var(--color-primary)] bg-[#f8fff8] text-[var(--color-primary)] font-semibold px-3 py-2 rounded", style: '' %>
       </div>
-      <div class="col-md-2 col-6">
-        <%= f.label :status, "Status", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      <div class="w-full md:w-1/6 lg:w-1/6">
+        <%= f.label :status, "Status", class: "block font-semibold", style: 'color: #004225;' %>
+        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "block w-full border-2 border-[var(--color-primary)] bg-[#f8fff8] text-[var(--color-primary)] font-semibold px-3 py-2 rounded", style: '' %>
       </div>
-      <div class="col-md-2 col-12 d-flex align-items-end">
-        <%= f.submit "Search", class: "btn btn-lg fw-bold w-100", style: 'background: #004225; color: #fff; border-width: 2px; border-color: #004225;' %>
+      <div class="w-full md:w-1/6 lg:w-1/6">
+        <%= f.submit "Search", class: "bg-[var(--color-primary)] text-white font-bold w-full py-3 rounded" %>
       </div>
     <% end %>
   </div>
   <% if user_signed_in? %>
-    <div class="container py-4">
+    <div class="max-w-6xl mx-auto px-6 py-6">
       <% if @community_ideas.any? %>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% @community_ideas.each do |idea| %>
-            <div class="col">
+            <div>
               <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
             </div>
           <% end %>
         </div>
       <% else %>
-        <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
-          <p class="h5">No ideas yet. Be the first to submit one!</p>
+        <div class="h-40 flex items-center justify-center text-muted text-center px-4">
+          <p class="text-lg">No ideas yet. Be the first to submit one!</p>
         </div>
       <% end %>
     </div>
   <% else %>
-    <div class="container py-4">
+    <div class="max-w-6xl mx-auto px-6 py-6">
       <% if @community_ideas.any? %>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% @community_ideas.each do |idea| %>
-            <div class="col">
+            <div>
               <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
             </div>
           <% end %>
         </div>
       <% else %>
-        <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
-          <p class="h5">No ideas yet. Be the first to submit one!</p>
+        <div class="h-40 flex items-center justify-center text-muted text-center px-4">
+          <p class="text-lg">No ideas yet. Be the first to submit one!</p>
         </div>
       <% end %>
     </div>

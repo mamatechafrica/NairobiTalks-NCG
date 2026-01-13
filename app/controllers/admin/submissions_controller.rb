@@ -5,7 +5,7 @@ class Admin::SubmissionsController < Admin::BaseController
     @view_mode = params[:view].in?(%w[grid table]) ? params[:view] : "table"
     @filter = params[:filter]
     @submissions = CitizenSubmission.order(flagged: :desc, created_at: :desc)
-    
+
     # Apply filters
     case @filter
     when "flagged"
@@ -24,9 +24,13 @@ class Admin::SubmissionsController < Admin::BaseController
   end
 
   def update_status
+    Rails.logger.info "Admin update_status params: #{params.inspect}"
+    Rails.logger.info "Computed status_param: #{status_param rescue 'nil'}"
     if @submission.update(status: status_param)
+      Rails.logger.info "Submission status changed to: #{@submission.status}"
       flash[:notice] = "Submission status updated."
     else
+      Rails.logger.info "Submission failed to change: #{@submission.errors.full_messages.join(', ')}"
       flash[:alert] = "Unable to update status."
     end
     redirect_back fallback_location: admin_submissions_path(view: params[:view])
