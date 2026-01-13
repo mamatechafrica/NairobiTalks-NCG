@@ -66,7 +66,9 @@ NairobiTalks adheres to the following standards and best practices:
 ## 🛠 Technology Stack
 
 - **Backend**: Ruby on Rails 8.1.1
-- **Frontend**: Bootstrap 5, Turbo/Stimulus
+- **Frontend**: Tailwind CSS, Turbo/Stimulus
+
+> Note: This project is migrating off Bootstrap and standardizing on Tailwind CSS for component consistency.
 - **Database**: SQLite (development), PostgreSQL (production)
 - **Authentication**: Devise
 - **File Storage**: Active Storage
