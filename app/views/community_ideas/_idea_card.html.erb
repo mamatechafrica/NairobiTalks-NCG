@@ -21,13 +21,19 @@
       <span class="text-muted small fs-5">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
       <% if local_assigns[:large] %>
         <div class="d-flex justify-content-center gap-5">
-          <%= button_to upvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-success btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes' do %>
-            <span aria-hidden="true">✔</span>
-            <span class="visually-hidden">Yes</span>
-          <% end %>
-          <%= button_to downvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-danger btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote No' do %>
-            <span aria-hidden="true">✖</span>
-            <span class="visually-hidden">No</span>
+          <% if user_signed_in? %>
+            <%= button_to upvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-success btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes' do %>
+              <span aria-hidden="true">✔</span>
+              <span class="visually-hidden">Yes</span>
+            <% end %>
+            <%= button_to downvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-danger btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote No' do %>
+              <span aria-hidden="true">✖</span>
+              <span class="visually-hidden">No</span>
+            <% end %>
+          <% else %>
+            <div class="text-center">
+              <%= link_to 'Sign in to vote', new_user_session_path, class: 'btn btn-success' %>
+            </div>
           <% end %>
         </div>
       </div>

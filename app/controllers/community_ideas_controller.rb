@@ -25,7 +25,7 @@ class CommunityIdeasController < ApplicationController
     @comment = Comment.new
   end
 
-  before_action :authenticate_user!, only: [:upvote, :downvote, :show, :create_comment]
+  before_action :authenticate_user!, only: [:upvote, :downvote, :create_comment]
 
   def upvote
     vote = Vote.find_or_initialize_by(user: current_user, community_idea: @idea)
