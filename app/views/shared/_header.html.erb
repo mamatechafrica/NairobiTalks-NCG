@@ -1,21 +1,15 @@
-<header class="bg-white shadow-sm py-4 rounded border border-success mb-4">
-  <div class="container">
-    <div class="row align-items-center">
-      <% if defined?(back_path) && back_path.present? %>
-        <div class="col">
-          <a href="<%= back_path %>" class="text-success fw-medium text-decoration-none">
-            ← Back
-          </a>
-        </div>
-      <% else %>
-        <div class="col"></div>
-      <% end %>
-      <div class="col text-center">
-        <h1 class="fw-bold text-success mb-0">
-          <%= title %>
-        </h1>
+<header class="bg-white shadow-sm py-4 rounded border border-[var(--color-success)] mb-4">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center">
+      <div class="flex-1">
+        <% if defined?(back_path) && back_path.present? %>
+          <a href="<%= back_path %>" class="text-[var(--color-success)] font-medium hover:underline">← Back</a>
+        <% end %>
       </div>
-      <div class="col"></div>
+      <div class="flex-1 text-center">
+        <h1 class="font-bold text-[var(--color-success)] mb-0"><%= title %></h1>
+      </div>
+      <div class="flex-1"></div>
     </div>
   </div>
 </header>

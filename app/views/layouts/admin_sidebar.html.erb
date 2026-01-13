@@ -15,72 +15,96 @@
   </head>
   <body>
     <!-- Admin Layout Wrapper -->
-    <div class="admin-layout d-flex" style="min-height: 100vh;">
+    <div class="admin-layout flex" style="min-height: 100vh;">
       <!-- Fixed Sidebar -->
-      <nav class="sidebar d-flex flex-column" style="width: 240px; position: fixed; left: 0; top: 0; bottom: 0; z-index: 1000; background: var(--color-primary); color: var(--color-primary-foreground);" aria-label="Admin Navigation" role="navigation">
+      <nav class="sidebar fixed left-0 top-0 bottom-0 w-60 flex flex-col" style="z-index: 1000; background: var(--color-primary); color: var(--color-primary-foreground);" aria-label="Admin Navigation" role="navigation">
         <!-- Top Section: Logo (Fixed) -->
-        <div class="shrink-0 sidebar-header d-flex flex-column align-items-center pt-4 pb-2 px-3" style="gap: 0.5rem;">
+        <div class="flex flex-col items-center pt-4 pb-2 px-3" style="gap: 0.5rem;">
           <img src="<%= asset_path('NairobiTalksLogo.png') %>" alt="Nairobi Talks Admin Logo" style="max-width: 110px; height: auto; margin-bottom: 0.5rem; display: block; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); background: #fff;" />
           <!-- Sidebar Collapse Button -->
-          <button class="toggle-sidebar-btn d-flex align-items-center justify-content-center w-100 mt-1 mb-2" id="sidebarCollapseBtn" aria-label="Collapse sidebar" type="button" style="max-width: 110px;">
+          <button id="sidebarCollapseBtn" aria-label="Collapse sidebar" type="button" class="w-full max-w-[110px] flex items-center justify-center mt-1 mb-2 text-white border border-white/20 rounded px-2 py-1">
             <i class="bi bi-chevron-double-left" aria-hidden="true"></i>
-            <span class="d-none d-md-inline ms-2">Collapse</span>
+            <span class="hidden md:inline ml-2">Collapse</span>
           </button>
         </div>
         <!-- Middle Section: Navigation (Scrollable) -->
-        <div class="grow px-3" style="overflow-y: auto; min-height: 0; max-height: calc(100vh - 210px);">
-          <ul class="nav flex-column gap-1" role="menubar">
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-speedometer2 me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Dashboard</span>'.html_safe, admin_root_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_root_path)}", aria_current: current_page?(admin_root_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Dashboard' } %>
+        <div class="flex-1 px-3 overflow-y-auto" style="min-height: 0; max-height: calc(100vh - 210px);">
+          <ul class="space-y-1" role="menubar">
+            <li role="none">
+              <%= link_to admin_root_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_root_path)}", role: "menuitem", aria: { label: 'Dashboard' } do %>
+                <i class="bi bi-speedometer2" aria-hidden="true"></i>
+                <span class="hidden md:inline">Dashboard</span>
+              <% end %>
             </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-eye me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">App Preview</span>'.html_safe, admin_app_preview_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_app_preview_path)}", aria_current: current_page?(admin_app_preview_path) ? 'page' : nil, role: "menuitem", aria: { label: 'App Preview' } %>
+            <li role="none">
+              <%= link_to admin_app_preview_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_app_preview_path)}", role: "menuitem", aria: { label: 'App Preview' } do %>
+                <i class="bi bi-eye" aria-hidden="true"></i>
+                <span class="hidden md:inline">App Preview</span>
+              <% end %>
             </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-file-earmark-text me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Documents</span>'.html_safe, admin_planning_documents_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_planning_documents_path)}", aria_current: current_page?(admin_planning_documents_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Documents' } %>
+            <li role="none">
+              <%= link_to admin_planning_documents_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_planning_documents_path)}", role: "menuitem", aria: { label: 'Documents' } do %>
+                <i class="bi bi-file-earmark-text" aria-hidden="true"></i>
+                <span class="hidden md:inline">Documents</span>
+              <% end %>
             </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-upload me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Upload</span>'.html_safe, new_admin_planning_document_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(new_admin_planning_document_path)}", aria_current: current_page?(new_admin_planning_document_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Upload' } %>
+            <li role="none">
+              <%= link_to new_admin_planning_document_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(new_admin_planning_document_path)}", role: "menuitem", aria: { label: 'Upload' } do %>
+                <i class="bi bi-upload" aria-hidden="true"></i>
+                <span class="hidden md:inline">Upload</span>
+              <% end %>
             </li>
-            <li class="nav-item" role="none" style="display: flex; align-items: center;">
-              <%= link_to '<i class="bi bi-people me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Community Ideas</span>'.html_safe, admin_community_ideas_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_community_ideas_path)}", aria_current: current_page?(admin_community_ideas_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Community Ideas' }, style: 'display: flex; align-items: center;' %>
+            <li role="none">
+              <%= link_to admin_community_ideas_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_community_ideas_path)}", role: "menuitem", aria: { label: 'Community Ideas' } do %>
+                <i class="bi bi-people" aria-hidden="true"></i>
+                <span class="hidden md:inline">Community Ideas</span>
+              <% end %>
             </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-graph-up me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Analytics</span>'.html_safe, admin_analytics_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_analytics_path)}", aria_current: current_page?(admin_analytics_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Analytics' } %>
+            <li role="none">
+              <%= link_to admin_analytics_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_analytics_path)}", role: "menuitem", aria: { label: 'Analytics' } do %>
+                <i class="bi bi-graph-up" aria-hidden="true"></i>
+                <span class="hidden md:inline">Analytics</span>
+              <% end %>
             </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-megaphone me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Broadcasts</span>'.html_safe, admin_broadcasts_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_broadcasts_path)}", aria_current: current_page?(admin_broadcasts_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Broadcasts' } %>
+            <li role="none">
+              <%= link_to admin_broadcasts_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_broadcasts_path)}", role: "menuitem", aria: { label: 'Broadcasts' } do %>
+                <i class="bi bi-megaphone" aria-hidden="true"></i>
+                <span class="hidden md:inline">Broadcasts</span>
+              <% end %>
             </li>
-            <li class="nav-item mb-2" role="none">
-              <%= link_to '<i class="bi bi-calendar-event me-2 sidebar-icon" aria-hidden="true"></i><span class="d-none d-md-inline">Forum</span>'.html_safe, admin_forum_path, class: "nav-link sidebar-link w-100#{' active' if current_page?(admin_forum_path)}", aria_current: current_page?(admin_forum_path) ? 'page' : nil, role: "menuitem", aria: { label: 'Forum' } %>
+            <li role="none">
+              <%= link_to admin_forum_path, class: "flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-white/10 w-full #{'bg-white/10' if current_page?(admin_forum_path)}", role: "menuitem", aria: { label: 'Forum' } do %>
+                <i class="bi bi-calendar-event" aria-hidden="true"></i>
+                <span class="hidden md:inline">Forum</span>
+              <% end %>
             </li>
           </ul>
         </div>
         <!-- Bottom Section: Theme Toggle and Logout (Fixed) -->
-        <div class="shrink-0 px-3 pb-3 mt-auto">
-          <hr class="border-white-50 my-3" aria-hidden="true">
+        <div class="px-3 pb-3 mt-auto">
+          <hr class="border-white/20 my-3" aria-hidden="true">
           <!-- Theme Toggle -->
-          <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" id="themeToggle" aria-label="Toggle dark mode">
-            <label class="form-check-label text-white fw-medium" for="themeToggle">
-              <i class="bi bi-moon-fill me-1" aria-hidden="true"></i><span class="d-none d-md-inline">Dark Mode</span>
+          <div class="flex items-center gap-2 mb-3">
+            <input class="h-4 w-4" type="checkbox" id="themeToggle" aria-label="Toggle dark mode">
+            <label class="text-white font-medium" for="themeToggle">
+              <i class="bi bi-moon-fill mr-1" aria-hidden="true"></i><span class="hidden md:inline">Dark Mode</span>
             </label>
           </div>
           <!-- Logout Button -->
-          <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-light logout-btn w-100 fw-medium", aria: { label: "Logout from admin panel" } do %>
-            <i class="bi bi-power me-2" aria-hidden="true"></i><span class="d-none d-md-inline">Logout</span>
+          <%= button_to destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 rounded border border-white/20 text-white font-medium", aria: { label: "Logout from admin panel" } do %>
+            <i class="bi bi-power mr-2" aria-hidden="true"></i><span class="hidden md:inline">Logout</span>
           <% end %>
         </div>
       </nav>
       <!-- Main Content Area -->
-      <div class="main-content grow d-flex flex-column" style="margin-left: 240px; min-height: 100vh; transition: margin-left 0.3s;">
+      <div class="main-content flex-1 flex flex-col" style="margin-left: 240px; min-height: 100vh; transition: margin-left 0.3s;">
         <!-- Content -->
-        <main class="grow p-4" role="main" style="width: 100%; margin: 0;">
+        <main class="flex-1 p-4" role="main" style="width: 100%; margin: 0;">
           <%= yield %>
         </main>
         <!-- Footer - Full Width -->
-        <footer class="bg-light border-top py-3 text-center text-muted mt-auto" role="contentinfo">
-          <div class="container-fluid">
+        <footer class="bg-white border-t py-3 text-center text-muted mt-auto" role="contentinfo">
+          <div class="max-w-6xl mx-auto px-6">
             <small>© 2025 Nairobi Talks Admin Panel</small>
           </div>
         </footer>

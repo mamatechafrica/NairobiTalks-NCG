@@ -17,115 +17,116 @@
     <%= javascript_importmap_tags %>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
-  <body class="bg-light">
-    <a href="#main-content" class="visually-hidden-focusable">Skip to main content</a>
-    <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top" role="navigation" aria-label="Main navigation" style="background-color: #004225 !important;">
-      <div class="container-fluid">
-        <%= link_to root_path, class: "navbar-brand d-flex align-items-center" do %>
-          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'me-2', style: 'width: 100px; height: 100px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
-        <% end %>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <%= link_to "Community Ideas", community_ideas_path, class: "nav-link fw-bold", style: 'color: #fff !important;' %>
-            </li>
+  <body class="bg-[var(--color-background)]">
+    <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>
+
+    <nav class="fixed top-0 left-0 right-0 shadow-sm bg-[var(--color-primary)]" role="navigation" aria-label="Main navigation">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex items-center gap-4">
+            <%= link_to root_path, class: "flex items-center" do %>
+              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'block', style: 'width: 84px; height: 84px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
+            <% end %>
+          </div>
+
+          <div class="hidden md:flex items-center gap-6">
+            <%= link_to "Community Ideas", community_ideas_path, class: "text-white font-semibold hover:underline" %>
             <% if user_signed_in? %>
-              <li class="nav-item">
-                <%= link_to "Submit Ideas", new_submission_path, class: "btn btn-primary me-2" %>
-              </li>
+              <%= link_to "Submit Ideas", new_submission_path, class: "inline-block px-4 py-2 rounded bg-[var(--color-secondary)] text-white" %>
             <% end %>
             <% if user_signed_in? && current_user.admin? %>
-              <li class="nav-item">
-                <%= link_to "Admin", admin_root_path, class: "nav-link fw-bold", style: 'color: #ff3333 !important; text-shadow: 0 1px 2px #0002;' %>
-              </li>
+              <%= link_to "Admin", admin_root_path, class: "text-red-400 font-semibold" %>
             <% end %>
-          </ul>
-          <ul class="navbar-nav">
+          </div>
+
+          <div class="flex items-center gap-3">
             <% if user_signed_in? %>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <div class="rounded-circle" style="background-color: #004225; color: #fff; width: 40px; height: 40px; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">
-                    <%= current_user.email.first.upcase %>
-                  </div>
-                  <span class="d-none d-md-inline fw-semibold" style="color: #fff;"><%= current_user.email %></span>
-                  <% if current_user.admin? %>
-                    <span class="badge bg-danger ms-1">Admin</span>
-                  <% end %>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="navbarDropdown" style="color: #fff;">
-                  <li><%= link_to "My Profile", profile_path, class: "dropdown-item" %></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item text-danger" %></li>
-                </ul>
-              </li>
+              <details class="relative">
+                <summary class="flex items-center gap-3 cursor-pointer list-none">
+                  <div class="rounded-full bg-[var(--color-primary-foreground)] text-[var(--color-primary)] w-10 h-10 flex items-center justify-center"><%= current_user.email.first.upcase %></div>
+                  <span class="hidden md:inline font-medium text-white"><%= current_user.email %></span>
+                </summary>
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded shadow z-20">
+                  <%= link_to "My Profile", profile_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                  <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100" %>
+                </div>
+              </details>
             <% else %>
-              <li class="nav-item">
-                <%= link_to "Sign In", new_user_session_path, class: "nav-link fw-bold", style: 'color: #fff !important;' %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-light ms-2 fw-bold", style: 'color: #004225 !important;' %>
-              </li>
+              <%= link_to "Sign In", new_user_session_path, class: "text-white font-semibold" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "ml-2 inline-block px-4 py-2 rounded bg-white text-[var(--color-primary)] font-bold" %>
             <% end %>
-          </ul>
+
+            <!-- Mobile menu -->
+            <details class="md:hidden relative">
+              <summary class="px-3 py-2 rounded text-white">Menu</summary>
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded shadow z-20">
+                <%= link_to "Community Ideas", community_ideas_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                <% if user_signed_in? %>
+                  <%= link_to "Submit Ideas", new_submission_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                <% end %>
+                <% if user_signed_in? && current_user.admin? %>
+                  <%= link_to "Admin", admin_root_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                <% end %>
+                <% if user_signed_in? %>
+                  <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100" %>
+                <% else %>
+                  <%= link_to "Sign In", new_user_session_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                  <%= link_to "Sign Up", new_user_registration_path, class: "block px-4 py-2 text-gray-700 hover:bg-gray-100" %>
+                <% end %>
+              </div>
+            </details>
+          </div>
         </div>
       </div>
     </nav>
     <div style="height: 110px;"></div>
 
     <% if flash.any? %>
-      <div class="container mt-3">
+      <div class="max-w-6xl mx-auto px-6 mt-4">
         <% flash.each do |name, msg| %>
-          <div class="alert alert-<%= name == 'notice' ? 'success' : 'danger' %>" role="alert">
+          <div class="mb-2 rounded px-4 py-3 <%= name == 'notice' ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-800' %>">
             <%= msg %>
           </div>
         <% end %>
       </div>
     <% end %>
 
-    <main id="main-content" class="container-fluid mt-5 pt-4" tabindex="-1">
+    <main id="main-content" class="max-w-6xl mx-auto px-6 mt-6 pt-4" tabindex="-1">
       <%= yield %>
     </main>
-    <footer class="border-top py-5 mt-5" style="background-color: #004225 !important; color: #fff;">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4 mb-4">
-            <div class="d-flex align-items-center mb-3">
-              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'me-2', style: 'width: 100px; height: 100px; object-fit: contain;' %>
+
+    <footer class="mt-12 bg-[var(--color-primary)] text-white py-12">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <div class="mb-3">
+              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'block', style: 'width: 84px; height: 84px; object-fit: contain;' %>
             </div>
-            <p class="small" style="color: #e0e0e0;">
+            <p class="text-sm text-white/90">
               Empowering citizens to shape their community through anonymous idea submission and democratic voting.
             </p>
           </div>
-          <div class="col-md-4 mb-4">
-            <h5 class="fw-bold mb-3" style="color: #fff;">Quick Links</h5>
-            <ul class="list-unstyled">
-              <li class="mb-2"><%= link_to "Discover Ideas", community_ideas_path, class: "text-decoration-none", style: 'color: #fff !important;' %></li>
-              <li class="mb-2"><%= link_to "Submit Idea", new_submission_path, class: "text-decoration-none", style: 'color: #fff !important;' %></li>
+          <div>
+            <h5 class="font-semibold mb-3">Quick Links</h5>
+            <ul class="space-y-2">
+              <li><%= link_to "Discover Ideas", community_ideas_path, class: "text-white hover:underline" %></li>
+              <li><%= link_to "Submit Idea", new_submission_path, class: "text-white hover:underline" %></li>
               <% if user_signed_in? %>
-                <li class="mb-2"><%= link_to "Your Profile", edit_user_registration_path, class: "text-decoration-none", style: 'color: #fff !important;' %></li>
+                <li><%= link_to "Your Profile", edit_user_registration_path, class: "text-white hover:underline" %></li>
               <% end %>
             </ul>
           </div>
-          <div class="col-md-4 mb-4">
-            <h5 class="fw-bold mb-3" style="color: #fff;">Community</h5>
-            <div class="d-flex gap-3">
-              <button class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; color: #004225; background: #fff; border: 2px solid #fff;" aria-label="Twitter">
-                <span aria-hidden="true">T</span>
-              </button>
-              <button class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; color: #004225; background: #fff; border: 2px solid #fff;" aria-label="Facebook">
-                <span aria-hidden="true">F</span>
-              </button>
-              <button class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; color: #004225; background: #fff; border: 2px solid #fff;" aria-label="Instagram">
-                <span aria-hidden="true">I</span>
-              </button>
+          <div>
+            <h5 class="font-semibold mb-3">Community</h5>
+            <div class="flex gap-3">
+              <a class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-[var(--color-primary)]" href="#" aria-label="Twitter">T</a>
+              <a class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-[var(--color-primary)]" href="#" aria-label="Facebook">F</a>
+              <a class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white text-[var(--color-primary)]" href="#" aria-label="Instagram">I</a>
             </div>
           </div>
         </div>
-        <hr class="my-4">
-        <div class="text-center small" style="color: #e0e0e0;">
+
+        <div class="mt-8 text-center text-white/80">
           <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', style: 'width: 84px; height: 84px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
           <p class="mt-2">&copy; 2025. Powered by citizens like you.</p>
         </div>
