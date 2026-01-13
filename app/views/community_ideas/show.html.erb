@@ -2,10 +2,14 @@
   <%= render partial: 'shared/header', locals: { title: 'Idea Details', back_path: community_ideas_path } %>
   <main class="container py-5">
     <% if !user_signed_in? %>
-      <div class="alert alert-info d-flex justify-content-between align-items-center" role="alert">
-        <div>
-          <strong>Sign in to comment and vote</strong>
-          <p class="mb-0">Some actions (voting, commenting) require signing in. <%= link_to 'Sign in', new_user_session_path %> or <%= link_to 'Sign up', new_user_registration_path %>.</p>
+      <div class="rounded-xl p-4 mb-4 bg-accent text-accent-foreground shadow-elevation-1 flex flex-col sm:flex-row items-center gap-4" role="status" aria-live="polite">
+        <div class="flex-1">
+          <p class="font-semibold mb-1">Sign in to participate</p>
+          <p class="text-sm text-accent-foreground/90 mb-0">Sign in to vote, comment, and track your submissions.</p>
+        </div>
+        <div class="flex gap-2">
+          <%= link_to 'Sign in', new_user_session_path, class: 'inline-flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground font-semibold', aria: { label: 'Sign in to NairobiTalks' } %>
+          <%= link_to 'Sign up', new_user_registration_path, class: 'inline-flex items-center px-4 py-2 rounded-md border border-primary text-primary font-semibold', aria: { label: 'Sign up for NairobiTalks' } %>
         </div>
       </div>
     <% end %>

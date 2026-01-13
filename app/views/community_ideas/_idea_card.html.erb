@@ -32,7 +32,7 @@
             <% end %>
           <% else %>
             <div class="text-center">
-              <%= link_to 'Sign in to vote', new_user_session_path, class: 'btn btn-success' %>
+              <%= link_to 'Sign in to vote', new_user_session_path, class: 'inline-flex items-center px-3 py-2 rounded-md bg-primary text-primary-foreground font-semibold', aria: { label: 'Sign in to vote' } %>
             </div>
           <% end %>
         </div>

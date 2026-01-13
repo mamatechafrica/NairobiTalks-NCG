@@ -11,5 +11,5 @@ Feature: View community ideas
   Scenario: Visitor sees sign-in CTA on idea page
     Given there is a community idea titled "Fix potholes on main street"
     When I visit the community idea page for "Fix potholes on main street"
-    Then I should see "Sign in to comment and vote"
+    Then I should see "Sign in to participate"
     And I should see "Sign in"
