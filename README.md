@@ -121,6 +121,11 @@ NairobiTalks adheres to the following standards and best practices:
 
 Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
+## 🚢 Deploying to Fly.io
+
+This app is Docker-ready and can be deployed to Fly.io. See `DEPLOY_FLY.md` for step-by-step instructions, secrets to set, and recommended options for persistent uploads.
+
+
 ## 🗂️ Project Structure & Architecture
 
 The application is organized into three main modules:
@@ -143,7 +148,20 @@ Key directories:
 ### Running Tests
 
 ```bash
+# Run Rails unit and system tests (Minitest)
 rails test
+
+# Run Cucumber BDD features
+bundle exec cucumber
+
+# Run Cucumber with JavaScript-enabled scenarios (tag with @javascript)
+bundle exec cucumber --tags "@javascript"
+
+Notes for Cucumber BDD:
+
+- Use the Warden helper `login_as(user, scope: :user)` in step defs or features to sign in admin users programmatically for more stable tests.
+- For programmatic POSTs that require CSRF tokens, use the helper in `features/support/csrf_helper.rb` and the step `When I submit a POST to "/path" with params:` which will automatically attach the current page's authenticity token.
+
 ```
 
 ### Code Quality
