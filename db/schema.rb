@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_22_170000) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -108,6 +108,20 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_22_170000) do
     t.datetime "updated_at", null: false
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.string "anonymity"
+    t.string "citizen_contact"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.boolean "is_anonymous"
+    t.string "location"
+    t.string "other_topic"
+    t.string "title"
+    t.string "topic"
+    t.datetime "updated_at", null: false
+    t.string "ward"
   end
 
   create_table "users", force: :cascade do |t|
