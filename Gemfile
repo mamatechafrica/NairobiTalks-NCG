@@ -20,7 +20,8 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-# gem "google_drive", "~> 3.0"
+
+gem "google_drive", "~> 3.0"
 gem "google-apis-drive_v3", "~> 0.60"
 # gem "googleauth", "~> 1.8"
 
