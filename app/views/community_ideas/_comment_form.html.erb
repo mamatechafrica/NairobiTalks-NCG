@@ -1,11 +1,11 @@
-<div class="mb-4" style="background: #eafaf3; border-radius: 1rem; box-shadow: 0 2px 8px #eafaf3; padding: 1.5rem 1.5rem 1rem 1.5rem;">
+<div class="mb-4 bg-[#eafaf3] rounded-lg shadow p-6 pb-4">
   <% if user_signed_in? %>
     <%= form_with(model: [community_idea, comment], local: true) do |f| %>
       <div class="mb-0">
-        <%= f.text_area :body, class: "form-control border-0 shadow-none", rows: 2, placeholder: "Leave a constructive comment...", style: "background: transparent; resize: none; font-size: 1.1rem;" %>
+        <%= f.text_area :body, class: "block w-full bg-transparent rounded-none border-0 px-0 py-1 text-base resize-none", rows: 2, placeholder: "Leave a constructive comment...", style: "background: transparent; resize: none; font-size: 1.1rem;" %>
       </div>
-      <div class="d-flex justify-content-end gap-2 mt-2">
-        <%= f.submit(comment.persisted? ? "Update" : "Post", class: "btn btn-success px-3 py-2", style: "font-size: 0.95rem; font-weight: 600; border-radius: 0.4rem; display: inline-block; width: auto;", aria: { label: (comment.persisted? ? 'Update comment' : 'Post comment') }) %>
+      <div class="flex justify-end gap-2 mt-2">
+        <%= f.submit(comment.persisted? ? "Update" : "Post", class: "inline-block px-3 py-2 rounded bg-[var(--color-success)] text-white font-semibold", style: "font-size: 0.95rem; display: inline-block; width: auto;", aria: { label: (comment.persisted? ? 'Update comment' : 'Post comment') }) %>
       </div>
     <% end %>
   <% else %>

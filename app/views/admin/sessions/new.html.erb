@@ -1,24 +1,24 @@
 <div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h1 class="h4 mb-4">Admin Sign In</h1>
+  <div class="flex justify-center">
+    <div class="md:w-1/2 w-full">
+      <div class="bg-white rounded-lg shadow-sm">
+        <div class="p-4">
+          <h1 class="text-lg font-semibold mb-4">Admin Sign In</h1>
           <%= form_with url: user_session_path, local: true do %>
             <div class="mb-3">
-              <%= label_tag 'user[email]', 'Email', class: 'form-label' %>
-              <%= email_field_tag 'user[email]', nil, class: 'form-control' %>
+              <%= label_tag 'user[email]', 'Email', class: 'block font-semibold mb-1' %>
+              <%= email_field_tag 'user[email]', nil, class: 'block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20' %>
             </div>
             <div class="mb-3">
-              <%= label_tag 'user[password]', 'Password', class: 'form-label' %>
-              <%= password_field_tag 'user[password]', nil, class: 'form-control' %>
+              <%= label_tag 'user[password]', 'Password', class: 'block font-semibold mb-1' %>
+              <%= password_field_tag 'user[password]', nil, class: 'block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20' %>
             </div>
             <div class="mb-2">
               <%= hidden_field_tag 'user[remember_me]', '1' %>
             </div>
-            <div class="d-flex justify-content-between align-items-center">
-              <%= submit_tag 'Log in', class: 'btn btn-primary' %>
-              <%= link_to 'Back', root_path, class: 'btn btn-link' %>
+            <div class="flex justify-between items-center">
+              <%= submit_tag 'Log in', class: 'inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-white' %>
+              <%= link_to 'Back', root_path, class: 'inline-block px-4 py-2 text-[var(--color-muted)]' %>
             </div>
           <% end %>
         </div>

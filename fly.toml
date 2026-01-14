@@ -3,8 +3,9 @@
 app = "REPLACE_WITH_APP_NAME"
 
 [build]
-  # Use the existing Dockerfile in the repository
-  dockerfile = "Dockerfile"
+  # Use buildpacks instead of the repository Dockerfile so Fly won't try to build a local Docker image
+  # This uses the Heroku buildpack stack which auto-installs Node/Yarn and compiles Rails assets
+  builder = "heroku/buildpacks:20"
 
 [env]
   RAILS_ENV = "production"

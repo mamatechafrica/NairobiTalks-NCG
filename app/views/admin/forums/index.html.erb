@@ -1,80 +1,80 @@
 <main class="admin-forum" aria-label="Forum admin page">
   <%= render 'shared/placeholder_alert' %>
   <!-- Header Section -->
-  <header class="d-flex justify-content-between align-items-center mb-4 px-3 py-3 bg-white rounded shadow-sm" aria-label="Forum header">
-    <div class="flex-grow-1">
-      <h1 class="mb-1 fw-bold" style="color: #009339;">Forum</h1>
-      <p class="text-muted mb-0">Community engagement and civic discussions</p>
+  <header class="flex items-center justify-between mb-4 p-3 bg-white rounded shadow-sm" aria-label="Forum header">
+    <div class="flex-1">
+      <h1 class="mb-1 font-bold text-[var(--nairobi-talks-dark)]">Forum</h1>
+      <p class="text-gray-500 mb-0">Community engagement and civic discussions</p>
     </div>
-    <div class="d-flex align-items-center">
-      <div class="d-flex align-items-center">
-        <div class="rounded-circle text-white text-center me-3 d-flex align-items-center justify-content-center fw-bold" style="width: 45px; height: 45px; background-color: #3AA966;" aria-label="User initial">
+    <div class="flex items-center">
+      <div class="flex items-center">
+        <div class="rounded-full text-white text-center mr-3 flex items-center justify-center font-bold w-11 h-11 bg-[#3AA966]" aria-label="User initial">
           <%= current_user.email.first.upcase %>
         </div>
-        <span class="text-dark fw-medium d-none d-lg-inline"><%= current_user.email %></span>
+        <span class="text-dark font-medium hidden lg:inline"><%= current_user.email %></span>
       </div>
     </div>
   </header>
   <!-- Main Content Grid -->
-  <div class="row g-4">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
     <!-- Left Column -->
-    <section class="col-lg-8" aria-labelledby="about-forum-heading">
+    <section class="lg:col-span-8" aria-labelledby="about-forum-heading">
       <!-- About Forum Card -->
-      <div class="card shadow-sm border-0 mb-4" style="background-color: #EDF6F2;">
-        <div class="card-body p-4">
-          <h2 id="about-forum-heading" class="card-title fw-bold mb-3" style="color: #3AA966;">
-            <i class="bi bi-question-circle-fill me-2" aria-hidden="true"></i>
+      <div class="bg-[var(--nairobi-talks-mint)] shadow-sm rounded-lg mb-4">
+        <div class="p-4">
+          <h2 id="about-forum-heading" class="font-bold mb-3 text-[var(--color-success)]">
+            <i class="bi bi-question-circle-fill mr-2" aria-hidden="true"></i>
             What is This Forum?
           </h2>
-          <p class="card-text text-dark mb-0" style="line-height: 1.6;">
+          <p class="text-dark mb-0 leading-6">
             This forum will allow civic engagement via online meetups and text-based discussions between Nairobi residents and county officials.
             Community members can participate in virtual town halls, share ideas, and engage directly with local government representatives.
           </p>
         </div>
       </div>
       <!-- Upcoming Virtual Calls -->
-      <div class="card shadow-sm border-0 mb-4">
-        <div class="card-body p-4">
-          <h2 class="card-title fw-bold mb-3" style="color: #3AA966;">
-            <i class="bi bi-calendar-event-fill me-2" aria-hidden="true"></i>
+      <div class="bg-white shadow-sm rounded-lg mb-4">
+        <div class="p-4">
+          <h2 class="font-bold mb-3 text-[var(--color-success)]">
+            <i class="bi bi-calendar-event-fill mr-2" aria-hidden="true"></i>
             Upcoming Zoom/Google Meet Forums
           </h2>
-          <p class="text-muted mb-3">Join virtual community meetings and engage with county officials</p>
+          <p class="text-gray-500 mb-3">Join virtual community meetings and engage with county officials</p>
           <% events = [
             { title: "Public Consultation - Urban Planning 2026", date: "January 25, 2026", time: "2:00 PM EAT", status: "open", registered: 47, max: 100 },
             { title: "Environment Planning Meetup", date: "February 10, 2026", time: "10:00 AM EAT", status: "closed", registered: 85, max: 100 },
             { title: "Budget Forum 2026", date: "March 5, 2026", time: "3:00 PM EAT", status: "open", registered: 23, max: 50 }
           ] %>
-          <div class="row g-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
             <% events.each do |event| %>
-              <div class="col-md-6">
-                <div class="card h-100 shadow-sm">
-                  <div class="card-body">
-                    <h3 class="card-title fw-bold mb-2" style="color: #1E1E1E;"><%= event[:title] %></h3>
-                    <p class="card-text text-muted small mb-2">
-                      <i class="bi bi-calendar me-1" aria-hidden="true"></i><%= event[:date] %> •
-                      <i class="bi bi-clock me-1" aria-hidden="true"></i><%= event[:time] %>
+              <div>
+                <div class="bg-white shadow-sm rounded-lg h-full">
+                  <div class="p-4">
+                    <h3 class="font-bold mb-2 text-[var(--nairobi-talks-dark)]"><%= event[:title] %></h3>
+                    <p class="text-gray-500 text-sm mb-2">
+                      <i class="bi bi-calendar mr-1" aria-hidden="true"></i><%= event[:date] %> •
+                      <i class="bi bi-clock mr-1" aria-hidden="true"></i><%= event[:time] %>
                     </p>
                     <% if event[:status] == "open" %>
-                      <span class="badge bg-success mb-2" aria-label="Open registration">🟢 Open Registration</span>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-green-100 text-green-700 mb-2" aria-label="Open registration">🟢 Open Registration</span>
                     <% else %>
-                      <span class="badge bg-danger mb-2" aria-label="Closed registration">🔴 Closed Registration</span>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-red-100 text-red-700 mb-2" aria-label="Closed registration">🔴 Closed Registration</span>
                     <% end %>
                     <div class="mb-0">
-                      <small class="text-muted">
-                        <i class="bi bi-people me-1" aria-hidden="true"></i>👥 Registered Users: <%= event[:registered] %><br>
-                        <i class="bi bi-check-circle me-1" aria-hidden="true"></i>✅ Max Allowed: <%= event[:max] %>
+                      <small class="text-gray-500">
+                        <i class="bi bi-people mr-1" aria-hidden="true"></i>👥 Registered Users: <%= event[:registered] %><br>
+                        <i class="bi bi-check-circle mr-1" aria-hidden="true"></i>✅ Max Allowed: <%= event[:max] %>
                       </small>
                     </div>
                   </div>
-                  <div class="card-footer bg-transparent border-0 pt-0">
+                  <div class="px-4 py-0">
                     <% if event[:status] == "open" %>
-                      <button class="btn btn-danger btn-sm float-end" disabled title="This is a preview button only" aria-label="Close registration for <%= event[:title] %> (preview only)">
-                        <i class="bi bi-x-circle me-1" aria-hidden="true"></i>Close Registration
+                      <button class="inline-flex items-center px-3 py-1 rounded bg-red-600 text-white text-sm float-right" disabled title="This is a preview button only" aria-label="Close registration for <%= event[:title] %> (preview only)">
+                        <i class="bi bi-x-circle mr-1" aria-hidden="true"></i>Close Registration
                       </button>
                     <% else %>
-                      <button class="btn btn-success btn-sm float-end" disabled title="This is a preview button only" aria-label="Open registration for <%= event[:title] %> (preview only)">
-                        <i class="bi bi-check-circle me-1" aria-hidden="true"></i>Open Registration
+                      <button class="inline-flex items-center px-3 py-1 rounded bg-[var(--color-success)] text-white text-sm float-right" disabled title="This is a preview button only" aria-label="Open registration for <%= event[:title] %> (preview only)">
+                        <i class="bi bi-check-circle mr-1" aria-hidden="true"></i>Open Registration
                       </button>
                     <% end %>
                   </div>
@@ -86,66 +86,58 @@
       </div>
     </section>
     <!-- Right Column -->
-    <aside class="col-lg-4" aria-labelledby="community-discussions-heading forum-stats-heading">
+    <aside class="lg:col-span-4" aria-labelledby="community-discussions-heading forum-stats-heading">
       <!-- Community Discussions (Coming Soon) -->
-      <div class="card shadow-sm border-0 mb-4" style="background-color: #EDF6F2;">
-        <div class="card-body p-4">
-          <h2 id="community-discussions-heading" class="card-title fw-bold mb-3" style="color: #3AA966;">
-            <i class="bi bi-chat-dots-fill me-2" aria-hidden="true"></i>
+      <div class="bg-[var(--nairobi-talks-mint)] shadow-sm rounded-lg mb-4">
+        <div class="p-4">
+          <h2 id="community-discussions-heading" class="font-bold mb-3 text-[var(--color-success)]">
+            <i class="bi bi-chat-dots-fill mr-2" aria-hidden="true"></i>
             Community Discussions
           </h2>
           <div class="text-center py-4">
-            <div class="rounded-circle bg-white mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
-              <i class="bi bi-chat-quote text-muted fs-1" aria-hidden="true"></i>
+            <div class="rounded-full bg-white mx-auto mb-3 flex items-center justify-center w-20 h-20">
+              <i class="bi bi-chat-quote text-gray-400 text-4xl" aria-hidden="true"></i>
             </div>
-            <h6 class="fw-bold text-muted mb-2">Coming Soon</h6>
-            <p class="text-muted small mb-0">
+            <h6 class="font-bold text-gray-500 mb-2">Coming Soon</h6>
+            <p class="text-gray-500 text-sm mb-0">
               In future versions, users will post, reply, and react to community topics.
               Create discussions, share ideas, and engage with fellow Nairobi residents.
             </p>
           </div>
-          <hr class="my-3" style="border-color: rgba(58, 169, 102, 0.2);">
-          <div class="d-grid gap-2">
-            <button class="btn btn-outline-primary" disabled aria-label="Start New Discussion (Coming Soon)">
-              <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>Start Discussion
+          <hr class="my-3 border-t border-[rgba(58,169,102,0.2)]">
+          <div class="grid gap-2">
+            <button class="inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)]" disabled aria-label="Start New Discussion (Coming Soon)">
+              <i class="bi bi-plus-circle mr-2" aria-hidden="true"></i>Start Discussion
             </button>
-            <button class="btn btn-outline-secondary" disabled aria-label="Browse Topics (Coming Soon)">
-              <i class="bi bi-search me-2" aria-hidden="true"></i>Browse Topics
+            <button class="inline-flex items-center px-3 py-1 rounded border border-gray-300 text-gray-700" disabled aria-label="Browse Topics (Coming Soon)">
+              <i class="bi bi-search mr-2" aria-hidden="true"></i>Browse Topics
             </button>
           </div>
         </div>
       </div>
       <!-- Quick Stats -->
-      <div class="card shadow-sm border-0">
-        <div class="card-body p-4">
-          <h2 id="forum-stats-heading" class="card-title fw-bold mb-3" style="color: #3AA966;">
-            <i class="bi bi-bar-chart-line-fill me-2" aria-hidden="true"></i>
+      <div class="bg-white shadow-sm rounded-lg">
+        <div class="p-4">
+          <h2 id="forum-stats-heading" class="font-bold mb-3 text-[var(--color-success)]">
+            <i class="bi bi-bar-chart-line-fill mr-2" aria-hidden="true"></i>
             Forum Statistics
           </h2>
-          <div class="row g-3">
-            <div class="col-6">
-              <div class="text-center">
-                <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
-                <small class="text-muted">Active Discussions</small>
-              </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="text-center">
+              <div class="font-bold text-2xl text-[var(--color-success)]">0</div>
+              <small class="text-gray-500">Active Discussions</small>
             </div>
-            <div class="col-6">
-              <div class="text-center">
-                <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
-                <small class="text-muted">Registered Users</small>
-              </div>
+            <div class="text-center">
+              <div class="font-bold text-2xl text-[var(--color-success)]">0</div>
+              <small class="text-gray-500">Registered Users</small>
             </div>
-            <div class="col-6">
-              <div class="text-center">
-                <div class="fw-bold fs-4" style="color: #3AA966;">2</div>
-                <small class="text-muted">Upcoming Events</small>
-              </div>
+            <div class="text-center">
+              <div class="font-bold text-2xl text-[var(--color-success)]">2</div>
+              <small class="text-gray-500">Upcoming Events</small>
             </div>
-            <div class="col-6">
-              <div class="text-center">
-                <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
-                <small class="text-muted">Total Posts</small>
-              </div>
+            <div class="text-center">
+              <div class="font-bold text-2xl text-[var(--color-success)]">0</div>
+              <small class="text-gray-500">Total Posts</small>
             </div>
           </div>
         </div>

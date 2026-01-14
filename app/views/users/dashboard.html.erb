@@ -4,7 +4,7 @@
   <div class="bg-white border rounded-lg shadow-sm p-4">
     <div class="flex items-center gap-6">
       <div class="flex-shrink-0">
-        <div class="bg-[var(--color-primary)] text-white rounded-full flex items-center justify-center" style="width: 80px; height: 80px; font-size: 2rem;">
+        <div class="bg-[var(--color-primary)] text-white rounded-full flex items-center justify-center w-20 h-20 text-2xl">
           <%= @user_data[:name].first.upcase %>
         </div>
       </div>
@@ -98,7 +98,7 @@
                     <span class="inline-block bg-[var(--color-primary)] text-white px-2 py-1 rounded"><%= idea.topic %></span>
                   <% end %>
                 </div>
-                <p class="text-sm text-gray-700 mb-3" style="min-height: 3em; font-size: 1rem;"><%= truncate(idea.description, length: 100) if idea.respond_to?(:description) %></p>
+                <p class="text-gray-700 mb-3 min-h-[3em] text-base"><%= truncate(idea.description, length: 100) if idea.respond_to?(:description) %></p>
                 <div class="flex justify-between items-center mt-auto">
                   <span class="text-gray-500 text-sm">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
                   <span class="text-[var(--color-primary)] text-sm font-semibold">💬 <%= idea.comments.count if idea.respond_to?(:comments) %></span>

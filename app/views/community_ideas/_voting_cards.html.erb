@@ -1,43 +1,43 @@
-<div class="d-flex justify-content-center align-items-center" style="max-width: 40rem; margin: 0 auto; position: relative;">
-  <button class="carousel-control-prev" type="button" data-bs-target="#community-ideas-carousel" data-bs-slide="prev" aria-label="Previous idea" tabindex="0" style="outline: 3px solid #198754; outline-offset: 2px; background: #fff; width: 4rem; height: 4rem; border-radius: 50%; border: 2px solid #198754; display: flex; align-items: center; justify-content: center; position: absolute; left: -2.5rem; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-    <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(40%) sepia(80%) saturate(400%) hue-rotate(90deg) brightness(1.2); width: 2.5rem; height: 2.5rem;"></span>
-    <span class="visually-hidden">Previous</span>
+<div class="flex justify-center items-center max-w-[40rem] mx-auto relative">
+  <button class="carousel-control-prev absolute left-[-2.5rem] top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white border-2 border-[var(--color-success)] flex items-center justify-center z-20 shadow-lg" type="button" data-bs-target="#community-ideas-carousel" data-bs-slide="prev" aria-label="Previous idea" tabindex="0">
+    <i class="bi bi-chevron-left text-[2.5rem] text-[var(--color-success)]" aria-hidden="true"></i>
+    <span class="sr-only">Previous</span>
   </button>
-  <div id="community-ideas-carousel" class="carousel slide w-100" data-bs-ride="carousel" style="max-width: 32rem;">
+  <div id="community-ideas-carousel" class="carousel slide w-100 max-w-[32rem] mx-auto" data-bs-ride="carousel">
     <div class="carousel-inner">
       <% voted_ids = session[:voted_idea_ids] || [] %>
       <% unvoted_ideas = ideas.reject { |idea| voted_ids.include?(idea.id) } %>
       <% if unvoted_ideas.any? %>
         <% unvoted_ideas.each_with_index do |idea, idx| %>
-          <div class="carousel-item <%= 'active' if idx == 0 %>">
-            <div class="card border-success shadow-lg rounded-4 w-100" style="max-width: 28rem; margin: 0 auto;">
-              <div class="card-body p-4 d-flex flex-column justify-content-between h-100">
+          <div class="<%= idx == 0 ? 'block' : 'hidden' %>">
+            <div class="bg-white border border-green-200 shadow-lg rounded-xl w-full max-w-[28rem] mx-auto">
+              <div class="p-4 flex flex-col justify-between h-full">
                 <div>
-                  <h2 class="h4 fw-bold mb-3"><%= idea.title %></h2>
+                  <h2 class="h4 font-bold mb-3"><%= idea.title %></h2>
                   <% if idea.ward.present? %>
                     <p class="text-muted small mb-2">Ward: <%= idea.ward %></p>
                   <% end %>
                   <% if idea.topic.present? %>
-                    <span class="badge bg-primary text-white small px-3 py-1 mb-3">
+                    <span class="inline-flex items-center px-3 py-1 rounded bg-[var(--color-primary)] text-white text-sm mb-3">
                       <%= idea.topic %>
                     </span>
                   <% end %>
                   <p class="text-dark" style="line-height: 1.5;"><%= idea.description %></p>
                 </div>
-                <div class="mt-4 d-flex justify-content-center gap-4 text-muted small">
+                <div class="mt-4 flex justify-center gap-4 text-muted text-sm">
                   <span>👍 <%= idea.upvotes %></span>
                   <span>👎 <%= idea.downvotes %></span>
                 </div>
                 <%= link_to "View Details & Comment",
                             community_idea_path(idea),
-                            class: "mt-4 btn btn-primary w-100 fw-medium",
+                            class: "mt-4 inline-block w-full py-3 rounded bg-[var(--color-primary)] text-white font-semibold",
                             data: { turbo_frame: "_top" } %>
-                <div class="mt-4 d-flex justify-content-center gap-5">
-                  <%= button_to upvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-success btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes' do %>
+                <div class="mt-4 flex justify-center gap-5">
+                  <%= button_to upvote_community_idea_path(idea), method: :post, class: 'inline-flex items-center justify-center w-16 h-16 text-2xl rounded-full border border-green-500 text-green-500', style: 'font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes' do %>
                     <span aria-hidden="true">✔</span>
                     <span class="visually-hidden">Yes</span>
                   <% end %>
-                  <%= button_to downvote_community_idea_path(idea), method: :post, class: 'btn btn-outline-danger btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center', style: 'width: 4rem; height: 4rem; font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote No' do %>
+                  <%= button_to downvote_community_idea_path(idea), method: :post, class: 'inline-flex items-center justify-center w-16 h-16 text-2xl rounded-full border border-red-600 text-red-600', style: 'font-size: 2rem;', form: { data: { turbo: "false" } }, title: 'Vote No' do %>
                     <span aria-hidden="true">✖</span>
                     <span class="visually-hidden">No</span>
                   <% end %>
@@ -47,16 +47,16 @@
           </div>
         <% end %>
       <% else %>
-        <div class="carousel-item active">
-          <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
+        <div class="block">
+          <div class="h-full flex items-center justify-center text-muted text-center px-4">
             <p class="h5">No more ideas to vote on. Thank you!</p>
           </div>
         </div>
       <% end %>
     </div>
   </div>
-  <button class="carousel-control-next" type="button" data-bs-target="#community-ideas-carousel" data-bs-slide="next" aria-label="Next idea" tabindex="0" style="outline: 3px solid #198754; outline-offset: 2px; background: #fff; width: 4rem; height: 4rem; border-radius: 50%; border: 2px solid #198754; display: flex; align-items: center; justify-content: center; position: absolute; right: -2.5rem; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-    <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(40%) sepia(80%) saturate(400%) hue-rotate(90deg) brightness(1.2); width: 2.5rem; height: 2.5rem;"></span>
-    <span class="visually-hidden">Next</span>
+  <button class="carousel-control-next absolute right-[-2.5rem] top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white border-2 border-[var(--color-success)] flex items-center justify-center z-20 shadow-lg" type="button" data-bs-target="#community-ideas-carousel" data-bs-slide="next" aria-label="Next idea" tabindex="0">
+    <i class="bi bi-chevron-right text-[2.5rem] text-[var(--color-success)]" aria-hidden="true"></i>
+    <span class="sr-only">Next</span>
   </button>
 </div>

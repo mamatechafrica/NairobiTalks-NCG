@@ -1,9 +1,9 @@
 <fieldset class="form-group" aria-labelledby="delivery-method-legend">
   <legend id="delivery-method-legend" class="sr-only">Broadcast Delivery Method</legend>
-  <%= f.label :delivery_method, "Delivery Method", class: "form-label" %>
-  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "form-control", aria: { describedby: 'delivery-method-desc' } %>
+  <%= f.label :delivery_method, "Delivery Method", class: "block font-semibold mb-1" %>
+  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", aria: { describedby: 'delivery-method-desc' } %>
   <span id="delivery-method-desc" class="form-text">Choose how this broadcast will be delivered.</span>
 </fieldset>
 <div class="form-group mt-4">
-  <%= f.submit "Update Broadcast", class: "btn btn-success btn-lg w-100", aria: { label: "Update broadcast details" } %>
+  <%= f.submit "Update Broadcast", class: "inline-block w-full py-3 rounded bg-[var(--color-success)] text-white", aria: { label: "Update broadcast details" } %>
 </div>

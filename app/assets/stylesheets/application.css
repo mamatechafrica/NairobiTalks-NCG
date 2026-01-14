@@ -645,60 +645,8 @@ h2, h5 {
   color: #009339;
 }
 
-.card i {
-  color: #3AA966;
-}
+/* Legacy card/dark-mode rules removed. Dark mode behavior and colors should be implemented via Tailwind (dark:) utilities or scoped semantic helper classes. */
 
-/* Dark Mode Styles for Admin */
-body.dark-mode {
-  background-color: #111827;
-  color: #F9FAFB;
-}
-
-body.dark-mode .admin-layout {
-  background-color: #111827;
-}
-
-body.dark-mode .sidebar {
-  background-color: #1F2937;
-  border-right: 1px solid #374151;
-}
-
-body.dark-mode .main-content {
-  background-color: #111827;
-}
-
-body.dark-mode .card {
-  background-color: #1F2937;
-  border-color: #374151;
-  color: #F9FAFB;
-}
-
-body.dark-mode .text-muted {
-  color: #9CA3AF !important;
-}
-
-body.dark-mode .bg-white {
-  background-color: #1F2937 !important;
-}
-
-body.dark-mode .border {
-  border-color: #374151 !important;
-}
-
-body.dark-mode .text-dark {
-  color: #F9FAFB !important;
-}
-
-body.dark-mode .shadow-sm {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-body.dark-mode footer {
-  background-color: #1F2937;
-  border-top-color: #374151;
-  color: #9CA3AF;
-}
 
 /* Sidebar Bottom Section Styling */
 .sidebar .border-white-50 {
@@ -1234,83 +1182,11 @@ body.dark-mode .sidebar .border-white-50 {
   }
 }
 
-/* Forum Page Styles */
-.admin-forum .card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+/* Legacy forum styles removed — forum markup now uses Tailwind utility classes. If a small, scoped CSS helper is needed later, add a semantic class (e.g., .forum-card) to the markup and target that instead. */
 
-.admin-forum .card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-}
 
-.admin-forum .list-group-item {
-  transition: background-color 0.2s ease;
-}
+/* Legacy responsive rules referencing Bootstrap helpers removed — layout is handled with Tailwind utility classes and responsive grid. Add semantic classes if you need custom breakpoints or exceptions. */
 
-.admin-forum .list-group-item:hover {
-  background-color: rgba(58, 169, 102, 0.05);
-}
-
-.admin-forum .btn:disabled {
-  opacity: 0.6;
-}
-
-.admin-forum .alert {
-  border: none;
-  border-radius: 0.5rem;
-}
-
-/* Dark mode support for forum */
-body.dark-mode .admin-forum .card[style*="background-color: #EDF6F2"] {
-  background-color: #1F2937 !important;
-}
-
-body.dark-mode .admin-forum .text-muted {
-  color: #9CA3AF !important;
-}
-
-body.dark-mode .admin-forum .alert-info {
-  background-color: #1E3A8A;
-  border-color: #3B82F6;
-  color: #DBEAFE;
-}
-
-/* Dashboard Responsive Styles */
-@media (max-width: 768px) {
-  .admin-dashboard .d-flex.justify-content-between.align-items-center {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .admin-dashboard .d-flex.align-items-center.ms-4 {
-    margin-left: 0 !important;
-    align-self: flex-end;
-  }
-
-  .dashboard-stats .col-md-3 {
-    margin-bottom: 1rem;
-  }
-
-  .activity-section .border.rounded {
-    margin-bottom: 1rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .admin-dashboard .d-flex.justify-content-between.align-items-center {
-    text-align: center;
-  }
-
-  .admin-dashboard .d-flex.align-items-center.ms-4 {
-    align-self: center;
-  }
-
-  .dashboard-stats .col-6 {
-    margin-bottom: 1rem;
-  }
-}
 
 /* Footer Styles */
 footer {
@@ -1370,33 +1246,11 @@ footer {
   }
 }
 
-.card-status-panel {
-  border: 1px solid #e6e8ed;
-  border-radius: 0.65rem;
-  background-color: #fff;
-}
+/* Removed legacy .card-status-panel Bootstrap-specific rules; replace with semantic classes and Tailwind utilities as needed. */
 
-.card-status-panel .small.text-muted {
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
 
-.card-status-panel .form-select-sm {
-  min-width: 200px;
-}
+/* Removed legacy .btn-outline-danger; use Tailwind button utilities or a semantic helper class instead. */
 
-.card-status-panel textarea.form-control-sm {
-  resize: vertical;
-}
-
-.card-status-panel .btn-outline-secondary {
-  border-width: 1px;
-}
-
-.btn-outline-danger {
-  border: 1px solid #dc3545;
-  color: #dc3545;
-}
 
 .btn-outline-danger:hover {
   background-color: #dc3545;
@@ -1422,33 +1276,5 @@ footer {
   font-size: 0.85rem;
 }
 
-textarea.form-control-sm {
-  font-size: 0.85rem;
-  resize: vertical;
-}
+/* Removed legacy .form-control-sm / .input-group-sm / .form-select-sm rules — inputs and input groups should use Tailwind utilities or semantic helper classes. */
 
-.alert-warning {
-  font-size: 0.85rem;
-}
-
-table td {
-  vertical-align: middle;
-}
-
-textarea.form-control-sm {
-  resize: vertical;
-}
-
-.input-group-sm .btn {
-  height: auto;
-  line-height: 1.5;
-}
-
-.input-group-sm select {
-  min-width: 150px;
-}
-
-/* Ensure button height matches select height in input groups */
-.input-group .form-select-sm + .btn {
-  height: 31px; /* Exact height to match form-select-sm */
-}

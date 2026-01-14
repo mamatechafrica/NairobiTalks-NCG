@@ -22,10 +22,10 @@
 
     <nav class="fixed top-0 left-0 right-0 shadow-sm bg-[var(--color-primary)]" role="navigation" aria-label="Main navigation">
       <div class="max-w-6xl mx-auto px-6">
-        <div class="flex items-center justify-between h-20">
+          <div class="flex items-center justify-between h-20 md:h-24">
           <div class="flex items-center gap-4">
             <%= link_to root_path, class: "flex items-center" do %>
-              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'block', style: 'width: 84px; height: 84px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
+              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'block w-20 h-20 md:w-24 md:h-24 object-contain filter brightness-110 contrast-125' %>
             <% end %>
           </div>
 
@@ -79,7 +79,7 @@
         </div>
       </div>
     </nav>
-    <div style="height: 110px;"></div>
+    <div class="h-20 md:h-24"></div>
 
     <% if flash.any? %>
       <div class="max-w-6xl mx-auto px-6 mt-4">
@@ -100,7 +100,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <div class="mb-3">
-              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'block', style: 'width: 84px; height: 84px; object-fit: contain;' %>
+              <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'block w-20 h-20 md:w-24 md:h-24 object-contain' %>
             </div>
             <p class="text-sm text-white/90">
               Empowering citizens to shape their community through anonymous idea submission and democratic voting.
@@ -127,7 +127,7 @@
         </div>
 
         <div class="mt-8 text-center text-white/80">
-          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', style: 'width: 84px; height: 84px; object-fit: contain; filter: brightness(1.2) contrast(1.2);' %>
+          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks Logo', class: 'mx-auto w-20 h-20 md:w-24 md:h-24 object-contain filter brightness-110 contrast-125' %>
           <p class="mt-2">&copy; 2025. Powered by citizens like you.</p>
         </div>
       </div>

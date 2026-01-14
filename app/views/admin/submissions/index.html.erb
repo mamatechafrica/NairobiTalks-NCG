@@ -1,52 +1,52 @@
 <div class="admin-submissions">
-  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
     <div>
-      <h1 class="h3 mb-1"><i class="bi bi-people-fill me-2" aria-hidden="true"></i>Citizen Submissions</h1>
+      <h1 class="h3 mb-1"><i class="bi bi-people-fill mr-2" aria-hidden="true"></i>Citizen Submissions</h1>
       <p class="text-muted mb-0">Monitor all ideas, add feedback, and track administrator decisions in one place.</p>
     </div>
-    <div class="btn-group" role="group" aria-label="Submission view toggle">
-      <%= link_to admin_submissions_path(view: "table"), class: "btn btn-outline-primary #{'active' if @view_mode == 'table'}", aria: { label: "Show submissions as table" } do %>
-        <i class="bi bi-list" aria-hidden="true"></i>
-        <span class="ms-1">Table</span>
+    <div class="flex gap-2" role="group" aria-label="Submission view toggle">
+      <%= link_to admin_submissions_path(view: "table"), class: "inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] #{'bg-[var(--color-primary)] text-white' if @view_mode == 'table'}", aria: { label: "Show submissions as table" } do %>
+        <i class="bi bi-list mr-1" aria-hidden="true"></i>
+        <span>Table</span>
       <% end %>
-      <%= link_to admin_submissions_path(view: "grid"), class: "btn btn-outline-primary #{'active' if @view_mode == 'grid'}", aria: { label: "Show submissions as grid" } do %>
-        <i class="bi bi-grid-3x3-gap" aria-hidden="true"></i>
-        <span class="ms-1">Grid</span>
+      <%= link_to admin_submissions_path(view: "grid"), class: "inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] #{'bg-[var(--color-primary)] text-white' if @view_mode == 'grid'}", aria: { label: "Show submissions as grid" } do %>
+        <i class="bi bi-grid-3x3-gap mr-1" aria-hidden="true"></i>
+        <span>Grid</span>
       <% end %>
     </div>
   </div>
   <% if @submissions.empty? %>
-    <div class="alert alert-info" role="status">
+    <div class="rounded-lg bg-sky-50 border-l-4 border-sky-400 text-sky-800 p-4" role="status">
       No submissions yet. Connect your public form or import citizen ideas to start tracking them here.
     </div>
   <% else %>
     <% if @view_mode == 'table' %>
       <!-- Filter Bar -->
-      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 p-3 bg-light rounded">
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-          <span class="fw-semibold text-muted me-2">Filter by:</span>
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3 p-3 bg-gray-50 rounded">
+        <div class="flex flex-wrap gap-2 items-center">
+          <span class="font-semibold text-muted mr-2">Filter by:</span>
           <%= link_to admin_submissions_path(view: "table", filter: "all"), 
-                class: "btn btn-sm #{'btn-primary' if @filter == 'all' || @filter.nil?} #{'btn-outline-primary' unless @filter == 'all' || @filter.nil?}", aria: { label: "Show all submissions" } do %>
+                class: "text-sm inline-block px-3 py-1 rounded #{'bg-[var(--color-primary)] text-white' if @filter == 'all' || @filter.nil?} #{'border border-[var(--color-primary)] text-[var(--color-primary)]' unless @filter == 'all' || @filter.nil?}", aria: { label: "Show all submissions" } do %>
             All (<%= @submissions.count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "flagged"), 
-                class: "btn btn-sm #{'btn-warning' if @filter == 'flagged'} #{'btn-outline-warning' unless @filter == 'flagged'}", aria: { label: "Show flagged submissions" } do %>
-            <i class="bi bi-flag-fill me-1" aria-hidden="true"></i>Flagged (<%= @submissions.where(flagged: true).count %>)
+                class: "text-sm inline-block px-3 py-1 rounded #{'bg-yellow-500 text-white' if @filter == 'flagged'} #{'border border-yellow-500 text-yellow-500' unless @filter == 'flagged'}", aria: { label: "Show flagged submissions" } do %>
+            <i class="bi bi-flag-fill mr-1" aria-hidden="true"></i>Flagged (<%= @submissions.where(flagged: true).count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "approved"), 
-                class: "btn btn-sm #{'btn-success' if @filter == 'approved'} #{'btn-outline-success' unless @filter == 'approved'}", aria: { label: "Show approved submissions" } do %>
+                class: "text-sm inline-block px-3 py-1 rounded #{'bg-[var(--color-success)] text-white' if @filter == 'approved'} #{'border border-[var(--color-success)] text-[var(--color-success)]' unless @filter == 'approved'}", aria: { label: "Show approved submissions" } do %>
             Approved (<%= @submissions.where(status: 'approved').count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "rejected"), 
-                class: "btn btn-sm #{'btn-danger' if @filter == 'rejected'} #{'btn-outline-danger' unless @filter == 'rejected'}", aria: { label: "Show rejected submissions" } do %>
+                class: "text-sm inline-block px-3 py-1 rounded #{'bg-red-600 text-white' if @filter == 'rejected'} #{'border border-red-600 text-red-600' unless @filter == 'rejected'}", aria: { label: "Show rejected submissions" } do %>
             Rejected (<%= @submissions.where(status: 'rejected').count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "under_review"), 
-                class: "btn btn-sm #{'btn-info' if @filter == 'under_review'} #{'btn-outline-info' unless @filter == 'under_review'}", aria: { label: "Show submissions under review" } do %>
+                class: "text-sm inline-block px-3 py-1 rounded #{'bg-sky-500 text-white' if @filter == 'under_review'} #{'border border-sky-500 text-sky-500' unless @filter == 'under_review'}", aria: { label: "Show submissions under review" } do %>
             Under Review (<%= @submissions.where(status: 'under_review').count %>)
           <% end %>
           <%= link_to admin_submissions_path(view: "table", filter: "submitted"), 
-                class: "btn btn-sm #{'btn-secondary' if @filter == 'submitted'} #{'btn-outline-secondary' unless @filter == 'submitted'}", aria: { label: "Show submitted submissions" } do %>
+                class: "text-sm inline-block px-3 py-1 rounded #{'bg-gray-500 text-white' if @filter == 'submitted'} #{'border border-gray-500 text-gray-500' unless @filter == 'submitted'}", aria: { label: "Show submitted submissions" } do %>
             Submitted (<%= @submissions.where(status: 'submitted').count %>)
           <% end %>
         </div>
@@ -54,12 +54,12 @@
           Showing <%= @filtered_submissions.count %> of <%= @submissions.count %> submissions
         </div>
       </div>
-      <div class="table-responsive shadow-sm rounded">
-        <table class="table table-hover table-sm align-middle text-nowrap">
-          <thead class="table-light sticky-top" style="top: 0; z-index: 10;">
+      <div class="overflow-x-auto rounded shadow-sm">
+        <table class="w-full table-auto align-middle text-left">
+          <thead class="bg-gray-50 sticky top-0 z-10">
             <tr>
               <th scope="col" class="text-center">
-                <input type="checkbox" class="form-check-input" id="select-all" aria-label="Select all submissions">
+                <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-[var(--color-primary)]" id="select-all" aria-label="Select all submissions">
               </th>
               <th scope="col">Title</th>
               <th scope="col">Description</th>
@@ -74,9 +74,9 @@
           </thead>
           <tbody>
             <% @filtered_submissions.each do |submission| %>
-              <tr class="<%= 'table-warning' if submission.flagged? %> align-middle">
+              <tr class="<%= submission.flagged? ? 'bg-yellow-100' : '' %> align-middle">
                 <td class="text-center">
-                  <input type="checkbox" class="form-check-input submission-checkbox" 
+                  <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-[var(--color-primary)] submission-checkbox" 
                          value="<%= submission.id %>" name="submission_ids[]" 
                          aria-label="Select submission <%= submission.title %>">
                 </td>
@@ -84,7 +84,7 @@
                   <strong><%= submission.title %></strong><br>
                   # <small class="text-muted">ID: <%= submission.id %></small>
                   <% if submission.flagged? %>
-                    <span class="badge bg-warning text-dark ms-2">Flagged</span>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-yellow-100 text-yellow-800 ml-2">Flagged</span>
                   <% end %>
                 </td>
                 <td class="text-muted">
@@ -94,7 +94,7 @@
                   <%= submission.location.presence || "N/A" %>
                 </td>
                 <td>
-                  <span class="badge bg-secondary"><%= submission.topic %></span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-200 text-gray-800"><%= submission.topic %></span>
                 </td>
                 <td>
                   <%= submission.citizen_contact.presence || content_tag(:span, "Anonymous", class: "text-muted") %>
@@ -103,31 +103,31 @@
                   <%= submission.created_at.strftime("%m/%d/%y %I:%M%p") %>
                 </td>
                 <td>
-                  <%= form_with url: update_status_admin_submission_path(submission), method: :patch, class: "d-flex flex-column gap-2", local: true do |form| %>
+                  <%= form_with url: update_status_admin_submission_path(submission), method: :patch, class: "flex flex-col gap-2", local: true do |form| %>
                     <%= hidden_field_tag :view, @view_mode %>
-                    <div class="input-group input-group-sm" style="max-width: 300px;">
-                      <%= form.select :status, CitizenSubmission::STATUS_OPTIONS, { selected: submission.status }, class: "form-select form-select-sm" %>
-                      <button class="btn btn-sm btn-outline-primary d-flex align-items-center px-3" type="submit">
-                        <i class="bi bi-check2-circle me-1"></i> Save
+                    <div class="flex gap-2 max-w-[300px]">
+                      <%= form.select :status, CitizenSubmission::STATUS_OPTIONS, { selected: submission.status }, class: "block w-full rounded-md border-2 border-gray-200 px-2 py-1 text-sm bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20" %>
+                      <button class="inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] text-sm" type="submit">
+                        <i class="bi bi-check2-circle mr-1"></i> Save
                       </button>
                     </div>
                   <% end %>
                 </td>
                 <td>
-                  <%= form_with url: update_comment_admin_submission_path(submission), method: :patch, class: "d-flex flex-column gap-2", local: true do |form| %>
+                  <%= form_with url: update_comment_admin_submission_path(submission), method: :patch, class: "flex flex-col gap-2", local: true do |form| %>
                     <%= hidden_field_tag :view, @view_mode %>
-                    <%= form.text_area :admin_comment, value: submission.admin_comment, class: "form-control form-control-sm", rows: 2, placeholder: "Leave admin note or feedback" %>
-                    <div class="d-flex justify-content-end mt-2">
-                      <%= form.submit "Save note", class: "btn btn-sm btn-outline-secondary" %>
+                    <%= form.text_area :admin_comment, value: submission.admin_comment, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 text-sm focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", rows: 2, placeholder: "Leave admin note or feedback" %>
+                    <div class="flex justify-end mt-2">
+                      <%= form.submit "Save note", class: "inline-block px-3 py-1 rounded border border-gray-300 text-gray-700 text-sm" %>
                     </div>
                   <% end %>
                 </td>
                 <td>
                   <%= button_to toggle_flag_admin_submission_path(submission), method: :patch,
-                        class: "btn btn-sm btn-outline-warning",
+                        class: "inline-block px-3 py-1 rounded border border-yellow-500 text-yellow-500 text-sm",
                         title: (submission.flagged? ? "Unflag" : "Flag"),
                         form: { data: { turbo_confirm: submission.flagged? ? "Remove flag?" : "Flag this submission?" } } do %>
-                    <i class="bi bi-flag-fill"></i> <%= submission.flagged? ? "Unflag" : "Flag" %>
+                    <i class="bi bi-flag-fill mr-1"></i> <%= submission.flagged? ? "Unflag" : "Flag" %>
                   <% end %>
                 </td>
               </tr>
@@ -140,79 +140,79 @@
         <h6 class="mb-3">Bulk Actions</h6>
         <%= form_with url: bulk_update_admin_submissions_path, method: :patch, local: true, 
                       data: { turbo_confirm: "Are you sure you want to update the selected submissions?" } do %>
-          <div class="row g-3">
-            <div class="col-md-4">
-              <label for="bulk_status" class="form-label">Update Status:</label>
+          <div class="md:flex md:gap-3 md:items-end md:flex-wrap">
+            <div class="md:w-1/3 w-full">
+              <label for="bulk_status" class="block font-semibold mb-1">Update Status:</label>
               <%= select_tag :status, options_for_select(CitizenSubmission::STATUS_OPTIONS, ""), 
-                           { class: "form-select", id: "bulk_status", include_blank: "Select status..." } %>
+                           { class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", id: "bulk_status", include_blank: "Select status..." } %>
             </div>
-            <div class="col-md-6">
-              <label for="bulk_admin_comment" class="form-label">Add Admin Note:</label>
-              <%= text_area_tag :admin_comment, "", class: "form-control", rows: 2, 
+            <div class="md:w-1/2 w-full">
+              <label for="bulk_admin_comment" class="block font-semibold mb-1">Add Admin Note:</label>
+              <%= text_area_tag :admin_comment, "", class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", rows: 2, 
                               placeholder: "Add this note to selected submissions..." %>
             </div>
-            <div class="col-md-2 d-flex align-items-end">
-              <%= submit_tag "Update Selected", class: "btn btn-primary w-100", disabled: true, id: "bulk-update-btn" %>
+            <div class="md:w-1/6 w-full flex items-end">
+              <%= submit_tag "Update Selected", class: "bg-[var(--color-primary)] text-white font-semibold w-full py-2 rounded", disabled: true, id: "bulk-update-btn" %>
             </div>
           </div>
         <% end %>
       </div>
     <% else %>
-      <div class="row g-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% @submissions.each do |submission| %>
-          <div class="col-12 col-md-6 col-lg-4">
-            <div class="card shadow-sm h-100">
+          <div>
+            <div class="bg-white shadow-sm rounded-lg h-full submission-card">
               <% if submission.image.attached? %>
-                <%= image_tag submission.image.variant(resize_to_limit: [400, 200]), class: "card-img-top", alt: "Submission image for #{submission.title}" %>
+                <%= image_tag submission.image.variant(resize_to_limit: [400, 200]), class: "w-full h-40 object-cover rounded-t-lg", alt: "Submission image for #{submission.title}" %>
               <% else %>
-                <%= image_tag "icon.png", class: "card-img-top", alt: "Placeholder image" %>
+                <%= image_tag "icon.png", class: "w-full h-40 object-cover rounded-t-lg", alt: "Placeholder image" %>
               <% end %>
-              <div class="card-body d-flex flex-column">
+              <div class="p-4 flex flex-col">
                 <% if submission.flagged? %>
-                  <div class="alert alert-warning d-flex align-items-center gap-2 py-2 px-3 mb-3" role="alert">
+                  <div class="bg-yellow-50 border border-yellow-200 flex items-center gap-2 py-2 px-3 mb-3" role="alert">
                     <i class="bi bi-exclamation-triangle-fill"></i>
                     <span>This submission is flagged for follow-up.</span>
                   </div>
                 <% end %>
-                <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="flex justify-between items-center mb-2">
                   <h5 class="mb-0">Citizen Submission #<%= submission.id %></h5>
-                  <span class="badge rounded-pill <%= status_badge_class(submission) %>"><%= submission.status_label %></span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full <%= status_badge_class(submission) %>"><%= submission.status_label %></span>
                 </div>
                 <p class="text-muted mb-2"><%= truncate(submission.description, length: 150) %></p>
                 <div class="d-flex flex-wrap gap-3 small text-muted mb-3">
-                  <span><i class="bi bi-geo-alt-fill me-1"></i><strong>Ward:</strong> <%= submission.location.presence || "N/A" %></span>
-                  <span><i class="bi bi-tags-fill me-1"></i><strong>Topic:</strong> <%= submission.topic %></span>
-                  <span><i class="bi bi-envelope-fill me-1"></i><strong>Contact:</strong> <%= submission.citizen_contact.presence || "Anonymous" %></span>
+                  <span><i class="bi bi-geo-alt-fill mr-1"></i><strong>Ward:</strong> <%= submission.location.presence || "N/A" %></span>
+                  <span><i class="bi bi-tags-fill mr-1"></i><strong>Topic:</strong> <%= submission.topic %></span>
+                  <span><i class="bi bi-envelope-fill mr-1"></i><strong>Contact:</strong> <%= submission.citizen_contact.presence || "Anonymous" %></span>
                 </div>
                 <div class="small text-muted mb-3">
-                  <i class="bi bi-clock me-1"></i> <%= submission.created_at.strftime("%b %d, %Y %I:%M %p") %>
+                  <i class="bi bi-clock mr-1"></i> <%= submission.created_at.strftime("%b %d, %Y %I:%M %p") %>
                 </div>
                 <div class="submission-actions d-flex flex-column gap-3 mt-auto">
                   <!-- Status Form -->
                   <%= form_with url: update_status_admin_submission_path(submission), method: :patch, local: true do |form| %>
                     <%= hidden_field_tag :view, @view_mode %>
-                    <div class="input-group input-group-sm" style="max-width: 300px;">
-                      <%= form.select :status, CitizenSubmission::STATUS_OPTIONS, { selected: submission.status }, class: "form-select form-select-sm" %>
-                      <button class="btn btn-sm btn-outline-primary d-flex align-items-center px-3" type="submit">
-                        <i class="bi bi-check2-circle me-1"></i> Save
+                    <div class="flex gap-2 max-w-[300px]">
+                      <%= form.select :status, CitizenSubmission::STATUS_OPTIONS, { selected: submission.status }, class: "block w-full rounded-md border-2 border-gray-200 px-2 py-1 text-sm bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20" %>
+                      <button class="inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] text-sm" type="submit">
+                        <i class="bi bi-check2-circle mr-1"></i> Save
                       </button>
                     </div>
                   <% end %>
                   <!-- Admin Note Form -->
                   <%= form_with url: update_comment_admin_submission_path(submission), method: :patch, local: true do |form| %>
                     <%= hidden_field_tag :view, @view_mode %>
-                    <%= form.text_area :admin_comment, value: submission.admin_comment, class: "form-control form-control-sm", rows: 2, placeholder: "Leave admin note or feedback" %>
-                    <div class="d-flex justify-content-end mt-2">
-                      <%= form.submit "Save note", class: "btn btn-sm btn-outline-secondary" %>
+                    <%= form.text_area :admin_comment, value: submission.admin_comment, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 text-sm focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", rows: 2, placeholder: "Leave admin note or feedback" %>
+                    <div class="flex justify-end mt-2">
+                      <%= form.submit "Save note", class: "inline-block px-3 py-1 rounded border border-gray-300 text-gray-700 text-sm" %>
                     </div>
                   <% end %>
                   <!-- Flag Button -->
-                  <div class="d-flex justify-content-end">
+                  <div class="flex justify-end">
                     <%= button_to toggle_flag_admin_submission_path(submission), method: :patch,
-                          class: "btn btn-sm btn-outline-warning",
+                          class: "inline-block px-3 py-1 rounded border border-yellow-500 text-yellow-500 text-sm",
                           title: (submission.flagged? ? "Unflag" : "Flag"),
                           form: { data: { turbo_confirm: submission.flagged? ? "Remove flag?" : "Flag this submission?" } } do %>
-                      <i class="bi bi-flag-fill"></i> <%= submission.flagged? ? "Unflag" : "Flag" %>
+                      <i class="bi bi-flag-fill mr-1"></i> <%= submission.flagged? ? "Unflag" : "Flag" %>
                     <% end %>
                   </div>
                 </div>
@@ -235,9 +235,7 @@
     min-height: 4.5rem;
   }
 
-  .table-responsive {
-    border: 1px solid #e9ecef;
-  }
+  /* Removed legacy .table-responsive rule — table wrappers now use Tailwind utilities like overflow-x-auto */
 
   .review-stepper > div {
     flex: 1;
@@ -325,7 +323,7 @@
     font-size: 0.85rem;
   }
 
-  .submission-card-actions .btn-outline-warning {
+  .submission-card-actions .inline-block {
     border-width: 1px;
   }
 
@@ -338,7 +336,7 @@
   resize: vertical;
   }
 
-  .submission-actions .btn {
+  .submission-actions .inline-flex, .submission-actions .inline-block {
   white-space: nowrap;
   }
 </style>

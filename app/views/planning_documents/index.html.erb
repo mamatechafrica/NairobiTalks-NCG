@@ -1,65 +1,65 @@
 <div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+  <div class="flex justify-between items-center mb-4 pb-3 border-b">
     <h1 class="h3 mb-0">
-      <i class="bi bi-file-earmark-text text-primary me-2"></i>
+      <i class="bi bi-file-earmark-text text-primary mr-2"></i>
       CIDP & ADP Documents
     </h1>
-    <span class="badge bg-info fs-6"><%= @planning_documents.size %> documents</span>
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 text-sm"><%= @planning_documents.size %> documents</span>
   </div>
   <!-- Filters -->
-  <div class="card mb-4 shadow-sm">
-    <div class="card-body">
-      <%= form_with url: planning_documents_path, method: :get, local: true, class: "row g-3" do %>
-        <div class="col-md-3">
-          <label for="status" class="form-label">Status</label>
-          <%= select_tag :status, options_for_select(["All", "Draft", "Approved"], params[:status]), class: "form-select" %>
+  <div class="bg-white shadow-sm rounded-lg mb-4">
+    <div class="p-4">
+      <%= form_with url: planning_documents_path, method: :get, local: true, class: "grid grid-cols-1 md:grid-cols-4 gap-3" do %>
+        <div>
+          <label for="status" class="block font-semibold mb-1">Status</label>
+          <%= select_tag :status, options_for_select(["All", "Draft", "Approved"], params[:status]), class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20" %>
         </div>
-        <div class="col-md-3">
-          <label for="start_year" class="form-label">Start Year</label>
+        <div>
+          <label for="start_year" class="block font-semibold mb-1">Start Year</label>
           <%= select_tag :start_year, options_for_select((2020..2030).to_a, params[:start_year]), class: "form-select" %>
         </div>
-        <div class="col-md-3">
-          <label for="end_year" class="form-label">End Year</label>
+        <div>
+          <label for="end_year" class="block font-semibold mb-1">End Year</label>
           <%= select_tag :end_year, options_for_select((2020..2030).to_a, params[:end_year]), class: "form-select" %>
         </div>
-        <div class="col-md-3 d-flex align-items-end">
-          <%= submit_tag "Filter Documents", class: "btn btn-primary w-100" %>
+        <div class="flex items-end">
+          <%= submit_tag "Filter Documents", class: "inline-block w-full px-4 py-2 rounded bg-[var(--color-primary)] text-white" %>
         </div>
       <% end %>
     </div>
   </div>
   <!-- View Toggle -->
-  <div class="d-flex justify-content-end mb-3">
-    <div class="btn-group" role="group">
-      <%= link_to planning_documents_path(view: 'grid'), class: "btn btn-outline-primary #{params[:view] == 'grid' || params[:view].nil? ? 'active' : ''}" do %>
+  <div class="flex justify-end mb-3">
+    <div class="flex gap-2" role="group">
+      <%= link_to planning_documents_path(view: 'grid'), class: "inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] #{params[:view] == 'grid' || params[:view].nil? ? 'bg-[var(--color-primary)] text-white' : ''}" do %>
         <i class="bi bi-grid"></i> Grid
       <% end %>
-      <%= link_to planning_documents_path(view: 'list'), class: "btn btn-outline-primary #{params[:view] == 'list' ? 'active' : ''}" do %>
+      <%= link_to planning_documents_path(view: 'list'), class: "inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] #{params[:view] == 'list' ? 'bg-[var(--color-primary)] text-white' : ''}" do %>
         <i class="bi bi-list"></i> List
       <% end %>
     </div>
   </div>
   <% if params[:view] == 'list' %>
-    <div class="card shadow-sm">
-      <div class="list-group list-group-flush">
+    <div class="bg-white shadow-sm rounded-lg">
+      <div class="space-y-3">
         <% @planning_documents.each do |doc| %>
-          <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div class="flex justify-between items-center p-3 border-b last:border-b-0">
             <div>
               <h6 class="mb-1"><%= doc.title %></h6>
-              <small class="text-muted">
-                <span class="badge bg-<%= doc.document_type == 'CIDP' ? 'primary' : 'secondary' %> me-2"><%= doc.document_type %></span>
+              <small class="text-gray-500">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full <%= doc.document_type == 'CIDP' ? 'bg-[var(--color-primary)] text-white' : 'bg-gray-200 text-gray-800' %> mr-2"><%= doc.document_type %></span>
                 Status: <%= doc.status.titleize %> |
                 Year(s): <%= display_year_range(doc) %>
               </small>
             </div>
-            <div class="d-flex gap-2">
+            <div class="flex gap-2">
               <% if doc.file.attached? %>
-                <%= link_to 'View Document', rails_blob_url(doc.file), target: "_blank", class: "btn btn-sm btn-outline-primary" %>
+                <%= link_to 'View Document', rails_blob_url(doc.file), target: "_blank", class: "inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] text-sm" %>
               <% else %>
-                <span class="text-muted small">No file</span>
+                <span class="text-gray-500 small">No file</span>
               <% end %>
               <% if user_signed_in? && current_user.admin? %>
-                <%= link_to 'Delete', planning_document_path(doc), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-outline-danger' %>
+                <%= link_to 'Delete', planning_document_path(doc), method: :delete, data: { confirm: 'Are you sure?' }, class: 'inline-block px-3 py-1 rounded border border-red-600 text-red-600 text-sm' %>
               <% end %>
             </div>
           </div>
@@ -67,28 +67,28 @@
       </div>
     </div>
   <% else %>
-    <div class="row g-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
       <% @planning_documents.each do |doc| %>
-        <div class="col-lg-6 col-xl-4">
-          <div class="card h-100 shadow-sm">
-            <div class="card-body d-flex flex-column">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <span class="badge bg-<%= doc.document_type == 'CIDP' ? 'primary' : 'secondary' %>"><%= doc.document_type %></span>
-                <span class="badge bg-<%= doc.status == 'approved' ? 'success' : 'warning' %>"><%= doc.status.titleize %></span>
+        <div class="h-full">
+          <div class="bg-white shadow-sm rounded-lg h-full">
+            <div class="p-4 flex flex-col">
+              <div class="flex justify-between items-start mb-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full <%= doc.document_type == 'CIDP' ? 'bg-[var(--color-primary)] text-white' : 'bg-gray-200 text-gray-800' %>"><%= doc.document_type %></span>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full <%= doc.status == 'approved' ? 'bg-[var(--color-success)] text-white' : 'bg-yellow-100 text-yellow-800' %>"><%= doc.status.titleize %></span>
               </div>
-              <h5 class="card-title mb-2"><%= doc.title %></h5>
-              <p class="card-text text-muted small mb-3">
+              <h5 class="mb-2"><%= doc.title %></h5>
+              <p class="text-gray-500 text-sm mb-3">
                 Year(s): <%= display_year_range(doc) %>
               </p>
               <div class="mt-auto">
                 <% if doc.file.attached? %>
-                  <%= link_to 'View Document', rails_blob_url(doc.file), target: "_blank", class: "btn btn-primary w-100" %>
+                  <%= link_to 'View Document', rails_blob_url(doc.file), target: "_blank", class: "inline-block w-full px-4 py-2 rounded bg-[var(--color-primary)] text-white" %>
                 <% else %>
-                  <span class="text-muted small">No file attached</span>
+                  <span class="text-gray-500 small">No file attached</span>
                 <% end %>
                 <% if user_signed_in? && current_user.admin? %>
                   <div class="mt-2">
-                    <%= link_to 'Delete', planning_document_path(doc), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger btn-sm w-100' %>
+                    <%= link_to 'Delete', planning_document_path(doc), method: :delete, data: { confirm: 'Are you sure?' }, class: 'inline-block w-full px-3 py-1 rounded border border-red-600 text-red-600 text-sm' %>
                   </div>
                 <% end %>
               </div>
@@ -100,7 +100,7 @@
   <% end %>
   <% if @planning_documents.empty? %>
     <div class="text-center py-5">
-      <i class="bi bi-file-earmark-x text-muted" style="font-size: 4rem;"></i>
+      <i class="bi bi-file-earmark-x text-muted text-[4rem]"></i>
       <h3 class="mt-3 text-muted">No documents found</h3>
       <p class="text-muted">Try adjusting your filters or check back later.</p>
     </div>

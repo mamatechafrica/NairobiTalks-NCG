@@ -4,50 +4,39 @@
     <p class="text-lg text-gray-600 mt-4 text-center">Search and filter ideas to find what inspires you.</p>
     <!-- Combined Search and Filter Bar (Bootstrap style) -->
     <div class="container mb-4">
-      <form action="<%= ideas_explorer_path %>" method="get" class="row gx-3 gy-2 align-items-end flex-nowrap flex-md-nowrap flex-lg-nowrap p-3 rounded shadow-sm" style="background: #fff; border: 2px solid #004225; flex-wrap: wrap;">
-        <div class="col-md-3 col-6">
-          <label for="query" class="form-label fw-bold" style="color: #004225;">Search</label>
-          <input type="text" name="query" id="query" value="<%= params[:query] %>" class="form-control border-success fw-bold" placeholder="Search ideas..." style="background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;" />
+      <form action="<%= ideas_explorer_path %>" method="get" class="flex flex-wrap gap-3 items-end p-3 rounded shadow-sm bg-white border-2 border-success">
+        <div class="md:w-1/4 w-1/2">
+          <label for="query" class="block font-bold text-[#004225]">Search</label>
+          <input type="text" name="query" id="query" value="<%= params[:query] %>" class="block w-full rounded-md border-2 border-success px-3 py-2 font-bold bg-[#f8fff8] text-[#004225]" placeholder="Search ideas..." />
         </div>
-        <div class="container mb-4">
-          <form action="<%= community_ideas_path %>" method="get" class="row gx-3 gy-2 align-items-end flex-nowrap flex-md-nowrap flex-lg-nowrap p-3 rounded shadow-sm" style="background: #fff; border: 2px solid #004225; flex-wrap: wrap;">
-            <option value="">All</option>
-            <option value="westlands" <%= 'selected' if params[:ward] == 'westlands' %>>Westlands</option>
-            <option value="langata" <%= 'selected' if params[:ward] == 'langata' %>>Langata</option>
-            <option value="kibra" <%= 'selected' if params[:ward] == 'kibra' %>>Kibra</option>
-          </select>
-        </div>
-        <div class="col-md-2 col-6">
-          <label for="topic" class="form-label fw-bold" style="color: #004225;">Topic</label>
-          <select name="topic" id="topic" class="form-select border-success fw-bold" style="background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;">
+        <div class="md:w-1/6 w-1/2">
+          <label for="topic" class="block font-bold text-[#004225]">Topic</label>
+          <select name="topic" id="topic" class="block w-full rounded-md border-2 border-success px-3 py-2 font-bold bg-[#f8fff8] text-[#004225]">
             <option value="">All</option>
             <option value="transportation" <%= 'selected' if params[:topic] == 'transportation' %>>Transportation</option>
             <option value="education" <%= 'selected' if params[:topic] == 'education' %>>Education</option>
             <option value="health" <%= 'selected' if params[:topic] == 'health' %>>Health</option>
           </select>
         </div>
-        <div class="col-md-2 col-6">
-          <label for="sort" class="form-label fw-bold" style="color: #004225;">Sort By</label>
-          <select name="sort" id="sort" class="form-select border-success fw-bold" style="background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;">
+        <div class="md:w-1/6 w-1/2">
+          <label for="sort" class="block font-bold text-[#004225]">Sort By</label>
+          <select name="sort" id="sort" class="block w-full rounded-md border-2 border-success px-3 py-2 font-bold bg-[#f8fff8] text-[#004225]">
             <option value="recent" <%= 'selected' if params[:sort] == 'recent' %>>Most Recent</option>
             <option value="popular" <%= 'selected' if params[:sort] == 'popular' %>>Most Popular</option>
           </select>
         </div>
-        <div class="col-md-2 col-12 d-flex align-items-end">
-          <button type="submit" class="btn btn-lg fw-bold w-100" style="background: #004225; color: #fff; border-width: 2px; border-color: #004225;">Search</button>
+        <div class="md:w-1/6 w-full flex items-end">
+          <button type="submit" class="inline-block w-full py-3 rounded bg-[#004225] text-white font-bold">Search</button>
         </div>
       </form>
     </div>
 
     <!-- Results Section -->
     <div class="results-section">
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% @ideas.each do |idea| %>
-          <div class="col">
-              <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
-            </div>
-          <% end %>
-        </div>
+          <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
+        <% end %>
         <% if @ideas.empty? %>
           <p class="text-center text-gray-600 mt-8">No ideas found. Try adjusting your filters or search query.</p>
         <% end %>

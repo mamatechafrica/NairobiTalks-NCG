@@ -1,7 +1,7 @@
-<div class="container-fluid py-4" style="background-color: var(--nairobi-talks-mint); min-height: 100vh;">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="text-center mb-2" style="color: var(--nairobi-talks-dark);">
+<div class="container-fluid py-4 bg-[var(--nairobi-talks-mint)] min-h-screen">
+  <div class="flex">
+    <div class="w-full">
+      <h1 class="text-center mb-2 text-[var(--nairobi-talks-dark)]">
         <span aria-hidden="true">📢</span> Broadcast Center
       </h1>
       <p class="text-center text-muted mb-4">
@@ -9,42 +9,42 @@
       </p>
     </div>
   </div>
-  <div class="row mb-4">
-    <div class="col-12">
-      <%= link_to 'New Broadcast', new_admin_broadcast_path, class: 'btn btn-primary mb-3', aria: { label: 'Create New Broadcast' } %>
+  <div class="mb-4">
+    <div class="w-full">
+      <%= link_to 'New Broadcast', new_admin_broadcast_path, class: 'inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-white mb-3', aria: { label: 'Create New Broadcast' } %>
     </div>
   </div>
-  <div class="row g-4">
+  <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
     <% @broadcasts.each do |broadcast| %>
-      <div class="col-lg-6 col-xl-4">
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h2 class="card-title fw-bold mb-3" style="color: var(--nairobi-talks-dark);">
+      <div class="h-full">
+        <div class="bg-white shadow-sm rounded-lg h-full">
+          <div class="p-4">
+            <h2 class="font-bold mb-3 text-[var(--nairobi-talks-dark)]">
               <%= broadcast.title %>
             </h2>
-            <%= image_tag broadcast.image.url, class: 'img-fluid mb-3', alt: broadcast.title if broadcast.image.present? %>
-            <p class="card-text text-muted mb-3">
+            <%= image_tag broadcast.image.url, class: 'w-full h-auto rounded mb-3', alt: broadcast.title if broadcast.image.present? %>
+            <p class="text-gray-500 mb-3">
               <%= broadcast.message.truncate(100) %>
             </p>
             <div class="mb-2">
-              <small class="text-muted d-block">
+              <small class="text-gray-500 block">
                 <strong>Audience:</strong> <%= broadcast.target_audience %>
               </small>
-              <small class="text-muted d-block">
+              <small class="text-gray-500 block">
                 <strong>Delivery Type:</strong> <%= broadcast.delivery_type %>
               </small>
-              <small class="text-muted d-block">
+              <small class="text-gray-500 block">
                 <strong>Status:</strong> <%= broadcast.status %>
               </small>
-              <small class="text-muted d-block">
+              <small class="text-gray-500 block">
                 <strong>Created At:</strong> <%= broadcast.created_at.strftime('%Y-%m-%d %H:%M') %>
               </small>
             </div>
           </div>
-          <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-            <%= link_to 'Preview', admin_broadcast_path(broadcast), class: 'btn btn-outline-primary btn-sm', aria: { label: "Preview Broadcast: #{broadcast.title}" } %>
-            <%= link_to 'Edit', edit_admin_broadcast_path(broadcast), class: 'btn btn-outline-secondary btn-sm', aria: { label: "Edit Broadcast: #{broadcast.title}" } %>
-            <%= link_to 'Archive', admin_broadcast_path(broadcast), method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, class: 'btn btn-outline-danger btn-sm', aria: { label: "Archive Broadcast: #{broadcast.title}" } %>
+          <div class="px-4 py-3 flex justify-between items-center">
+            <%= link_to 'Preview', admin_broadcast_path(broadcast), class: 'inline-block px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] text-sm', aria: { label: "Preview Broadcast: #{broadcast.title}" } %>
+            <%= link_to 'Edit', edit_admin_broadcast_path(broadcast), class: 'inline-block px-3 py-1 rounded border border-gray-300 text-gray-700 text-sm', aria: { label: "Edit Broadcast: #{broadcast.title}" } %>
+            <%= link_to 'Archive', admin_broadcast_path(broadcast), method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, class: 'inline-block px-3 py-1 rounded border border-red-600 text-red-600 text-sm', aria: { label: "Archive Broadcast: #{broadcast.title}" } %>
           </div>
         </div>
       </div>

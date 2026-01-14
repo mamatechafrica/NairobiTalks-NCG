@@ -32,8 +32,8 @@
       </div>
     </div>
     <div class="flex gap-2">
-      <%= link_to 'Back to list', admin_broadcasts_path, class: 'btn btn-secondary flex-1', aria: { label: 'Back to broadcast list' } %>
-      <%= link_to 'Preview', admin_broadcast_path(@broadcast), class: 'btn btn-outline-primary flex-1', aria: { label: 'Preview this broadcast' } %>
+      <%= link_to 'Back to list', admin_broadcasts_path, class: 'inline-flex items-center justify-center flex-1 px-4 py-2 rounded border border-gray-300 text-gray-700', aria: { label: 'Back to broadcast list' } %>
+      <%= link_to 'Preview', admin_broadcast_path(@broadcast), class: 'inline-flex items-center justify-center flex-1 px-4 py-2 rounded border border-[var(--color-primary)] text-[var(--color-primary)]', aria: { label: 'Preview this broadcast' } %>
     </div>
   </section>
   <section aria-labelledby="edit-form-heading">

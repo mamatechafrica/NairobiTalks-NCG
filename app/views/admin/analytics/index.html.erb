@@ -1,93 +1,91 @@
 <div class="container py-4">
-  <div class="row mb-4">
-    <div class="col-12">
-      <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-2">
-        <div>
-          <h1 class="h3 fw-bold mb-1"><i class="bi bi-bar-chart-fill me-2" aria-hidden="true"></i> Community Ideas Analytics</h1>
-          <p class="mb-0 text-muted">Comprehensive analytics and insights for citizen engagement</p>
-        </div>
+  <div class="mb-4">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
+      <div>
+        <h1 class="text-xl md:text-2xl font-bold mb-1"><i class="bi bi-bar-chart-fill mr-2" aria-hidden="true"></i> Community Ideas Analytics</h1>
+        <p class="mb-0 text-gray-500">Comprehensive analytics and insights for citizen engagement</p>
       </div>
     </div>
   </div>
-  <div class="row g-4 mb-5">
-    <div class="col-12 col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body text-center p-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+    <div class="h-full">
+      <div class="bg-white shadow-sm rounded-lg h-full">
+        <div class="p-4 text-center">
           <div class="mb-3">
-            <i class="bi bi-lightbulb-fill text-warning" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <i class="bi bi-lightbulb-fill text-warning text-[2.5rem]" aria-hidden="true"></i>
           </div>
-          <h3 class="mb-1 text-dark fw-bold"><%= @total_ideas %></h3>
-          <p class="mb-0 text-muted">Total Ideas</p>
+          <h3 class="mb-1 text-dark font-bold"><%= @total_ideas %></h3>
+          <p class="mb-0 text-gray-500">Total Ideas</p>
         </div>
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body text-center p-4">
+    <div class="h-full">
+      <div class="bg-white shadow-sm rounded-lg h-full">
+        <div class="p-4 text-center">
           <div class="mb-3">
-            <i class="bi bi-hand-thumbs-up-fill text-success" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <i class="bi bi-hand-thumbs-up-fill text-success text-[2.5rem]" aria-hidden="true"></i>
           </div>
-          <h3 class="mb-1 text-dark fw-bold"><%= @total_upvotes %></h3>
-          <p class="mb-0 text-muted">Total Upvotes</p>
+          <h3 class="mb-1 text-dark font-bold"><%= @total_upvotes %></h3>
+          <p class="mb-0 text-gray-500">Total Upvotes</p>
         </div>
       </div>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body text-center p-4">
+    <div class="h-full">
+      <div class="bg-white shadow-sm rounded-lg h-full">
+        <div class="p-4 text-center">
           <div class="mb-3">
-            <i class="bi bi-hand-thumbs-down-fill text-danger" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <i class="bi bi-hand-thumbs-down-fill text-danger text-[2.5rem]" aria-hidden="true"></i>
           </div>
-          <h3 class="mb-1 text-dark fw-bold"><%= @total_downvotes %></h3>
-          <p class="mb-0 text-muted">Total Downvotes</p>
+          <h3 class="mb-1 text-dark font-bold"><%= @total_downvotes %></h3>
+          <p class="mb-0 text-gray-500">Total Downvotes</p>
         </div>
       </div>
     </div>
-    <div class="col-md-3 col-6">
-      <div class="card stat-card bg-white border-0 shadow-sm h-100">
-        <div class="card-body text-center p-4">
+    <div class="h-full">
+      <div class="bg-white shadow-sm rounded-lg h-full">
+        <div class="p-4 text-center">
           <div class="stat-icon mb-3">
-            <i class="bi bi-graph-up text-primary" style="font-size: 2.5rem;" aria-hidden="true"></i>
+            <i class="bi bi-graph-up text-primary text-[2.5rem]" aria-hidden="true"></i>
           </div>
-          <h3 class="mb-1 text-dark fw-bold"><%= @avg_upvotes %></h3>
-          <p class="mb-0 text-muted">Avg Upvotes/Idea</p>
+          <h3 class="mb-1 text-dark font-bold"><%= @avg_upvotes %></h3>
+          <p class="mb-0 text-gray-500">Avg Upvotes/Idea</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="card shadow-sm mb-4">
-    <div class="card-header bg-light">
-      <h2 class="h5 mb-0"><i class="bi bi-trophy-fill text-warning me-2" aria-hidden="true"></i> Top 10 Ideas by Popularity</h2>
+  <div class="bg-white shadow-sm rounded-lg mb-4">
+    <div class="px-4 py-3 border-b bg-gray-50">
+      <h2 class="text-lg font-semibold mb-0"><i class="bi bi-trophy-fill text-warning mr-2" aria-hidden="true"></i> Top 10 Ideas by Popularity</h2>
     </div>
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table table-hover mb-0">
-          <thead class="table-light">
+    <div class="p-0">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y">
+          <thead class="bg-gray-50">
             <tr>
-              <th class="border-0" scope="col">Rank</th>
-              <th class="border-0" scope="col">Title</th>
-              <th class="border-0" scope="col">Ward</th>
-              <th class="border-0" scope="col">Topic</th>
-              <th class="border-0" scope="col">Upvotes</th>
-              <th class="border-0" scope="col">Downvotes</th>
-              <th class="border-0" scope="col">Score</th>
+              <th class="px-4 py-2 text-left" scope="col">Rank</th>
+              <th class="px-4 py-2 text-left" scope="col">Title</th>
+              <th class="px-4 py-2 text-left" scope="col">Ward</th>
+              <th class="px-4 py-2 text-left" scope="col">Topic</th>
+              <th class="px-4 py-2 text-left" scope="col">Upvotes</th>
+              <th class="px-4 py-2 text-left" scope="col">Downvotes</th>
+              <th class="px-4 py-2 text-left" scope="col">Score</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="bg-white divide-y">
             <% @top_ideas.each_with_index do |idea, index| %>
               <tr>
-                <td>
+                <td class="px-4 py-3">
                   <% if index < 3 %>
-                    <i class="bi bi-trophy-fill text-warning me-1" aria-hidden="true"></i>
+                    <i class="bi bi-trophy-fill text-warning mr-1" aria-hidden="true"></i>
                   <% end %>
                   <%= index + 1 %>
                 </td>
-                <td class="fw-semibold"><%= idea.title %></td>
-                <td><span class="badge bg-secondary rounded-pill"><%= idea.ward %></span></td>
-                <td><span class="badge bg-primary rounded-pill"><%= idea.topic %></span></td>
-                <td><span class="text-success fw-bold"><%= idea.upvotes %></span></td>
-                <td><span class="text-danger fw-bold"><%= idea.downvotes %></span></td>
-                <td><span class="fw-bold <%= idea.upvotes - idea.downvotes >= 0 ? 'text-success' : 'text-danger' %>"><%= idea.upvotes - idea.downvotes %></span></td>
+                <td class="px-4 py-3 font-semibold"><%= idea.title %></td>
+                <td class="px-4 py-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-200 text-gray-800 text-sm"><%= idea.ward %></span></td>
+                <td class="px-4 py-3"><span class="inline-flex items-center px-2 py-0.5 rounded-full bg-[var(--color-primary)] text-white text-sm"><%= idea.topic %></span></td>
+                <td class="px-4 py-3"><span class="text-[var(--color-success)] font-bold"><%= idea.upvotes %></span></td>
+                <td class="px-4 py-3"><span class="text-red-600 font-bold"><%= idea.downvotes %></span></td>
+                <td class="px-4 py-3"><span class="font-bold <%= idea.upvotes - idea.downvotes >= 0 ? 'text-[var(--color-success)]' : 'text-red-600' %>"><%= idea.upvotes - idea.downvotes %></span></td>
               </tr>
             <% end %>
           </tbody>
@@ -95,56 +93,56 @@
       </div>
     </div>
   </div>
-  <div class="row g-4">
-    <div class="col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header bg-light">
-          <h3 class="h6 mb-0"><i class="bi bi-geo-alt-fill text-info me-2" aria-hidden="true"></i> Ideas by Ward</h3>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div>
+      <div class="bg-white shadow-sm rounded-lg h-full">
+        <div class="px-4 py-3 border-b bg-gray-50">
+          <h3 class="text-sm font-semibold mb-0"><i class="bi bi-geo-alt-fill text-info mr-2" aria-hidden="true"></i> Ideas by Ward</h3>
         </div>
-        <div class="card-body">
+        <div class="p-4">
           <% if @ward_counts.any? %>
             <% @ward_counts.each do |ward, count| %>
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="fw-medium"><%= ward %></span>
-                <div class="d-flex align-items-center">
-                  <div class="progress flex-grow-1 me-2" style="height: 8px; width: 100px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: <%= (@ward_counts.values.max > 0) ? (count.to_f / @ward_counts.values.max * 100).round : 0 %>%"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-medium"><%= ward %></span>
+                <div class="flex items-center">
+                  <div class="w-24 h-2 bg-gray-200 rounded mr-2">
+                    <div class="h-2 bg-sky-500 rounded" style="width: <%= (@ward_counts.values.max > 0) ? (count.to_f / @ward_counts.values.max * 100).round : 0 %>%"></div>
                   </div>
-                  <span class="badge bg-info rounded-pill"><%= count %></span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-sky-100 text-sky-700 text-sm"><%= count %></span>
                 </div>
               </div>
             <% end %>
           <% else %>
             <div class="text-center py-4">
-              <i class="bi bi-geo-alt text-muted" style="font-size: 3rem;" aria-hidden="true"></i>
-              <p class="text-muted mt-2">No ward data available</p>
+              <i class="bi bi-geo-alt text-gray-400 text-[3rem]" aria-hidden="true"></i>
+              <p class="text-gray-500 mt-2">No ward data available</p>
             </div>
           <% end %>
         </div>
       </div>
     </div>
-    <div class="col-lg-6">
-      <div class="card shadow-sm h-100">
-        <div class="card-header bg-light">
-          <h3 class="h6 mb-0"><i class="bi bi-tag-fill text-success me-2"></i> Ideas by Topic</h3>
+    <div>
+      <div class="bg-white shadow-sm rounded-lg h-full">
+        <div class="px-4 py-3 border-b bg-gray-50">
+          <h3 class="text-sm font-semibold mb-0"><i class="bi bi-tag-fill text-success mr-2"></i> Ideas by Topic</h3>
         </div>
-        <div class="card-body">
+        <div class="p-4">
           <% if @topic_counts.any? %>
             <% @topic_counts.each do |topic, count| %>
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="fw-medium"><%= topic %></span>
-                <div class="d-flex align-items-center">
-                  <div class="progress flex-grow-1 me-2" style="height: 8px; width: 100px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: <%= (@topic_counts.values.max > 0) ? (count.to_f / @topic_counts.values.max * 100).round : 0 %>%"></div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-medium"><%= topic %></span>
+                <div class="flex items-center">
+                  <div class="w-24 h-2 bg-gray-200 rounded mr-2">
+                    <div class="h-2 bg-[var(--color-success)] rounded" style="width: <%= (@topic_counts.values.max > 0) ? (count.to_f / @topic_counts.values.max * 100).round : 0 %>%"></div>
                   </div>
-                  <span class="badge bg-success rounded-pill"><%= count %></span>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-sm"><%= count %></span>
                 </div>
               </div>
             <% end %>
           <% else %>
             <div class="text-center py-4">
-              <i class="bi bi-tag text-muted" style="font-size: 3rem;"></i>
-              <p class="text-muted mt-2">No topic data available</p>
+              <i class="bi bi-tag text-gray-400 text-[3rem]"></i>
+              <p class="text-gray-500 mt-2">No topic data available</p>
             </div>
           <% end %>
         </div>

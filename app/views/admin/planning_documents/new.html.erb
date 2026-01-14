@@ -1,14 +1,14 @@
 <div class="admin-new-document">
   <div class="page-header">
-    <h1><i class="bi bi-upload me-2" aria-hidden="true"></i> Upload Planning Document</h1>
+    <h1><i class="bi bi-upload mr-2" aria-hidden="true"></i> Upload Planning Document</h1>
     <p>Add a new CIDP or ADP document to the system</p>
   </div>
   <div class="form-container">
     <%= form_with(model: @planning_document, url: admin_planning_documents_path, local: true, class: "document-form") do |f| %>
       <% if @planning_document.errors.any? %>
-        <div class="alert alert-danger">
-          <h4><%= pluralize(@planning_document.errors.count, "error") %> prohibited this document from being saved:</h4>
-          <ul class="mb-0">
+        <div class="rounded-lg bg-red-100 border-l-4 border-red-600 text-red-800 p-4 mb-6">
+          <h4 class="font-semibold"><%= pluralize(@planning_document.errors.count, "error") %> prohibited this document from being saved:</h4>
+          <ul class="mt-2">
             <% @planning_document.errors.full_messages.each do |message| %>
               <li><%= message %></li>
             <% end %>
@@ -18,34 +18,34 @@
       <div class="form-section">
         <h3>Document Information</h3>
         <div class="form-group">
-          <%= f.label :title, "Document Title", class: "form-label", aria: { label: "Document Title" } %>
-          <%= f.text_field :title, class: "form-control", placeholder: "e.g., Nairobi County Integrated Development Plan 2024-2028", aria: { label: "Document Title" } %>
+          <%= f.label :title, "Document Title", class: "block font-semibold mb-1", aria: { label: "Document Title" } %>
+          <%= f.text_field :title, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", placeholder: "e.g., Nairobi County Integrated Development Plan 2024-2028", aria: { label: "Document Title" } %>
         </div>
-        <div class="row">
-          <div class="col-md-6">
+        <div class="md:flex md:gap-4">
+          <div class="md:w-1/2">
             <div class="form-group">
-              <%= f.label :document_type, "Document Type", class: "form-label", aria: { label: "Document Type" } %>
-              <%= f.select :document_type, [["CIDP", "CIDP"], ["ADP", "ADP"]], {}, class: "form-select", aria: { label: "Document Type" } %>
+              <%= f.label :document_type, "Document Type", class: "block font-semibold mb-1", aria: { label: "Document Type" } %>
+              <%= f.select :document_type, [["CIDP", "CIDP"], ["ADP", "ADP"]], {}, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", aria: { label: "Document Type" } %>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="md:w-1/2">
             <div class="form-group">
-              <%= f.label :status, "Status", class: "form-label", aria: { label: "Status" } %>
-              <%= f.select :status, [["Draft", 0], ["Approved", 1]], {}, class: "form-select", aria: { label: "Status" } %>
+              <%= f.label :status, "Status", class: "block font-semibold mb-1", aria: { label: "Status" } %>
+              <%= f.select :status, [["Draft", 0], ["Approved", 1]], {}, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 bg-white focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", aria: { label: "Status" } %>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6">
+        <div class="md:flex md:gap-4">
+          <div class="md:w-1/2">
             <div class="form-group">
-              <%= f.label :start_year, "Start Year", class: "form-label", aria: { label: "Start Year" } %>
-              <%= f.number_field :start_year, class: "form-control", placeholder: "2024", aria: { label: "Start Year" } %>
+              <%= f.label :start_year, "Start Year", class: "block font-semibold mb-1", aria: { label: "Start Year" } %>
+              <%= f.number_field :start_year, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", placeholder: "2024", aria: { label: "Start Year" } %>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="md:w-1/2">
             <div class="form-group">
-              <%= f.label :end_year, "End Year", class: "form-label", aria: { label: "End Year" } %>
-              <%= f.number_field :end_year, class: "form-control", placeholder: "2028", aria: { label: "End Year" } %>
+              <%= f.label :end_year, "End Year", class: "block font-semibold mb-1", aria: { label: "End Year" } %>
+              <%= f.number_field :end_year, class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", placeholder: "2028", aria: { label: "End Year" } %>
               <div class="form-text">Required for CIDP documents</div>
             </div>
           </div>
@@ -54,14 +54,14 @@
       <div class="form-section">
         <h3>Document File</h3>
         <div class="form-group">
-          <%= f.label :file, "Upload PDF Document", class: "form-label", aria: { label: "Upload PDF Document" } %>
-          <%= f.file_field :file, accept: ".pdf", class: "form-control", aria: { label: "Upload PDF Document" } %>
+          <%= f.label :file, "Upload PDF Document", class: "block font-semibold mb-1", aria: { label: "Upload PDF Document" } %>
+          <%= f.file_field :file, accept: ".pdf", class: "block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20", aria: { label: "Upload PDF Document" } %>
           <div class="form-text">Only PDF files are accepted. Maximum file size: 10MB</div>
         </div>
       </div>
       <div class="form-actions">
-        <%= f.submit "Upload Document", class: "btn btn-primary btn-lg" %>
-        <%= link_to "Cancel", admin_planning_documents_path, class: "btn btn-secondary btn-lg" %>
+        <%= f.submit "Upload Document", class: "inline-block px-6 py-3 rounded bg-[var(--color-primary)] text-white font-semibold" %>
+        <%= link_to "Cancel", admin_planning_documents_path, class: "inline-block px-6 py-3 rounded border border-gray-300 text-gray-700" %>
       </div>
     <% end %>
   </div>
@@ -161,11 +161,7 @@
     margin-bottom: 20px;
   }
 
-  .form-label {
-    font-weight: 600;
-    color: #024731;
-    margin-bottom: 8px;
-  }
+  /* Labels moved to Tailwind utility classes; removed legacy .form-label CSS */
 
   .form-control, .form-select {
     border: 2px solid #e9ecef;
@@ -192,52 +188,10 @@
     justify-content: center;
   }
 
-  .btn {
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-  }
+  /* Buttons are styled using Tailwind classes applied directly in markup */
+  /* Button variants removed in favor of Tailwind classes */
 
-  .btn-primary {
-    background: linear-gradient(135deg, #0C9F5E, #059669);
-    border: none;
-    color: white;
-  }
-
-  .btn-primary:hover {
-    background: linear-gradient(135deg, #059669, #0C9F5E);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(12, 159, 94, 0.3);
-  }
-
-  .btn-secondary {
-    background: #6c757d;
-    border: none;
-    color: white;
-  }
-
-  .btn-secondary:hover {
-    background: #5a6268;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
-  }
-
-  .alert {
-    border-radius: 8px;
-    border: none;
-    margin-bottom: 30px;
-  }
-
-  .alert-danger {
-    background: #f8d7da;
-    color: #721c24;
-    border-left: 4px solid #dc3545;
-  }
+  /* Alerts converted to Tailwind; removed legacy alert styles */
 
   @media (max-width: 768px) {
     .admin-new-document {
@@ -258,7 +212,7 @@
       flex-direction: column;
     }
 
-    .btn {
+    .form-actions .inline-block {
       width: 100%;
       justify-content: center;
     }

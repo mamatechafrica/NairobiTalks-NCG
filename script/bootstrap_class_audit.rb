@@ -4,12 +4,13 @@ require 'csv'
 ROOT = File.expand_path('../', __dir__)
 VIEWS = Dir.glob(File.join(ROOT, 'app', 'views', '**', '*.{erb,html.erb,haml,slim}'))
 PATTERNS = [
-  /^btn/, /^row\b/, /^col-/, /^card\b/, /^card-/, /^badge\b/, /^alert\b/, /^navbar\b/,
-  /^form-control\b/, /^form-label\b/, /^list-group\b/, /^table\b/, /^btn-group\b/, /^dropdown\b/, /^dropdown-menu\b/,
-  /^btn-outline/, /^btn-sm/, /^btn-lg/, /^gx-/, /^gy-/, /^g-/, /^d-/, /^justify-content/, /^align-items/, /^float-/,
-  /^me-/, /^ms-/, /^ml-/, /^mr-/, /^mt-/, /^mb-/, /^mx-/, /^my-/, /^p-/, /^pt-/, /^pb-/, /^pl-/, /^pr-/, /^px-/, /^py-/,
-  /^bg-(success|light|transparent|white|danger|info|warning|secondary)/, /^text-(white|muted|dark|success|primary|center|left|right)/,
-  /^fw-/, /^rounded/, /^shadow/, /^list-group/, /^fa-/, /^fas\b/, /^bi\b/, /^btn-link/
+  # Bootstrap-specific components and patterns only (avoid generic utility matches to not flag Tailwind)
+  /^btn-/, /^btn$/, /^btn-group\b/, /^btn-outline/, /^btn-sm/, /^btn-lg/,
+  /^card\b/, /^card-/, /^badge\b/, /^alert\b/, /^navbar\b/,
+  /^form-control\b/, /^form-select\b/, /^form-label\b/, /^input-group\b/, /^form-check\b/,
+  /^list-group\b/, /^table$/, /^table-(hover|sm|light|responsive)/, /^dropdown\b/, /^dropdown-menu\b/,
+  /^row\b/, /^col-\w+/, /^gx-/, /^gy-/, /^g-/, /^justify-content/, /^align-items/,
+  /^fw-/, /^me-/, /^ms-/, /^btn-link/
 ]
 
 results = []

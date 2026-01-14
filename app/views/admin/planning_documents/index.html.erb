@@ -1,9 +1,9 @@
 <div class="admin-planning-documents">
   <div class="page-header">
-    <h1><i class="bi bi-file-earmark-text me-2" aria-hidden="true"></i> Planning Documents Management</h1>
+    <h1><i class="bi bi-file-earmark-text mr-2" aria-hidden="true"></i> Planning Documents Management</h1>
     <p>Manage CIDP and ADP documents for Nairobi County</p>
     <div class="actions">
-      <%= link_to '<i class="bi bi-upload me-2" aria-hidden="true"></i> Upload New Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary", aria: { label: "Upload New Document" } %>
+      <%= link_to '<i class="bi bi-upload mr-2" aria-hidden="true"></i> Upload New Document'.html_safe, new_admin_planning_document_path, class: "inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-white", aria: { label: "Upload New Document" } %>
     </div>
   </div>
   <div class="documents-table-container">
@@ -23,28 +23,28 @@
           <tr>
             <td class="title-cell"><%= doc.title %></td>
             <td>
-              <span class="badge bg-<%= doc.document_type == 'CIDP' ? 'primary' : 'secondary' %>">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full <%= doc.document_type == 'CIDP' ? 'bg-[var(--color-primary)] text-white' : 'bg-gray-200 text-gray-800' %>">
                 <%= doc.document_type %>
               </span>
             </td>
             <td>
-              <span class="badge bg-<%= doc.status == 'approved' ? 'success' : 'warning' %>">
+              <span class="inline-flex items-center px-2 py-0.5 rounded-full <%= doc.status == 'approved' ? 'bg-[var(--color-success)] text-white' : 'bg-yellow-100 text-yellow-800' %>">
                 <%= doc.status.titleize %>
               </span>
             </td>
             <td><%= "#{doc.start_year} - #{doc.end_year}" %></td>
             <td><%= doc.created_at.strftime("%b %d, %Y") %></td>
             <td class="text-nowrap">
-              <%= link_to admin_planning_document_path(doc), class: "btn btn-sm btn-outline-primary me-1", aria: { label: "View Document" } do %>
-                <i class="bi bi-eye" aria-hidden="true"></i>
+              <%= link_to admin_planning_document_path(doc), class: "inline-flex items-center px-3 py-1 rounded border border-[var(--color-primary)] text-[var(--color-primary)] text-sm mr-1", aria: { label: "View Document" } do %>
+                <i class="bi bi-eye mr-1" aria-hidden="true"></i>
                 View
               <% end %>
-              <%= link_to edit_admin_planning_document_path(doc), class: "btn btn-sm btn-outline-warning me-1", aria: { label: "Edit Document" } do %>
-                <i class="bi bi-pencil" aria-hidden="true"></i>
+              <%= link_to edit_admin_planning_document_path(doc), class: "inline-flex items-center px-3 py-1 rounded border border-yellow-500 text-yellow-500 text-sm mr-1", aria: { label: "Edit Document" } do %>
+                <i class="bi bi-pencil mr-1" aria-hidden="true"></i>
                 Edit
               <% end %>
-              <%= link_to admin_planning_document_path(doc), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-outline-danger", aria: { label: "Delete Document" } do %>
-                <i class="bi bi-trash" aria-hidden="true"></i>
+              <%= link_to admin_planning_document_path(doc), method: :delete, data: { confirm: "Are you sure?" }, class: "inline-flex items-center px-3 py-1 rounded border border-red-600 text-red-600 text-sm", aria: { label: "Delete Document" } do %>
+                <i class="bi bi-trash mr-1" aria-hidden="true"></i>
                 Delete
               <% end %>
             </td>
@@ -58,7 +58,7 @@
       <i class="fas fa-file-alt" aria-hidden="true"></i>
       <h3>No planning documents yet</h3>
       <p>Get started by uploading your first CIDP or ADP document.</p>
-      <%= link_to '<i class="fas fa-upload" aria-hidden="true"></i> Upload First Document'.html_safe, new_admin_planning_document_path, class: "btn btn-primary", aria: { label: "Upload First Document" } %>
+      <%= link_to '<i class="fas fa-upload" aria-hidden="true"></i> Upload First Document'.html_safe, new_admin_planning_document_path, class: "inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-white", aria: { label: "Upload First Document" } %>
     </div>
   <% end %>
 </div>
@@ -166,7 +166,7 @@
     white-space: nowrap;
   }
 
-  .actions-cell .btn {
+  .actions-cell .inline-flex {
     margin-right: 5px;
   }
 
@@ -202,7 +202,7 @@
       min-width: 600px;
     }
 
-    .actions-cell .btn {
+    .actions-cell .inline-flex {
       margin-right: 2px;
       padding: 0.25rem 0.5rem;
       font-size: 0.875rem;

@@ -39,7 +39,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
   </head>
 
-  <body style="cursor: auto;">
+  <body>
     <main class="container">
       <h1>StimulusReflex</h1>
 
@@ -86,15 +86,15 @@
 
         <%= cable_ready_stream_from :example_page %>
 
-        <p style="margin-top: 1rem;">Every user looking at a page subscribed to the <ins>:example_page</ins> channel will receive the same broadcasts.</p>
+        <p class="mt-4">Every user looking at a page subscribed to the <ins>:example_page</ins> channel will receive the same broadcasts.</p>
 
         <p>You can call <ins>cable_ready</ins> <a href="https://cableready.stimulusreflex.com/guide/cableready-everywhere" target="_blank">pretty much anywhere</a> in your application. Try it in your <kbd>rails console</kbd> now:</p>
 
         <kbd>include CableReady::Broadcaster<br>cable_ready[:example_page].text_content("#cable_ready_stream_from_output", text: "Hello from the console!").broadcast</kbd>
 
-        <p style="margin-top: 1rem;">Any message you send will appear in the <ins>#cable_ready_stream_from_output</ins> DIV below &mdash; even if you <i>open multiple tabs</i>.</p>
+        <p class="mt-4">Any message you send will appear in the <ins>#cable_ready_stream_from_output</ins> DIV below &mdash; even if you <i>open multiple tabs</i>.</p>
 
-        <div id="cable_ready_stream_from_output" style="height: 2rem; font-weight: bolder; border: coral 2px dashed; padding: 0.15rem 0.4rem;"></div>
+        <div id="cable_ready_stream_from_output" class="h-8 font-extrabold border-2 border-dashed border-[coral] px-2 py-1"></div>
 
         <p style="margin-top: 1rem;">While it's easy to <a href="https://cableready.stimulusreflex.com/guide/broadcasting-to-resources" target="_blank">create your own custom Action Cable channels</a>, <ins>cable_ready_stream_from</ins> will be the first tool you reach for, because it doesn't require any additional code.</p>
 
@@ -102,7 +102,7 @@
 
         <kbd>cable_ready_stream_from current_user</kbd><br>
 
-        <kbd style="margin-top: 0.3rem;">cable_ready_stream_from @post, :comments</kbd>
+        <kbd class="mt-1">cable_ready_stream_from @post, :comments</kbd>
 
         <p style="margin-top: 1rem;">These examples barely scrape the surface of what's possible. Be sure to check out the <a href="https://cableready.stimulusreflex.com/guide/identifiers" target="_blank">Stream Identifiers</a> chapter.</p>
       </article>
@@ -202,6 +202,6 @@
 
       <p>You can find the documentation for StimulusReflex <a href="https://docs.stimulusreflex.com" target="_blank">here</a> and CableReady <a href="https://cableready.stimulusreflex.com" target="_blank">here</a>.</p>
     </main>
-    <div class="fireworks" style="position: fixed; bottom: 0; width: 100vw; height: 100vh; pointer-events: none;"></div>
+    <div class="fireworks fixed bottom-0 left-0 w-screen h-screen pointer-events-none"></div>
   </body>
 </html>

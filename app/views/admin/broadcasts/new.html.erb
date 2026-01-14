@@ -4,31 +4,31 @@
     <fieldset>
       <legend class="sr-only">Broadcast Details</legend>
       <div class="mb-3">
-        <%= form.label :title, 'Title', class: 'form-label', required: true %>
-        <%= form.text_field :title, class: 'form-control', required: true, aria: { required: true } %>
+        <%= form.label :title, 'Title', class: 'block font-semibold mb-1', required: true %>
+        <%= form.text_field :title, class: 'block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20', required: true, aria: { required: true } %>
       </div>
       <div class="mb-3">
-        <%= form.label :message, 'Message', class: 'form-label', required: true %>
-        <%= form.text_area :message, class: 'form-control', rows: 5, required: true, aria: { required: true } %>
+        <%= form.label :message, 'Message', class: 'block font-semibold mb-1', required: true %>
+        <%= form.text_area :message, class: 'block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20', rows: 5, required: true, aria: { required: true } %>
       </div>
       <div class="mb-3">
-        <%= form.label :ward_id, "Select Ward", class: 'form-label' %>
+        <%= form.label :ward_id, "Select Ward", class: 'block font-semibold mb-1' %>
         <%= form.collection_select :ward_id, @wards, :id, :name, { include_blank: "Select a Ward" }, class: 'form-select', aria: { describedby: 'ward-desc' } %>
         <span id="ward-desc" class="form-text">Choose a ward to target, or leave blank for all wards.</span>
       </div>
       <div class="mb-3">
-        <%= form.label :delivery_type, 'Delivery Method', class: 'form-label', required: true %>
+        <%= form.label :delivery_type, 'Delivery Method', class: 'block font-semibold mb-1', required: true %>
         <%= form.select :delivery_type, options_for_select(["In App", "Email", "SMS"]), {}, class: 'form-select', required: true, aria: { required: true } %>
       </div>
       <div class="mb-3">
-        <%= form.label :image, 'Image (optional)', class: 'form-label' %>
-        <%= form.file_field :image, class: 'form-control', aria: { describedby: 'image-desc' } %>
+        <%= form.label :image, 'Image (optional)', class: 'block font-semibold mb-1' %>
+        <%= form.file_field :image, class: 'block w-full rounded-md border-2 border-gray-200 px-3 py-2 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-opacity-20', aria: { describedby: 'image-desc' } %>
         <span id="image-desc" class="form-text">Upload an image to include with the broadcast (optional).</span>
       </div>
     </fieldset>
     <div class="mt-4">
-      <%= form.submit 'Create Broadcast', class: 'btn btn-primary', aria: { label: 'Create new broadcast' } %>
-      <%= link_to 'Cancel', admin_broadcasts_path, class: 'btn btn-secondary', aria: { label: 'Cancel and return to broadcast list' } %>
+      <%= form.submit 'Create Broadcast', class: 'inline-block px-4 py-2 rounded bg-[var(--color-primary)] text-white', aria: { label: 'Create new broadcast' } %>
+      <%= link_to 'Cancel', admin_broadcasts_path, class: 'inline-block px-4 py-2 rounded border border-gray-300 text-gray-700', aria: { label: 'Cancel and return to broadcast list' } %>
     </div>
   <% end %>
 </div>

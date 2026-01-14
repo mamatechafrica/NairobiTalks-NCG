@@ -1,48 +1,48 @@
-<div class="row g-3 mb-4">
-  <div class="col-lg-8">
-    <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center">
+<div class="md:flex gap-3 mb-4">
+  <div class="md:w-2/3">
+    <div class="bg-white shadow-sm rounded-lg h-full">
+      <div class="p-4">
+        <div class="flex justify-between items-center">
           <div>
             <h5 class="mb-0">Submission statuses</h5>
-            <p class="text-muted small mb-0">Quick glance at how reviews are progressing.</p>
+            <p class="text-gray-500 small mb-0">Quick glance at how reviews are progressing.</p>
           </div>
-          <span class="badge bg-light text-dark rounded-pill">Total: <%= @submission_status_counts.values.sum %></span>
+          <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-gray-900">Total: <%= @submission_status_counts.values.sum %></span>
         </div>
-        <div class="mt-3 d-flex flex-wrap gap-2">
+        <div class="mt-3 flex flex-wrap gap-2">
           <% CitizenSubmission::STATUS_LABELS.each_key do |status_key| %>
             <% count = @submission_status_counts[status_key.to_s] || 0 %>
-            <span class="badge bg-primary bg-opacity-10 text-primary border rounded-pill">
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] border">
               <strong><%= CitizenSubmission::STATUS_LABELS[status_key] %></strong>
-              <span class="ms-1">(<%= count %>)</span>
+              <span class="ml-1">(<%= count %>)</span>
             </span>
           <% end %>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-lg-4">
-    <div class="card border-0 shadow-sm h-100">
-      <div class="card-body">
+  <div class="md:w-1/3">
+    <div class="bg-white shadow-sm rounded-lg h-full">
+      <div class="p-4">
         <h5 class="mb-3">Flagged attention</h5>
         <% if @flagged_submissions_count.positive? %>
-          <div class="alert alert-warning d-flex align-items-center gap-2 mb-3">
+          <div class="bg-yellow-50 border border-yellow-200 flex items-center gap-2 mb-3">
             <i class="bi bi-flag-fill"></i>
             <div>
               <p class="mb-1"><strong><%= pluralize(@flagged_submissions_count, "flagged submission") %></strong> needs review.</p>
-              <p class="mb-0 small text-muted">Prioritize those before approving.</p>
+              <p class="mb-0 small text-gray-500">Prioritize those before approving.</p>
             </div>
           </div>
         <% else %>
-          <div class="alert alert-success d-flex align-items-center gap-2 mb-3">
+          <div class="bg-green-50 border border-green-200 flex items-center gap-2 mb-3">
             <i class="bi bi-check-circle-fill"></i>
             <div>
               <p class="mb-1"><strong>No flagged submissions.</strong></p>
-              <p class="mb-0 small text-muted">Keep monitoring as new ideas arrive.</p>
+              <p class="mb-0 small text-gray-500">Keep monitoring as new ideas arrive.</p>
             </div>
           </div>
         <% end %>
-        <%= link_to "Review submissions", admin_submissions_path, class: "btn btn-outline-primary w-100" %>
+        <%= link_to "Review submissions", admin_submissions_path, class: "inline-block w-full px-4 py-2 rounded border border-[var(--color-primary)] text-[var(--color-primary)]" %>
       </div>
     </div>
   </div>

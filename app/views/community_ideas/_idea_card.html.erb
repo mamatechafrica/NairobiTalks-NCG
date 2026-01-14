@@ -1,10 +1,10 @@
-<div class="bg-white h-100 shadow-sm border-[var(--color-primary)] <%= local_assigns[:large] ? 'p-6' : 'p-4' %> rounded-lg" style="<%= 'max-width: 700px; margin: 0 auto;' if local_assigns[:large] %>">
+<div class="bg-white h-100 shadow-sm border-[var(--color-primary)] <%= local_assigns[:large] ? 'p-6 max-w-[700px] mx-auto' : 'p-4' %> rounded-lg">
   <%# Image section %>
   <% img_height = local_assigns[:large] ? '340px' : '200px' %>
   <% if idea.respond_to?(:image_url) && idea.image_url.present? %>
-    <img src="<%= idea.image_url %>" alt="Idea image" class="w-full object-cover" style="height: <%= img_height %>; object-fit: cover;">
+    <img src="<%= idea.image_url %>" alt="Idea image" class="w-full object-cover <%= local_assigns[:large] ? 'h-[340px]' : 'h-[200px]' %>">
   <% else %>
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80" alt="Placeholder image" class="w-full object-cover" style="height: <%= img_height %>; object-fit: cover;">
+    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80" alt="Placeholder image" class="w-full object-cover <%= local_assigns[:large] ? 'h-[340px]' : 'h-[200px]' %>">
   <% end %>
   <div class="p-4 flex flex-col">
     <h3 class="font-bold text-[var(--color-primary)] mb-2 <%= 'text-2xl' if local_assigns[:large] %>"><%= idea.title %></h3>
@@ -16,7 +16,7 @@
         <span class="inline-block bg-[var(--color-primary)] text-white px-2 py-1 rounded"><%= idea.topic %></span>
       <% end %>
     </div>
-    <p class="text-muted mb-3" style="min-height: 3em; font-size: <%= local_assigns[:large] ? '1.15rem' : '1rem' %>"><%= local_assigns[:large] ? idea.description : truncate(idea.description, length: 100) %></p>
+    <p class="text-muted mb-3 min-h-[3em] <%= local_assigns[:large] ? 'text-[1.15rem]' : 'text-base' %>"><%= local_assigns[:large] ? idea.description : truncate(idea.description, length: 100) %></p>
     <div class="flex items-center justify-between mt-auto">
       <span class="text-muted text-sm">👍 <%= idea.upvotes %> | 👎 <%= idea.downvotes %></span>
       <% if local_assigns[:large] %>
