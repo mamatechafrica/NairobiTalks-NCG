@@ -91,4 +91,4 @@ end
 
 gem "redis-session-store", "~> 0.11.5"
 gem "redis", "~> 5.0"
-gem "connection_pool", "~> 2.2"
+gem "connection_pool", "~> 3.0"
