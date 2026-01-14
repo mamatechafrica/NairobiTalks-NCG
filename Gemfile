@@ -18,13 +18,18 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-gem "google_drive" # for Google Sheets integration
+# gem "google_drive", "~> 3.0"
+gem "google-apis-drive_v3", "~> 0.60"
+# gem "googleauth", "~> 1.8"
+
+
 gem "dotenv-rails", groups: [ :development, :test ]
 gem "devise"
 gem "ruby-openai"
 gem "pdf-reader"
 gem "carrierwave", "~> 2.2"
 gem "mini_mime"
+
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
