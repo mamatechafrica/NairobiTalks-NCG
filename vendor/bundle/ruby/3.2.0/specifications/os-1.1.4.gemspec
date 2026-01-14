@@ -15,10 +15,10 @@ Gem::Specification.new do |s|
   s.files = ["ChangeLog".freeze, "LICENSE".freeze, "README.md".freeze]
   s.homepage = "http://github.com/rdp/os".freeze
   s.licenses = ["MIT".freeze]
-  s.rubygems_version = "3.4.20".freeze
+  s.rubygems_version = "3.4.19".freeze
   s.summary = "Simple and easy way to know if you're on windows or not (reliably), as well as how many bits the OS is, etc.".freeze
 
-  s.installed_by_version = "3.4.20" if s.respond_to? :installed_by_version
+  s.installed_by_version = "3.4.19" if s.respond_to? :installed_by_version
 
   s.specification_version = 4
 
