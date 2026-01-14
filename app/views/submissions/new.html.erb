@@ -122,7 +122,7 @@
                     </div>
 
                     <!-- Description -->
-                    <div class="col-12">
+                    <div class="col-md-12">
                       <label for="submission_description" class="form-label fw-semibold fs-5">Description <span class="text-danger">*</span></label>
                       <textarea name="submission[description]" 
                                 id="submission_description" 
@@ -131,7 +131,8 @@
                                 maxlength="500" 
                                 required 
                                 placeholder="Describe the problem, your proposed solution, who benefits, rough cost/time estimate if possible..."
-                                aria-describedby="descHelp"></textarea>
+                                aria-describedby="descHelp">
+                        </textarea>
                       <div id="descHelp" class="form-text d-flex justify-content-between mt-1">
                         <span>Be as detailed as possible</span>
                         <span id="descCharCount">0/500</span>
@@ -139,7 +140,7 @@
                     </div>
 
                     <!-- Ward -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <label for="submission_ward" class="form-label fw-semibold fs-5">Ward <span class="text-danger">*</span></label>
                       <select name="submission[ward]" id="submission_ward" class="form-select form-select-lg" required>
                         <option value="">Select your ward</option>
@@ -164,7 +165,7 @@
                     </div>
 
                     <!-- Topics - Checkboxes -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                       <label class="form-label fw-semibold fs-5">Main Topics (select all that apply)</label>
                       <div class="row g-2 mt-2">
                         <% [
