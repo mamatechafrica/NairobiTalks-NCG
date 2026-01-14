@@ -27,7 +27,9 @@ gem "dotenv-rails", groups: [ :development, :test ]
 gem "devise"
 gem "ruby-openai"
 gem "pdf-reader"
-gem "carrierwave", "~> 2.2"
+gem "carrierwave", "~> 3.0"
+gem "marcel"
+
 gem "mini_mime"
 
 
