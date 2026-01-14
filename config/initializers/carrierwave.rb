@@ -1,5 +1,5 @@
 require "carrierwave"
 
 CarrierWave.configure do |config|
-  config.content_type_whitelist = [ /image\// ]
+  # no mimemagic, no mini_mime
 end

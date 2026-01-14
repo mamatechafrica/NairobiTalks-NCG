@@ -516,7 +516,6 @@ DEPENDENCIES
   letter_opener
   letter_opener_web
   marcel
-  mini_mime
   pdf-reader
   propshaft
   puma (>= 5.0)
@@ -537,6 +536,9 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+
+RUBY VERSION
+   ruby 3.2.3p157
 
 BUNDLED WITH
    2.4.20

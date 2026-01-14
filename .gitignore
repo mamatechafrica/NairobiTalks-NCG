@@ -45,14 +45,6 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
-/vendor/bundle
-/node_modules
-/public/packs
-/public/packs-test
-/public/uploads
-.byebug_history
-*.swp
-*.swo
-*.bak
-*.tmp
-.DS_Store
+# Ignore large files
+/doc/NAIROBI-CITY-COUNTY-INTEGRATED-DEVELOPMENT-PLAN-FOR-2023-2027-1.pdf
+bfg.jar

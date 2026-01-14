@@ -1,6 +1,8 @@
 gem "trix"
 source "https://rubygems.org"
 
+ruby "3.2.3"
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.1.1"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
@@ -30,7 +32,7 @@ gem "pdf-reader"
 gem "carrierwave", "~> 3.0"
 gem "marcel"
 
-gem "mini_mime"
+
 
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
