@@ -516,6 +516,7 @@ GEM
     zeitwerk (2.7.3)
 
 PLATFORMS
+  x86_64-linux
   x86_64-linux-gnu
 
 DEPENDENCIES
@@ -524,7 +525,7 @@ DEPENDENCIES
   brakeman
   bundler-audit
   capybara
-  carrierwave (~> 2.0)
+  carrierwave (~> 2.2)
   connection_pool (~> 2.2)
   debug
   devise
@@ -536,7 +537,7 @@ DEPENDENCIES
   kamal
   letter_opener
   letter_opener_web
-  mimemagic (~> 0.3.10)
+  mini_mime
   pdf-reader
   propshaft
   puma (>= 5.0)
