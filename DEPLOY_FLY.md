@@ -1,12 +1,12 @@
 # Deploying to Fly.io 🚀
 
-This project includes a production-ready `Dockerfile`. The steps below walk through creating a Fly app, provisioning a Postgres DB, configuring secrets, and deploying.
+This project can be deployed to Fly.io using buildpacks (no Dockerfile required). The steps below walk through creating a Fly app, provisioning a Postgres DB, configuring secrets, and deploying.
 
 ## Prerequisites
 
 - Install flyctl: https://fly.io/docs/hands-on/install-flyctl/
 - Be logged in: `flyctl auth login`
-- Have `git` and Docker installed locally
+- Have `git` installed locally
 
 ## Quick deploy steps
 

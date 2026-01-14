@@ -125,7 +125,7 @@ Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
 ## 🚢 Deploying to Fly.io
 
-This app is Docker-ready and can be deployed to Fly.io. See `DEPLOY_FLY.md` for step-by-step instructions, secrets to set, and recommended options for persistent uploads.
+This app can be deployed to Fly.io. See `DEPLOY_FLY.md` for step-by-step instructions, secrets to set, and recommended options for persistent uploads.
 
 
 ## 🗂️ Project Structure & Architecture
