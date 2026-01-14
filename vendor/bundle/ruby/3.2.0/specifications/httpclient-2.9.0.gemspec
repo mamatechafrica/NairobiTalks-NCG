@@ -14,10 +14,10 @@ Gem::Specification.new do |s|
   s.files = ["bin/httpclient".freeze]
   s.homepage = "https://github.com/nahi/httpclient".freeze
   s.licenses = ["ruby".freeze]
-  s.rubygems_version = "3.4.20".freeze
+  s.rubygems_version = "3.4.19".freeze
   s.summary = "gives something like the functionality of libwww-perl (LWP) in Ruby".freeze
 
-  s.installed_by_version = "3.4.20" if s.respond_to? :installed_by_version
+  s.installed_by_version = "3.4.19" if s.respond_to? :installed_by_version
 
   s.specification_version = 4
 
