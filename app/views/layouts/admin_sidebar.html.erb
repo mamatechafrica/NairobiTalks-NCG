@@ -100,7 +100,9 @@
       <div class="main-content flex-1 flex flex-col ml-[240px] min-h-screen transition-[margin-left] duration-300">
         <!-- Content -->
         <main class="flex-1 p-4 w-full m-0" role="main">
-          <%= yield %>
+          <div class="max-w-6xl mx-auto px-6 py-6 w-full">
+            <%= yield %>
+          </div>
         </main>
         <!-- Footer - Full Width -->
         <footer class="bg-white border-t py-3 text-center text-muted mt-auto" role="contentinfo">
