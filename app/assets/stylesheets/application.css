@@ -398,6 +398,23 @@ td {
   margin-bottom: 1em;
   background: #f9f9f9;
   border-left: 5px solid var(--nairobi-talks-green);
+
+/* Utility helpers for the site's dark green brand color */
+.bg-dark-green {
+  background-color: #004225 !important;
+}
+
+.text-dark-green {
+  color: #004225 !important;
+}
+
+.text-white-75 {
+  color: rgba(255,255,255,0.75) !important;
+}
+
+.hover-opacity-100:hover {
+  opacity: 1 !important;
+}
 }
 
 .doc-row h2, .doc-card h2 {

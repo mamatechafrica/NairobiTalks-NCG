@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
     include CableReady::Broadcaster
   include Devise::Controllers::Helpers
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
@@ -29,14 +28,23 @@ class ApplicationController < ActionController::Base
   # Ensure admin and citizen sessions are isolated
   before_action :enforce_session_scope
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   private
 
   def choose_layout
-    if current_user&.admin? && controller_path.start_with?('admin/')
+    if current_user&.admin? && controller_path.start_with?("admin/")
       "admin_sidebar"
     else
       "application"
     end
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :username ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :username ])
   end
 
   def enforce_session_scope

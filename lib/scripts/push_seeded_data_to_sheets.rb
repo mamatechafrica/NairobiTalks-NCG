@@ -1,10 +1,8 @@
-require 'google_drive'
-
 def push_seeded_data
   # Note: This script assumes you have CommunityIdea records in the database
   # and want to push them to Google Sheets for backup/analysis
 
-  session = GoogleDrive::Session.from_service_account_key(ENV['GOOGLE_SERVICE_ACCOUNT_JSON_PATH'])
+  session = GoogleDrive::Session.from_service_account_key(ENV["GOOGLE_SERVICE_ACCOUNT_JSON_PATH"])
   spreadsheet = session.spreadsheet_by_title("Timiza")
 
   if spreadsheet.nil?
@@ -48,5 +46,10 @@ def push_seeded_data
   puts "Successfully pushed #{CommunityIdea.count} community ideas to Google Sheets"
 end
 
-# Run the script
-push_seeded_data
+# Only require and run the script when executed directly (prevents eager-load/runtime errors)
+if __FILE__ == $0
+  require "google_drive"
+
+  # Run the script
+  push_seeded_data
+end

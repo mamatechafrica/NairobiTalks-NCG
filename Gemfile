@@ -80,6 +80,11 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 end
 
+# Use sqlite3 for development and test environments
+group :development, :test do
+  gem "sqlite3", ">= 2.1"
+end
+
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"

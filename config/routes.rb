@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
 
   # Separate admin login using Devise scope
   # This creates /admin/login, /admin/logout, etc. for admin-only sessions
@@ -15,38 +15,38 @@ Rails.application.routes.draw do
   # end
 
   # Profile routes
-  get 'profile', to: 'users#dashboard', as: :profile
-  get 'profile/edit', to: 'users#edit', as: :edit_profile
+  get "profile", to: "users#dashboard", as: :profile
+  get "profile/edit", to: "users#edit", as: :edit_profile
 
   # User profile routes
-  resource :user, only: [:show, :edit, :update] do
+  resource :user, only: [ :show, :edit, :update ] do
     get :dashboard, on: :member
   end
 
   # Landing pages
-  get 'landing', to: 'pages#landing'
-  root to: 'pages#landing', as: 'citizen_landing'
+  get "landing", to: "pages#landing"
+  root to: "pages#landing", as: "citizen_landing"
 
   # Admin landing page
-  get '/admin', to: 'admin/landing#index', as: 'admin_landing'
+  get "/admin", to: "admin/landing#index", as: "admin_landing"
 
   # Submissions
-  resources :submissions, only: [:new, :create, :index]
+  resources :submissions, only: [ :new, :create, :index ]
 
   # Planning documents
-  resources :planning_documents, only: [:index, :new, :create, :show, :destroy] do
+  resources :planning_documents, only: [ :index, :new, :create, :show, :destroy ] do
     member do
       get :ai_summary, to: "ai_summaries#show"
     end
   end
 
   # Community ideas
-  resources :community_ideas, only: [:index, :show] do
+  resources :community_ideas, only: [ :index, :show ] do
     member do
       post :upvote
       post :downvote
     end
-    resources :comments, only: [:create, :edit, :update, :destroy]
+    resources :comments, only: [ :create, :edit, :update, :destroy ]
   end
 
   # Ideas explorer
@@ -65,7 +65,7 @@ Rails.application.routes.draw do
     get "broadcasts", to: "broadcasts#index"
 
     resources :planning_documents
-    resources :submissions, only: [:index] do
+    resources :submissions, only: [ :index ] do
       member do
         patch :update_status
         patch :update_comment
@@ -76,14 +76,14 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :community_ideas, only: [:index, :show, :update] do
+    resources :community_ideas, only: [ :index, :show, :update ] do
       member do
         patch :approve
         patch :reject
       end
     end
 
-    resources :users, only: [:index, :show, :edit, :update, :destroy] do
+    resources :users, only: [ :index, :show, :edit, :update, :destroy ] do
       member do
         patch :toggle_admin
       end
@@ -95,10 +95,10 @@ Rails.application.routes.draw do
   # API namespace
   namespace :api do
     namespace :v1 do
-      resources :community_ideas, only: [:index, :show]
+      resources :community_ideas, only: [ :index, :show ]
     end
   end
 
   # Root route
-  root to: 'pages#home'
+  root to: "pages#home"
 end
