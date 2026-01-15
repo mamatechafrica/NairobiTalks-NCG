@@ -121,6 +121,69 @@ NairobiTalks adheres to the following standards and best practices:
 
 Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
+## ☁️ Kamal + Google Cloud Deployment
+
+This project ships with a `kamal.yml` manifest tuned for Google Cloud (see the repo root). Kamal will build the Docker image defined in `Dockerfile`, wire environment variables, and deploy to Cloud Run (or GKE) with minimal ceremony.
+
+1. **Install the CLI tools**
+
+   ```bash
+   curl -sSL https://github.com/rails/kamal/releases/latest/download/kamal-linux-amd64 -o /usr/local/bin/kamal
+   chmod +x /usr/local/bin/kamal
+   gcloud auth login && gcloud config set project YOUR_GCP_PROJECT_ID
+   ```
+
+2. **Provision Google Cloud resources**
+
+   - Enable Cloud Run (or App Engine) and, if needed, set up Cloud SQL for PostgreSQL.
+   - Store secrets such as `DATABASE_URL`, `SECRET_KEY_BASE`, and third-party API keys in Secret Manager and grant the Kamal service account access.
+
+3. **Customize Kamal configuration (optional)**
+
+   - Update `kamal.yml` to change memory, instance class, or run command.
+   - Use `kamal secrets set` or the GCP console to inject `RAILS_ENV=production`, `PORT`, and any runtime values.
+
+4. **Deploy to GCP**
+
+   ```bash
+   kamal deploy --platform gcp --region us-central1 --config kamal.yml
+   ```
+
+5. **Run database tasks**
+
+   ```bash
+   kamal run -- bundle exec rails db:migrate
+   kamal run -- bundle exec rails db:seed
+   ```
+
+6. **Monitor the running service**
+
+   - Tail logs via `kamal logs --platform gcp --service web`.
+   - Update secrets with `kamal secrets set` as values rotate.
+
+### Sample Kamal secrets commands
+
+Use these commands as a template and replace the placeholder values with your project-specific secrets:
+
+```bash
+kamal secrets set --platform gcp --service web DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME"
+kamal secrets set --platform gcp --service web SECRET_KEY_BASE="$(bundle exec rails secret)"
+kamal secrets set --platform gcp --service web OPENAI_API_KEY="sk-..."
+kamal secrets set --platform gcp --service web RAILS_MASTER_KEY="your-master-key"
+```
+
+Rerun these commands whenever a secret rotates, then redeploy so the new values take effect.
+
+### Deployment helper script
+
+Run the bundled `scripts/kamal_deploy.sh` helper (make it executable the first time with `chmod +x scripts/kamal_deploy.sh`) to run Kamal deploy plus migrations/seeds in one go:
+
+```bash
+bash scripts/kamal_deploy.sh
+```
+
+The script defaults to `--platform gcp --region us-central1` but you can override `KAMAL_ARGS` inside the script before running it. Because `config/puma.rb` already binds to `0.0.0.0` on the injected `PORT`, the Kamal-deployed service can safely sit behind Cloud Run’s load balancer without extra tweaks.
+
 ## 🗂️ Project Structure & Architecture
 
 The application is organized into three main modules:
