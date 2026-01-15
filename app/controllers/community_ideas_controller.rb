@@ -4,20 +4,34 @@ class CommunityIdeasController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [ :create_comment ], if: -> { Rails.env.development? }
 
   def index
-    @community_ideas = CommunityIdea.all
+    scope = CommunityIdea.all
+
+    # DB-agnostic case-insensitive search using LOWER(...) LIKE LOWER(...)
     if params[:search].present?
       search_term = "%#{params[:search]}%"
-      @community_ideas = @community_ideas.where("title ILIKE :q OR description ILIKE :q", q: search_term)
+      scope = scope.where("LOWER(title) LIKE LOWER(:q) OR LOWER(description) LIKE LOWER(:q)", q: search_term)
     end
+
     if params[:topic].present? && params[:topic] != "All"
-      @community_ideas = @community_ideas.where(topic: params[:topic])
+      scope = scope.where(topic: params[:topic])
     end
     if params[:ward].present? && params[:ward] != "All"
-      @community_ideas = @community_ideas.where(ward: params[:ward])
+      scope = scope.where(ward: params[:ward])
     end
     if params[:status].present? && params[:status] != "All"
-      @community_ideas = @community_ideas.where(status: params[:status])
+      scope = scope.where(status: params[:status])
     end
+
+    # simple pagination params
+    per_page = 9
+    page = params.fetch(:page, 1).to_i
+    page = 1 if page < 1
+
+    total_count = scope.count
+    @total_pages = (total_count / per_page.to_f).ceil
+    @current_page = page
+
+    @community_ideas = scope.order(upvotes: :desc, created_at: :desc).limit(per_page).offset((page - 1) * per_page)
   end
 
   def show
