@@ -49,7 +49,7 @@ class SubmissionsController < ApplicationController
   private
 
   def submission_params
-    params.require(:submission).permit(:title, :description, :location, :topic, :anonymity, :citizen_contact, :other_topic, :ward, { topics: [] }, :is_anonymous)
+    params.require(:submission).permit(:title, :description, :location, :topic, :anonymity, :citizen_contact, :other_topic, :ward, :sub_county, { topics: [] }, :is_anonymous)
   end
 
   def save_to_google_sheet(submission)

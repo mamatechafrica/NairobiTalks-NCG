@@ -28,9 +28,8 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
-# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-# config/puma.rb
-port ENV.fetch("PORT") { 3000 }   # ← this line is key!
+# Specifies the `port` and host that Puma will listen on; Railway requires 0.0.0.0 and the injected PORT.
+bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 3000)}"   # force binding to 0.0.0.0 when Railway provides a PORT
 environment ENV.fetch("RAILS_ENV") { "production" }
 
 # Allow puma to be restarted by `bin/rails restart` command.

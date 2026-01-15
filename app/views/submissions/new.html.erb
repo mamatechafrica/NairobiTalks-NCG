@@ -140,29 +140,49 @@
                     </div>
 
                     <!-- Ward -->
-                    <div class="col-md-12">
-                      <label for="submission_ward" class="form-label fw-semibold fs-5">Ward <span class="text-danger">*</span></label>
-                      <select name="submission[ward]" id="submission_ward" class="form-select form-select-lg" required>
-                        <option value="">Select your ward</option>
-                        <option value="Westlands">Westlands</option>
-                        <option value="Dagoretti North">Dagoretti North</option>
-                        <option value="Dagoretti South">Dagoretti South</option>
-                        <option value="Langata">Lang'ata</option>
-                        <option value="Kibra">Kibra</option>
-                        <option value="Roysambu">Roysambu</option>
-                        <option value="Kasarani">Kasarani</option>
-                        <option value="Ruaraka">Ruaraka</option>
-                        <option value="Embakasi South">Embakasi South</option>
-                        <option value="Embakasi North">Embakasi North</option>
-                        <option value="Embakasi Central">Embakasi Central</option>
-                        <option value="Embakasi East">Embakasi East</option>
-                        <option value="Embakasi West">Embakasi West</option>
-                        <option value="Makadara">Makadara</option>
-                        <option value="Kamukunji">Kamukunji</option>
-                        <option value="Starehe">Starehe</option>
-                        <option value="Mathare">Mathare</option>
-                      </select>
-                    </div>
+                        <div class="col-md-6">
+                          <%# Sub-county -> ward mapping for submission form (client-side dependent) %>
+                          <% sub_counties = {
+                            "Westlands" => ["Westlands","Kitisuru","Parklands/Highridge","Kangemi","Mountain View","Karura"],
+                            "Dagoretti North" => ["Kilimani","Kawangware","Gatina","Kileleshwa","Kabiro"],
+                            "Dagoretti South" => ["Mutuini","Ngando","Riruta","Uthiru/Ruthimitu","Waithaka"],
+                            "Langata" => ["Karen","Nairobi West","Mugumo-ini","South C","Nyayo Highrise"],
+                            "Kibra" => ["Laini Saba","Lindi","Makina","Woodley/Kenyatta Golf","Sarangombe"],
+                            "Roysambu" => ["Githurai","Kahawa West","Zimmerman","Roysambu","Kahawa"],
+                            "Kasarani" => ["Clay City","Mwiki","Kasarani","Njiru","Ruai"],
+                            "Ruaraka" => ["Baba Dogo","Utalii","Mathare North","Lucky Summer","Korogocho"],
+                            "Embakasi South" => ["Imara Daima","Kwa Njenga","Kwa Reuben","Pipeline","Kware"],
+                            "Embakasi North" => ["Kariobangi North","Dandora Area I","Dandora Area II","Dandora Area III","Dandora Area IV"],
+                            "Embakasi Central" => ["Kayole North","Kayole Central","Kayole South","Komarock","Matopeni"],
+                            "Embakasi East" => ["Upper Savanna","Lower Savanna","Embakasi","Utawala","Mihango"],
+                            "Embakasi West" => ["Umoja I","Umoja II","Mowlem","Kariobangi South"],
+                            "Makadara" => ["Maringo/Hamza","Viwandani","Harambee","Makongeni","South B"],
+                            "Kamukunji" => ["Pumwani","Eastleigh North","Eastleigh South","Airbase","California"],
+                            "Starehe" => ["Landimawe","Nairobi Central","Ngara","Pangani","Ziwani/Kariokor"],
+                            "Mathare" => ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
+                          } %>
+
+                          <label for="submission_sub_county" class="form-label fw-semibold fs-5">Sub-county <span class="text-danger">*</span></label>
+                          <select name="submission[sub_county]" id="submission_sub_county" class="form-select form-select-lg" required>
+                            <option value="">Select your sub-county</option>
+                            <% sub_counties.keys.each do |sc| %>
+                              <option value="<%= sc %>" <%= 'selected' if (params.dig(:submission, :sub_county) || @submission&.sub_county) == sc %>><%= sc %></option>
+                            <% end %>
+                          </select>
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="submission_ward" class="form-label fw-semibold fs-5">Ward <span class="text-danger">*</span></label>
+                          <select name="submission[ward]" id="submission_ward" class="form-select form-select-lg" required>
+                            <option value="">Select your ward</option>
+                            <% selected_sc = (params.dig(:submission, :sub_county) || @submission&.sub_county)
+                               wards = selected_sc.present? ? (sub_counties[selected_sc] || []) : sub_counties.values.flatten.uniq.sort
+                            %>
+                            <% wards.each do |w| %>
+                              <option value="<%= w %>" <%= 'selected' if (params.dig(:submission, :ward) || @submission&.ward) == w %>><%= w %></option>
+                            <% end %>
+                          </select>
+                        </div>
 
                     <!-- Topics - Checkboxes -->
                     <div class="col-md-12">
@@ -272,6 +292,31 @@ document.addEventListener('DOMContentLoaded', function () {
   if (descInput && descCount) {
     descInput.addEventListener('input', function () {
       descCount.textContent = this.value.length + '/500';
+    });
+  }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sub = document.getElementById('submission_sub_county');
+  var ward = document.getElementById('submission_ward');
+  var subCounties = <%= raw((defined?(sub_counties) ? sub_counties : {}).to_json) %>;
+  if (sub && ward) {
+    sub.addEventListener('change', function(e){
+      var sc = e.target.value;
+      var wards = (sc && sc !== '') ? (subCounties[sc] || []) : [];
+      ward.innerHTML = '';
+      var placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.text = 'Select your ward';
+      ward.appendChild(placeholder);
+      wards.forEach(function(w){
+        var o = document.createElement('option');
+        o.value = w;
+        o.text = w;
+        ward.appendChild(o);
+      });
     });
   }
 });

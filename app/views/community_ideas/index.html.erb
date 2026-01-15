@@ -1,78 +1,134 @@
 <div class="bg-light min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
-	<%= render partial: 'shared/header', locals: { title: 'Explore Community Ideas' } %>
-	<div class="container mb-4">
-		<%= form_with url: community_ideas_path, method: :get, local: true, class: "row gx-3 gy-2 align-items-end p-3 rounded shadow-sm", style: 'background: #fff; border: 2px solid #004225; flex-wrap: wrap;' do |f| %>
-			<div class="col-md-3 col-6">
-				<%= f.label :search, "Search", class: "form-label fw-bold", style: 'color: #004225;' %>
-				<%= f.text_field :search, value: params[:search], class: "form-control border-success fw-bold", placeholder: "Search ideas...", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
-			</div>
-			<div class="col-md-2 col-6">
-				<%= f.label :ward, "Ward", class: "form-label fw-bold", style: 'color: #004225;' %>
-				<%= f.select :ward, options_for_select(["All"] + CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward), params[:ward]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
-			</div>
-			<div class="col-md-2 col-6">
-				<%= f.label :topic, "Topic", class: "form-label fw-bold", style: 'color: #004225;' %>
-				<%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
-			</div>
-			<div class="col-md-2 col-6">
-				<%= f.label :status, "Status", class: "form-label fw-bold", style: 'color: #004225;' %>
-				<%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
-			</div>
-			<div class="col-md-2 col-12 d-flex align-items-end">
-				<%= f.submit "Search", class: "btn btn-lg fw-bold w-100", style: 'background: #004225; color: #fff; border-width: 2px; border-color: #004225;' %>
-			</div>
-		<% end %>
-	</div>
+  <%= render partial: 'shared/header', locals: { title: 'Explore Community Ideas' } %>
 
-	<div class="container py-4">
-		<% if @community_ideas.present? %>
-			<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-				<% @community_ideas.each do |idea| %>
-					<div class="col">
-						<%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
-					</div>
-				<% end %>
-			</div>
-		<% else %>
-			<div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
-				<p class="h5">No ideas yet. Be the first to submit one!</p>
-			</div>
-		<% end %>
-	</div>
+  <% sub_counties = {
+    "Westlands" => ["Westlands","Kitisuru","Parklands/Highridge","Kangemi","Mountain View","Karura"],
+    "Dagoretti North" => ["Kilimani","Kawangware","Gatina","Kileleshwa","Kabiro"],
+    "Dagoretti South" => ["Mutuini","Ngando","Riruta","Uthiru/Ruthimitu","Waithaka"],
+    "Langata" => ["Karen","Nairobi West","Mugumo-ini","South C","Nyayo Highrise"],
+    "Kibra" => ["Laini Saba","Lindi","Makina","Woodley/Kenyatta Golf","Sarangombe"],
+    "Roysambu" => ["Githurai","Kahawa West","Zimmerman","Roysambu","Kahawa"],
+    "Kasarani" => ["Clay City","Mwiki","Kasarani","Njiru","Ruai"],
+    "Ruaraka" => ["Baba Dogo","Utalii","Mathare North","Lucky Summer","Korogocho"],
+    "Embakasi South" => ["Imara Daima","Kwa Njenga","Kwa Reuben","Pipeline","Kware"],
+    "Embakasi North" => ["Kariobangi North","Dandora Area I","Dandora Area II","Dandora Area III","Dandora Area IV"],
+    "Embakasi Central" => ["Kayole North","Kayole Central","Kayole South","Komarock","Matopeni"],
+    "Embakasi East" => ["Upper Savanna","Lower Savanna","Embakasi","Utawala","Mihango"],
+    "Embakasi West" => ["Umoja I","Umoja II","Mowlem","Kariobangi South"],
+    "Makadara" => ["Maringo/Hamza","Viwandani","Harambee","Makongeni","South B"],
+    "Kamukunji" => ["Pumwani","Eastleigh North","Eastleigh South","Airbase","California"],
+    "Starehe" => ["Landimawe","Nairobi Central","Ngara","Pangani","Ziwani/Kariokor"],
+    "Mathare" => ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
+  } %>
 
-	<!-- Pagination (preserves current search/filter params) -->
-	<% if defined?(@total_pages) && @total_pages && @total_pages > 1 %>
-		<div class="container mb-4">
-			<div class="row">
-				<div class="col text-center">
-					<nav aria-label="Community ideas pagination">
-						<ul class="pagination justify-content-center">
-							<% if @current_page && @current_page > 1 %>
-								<li class="page-item">
-									<%= link_to "« Prev", url_for(params.permit!.to_h.merge(page: @current_page - 1)), class: "page-link" %>
-								</li>
-							<% else %>
-								<li class="page-item disabled"><span class="page-link">« Prev</span></li>
-							<% end %>
+  <div class="container mb-4">
+    <%= form_with url: community_ideas_path, method: :get, local: true, class: "row gx-3 gy-2 align-items-end p-3 rounded shadow-sm", style: 'background: #fff; border: 2px solid #004225; flex-wrap: wrap;' do |f| %>
+      <div class="col-md-3 col-6">
+        <%= f.label :search, "Search", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.text_field :search, value: params[:search], class: "form-control border-success fw-bold", placeholder: "Search ideas...", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      </div>
+      <div class="col-md-3 col-6">
+        <%= f.label :sub_county, "Sub-county", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.select :sub_county, options_for_select(["All"] + sub_counties.keys, params[:sub_county]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      </div>
+      <div class="col-md-2 col-6">
+        <%= f.label :ward, "Ward", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <% ward_list = if params[:sub_county].present? && params[:sub_county] != 'All'
+          (sub_counties[params[:sub_county]] || [])
+        else
+          CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward)
+        end %>
+        <%= f.select :ward, options_for_select(["All"] + ward_list, params[:ward]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      </div>
+      <div class="col-md-2 col-6">
+        <%= f.label :topic, "Topic", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      </div>
+      <div class="col-md-2 col-6">
+        <%= f.label :status, "Status", class: "form-label fw-bold", style: 'color: #004225;' %>
+        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      </div>
+      <div class="col-md-2 col-12 d-flex align-items-end">
+        <%= f.submit "Search", class: "btn btn-lg fw-bold w-100", style: 'background: #004225; color: #fff; border-width: 2px; border-color: #004225;' %>
+      </div>
+    <% end %>
+  </div>
 
-							<% (1..@total_pages).each do |p| %>
-								<li class="page-item <%= 'active' if p == @current_page %>">
-									<%= link_to p, url_for(params.permit!.to_h.merge(page: p)), class: "page-link" %>
-								</li>
-							<% end %>
+  <div class="container py-4">
+    <% if @community_ideas.present? %>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <% @community_ideas.each do |idea| %>
+          <div class="col">
+            <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
+        <p class="h5">No ideas yet. Be the first to submit one!</p>
+      </div>
+    <% end %>
+  </div>
 
-							<% if @current_page && @total_pages && @current_page < @total_pages %>
-								<li class="page-item">
-									<%= link_to "Next »", url_for(params.permit!.to_h.merge(page: @current_page + 1)), class: "page-link" %>
-								</li>
-							<% else %>
-								<li class="page-item disabled"><span class="page-link">Next »</span></li>
-							<% end %>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</div>
-	<% end %>
+  <!-- Pagination (preserves current search/filter params) -->
+  <% if defined?(@total_pages) && @total_pages && @total_pages > 1 %>
+    <div class="container mb-4">
+      <div class="row">
+        <div class="col text-center">
+          <nav aria-label="Community ideas pagination">
+            <ul class="pagination justify-content-center">
+              <% if @current_page && @current_page > 1 %>
+                <li class="page-item">
+                  <%= link_to "« Prev", url_for(params.permit!.to_h.merge(page: @current_page - 1)), class: "page-link" %>
+                </li>
+              <% else %>
+                <li class="page-item disabled"><span class="page-link">« Prev</span></li>
+              <% end %>
 
+              <% (1..@total_pages).each do |p| %>
+                <li class="page-item <%= 'active' if p == @current_page %>">
+                  <%= link_to p, url_for(params.permit!.to_h.merge(page: p)), class: "page-link" %>
+                </li>
+              <% end %>
+
+              <% if @current_page && @total_pages && @current_page < @total_pages %>
+                <li class="page-item">
+                  <%= link_to "Next »", url_for(params.permit!.to_h.merge(page: @current_page + 1)), class: "page-link" %>
+                </li>
+              <% else %>
+                <li class="page-item disabled"><span class="page-link">Next »</span></li>
+              <% end %>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const subSelect = document.querySelector('select[name="sub_county"]');
+  const wardSelect = document.querySelector('select[name="ward"]');
+  if (!subSelect || !wardSelect) return;
+
+  const subCounties = <%= raw(sub_counties.to_json) %>;
+
+  subSelect.addEventListener('change', (e) => {
+    const selected = e.target.value;
+    const wards = (selected !== 'All' && subCounties[selected])
+      ? subCounties[selected]
+      : [];
+
+    wardSelect.innerHTML = '<option value="All">All</option>';
+
+    wards.forEach(w => {
+      const opt = new Option(w, w);
+      wardSelect.appendChild(opt);
+    });
+  });
+
+  // Optional: apply current value on page load
+  subSelect.dispatchEvent(new Event('change'));
+});
+</script>

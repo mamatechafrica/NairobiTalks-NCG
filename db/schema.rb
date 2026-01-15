@@ -118,6 +118,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
     t.boolean "is_anonymous"
     t.string "location"
     t.string "other_topic"
+    t.string "sub_county"
     t.string "title"
     t.string "topic"
     t.datetime "updated_at", null: false
