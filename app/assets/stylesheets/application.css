@@ -165,6 +165,16 @@ input, textarea, select {
   border-radius: 6px;
 }
 
+
+
+@media (max-width: 576px) {
+  .devise-form-wrapper {
+    padding: 1rem;
+    margin: 0 8px;
+    width: 100%;
+  }
+}
+
 fieldset {
   border: none;
   margin-top: 1rem;
