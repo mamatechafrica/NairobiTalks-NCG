@@ -25,8 +25,10 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
-  # Ensure admin and citizen sessions are isolated
-  before_action :enforce_session_scope
+  # Session-scope isolation (disabled): previously attempted to isolate admin vs citizen
+  # sessions using `session[:admin]` which could sign users out unexpectedly.
+  # Disabled by default — prefer role-based checks in `Admin::BaseController`.
+  # before_action :enforce_session_scope
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -48,13 +50,14 @@ class ApplicationController < ActionController::Base
   end
 
   def enforce_session_scope
+    # Deprecated: keep method for reference but do not call it. If you need session
+    # scoping in the future implement it explicitly and with care to avoid
+    # surprising sign-outs. Example safer approach would be to set `session[:admin]`
+    # only when an admin explicitly signs in via an admin-only flow.
     if session[:admin] && !request.path.start_with?("/admin")
-      # If admin session, but accessing citizen side, force logout
-      sign_out(current_user)
-      session.delete(:admin)
+      # legacy behavior — intentionally left commented
     elsif !session[:admin] && request.path.start_with?("/admin")
-      # If citizen session, but accessing admin, force logout
-      sign_out(current_user)
+      # legacy behavior — intentionally left commented
     end
   end
 end
