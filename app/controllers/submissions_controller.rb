@@ -5,14 +5,30 @@ class SubmissionsController < ApplicationController
   end
 
   def create
-    @submission = Submission.new(submission_params)
+    # Normalize form params: older form uses `ward`, `topics[]`, and `is_anonymous`.
+    sp = submission_params.to_h
+
+    # map ward -> location
+    sp[:location] = sp.delete(:ward) if sp.key?(:ward)
+
+    # map topics (array) -> topic (string). prefer first selected
+    if sp.key?(:topics) && sp[:topics].present?
+      sp[:topic] = sp.delete(:topics).reject(&:blank?).first
+    end
+
+    # map checkbox is_anonymous -> anonymity (boolean/string)
+    if params[:submission].key?(:is_anonymous)
+      sp[:anonymity] = ActiveModel::Type::Boolean.new.cast(params[:submission][:is_anonymous])
+    end
+
+    @submission = Submission.new(sp)
 
     if @submission.save
       CommunityIdea.create!(
         title: @submission.title,
         description: @submission.description,
         ward: @submission.location,
-        topic: @submission.topic == 'Other' ? @submission.other_topic : @submission.topic,
+        topic: @submission.topic == "Other" ? @submission.other_topic : @submission.topic,
         upvotes: 0,
         downvotes: 0,
         status: "pending"
@@ -33,17 +49,17 @@ class SubmissionsController < ApplicationController
   private
 
   def submission_params
-    params.require(:submission).permit(:title, :description, :location, :topic, :anonymity, :citizen_contact, :other_topic)
+    params.require(:submission).permit(:title, :description, :location, :topic, :anonymity, :citizen_contact, :other_topic, :ward, { topics: [] }, :is_anonymous)
   end
 
   def save_to_google_sheet(submission)
     begin
-      session = GoogleDrive::Session.from_service_account_key(ENV['GOOGLE_SERVICE_ACCOUNT_JSON_PATH'])
+      session = GoogleDrive::Session.from_service_account_key(ENV["GOOGLE_SERVICE_ACCOUNT_JSON_PATH"])
       spreadsheet = session.spreadsheet_by_title("Timiza")
       return false if spreadsheet.nil?
       sheet = spreadsheet.worksheet_by_title("Submissions")
       return false if sheet.nil?
-      sheet.insert_rows(sheet.num_rows + 1, [[
+      sheet.insert_rows(sheet.num_rows + 1, [ [
         Time.now.to_s,
         submission.title,
         submission.description,
@@ -52,7 +68,7 @@ class SubmissionsController < ApplicationController
         submission.other_topic,
         submission.anonymity,
         submission.citizen_contact
-      ]])
+      ] ])
       sheet.save
       true
     rescue => e
