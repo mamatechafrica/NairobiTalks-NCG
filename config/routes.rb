@@ -99,6 +99,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Root route
-  root to: "pages#home"
+  # Root route - serve the landing page as site root
+  root to: "pages#landing"
 end
