@@ -123,7 +123,7 @@
               <li><%= link_to "Profile", profile_path, class: "text-white text-opacity-75 text-decoration-none hover-opacity-100" %></li>
               <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "text-white text-opacity-75 text-decoration-none hover-opacity-100" %></li>
             <% else %>
-              <li><%= link_to "Sign in", new_user_session_path, class: "text-white text-opacity-75 text-decoration-none hover-opacity-100" %></li>
+
               <li><%= link_to "Sign up", new_user_registration_path, class: "text-white text-opacity-75 text-decoration-none hover-opacity-100" %></li>
             <% end %>
           </ul>
