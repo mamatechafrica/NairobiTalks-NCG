@@ -1,0 +1,16 @@
+.git
+/.bundle
+/log
+/tmp
+/tmp/*
+/vendor/bundle
+/node_modules
+/storage/*
+/.env
+/.env.*
+/*.pid
+/.DS_Store
+coverage/
+doc/
+spec/
+test/
