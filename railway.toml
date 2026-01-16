@@ -4,9 +4,9 @@ builder = "nixpacks"
 
 [deploy]
 healthcheckPath = "/up"
-healthcheckTimeout = 100
+healthcheckTimeout = 300
 restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 10
+restartPolicyMaxRetries = 3
 
 [[services]]
 name = "web"
@@ -19,7 +19,7 @@ RAILS_LOG_LEVEL = "info"
 PORT = "8080"
 
 [services.build]
-buildCommand = "./bin/railway-setup && bin/rails assets:precompile"
+buildCommand = "./bin/railway-setup && RAILS_ENV=production bin/rails assets:precompile"
 
 [services.start]
-command = "bundle exec puma -C config/puma.rb -p ${PORT:-8080}"
+command = "bundle exec puma -C config/puma.rb"

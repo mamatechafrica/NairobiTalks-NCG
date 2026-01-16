@@ -7,14 +7,11 @@ echo "🚀 Starting Railway deployment setup..."
 if [ ! -f config/master.key ]; then
   echo "📝 Creating master key from environment..."
   echo $RAILS_MASTER_KEY > config/master.key
+  chmod 600 config/master.key
 fi
 
-# Wait for database to be ready
-echo "⏳ Waiting for database..."
-bundle exec rails db:prepare
-
-# Precompile assets
-echo "🎨 Precompiling assets..."
-bundle exec rails assets:precompile
+# Set environment
+export RAILS_ENV=production
+export RACK_ENV=production
 
 echo "✅ Railway deployment setup complete!"
