@@ -1,4 +1,4 @@
-FROM ruby:3.2.3-bullseye
+FROM ruby:3.2.3-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential libpq-dev nodejs npm && rm -rf /var/lib/apt/lists/*
@@ -6,15 +6,28 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
-RUN gem install bundler -v 2.4.20 && bundle config set without 'development test' && bundle install
+RUN bundle config set without 'development test' && bundle install
 
 COPY . .
 
-# Set production environment and precompile assets
-ENV RAILS_ENV=production RACK_ENV=production
-RUN RAILS_MASTER_KEY=1234567890123456 SECRET_KEY_BASE=1234567890123456 bin/rails assets:precompile
+# Create config/master.key file at runtime (not build time)
+ENV RAILS_ENV=production
+RUN SECRET_KEY_BASE=1234567890123456 bin/rails assets:precompile
 
 EXPOSE 8080
 
-# Simple Rails server start
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "8080"]
+# Start script that creates master key and runs server
+RUN echo '#!/bin/bash
+set -e
+
+# Create master key from environment at runtime
+if [ -n "$RAILS_MASTER_KEY" ]; then
+    echo "$RAILS_MASTER_KEY" > config/master.key
+    chmod 600 config/master.key
+fi
+
+# Start Rails server
+exec bundle exec rails server -b 0.0.0.0 -p 8080 -e production
+' > /app/start.sh && chmod +x /app/start.sh
+
+CMD ["/app/start.sh"]
