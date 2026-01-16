@@ -10,9 +10,9 @@ RUN gem install bundler -v 2.4.20 && bundle config set without 'development test
 
 COPY . .
 
-# Skip master key for now - create at runtime
+# Set production environment and precompile assets
 ENV RAILS_ENV=production RACK_ENV=production
-RUN SECRET_KEY_BASE=dummy bin/rails assets:precompile
+RUN RAILS_MASTER_KEY=dummy SECRET_KEY_BASE=dummy bin/rails assets:precompile
 
 EXPOSE 8080
 
