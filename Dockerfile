@@ -24,13 +24,12 @@ RUN SECRET_KEY_BASE=dummy bin/rails assets:precompile
 
 EXPOSE ${PORT:-8080}
 
-# Create startup script with more debugging
+# Create startup script with port test
 RUN echo '#!/bin/bash
 set -e
 
 echo "=== RAILWAY STARTUP DEBUG ==="
 echo "Current directory: $(pwd)"
-echo "Files in config/: $(ls -la config/)"
 echo "Environment variables:"
 echo "  PORT=${PORT:-8080}"
 echo "  RAILS_ENV=$RAILS_ENV"
@@ -47,17 +46,18 @@ if [ ! -f config/master.key ]; then
         echo "❌ RAILS_MASTER_KEY environment variable not set"
         exit 1
     fi
-else
-    echo "✅ Master key already exists"
 fi
 
 echo "🔑 Master key exists: $([ -f config/master.key ] && echo "YES" || echo "NO")"
-echo "🌍 PORT: ${PORT:-8080}"
 
-echo "🚀 Starting Puma..."
+# Test port binding before starting Rails
+TARGET_PORT=${PORT:-8080}
+echo "🌍 Will bind to port: $TARGET_PORT"
+
+echo "🚀 Starting Puma on port $TARGET_PORT..."
 echo "========================"
 
-exec bundle exec puma -C config/puma.rb
+exec bundle exec puma -C config/puma.rb -p $TARGET_PORT
 ' > /app/start.sh && chmod +x /app/start.sh
 
 CMD ["/app/start.sh"]
