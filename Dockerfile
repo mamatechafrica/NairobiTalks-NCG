@@ -12,7 +12,7 @@ COPY . .
 
 # Set production environment and precompile assets
 ENV RAILS_ENV=production RACK_ENV=production
-RUN RAILS_MASTER_KEY=dummy SECRET_KEY_BASE=dummy bin/rails assets:precompile
+RUN RAILS_MASTER_KEY=1234567890123456 SECRET_KEY_BASE=1234567890123456 bin/rails assets:precompile
 
 EXPOSE 8080
 
