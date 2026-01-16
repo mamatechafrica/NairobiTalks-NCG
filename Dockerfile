@@ -22,5 +22,7 @@ COPY . .
 ENV RAILS_ENV=production RACK_ENV=production
 RUN SECRET_KEY_BASE=dummy bin/rails assets:precompile
 
-EXPOSE 8080
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+EXPOSE ${PORT:-8080}
+
+# Startup script to handle master key
+CMD ["sh", "-c", "if [ ! -f config/master.key ]; then echo $RAILS_MASTER_KEY > config/master.key && chmod 600 config/master.key; fi && bundle exec puma -C config/puma.rb"]
