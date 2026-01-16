@@ -48,3 +48,6 @@
 # Ignore large files
 /doc/NAIROBI-CITY-COUNTY-INTEGRATED-DEVELOPMENT-PLAN-FOR-2023-2027-1.pdf
 bfg.jar
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+

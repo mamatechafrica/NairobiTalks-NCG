@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Health check endpoint for load balancers
+  get "/up", to: "health#up", as: :health_check
+
   if Rails.env.development?
     resource :example
     mount LetterOpenerWeb::Engine, at: "/letter_opener"

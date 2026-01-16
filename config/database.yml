@@ -21,7 +21,12 @@ test:
   database: storage/test.sqlite3
 
 
-# Production: use DATABASE_URL (Postgres). Railway will provide this.
+# Production: use DATABASE_URL (Postgres). Google Cloud SQL will provide this.
 production:
   adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   url: <%= ENV['DATABASE_URL'] %>
+  # Add these settings for production reliability
+  prepared_statements: true
+  advisory_locks: false

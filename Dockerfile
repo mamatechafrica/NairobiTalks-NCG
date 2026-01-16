@@ -22,5 +22,5 @@ COPY . .
 ENV RAILS_ENV=production RACK_ENV=production
 RUN SECRET_KEY_BASE=dummy bin/rails assets:precompile
 
-EXPOSE 3000
-CMD ["bin/rails", "server", "-b", "0.0.0.0"]
+EXPOSE 8080
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
