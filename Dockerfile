@@ -17,17 +17,6 @@ RUN SECRET_KEY_BASE=1234567890123456 bin/rails assets:precompile
 EXPOSE 8080
 
 # Start script that creates master key and runs server
-RUN echo '#!/bin/bash
-set -e
-
-# Create master key from environment at runtime
-if [ -n "$RAILS_MASTER_KEY" ]; then
-    echo "$RAILS_MASTER_KEY" > config/master.key
-    chmod 600 config/master.key
-fi
-
-# Start Rails server
-exec bundle exec rails server -b 0.0.0.0 -p 8080 -e production
-' > /app/start.sh && chmod +x /app/start.sh
+RUN printf '#!/bin/bash\nset -e\n\n# Create master key from environment at runtime\nif [ -n "$RAILS_MASTER_KEY" ]; then\n    echo "$RAILS_MASTER_KEY" > config/master.key\n    chmod 600 config/master.key\nfi\n\n# Start Rails server\nexec bundle exec rails server -b 0.0.0.0 -p 8080 -e production\n' > /app/start.sh && chmod +x /app/start.sh
 
 CMD ["/app/start.sh"]
