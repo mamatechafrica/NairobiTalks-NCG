@@ -24,22 +24,38 @@ RUN SECRET_KEY_BASE=dummy bin/rails assets:precompile
 
 EXPOSE ${PORT:-8080}
 
-# Create startup script
+# Create startup script with more debugging
 RUN echo '#!/bin/bash
 set -e
 
-echo "🚀 Starting application..."
+echo "=== RAILWAY STARTUP DEBUG ==="
+echo "Current directory: $(pwd)"
+echo "Files in config/: $(ls -la config/)"
+echo "Environment variables:"
+echo "  PORT=${PORT:-8080}"
+echo "  RAILS_ENV=$RAILS_ENV"
+echo "  RAILS_MASTER_KEY present: $([ -n "$RAILS_MASTER_KEY" ] && echo "YES" || echo "NO")"
 
 # Create master key if missing
 if [ ! -f config/master.key ]; then
     echo "📝 Creating master key..."
-    echo $RAILS_MASTER_KEY > config/master.key
-    chmod 600 config/master.key
+    if [ -n "$RAILS_MASTER_KEY" ]; then
+        echo "$RAILS_MASTER_KEY" > config/master.key
+        chmod 600 config/master.key
+        echo "✅ Master key created"
+    else
+        echo "❌ RAILS_MASTER_KEY environment variable not set"
+        exit 1
+    fi
+else
+    echo "✅ Master key already exists"
 fi
 
 echo "🔑 Master key exists: $([ -f config/master.key ] && echo "YES" || echo "NO")"
 echo "🌍 PORT: ${PORT:-8080}"
+
 echo "🚀 Starting Puma..."
+echo "========================"
 
 exec bundle exec puma -C config/puma.rb
 ' > /app/start.sh && chmod +x /app/start.sh
