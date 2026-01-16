@@ -28,7 +28,8 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
-# Specifies the `port` and host that Puma will listen on; Railway/Kamal requires 0.0.0.0 and the injected PORT.
+# Specifies the `port` and host that Puma will listen on; Railway requires 0.0.0.0 and the injected PORT.
+port ENV.fetch("PORT", 8080)
 bind "tcp://0.0.0.0:#{ENV.fetch('PORT', 8080)}"   # force binding to 0.0.0.0 when Railway provides a PORT
 environment ENV.fetch("RAILS_ENV") { "production" }
 

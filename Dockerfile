@@ -24,5 +24,24 @@ RUN SECRET_KEY_BASE=dummy bin/rails assets:precompile
 
 EXPOSE ${PORT:-8080}
 
-# Startup script to handle master key
-CMD ["sh", "-c", "if [ ! -f config/master.key ]; then echo $RAILS_MASTER_KEY > config/master.key && chmod 600 config/master.key; fi && bundle exec puma -C config/puma.rb"]
+# Create startup script
+RUN echo '#!/bin/bash
+set -e
+
+echo "🚀 Starting application..."
+
+# Create master key if missing
+if [ ! -f config/master.key ]; then
+    echo "📝 Creating master key..."
+    echo $RAILS_MASTER_KEY > config/master.key
+    chmod 600 config/master.key
+fi
+
+echo "🔑 Master key exists: $([ -f config/master.key ] && echo "YES" || echo "NO")"
+echo "🌍 PORT: ${PORT:-8080}"
+echo "🚀 Starting Puma..."
+
+exec bundle exec puma -C config/puma.rb
+' > /app/start.sh && chmod +x /app/start.sh
+
+CMD ["/app/start.sh"]
