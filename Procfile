@@ -1,1 +1,1 @@
-web: bundle exec rails server -p $PORT -e production
+web: bin/rails db:prepare && bundle exec puma -C config/puma.rb -b tcp://0.0.0.0:${PORT}

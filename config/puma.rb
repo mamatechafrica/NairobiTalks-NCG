@@ -1,11 +1,5 @@
 # config/puma.rb - Railway-friendly Puma config
 
-# Respect Railway's dynamic PORT (fallback for local)
-port ENV.fetch("PORT") { 8080 }
-
-# Bind to all interfaces on that port
-bind "tcp://0.0.0.0:#{ENV.fetch("PORT") { 8080 }}"
-
 # Environment (also respect ENV for flexibility)
 environment ENV.fetch("RAILS_ENV") { "production" }
 
