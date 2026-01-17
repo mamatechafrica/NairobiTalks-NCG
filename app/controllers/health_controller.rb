@@ -1,7 +1,6 @@
 # Health check endpoint for Railway
 class HealthController < ApplicationController
-  skip_forgery_protection
-  skip_before_action :verify_authenticity_token
+  skip_forgery_protection raise: false
 
   def up
     # Simple check - no database queries initially
