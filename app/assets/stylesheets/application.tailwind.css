@@ -37,3 +37,46 @@
     --radius: 0.5rem;
   }
 }
+
+@layer components {
+  :root {
+    --nairobi-talks-green: #009339;
+    --nairobi-talks-dark: #054a2a;
+  }
+
+  /* animated gradient for hero */
+  .hero-section {
+    background: linear-gradient(135deg, var(--nairobi-talks-green) 0%, var(--nairobi-talks-dark) 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Floating animation for statistic numbers */
+  .stat-float {
+    display: inline-block;
+    animation: floatUp 6s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+  }
+
+  /* Micro-interactions for buttons and cards */
+  .micro-btn { transition: transform .12s ease, box-shadow .12s ease; }
+  .micro-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+  .card-elevate { transition: transform .18s ease, box-shadow .18s ease; }
+  .card-elevate:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(16,185,129,0.08); }
+
+  /* Accessible focus states */
+  .focus-ring:focus { outline: 3px solid rgba(0,147,57,0.18); outline-offset: 2px; }
+}
