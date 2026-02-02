@@ -63,19 +63,12 @@
             <% end %>
 
             <% if user_signed_in? %>
-              <div class="dropdown dropdown-end">
-                <button tabindex="0" class="flex items-center gap-2 text-white focus:outline-none hover:opacity-80 transition cursor-pointer" aria-label="User menu">
-                  <div class="rounded-full bg-white text-[#004225] flex items-center justify-center font-bold" style="width:36px; height:36px; font-size:1rem;">
-                    <%= current_user.email.first.upcase %>
-                  </div>
-                  <span class="hidden lg:inline"><%= current_user.email.truncate(22) %></span>
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                </button>
-                <div tabindex="0" class="dropdown-content z-50 menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <%= button_to "Sign out", destroy_user_session_path, method: :delete, form_class: "w-full", class: "w-full text-left px-4 py-2 text-[#004225] hover:bg-gray-200 rounded" %>
+              <div class="flex items-center gap-3">
+                <div class="rounded-full bg-white text-[#004225] flex items-center justify-center font-bold" style="width:36px; height:36px; font-size:1rem;">
+                  <%= current_user.email.first.upcase %>
                 </div>
+                <span class="hidden lg:inline text-white"><%= current_user.email.truncate(22) %></span>
+                <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-outline text-white border-white hover:bg-white hover:text-[#004225]" %>
               </div>
             <% else %>
               <%= link_to "Sign in", new_user_session_path, class: "inline-flex items-center gap-2 px-4 py-2 rounded bg-white text-[#004225] font-bold border border-white/20 hover:opacity-95 focus:outline-none", aria: { label: 'Sign in to your account' } %>
