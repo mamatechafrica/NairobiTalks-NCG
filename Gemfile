@@ -29,6 +29,9 @@ gem "pg"
 
 gem "dotenv-rails", groups: [ :development, :test ]
 gem "devise"
+gem "pundit"
+gem "devise-two-factor"
+gem "rqrcode"
 gem "ruby-openai"
 gem "pdf-reader"
 gem "carrierwave", "~> 3.0"

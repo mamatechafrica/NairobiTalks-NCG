@@ -1,31 +1,31 @@
-<div class="d-flex align-items-center justify-content-center py-2">
-  <div class="devise-form-wrapper w-100 mx-3">
-    <h2 class="mb-4 text-center">Sign in</h2>
+<div class="flex items-center justify-center py-8">
+  <div class="w-full max-w-md mx-3">
+    <h2 class="mb-6 text-center text-2xl font-semibold">Sign in</h2>
 
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mx-auto", style: "width:50%" }) do |f| %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mx-auto w-full" }) do |f| %>
       <%= devise_error_messages! %>
 
-      <div class="mb-3">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, class: "form-control" %>
+      <%= render 'admin/shared/form_field', label: 'Email' do %>
+        <%= f.email_field :email, autofocus: true, class: 'input input-bordered w-full' %>
+      <% end %>
+
+      <%= render 'admin/shared/form_field', label: 'Password' do %>
+        <%= f.password_field :password, autocomplete: 'current-password', class: 'input input-bordered w-full' %>
+      <% end %>
+
+      <div class="mb-4 flex items-center gap-2">
+        <%= f.check_box :remember_me, class: 'checkbox' %>
+        <%= f.label :remember_me, class: 'text-sm' %>
       </div>
 
       <div class="mb-3">
-        <%= f.label :password %>
-        <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
-      </div>
-
-      <div class="mb-3 form-check">
-        <%= f.check_box :remember_me, class: "form-check-input" %>
-        <%= f.label :remember_me, class: "form-check-label" %>
-      </div>
-
-      <div class="d-grid">
-        <%= f.submit "Sign in", class: "btn btn-success py-3 px-2" %>
+        <%= render 'admin/shared/button', type: 'submit', variant: 'success', html_options: { class: 'w-full py-3' } do %>
+          Sign in
+        <% end %>
       </div>
     <% end %>
 
-    <div class="mt-3 text-center">
+    <div class="mt-3 text-center text-sm">
       <%= render "devise/shared/links" %>
     </div>
   </div>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :posts
+  resources :topics
   # Health check endpoint for load balancers
   get "/up", to: "health#up", as: :health_check
 
@@ -20,6 +22,9 @@ Rails.application.routes.draw do
   # Profile routes
   get "profile", to: "users#dashboard", as: :profile
   get "profile/edit", to: "users#edit", as: :edit_profile
+
+  # Two-factor authentication routes
+  resource :two_factor_authentication, only: [ :show, :create, :destroy ]
 
   # User profile routes
   resource :user, only: [ :show, :edit, :update ] do
@@ -60,11 +65,14 @@ Rails.application.routes.draw do
 
   # Admin namespace
   namespace :admin do
-    root to: "landing#index"
+    root to: "dashboard#index"
     get "dashboard", to: "dashboard#index"
     get "app_preview", to: "app_preview#index"
     get "analytics", to: "analytics#index"
     get "forum", to: "forums#index"
+    resources :topics do
+      resources :posts
+    end
     get "broadcasts", to: "broadcasts#index"
 
     resources :planning_documents

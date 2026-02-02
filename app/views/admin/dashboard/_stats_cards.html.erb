@@ -1,46 +1,25 @@
-<div class="dashboard-stats row g-3 mb-4">
-  <div class="col-md-3 col-6">
-    <div class="card stat-card bg-white border-0 shadow-sm h-100">
-      <div class="card-body text-center p-4">
-        <div class="stat-icon mb-3">
-          <i class="bi bi-lightbulb-fill text-warning" style="font-size: 2.5rem;" aria-hidden="true"></i>
-        </div>
-        <h2 class="mb-1 text-dark fw-bold" aria-label="Total Community Ideas"><%= @total_ideas %></h2>
-        <p class="mb-0 text-muted">Community Ideas</p>
-      </div>
-    </div>
+<div class="dashboard-stats grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+  <div class="bg-white shadow rounded-lg p-4 text-center">
+    <div class="mb-3 text-3xl">💡</div>
+    <h2 class="mb-1 text-2xl font-bold text-gray-900" aria-label="Total Community Ideas"><%= @total_ideas %></h2>
+    <p class="mb-0 text-sm text-gray-500">Community Ideas</p>
   </div>
-  <div class="col-md-3 col-6">
-    <div class="card stat-card bg-white border-0 shadow-sm h-100">
-      <div class="card-body text-center p-4">
-        <div class="stat-icon mb-3">
-          <i class="bi bi-file-earmark-text-fill text-primary" style="font-size: 2.5rem;" aria-hidden="true"></i>
-        </div>
-        <h2 class="mb-1 text-dark fw-bold" aria-label="Total Planning Documents"><%= @total_documents %></h2>
-        <p class="mb-0 text-muted">Planning Documents</p>
-      </div>
-    </div>
+
+  <div class="bg-white shadow rounded-lg p-4 text-center">
+    <div class="mb-3 text-3xl">📄</div>
+    <h2 class="mb-1 text-2xl font-bold text-gray-900" aria-label="Total Planning Documents"><%= @total_documents %></h2>
+    <p class="mb-0 text-sm text-gray-500">Planning Documents</p>
   </div>
-  <div class="col-md-3 col-6">
-    <div class="card stat-card bg-white border-0 shadow-sm h-100">
-      <div class="card-body text-center p-4">
-        <div class="stat-icon mb-3">
-          <i class="bi bi-graph-up-arrow text-success" style="font-size: 2.5rem;" aria-hidden="true"></i>
-        </div>
-        <h2 class="mb-1 text-dark fw-bold" aria-label="Total Updates"><%= @total_votes %></h2>
-        <p class="mb-0 text-muted">Total Updates</p>
-      </div>
-    </div>
+
+  <div class="bg-white shadow rounded-lg p-4 text-center">
+    <div class="mb-3 text-3xl">📈</div>
+    <h2 class="mb-1 text-2xl font-bold text-gray-900" aria-label="Total Updates"><%= @total_votes %></h2>
+    <p class="mb-0 text-sm text-gray-500">Total Updates</p>
   </div>
-  <div class="col-md-3 col-6">
-    <div class="card stat-card bg-white border-0 shadow-sm h-100">
-      <div class="card-body text-center p-4">
-        <div class="stat-icon mb-3">
-          <i class="bi bi-people-fill text-info" style="font-size: 2.5rem;" aria-hidden="true"></i>
-        </div>
-        <h2 class="mb-1 text-dark fw-bold" aria-label="Total Registered Users"><%= User.count %></h2>
-        <p class="mb-0 text-muted">Registered Users</p>
-      </div>
-    </div>
+
+  <div class="bg-white shadow rounded-lg p-4 text-center">
+    <div class="mb-3 text-3xl">👥</div>
+    <h2 class="mb-1 text-2xl font-bold text-gray-900" aria-label="Total Registered Users"><%= User.count %></h2>
+    <p class="mb-0 text-sm text-gray-500">Registered Users</p>
   </div>
 </div>

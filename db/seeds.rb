@@ -41,13 +41,25 @@ ideas.each do |idea|
 end
 
 # Create admin user
-User.find_or_create_by!(email: "naijeria@gmail.com") do |user|
-  user.password = "securepassword"
-  user.password_confirmation = "securepassword"
+admin = User.find_or_create_by!(email: "admin@nairobi.gov") do |user|
+  user.password = "admin123"
+  user.password_confirmation = "admin123"
   user.admin = true
+  user.username = "admin"
 end
 
-puts "Admin user created: naijeria@gmail.com"
+# Create resident user for testing
+resident = User.find_or_create_by!(email: "resident@nairobi.gov") do |user|
+  user.password = "resident123"
+  user.password_confirmation = "resident123"
+  user.admin = false
+  user.username = "resident"
+end
+
+puts "=== Prototype Test Users Created ==="
+puts "Admin: admin@nairobi.gov / admin123"
+puts "Resident: resident@nairobi.gov / resident123"
+puts "================================="
 
 # Seed sample citizen submissions so the admin panel has content
 submission_topics = TOPICS

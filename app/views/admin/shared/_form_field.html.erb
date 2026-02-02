@@ -1,0 +1,11 @@
+<div class="form-control mb-4">
+  <label class="label">
+    <span class="label-text"><%= label %></span>
+  </label>
+  <div>
+    <%= yield %>
+  </div>
+  <% if local_assigns.key?(:help) && help.present? %>
+    <p class="text-sm text-gray-500 mt-1"><%= help %></p>
+  <% end %>
+</div>

@@ -1,9 +1,10 @@
 class CommentsController < ApplicationController
   before_action :set_community_idea
-  before_action :set_comment, only: [:edit, :update, :destroy]
-  before_action :authorize_user!, only: [:edit, :update, :destroy]
+  before_action :set_comment, only: [ :edit, :update, :destroy ]
+  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def create
+    authorize Comment
     @comment = @community_idea.comments.build(comment_params)
     @comment.user = current_user
 
@@ -15,10 +16,12 @@ class CommentsController < ApplicationController
   end
 
   def edit
+    authorize @comment
     render "community_ideas/_comment_form", locals: { community_idea: @community_idea, comment: @comment }
   end
 
   def update
+    authorize @comment
     if @comment.update(comment_params)
       redirect_to community_idea_path(@community_idea), notice: "Comment updated."
     else
@@ -27,6 +30,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    authorize @comment
     @comment.destroy
     redirect_to community_idea_path(@community_idea), notice: "Comment deleted."
   end
@@ -42,7 +46,7 @@ class CommentsController < ApplicationController
   end
 
   def authorize_user!
-    redirect_to community_idea_path(@community_idea), alert: "Not authorized." unless @comment.user == current_user
+    authorize @comment
   end
 
   def comment_params

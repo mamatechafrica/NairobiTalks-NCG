@@ -1,74 +1,64 @@
-<div class="bg-light min-vh-100 py-4">
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col-12">
-        <%= render partial: 'shared/header', locals: { title: 'Admin Dashboard – Idea Submissions' } %>
-        <div class="d-flex gap-3 mb-3">
-          <%= link_to "Export Community Ideas to CSV", data_export_ideas_path, class: "btn btn-success" %>
-          <%= link_to "View Analytics", data_analytics_path, class: "btn btn-primary", target: "_blank" %>
-        </div>
+<div class="min-h-screen bg-base-100 py-8 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-4">
+      <%= render partial: 'shared/header', locals: { title: 'Idea Submissions' } %>
+      <div class="flex flex-wrap gap-3 mt-3">
+        <%= render 'admin/shared/button', href: data_export_ideas_path(format: :csv), variant: 'success' do %>Export Ideas<% end %>
+        <%= render 'admin/shared/button', href: data_analytics_path, variant: 'primary', html_options: { target: '_blank' } do %>View Analytics<% end %>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="col-12">
-        <div class="card border-success">
-          <div class="card-body">
-            <form action="<%= submissions_path %>" method="get" class="row g-3" aria-label="Filter Submissions">
-              <div class="col-md-4">
-                <label for="ward_filter" class="form-label">Ward</label>
-                <%= select_tag :ward, options_for_select(["All"] + WARD_LIST.map { |w| w[:name] }, params[:ward]), prompt: "Select Ward", class: "form-select", id: "ward_filter", aria_label: "Ward Filter" %>
-              </div>
-              <div class="col-md-4">
-                <label for="topic_filter" class="form-label">Topic</label>
-                <%= select_tag :topic, options_for_select(["All", "Health", "Education", "Infrastructure", "Security", "Environment", "Economy", "Culture", "Sports"], params[:topic]), prompt: "Select Topic", class: "form-select", id: "topic_filter", aria_label: "Topic Filter" %>
-              </div>
-              <div class="col-md-4">
-                <%= submit_tag "Filter", class: "btn btn-success w-100", aria_label: "Apply Filter" %>
-              </div>
-            </form>
+
+    <div class="card bg-base-100 shadow mb-6">
+      <div class="card-body">
+        <form action="<%= submissions_path %>" method="get" class="grid grid-cols-1 md:grid-cols-3 gap-4" aria-label="Filter Submissions">
+          <div>
+            <label for="ward_filter" class="text-sm font-medium">Ward</label>
+            <%= select_tag :ward, options_for_select(["All"] + WARD_LIST.map { |w| w[:name] }, params[:ward]), prompt: "Select Ward", class: "select select-bordered w-full", id: "ward_filter" %>
           </div>
-        </div>
+          <div>
+            <label for="topic_filter" class="text-sm font-medium">Topic</label>
+            <%= select_tag :topic, options_for_select(["All", "Health", "Education", "Infrastructure", "Security", "Environment", "Economy", "Culture", "Sports"], params[:topic]), prompt: "Select Topic", class: "select select-bordered w-full", id: "topic_filter" %>
+          </div>
+          <div class="flex items-end">
+            <%= render 'admin/shared/button', type: 'submit', variant: 'primary', extra_classes: 'w-full' do %>Filter<% end %>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="card border-success">
-          <div class="card-header bg-success text-white">
-            <h5 class="mb-0">Submitted Community Ideas</h5>
-          </div>
-          <div class="card-body p-0">
-            <% if @submissions.any? %>
-              <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                  <thead class="table-light">
-                    <tr>
-                      <th class="border-0" scope="col">Timestamp</th>
-                      <th class="border-0" scope="col">Title</th>
-                      <th class="border-0" scope="col">Description</th>
-                      <th class="border-0" scope="col">Location</th>
-                      <th class="border-0" scope="col">Topic</th>
-                      <th class="border-0" scope="col">Other Topic</th>
-                      <th class="border-0" scope="col">Anonymity</th>
-                      <th class="border-0" scope="col">Contact</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% @submissions.each do |row| %>
-                      <tr>
-                        <% row.each do |cell| %>
-                          <td><%= cell %></td>
-                        <% end %>
-                      </tr>
+
+    <div class="card bg-base-100 shadow">
+      <div class="card-body p-0">
+        <div class="px-4 py-3 border-b">
+          <h5 class="text-lg font-semibold">Submitted Community Ideas</h5>
+        </div>
+        <div class="overflow-x-auto">
+          <% if @submissions.any? %>
+            <table class="table w-full">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Location</th>
+                  <th>Topic</th>
+                  <th>Other Topic</th>
+                  <th>Anonymity</th>
+                  <th>Contact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @submissions.each do |row| %>
+                  <tr>
+                    <% row.each do |cell| %>
+                      <td class="align-top"><%= cell %></td>
                     <% end %>
-                  </tbody>
-                </table>
-              </div>
-            <% else %>
-              <div class="text-center py-5">
-                <p class="text-muted mb-0">No submissions found.</p>
-              </div>
-            <% end %>
-          </div>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <div class="p-6 text-center text-sm text-gray-500">No submissions found.</div>
+          <% end %>
         </div>
       </div>
     </div>

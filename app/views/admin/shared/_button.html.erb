@@ -1,0 +1,48 @@
+<%#
+  Locals:
+  - label: text shown inside the button (required)
+  - href: optional URL; when present renders a link, otherwise renders a <button>
+  - type: button type when rendering <button> (default: 'button' or 'submit')
+  - variant: one of primary, success, outline, ghost, error, info
+  - size: sm | lg
+  - full: boolean -> makes width full
+  - extra_classes: string additional classes
+  - html_options: hash of additional HTML attributes to pass to link_to or button_tag
+%>
+<%
+  classes = ['btn']
+  variant_map = {
+    'primary' => 'btn-primary',
+    'success' => 'btn-success',
+    'outline' => 'btn-outline',
+    'ghost' => 'btn-ghost',
+    'error' => 'btn-error',
+    'info' => 'btn-info'
+  }
+  classes << variant_map[variant.to_s] if defined?(variant) && variant
+  classes << 'btn-sm' if defined?(size) && size == 'sm'
+  classes << 'btn-lg' if defined?(size) && size == 'lg'
+  classes << 'w-full' if defined?(full) && full
+  classes << extra_classes if defined?(extra_classes) && extra_classes.present?
+  class_attr = classes.compact.join(' ')
+
+  html_options = (defined?(html_options) && html_options.is_a?(Hash)) ? html_options.transform_keys(&:to_sym) : {}
+  # ensure class is merged
+  html_options[:class] = [html_options[:class], class_attr].compact.join(' ')
+%>
+
+<% if local_assigns.key?(:href) && href.present? %>
+  <% if block_given? %>
+    <%= link_to href, html_options do %>
+      <%= yield %>
+    <% end %>
+  <% else %>
+    <%= link_to label, href, html_options %>
+  <% end %>
+<% else %>
+  <% if block_given? %>
+    <button type="<%= (defined?(type) && type.present?) ? type : 'button' %>" <%= tag.attributes(html_options) %>><%= yield %></button>
+  <% else %>
+    <button type="<%= (defined?(type) && type.present?) ? type : 'button' %>" <%= tag.attributes(html_options) %>><%= label %></button>
+  <% end %>
+<% end %>

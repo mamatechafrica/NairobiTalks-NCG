@@ -1,34 +1,38 @@
-<div class="container py-4">
-  <h1 class="mb-4" id="new-broadcast-heading">New Broadcast</h1>
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6">
+  <h1 class="mb-4 text-2xl font-semibold" id="new-broadcast-heading">New Broadcast</h1>
   <%= form_with model: @broadcast, url: admin_broadcasts_path, local: true, html: { 'aria-labelledby': 'new-broadcast-heading' } do |form| %>
     <fieldset>
       <legend class="sr-only">Broadcast Details</legend>
-      <div class="mb-3">
-        <%= form.label :title, 'Title', class: 'form-label', required: true %>
-        <%= form.text_field :title, class: 'form-control', required: true, aria: { required: true } %>
+      <div class="mb-4">
+        <%= form.label :title, 'Title', class: 'block text-sm font-medium text-gray-700', required: true %>
+        <%= form.text_field :title, class: 'input input-bordered w-full mt-1', required: true, aria: { required: true } %>
       </div>
-      <div class="mb-3">
-        <%= form.label :message, 'Message', class: 'form-label', required: true %>
-        <%= form.text_area :message, class: 'form-control', rows: 5, required: true, aria: { required: true } %>
+      <div class="mb-4">
+        <%= form.label :message, 'Message', class: 'block text-sm font-medium text-gray-700', required: true %>
+        <%= form.text_area :message, class: 'textarea textarea-bordered w-full mt-1', rows: 5, required: true, aria: { required: true } %>
       </div>
-      <div class="mb-3">
-        <%= form.label :ward_id, "Select Ward", class: 'form-label' %>
-        <%= form.collection_select :ward_id, @wards, :id, :name, { include_blank: "Select a Ward" }, class: 'form-select', aria: { describedby: 'ward-desc' } %>
-        <span id="ward-desc" class="form-text">Choose a ward to target, or leave blank for all wards.</span>
+      <div class="mb-4">
+        <%= form.label :ward_id, "Select Ward", class: 'block text-sm font-medium text-gray-700' %>
+        <%= form.collection_select :ward_id, @wards, :id, :name, { include_blank: "Select a Ward" }, class: 'select select-bordered w-full mt-1', aria: { describedby: 'ward-desc' } %>
+        <span id="ward-desc" class="text-sm text-gray-500">Choose a ward to target, or leave blank for all wards.</span>
       </div>
-      <div class="mb-3">
-        <%= form.label :delivery_type, 'Delivery Method', class: 'form-label', required: true %>
-        <%= form.select :delivery_type, options_for_select(["In App", "Email", "SMS"]), {}, class: 'form-select', required: true, aria: { required: true } %>
+      <div class="mb-4">
+        <%= form.label :delivery_type, 'Delivery Method', class: 'block text-sm font-medium text-gray-700', required: true %>
+        <%= form.select :delivery_type, options_for_select(["In App", "Email", "SMS"]), {}, class: 'select select-bordered w-full mt-1', required: true, aria: { required: true } %>
       </div>
-      <div class="mb-3">
-        <%= form.label :image, 'Image (optional)', class: 'form-label' %>
-        <%= form.file_field :image, class: 'form-control', aria: { describedby: 'image-desc' } %>
-        <span id="image-desc" class="form-text">Upload an image to include with the broadcast (optional).</span>
+      <div class="mb-4">
+        <%= form.label :image, 'Image (optional)', class: 'block text-sm font-medium text-gray-700' %>
+        <%= form.file_field :image, class: 'file-input file-input-bordered w-full mt-1', aria: { describedby: 'image-desc' } %>
+        <span id="image-desc" class="text-sm text-gray-500">Upload an image to include with the broadcast (optional).</span>
       </div>
     </fieldset>
-    <div class="mt-4">
-      <%= form.submit 'Create Broadcast', class: 'btn btn-primary', aria: { label: 'Create new broadcast' } %>
-      <%= link_to 'Cancel', admin_broadcasts_path, class: 'btn btn-secondary', aria: { label: 'Cancel and return to broadcast list' } %>
+    <div class="mt-4 flex gap-2">
+      <%= render 'admin/shared/button', type: 'submit', variant: 'primary', html_options: { aria: { label: 'Create new broadcast' } } do %>
+        Create Broadcast
+      <% end %>
+      <%= render 'admin/shared/button', href: admin_broadcasts_path, variant: 'ghost', html_options: { aria: { label: 'Cancel and return to broadcast list' } } do %>
+        Cancel
+      <% end %>
     </div>
   <% end %>
 </div>

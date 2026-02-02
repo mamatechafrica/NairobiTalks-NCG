@@ -121,6 +121,76 @@ NairobiTalks adheres to the following standards and best practices:
 
 Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
+## 👤 User Accounts & Roles
+
+### Pre-configured Test Accounts
+
+The application comes with two pre-configured test accounts for demonstration and testing:
+
+#### 🛡️ Administrator Account
+- **Email**: `admin@nairobi.gov`
+- **Password**: `admin123`
+- **Role**: System Administrator
+- **Access**: Full admin control panel
+
+**Administrator Capabilities:**
+- ✅ Access admin dashboard (`/admin`)
+- ✅ Manage all user accounts (view, edit, delete, promote/demote)
+- ✅ Moderate community ideas (approve, reject, edit)
+- ✅ Manage citizen submissions
+- ✅ Create and manage planning documents
+- ✅ Send broadcasts to citizens
+- ✅ View analytics and platform statistics
+- ✅ Enable two-factor authentication (2FA)
+- ✅ Complete audit trail of all admin actions
+
+#### 👨‍💼 Citizen/Resident Account
+- **Email**: `resident@nairobi.gov`
+- **Password**: `resident123`
+- **Role**: Registered Citizen
+- **Access**: Standard citizen features
+
+**Citizen Capabilities:**
+- ✅ Submit community ideas and feedback
+- ✅ Vote on ideas (upvote/downvote)
+- ✅ Comment on community discussions
+- ✅ View personal dashboard (`/profile`)
+- ✅ Track own submissions and activity
+- ✅ Edit personal profile information
+- ✅ View platform content and announcements
+
+### Role-based Access Control
+
+| Feature | Admin | Citizen |
+|----------|--------|---------|
+| Admin Dashboard | ✅ | ❌ |
+| User Management | ✅ | ❌ |
+| Content Moderation | ✅ | ❌ |
+| View Own Content | ✅ | ✅ |
+| Edit Own Content | ✅ | ✅ |
+| Submit Ideas | ✅ | ✅ |
+| Vote & Comment | ✅ | ✅ |
+| Broadcast Messages | ✅ | ❌ |
+| View Analytics | ✅ | Limited |
+| 2FA Setup | ✅ | ❌ |
+
+### Security Features
+
+- **Session Timeout**: 30 minutes of inactivity
+- **Admin Logging**: All admin actions are automatically logged with IP address and user agent
+- **Two-Factor Authentication**: Available for admin accounts
+- **Authorization**: Role-based access control using Pundit policies
+- **Audit Trail**: Complete audit history of administrative actions
+
+### Getting Started
+
+1. **Login** at `/users/sign_in` with either test account
+2. **Admin users**: Navigate to `/admin` for management interface
+3. **Citizen users**: Visit `/profile` for personal dashboard
+4. **Public access**: Browse community content from homepage
+
+For detailed testing scenarios, see [TEST_USERS.md](TEST_USERS.md).
+
 ## ☁️ Kamal + Google Cloud Deployment
 
 This project ships with a `kamal.yml` manifest tuned for Google Cloud (see the repo root). Kamal will build the Docker image defined in `Dockerfile`, wire environment variables, and deploy to Cloud Run (or GKE) with minimal ceremony.

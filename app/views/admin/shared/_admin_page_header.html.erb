@@ -1,0 +1,32 @@
+<%# Admin Page Header Template - consistent Tailwind + Daisy UI layout %>
+<div class="admin-page-header py-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex-1">
+        <h1 class="text-2xl font-semibold text-gray-900">
+          <% if defined?(page_icon) %>
+            <span aria-hidden="true" class="mr-2 align-middle"><%= page_icon %></span>
+          <% end %>
+          <%= page_title || controller_name.humanize %>
+        </h1>
+        <% if defined?(page_description) %>
+          <p class="mt-1 text-sm text-gray-500"><%= page_description %></p>
+        <% end %>
+      </div>
+      <% if defined?(page_actions) %>
+        <div class="flex-shrink-0">
+          <div class="admin-page-actions">
+            <%= page_actions %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%# Admin Page Content Wrapper %>
+<div class="admin-page-content">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <%= yield %>
+  </div>
+</div>

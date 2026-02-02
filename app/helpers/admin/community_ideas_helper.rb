@@ -10,6 +10,6 @@ module Admin::CommunityIdeasHelper
     css_class = STATUS_BADGES[idea.status] || "bg-secondary"
     status_label = CommunityIdea::STATUSES[status_key] || idea.status.to_s.titleize
 
-    content_tag(:span, status_label, class: "badge #{css_class}")
+    content_tag(:span, status_label, class: "status-badge badge #{css_class}")
   end
 end

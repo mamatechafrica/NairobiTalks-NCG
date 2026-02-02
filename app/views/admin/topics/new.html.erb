@@ -1,0 +1,79 @@
+<div class="admin-page-content">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Topic Creation Form -->
+    <div>
+      <%= render 'admin/shared/admin_page_header', {
+        page_title: 'Create New Topic',
+        page_icon: '📝',
+        page_description: 'Create a new forum topic for community discussions'
+      } %>
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <%= form_with(model: [:admin, @topic], local: true) do |form| %>
+            <% if @topic.errors.any? %>
+              <div class="bg-red-50 border border-red-200 p-3 rounded">
+                <h5 class="font-semibold text-red-700">Errors:</h5>
+                <ul class="mt-2 list-disc list-inside text-sm text-red-600">
+                  <% @topic.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <div class="mb-4">
+              <%= form.label :title, class: 'block text-sm font-medium text-gray-700' %>
+              <%= form.text_field :title, class: 'input input-bordered w-full mt-1', placeholder: 'Enter topic title...' %>
+            </div>
+            <div class="mb-4">
+              <%= form.label :description, class: 'block text-sm font-medium text-gray-700' %>
+              <%= form.text_area :description, class: 'textarea textarea-bordered w-full mt-1', rows: 4, placeholder: 'Describe the topic purpose...' %>
+            </div>
+            <div class="flex justify-end gap-2">
+              <%= render 'admin/shared/button', label: 'Create Topic', type: 'submit', variant: 'success', extra_classes: 'px-4 py-2' %>
+              <%= render 'admin/shared/button', label: 'Cancel', href: '/admin/forum', variant: 'ghost', extra_classes: 'px-4 py-2' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Topics List -->
+    <div>
+      <%= render 'admin/shared/admin_page_header', {
+        page_title: 'Current Topics',
+        page_icon: '📋',
+        page_description: 'Manage existing forum topics'
+      } %>
+      <% if @topics.present? %>
+        <div class="card bg-base-100 shadow">
+          <div class="card-body p-0">
+            <div class="divide-y">
+              <% @topics.each do |topic| %>
+                <div class="px-4 py-3 flex items-center justify-between">
+                  <div>
+                    <h6 class="mb-1 font-semibold"><%= topic.title %></h6>
+                    <p class="text-sm text-gray-500 mb-0"><%= truncate(topic.description, length: 100) %></p>
+                  </div>
+                  <div class="flex gap-2">
+                    <%= render 'admin/shared/button', label: 'Edit', href: edit_admin_topic_path(topic), variant: 'outline', size: 'sm', html_options: { aria: { label: "Edit topic #{topic.title}" } } %>
+                    <%= button_to 'Delete', admin_topic_path(topic), method: :delete, 
+                        class: 'btn btn-sm btn-error', 
+                        form: { data: { confirm: "Are you sure you want to delete the topic '#{topic.title}'? This will also delete all posts in this topic." } } %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <div class="card bg-base-100 shadow">
+          <div class="card-body text-center py-10">
+            <div class="text-gray-400 text-4xl mb-3">📭</div>
+            <h5 class="text-lg font-semibold">No Topics Yet</h5>
+            <p class="text-sm text-gray-500">Create your first forum topic to get started with community discussions.</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
