@@ -29,45 +29,58 @@
 
   <!-- Navbar ─────────────────────────────────────────────── -->
   <nav class="bg-[#004225] text-white py-4">
-    <div class="max-w-7xl mx-auto px-3 sm:px-4">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 flex items-center justify-between">
 
-      <!-- Brand -->
-      <%= link_to root_path, class: "flex items-center py-2 mr-3" do %>
-        <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks', style: 'height:120px; width:auto; object-fit:contain;' %>
-      <% end %>
+      <!-- Left: Brand + Community Ideas -->
+      <div class="flex items-center gap-4">
+        <%= link_to root_path, class: "flex items-center py-2" do %>
+          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks', style: 'height:120px; width:auto; object-fit:contain;' %>
+        <% end %>
 
-      <!-- Toggler -->
-      <button class="lg:hidden border border-white/20 bg-transparent text-white p-2" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="22" viewBox="0 0 30 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-          <path d="M3 6h24" />
-          <path d="M3 12h24" />
-          <path d="M3 18h24" />
-        </svg>
-      </button>
-      <div id="mainNav" class="hidden lg:flex lg:items-center lg:justify-between">
-        <div class="flex items-center gap-3">
-          <%= link_to "Community Ideas", community_ideas_path, class: "btn btn-ghost text-white" %>
+        <!-- Quick link: Community Ideas -->
+        <div class="inline-block border border-white rounded">
+          <%= link_to "Community Ideas", community_ideas_path, class: "inline-flex items-center px-3 py-2 rounded text-white font-semibold hover:bg-white/10 focus:outline-none", aria: { label: 'View community ideas' } %>
         </div>
+      </div>
 
-        <div class="flex items-center gap-2">
-          <% if user_signed_in? %>
-            <%= link_to "Submit Idea", new_submission_path, class: "btn btn-primary", aria: { label: "Submit a new idea" } %>
-          <% else %>
-            <%= link_to "Submit Idea", new_submission_path, class: "btn btn-primary", aria: { label: "Submit a new idea (sign in required)" } %>
-          <% end %>
+      <!-- Right: Action Items -->
+      <div class="flex items-center gap-3">
+        <!-- Toggler -->
+        <button class="lg:hidden border border-white/20 bg-transparent text-white p-2" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="22" viewBox="0 0 30 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M3 6h24" />
+            <path d="M3 12h24" />
+            <path d="M3 18h24" />
+          </svg>
+        </button>
 
-          <% if user_signed_in? %>
-            <div class="relative">
-              <button class="flex items-center gap-2 text-white focus:outline-none">
-                <div class="rounded-full bg-white text-[#004225] flex items-center justify-center font-bold" style="width:36px; height:36px; font-size:1rem;">
-                  <%= current_user.email.first.upcase %>
+        <div id="mainNav" class="hidden lg:flex lg:items-center lg:gap-6">
+          <div class="flex items-center gap-8">
+            <% if user_signed_in? %>
+              <%= link_to "Submit Idea", new_submission_path, class: "btn btn-primary", aria: { label: "Submit a new idea" } %>
+            <% else %>
+              <%= link_to "Submit Idea", new_submission_path, class: "btn btn-primary", aria: { label: "Submit a new idea (sign in required)" } %>
+            <% end %>
+
+            <% if user_signed_in? %>
+              <div class="dropdown dropdown-end">
+                <button tabindex="0" class="flex items-center gap-2 text-white focus:outline-none hover:opacity-80 transition cursor-pointer" aria-label="User menu">
+                  <div class="rounded-full bg-white text-[#004225] flex items-center justify-center font-bold" style="width:36px; height:36px; font-size:1rem;">
+                    <%= current_user.email.first.upcase %>
+                  </div>
+                  <span class="hidden lg:inline"><%= current_user.email.truncate(22) %></span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  </svg>
+                </button>
+                <div tabindex="0" class="dropdown-content z-50 menu p-2 shadow bg-base-100 rounded-box w-52">
+                  <%= button_to "Sign out", destroy_user_session_path, method: :delete, form_class: "w-full", class: "w-full text-left px-4 py-2 text-[#004225] hover:bg-gray-200 rounded" %>
                 </div>
-                <span class="hidden lg:inline"><%= current_user.email.truncate(22) %></span>
-              </button>
-            </div>
-          <% else %>
-            <%= link_to "Sign in", new_user_session_path, class: "btn btn-ghost text-white" %>
-          <% end %>
+              </div>
+            <% else %>
+              <%= link_to "Sign in", new_user_session_path, class: "inline-flex items-center gap-2 px-4 py-2 rounded bg-white text-[#004225] font-bold border border-white/20 hover:opacity-95 focus:outline-none", aria: { label: 'Sign in to your account' } %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

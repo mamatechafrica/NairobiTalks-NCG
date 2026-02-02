@@ -1,21 +1,4 @@
 <div class="admin-dashboard">
-  <!-- Header Section -->
-  <div class="flex items-center justify-between mb-4 p-4 bg-white rounded shadow-sm">
-    <div class="flex-1">
-      <h2 class="mb-1 font-bold text-[#009339] text-2xl">Dashboard</h2>
-      <p class="text-sm text-gray-500 mb-0">Welcome back, <%= current_user.email %>! Here's an overview of your platform.</p>
-    </div>
-    <div class="flex items-center">
-      <!-- User Info -->
-      <div class="flex items-center">
-        <div class="rounded-full text-white mr-3 flex items-center justify-center font-bold" style="width:45px; height:45px; background-color: #3AA966;">
-          <%= current_user.email.first.upcase %>
-        </div>
-        <span class="text-gray-800 font-medium hidden lg:inline"><%= current_user.email %></span>
-      </div>
-    </div>
-  </div>
-
   <%= render 'stats_cards' %>
   <%= render 'submission_notifications' %>
 

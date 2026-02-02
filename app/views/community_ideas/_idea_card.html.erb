@@ -1,17 +1,7 @@
 <div class="card bg-white border border-success shadow-sm <%= 'p-4' if local_assigns[:large] %>" style="<%= 'max-width: 700px; margin: 0 auto;' if local_assigns[:large] %>">
-  <%# Image section: normalize Unsplash page links to direct source and provide a reliable fallback %>
+  <%# Image section: use hero-landing.jpg as placeholder %>
   <% img_height = local_assigns[:large] ? '340px' : '200px' %>
-  <% img_src = if idea.respond_to?(:image_url) && idea.image_url.present?
-                 if idea.image_url =~ %r{unsplash.com/photos/([^/?]+)}
-                   "https://source.unsplash.com/#{$1}/800x600"
-                 else
-                   idea.image_url
-                 end
-               else
-                 # user-requested city skyline image
-                 "https://source.unsplash.com/vyagy6HJpVE/800x600"
-               end %>
-  <img src="<%= img_src %>" alt="Idea image" class="w-full object-cover" style="height: <%= img_height %>;">
+  <%= image_tag 'hero-landing.jpg', alt: 'Idea image', class: 'w-full object-cover', style: "height: #{img_height};" %>
 
   <div class="p-4 flex flex-col h-full">
     <h3 class="text-lg font-bold text-success mb-2 <%= 'text-2xl' if local_assigns[:large] %>"><%= idea.title %></h3>
@@ -31,14 +21,14 @@
 
       <% if local_assigns[:large] %>
         <div class="flex items-center gap-4">
-          <%= button_to upvote_community_idea_path(idea), method: :post, class: 'btn btn-success btn-lg rounded-full text-white', style: 'width: 4rem; height: 4rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes' do %>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <%= button_to upvote_community_idea_path(idea), method: :post, class: 'btn btn-success btn-lg rounded-full text-white', style: 'width: 5rem; height: 5rem;', form: { data: { turbo: "false" } }, title: 'Vote Yes', aria: { label: 'Vote yes' } do %>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           <% end %>
-          <%= button_to downvote_community_idea_path(idea), method: :post, class: 'btn btn-error btn-lg rounded-full text-white', style: 'width: 4rem; height: 4rem;', form: { data: { turbo: "false" } }, title: 'Vote No' do %>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <%= button_to downvote_community_idea_path(idea), method: :post, class: 'btn btn-error btn-lg rounded-full text-white', style: 'width: 5rem; height: 5rem;', form: { data: { turbo: "false" } }, title: 'Vote No', aria: { label: 'Vote no' } do %>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           <% end %>
         </div>

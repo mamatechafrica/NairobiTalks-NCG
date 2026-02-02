@@ -121,7 +121,7 @@ NairobiTalks adheres to the following standards and best practices:
 
 Visit [http://localhost:3000](http://localhost:3000) to access the application.
 
-## 👤 User Accounts & Roles
+## 👤 User Accounts & Rol
 
 ### Pre-configured Test Accounts
 

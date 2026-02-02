@@ -134,7 +134,7 @@
   display: flex;
   align-items: center;
   padding: 0.875rem 1.25rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85) !important;
   text-decoration: none;
   border-radius: 0.5rem;
   transition: all 0.2s ease;
@@ -144,7 +144,7 @@
 
 .nav-link:hover {
   background-color: var(--hover-bg);
-  color: var(--text-primary);
+  color: #ffffff !important;
   transform: translateX(4px);
 }
 
@@ -162,6 +162,7 @@
   text-align: center;
   margin-right: 0.75rem;
   transition: transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .nav-link:hover i {
@@ -172,6 +173,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   white-space: nowrap;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* Sidebar Footer */

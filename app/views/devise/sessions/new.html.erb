@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center py-8">
   <div class="w-full max-w-md mx-3">
-    <h2 class="mb-6 text-center text-2xl font-semibold">Sign in</h2>
+    <h2 class="mb-6 text-center text-3xl md:text-4xl font-extrabold">Sign in</h2>
 
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mx-auto w-full" }) do |f| %>
       <%= devise_error_messages! %>
@@ -19,13 +19,11 @@
       </div>
 
       <div class="mb-3">
-        <%= render 'admin/shared/button', type: 'submit', variant: 'success', html_options: { class: 'w-full py-3' } do %>
-          Sign in
-        <% end %>
+        <%= f.submit 'Sign in', class: 'w-full inline-flex items-center justify-center gap-2 text-white px-6 py-3 rounded text-lg focus:outline-none focus:ring-4', style: 'background-color: #18a147; box-shadow: 0 0 0 4px rgba(24, 161, 71, 0.4);' %>
       </div>
     <% end %>
 
-    <div class="mt-3 text-center text-sm">
+    <div class="mt-4 text-center text-sm">
       <%= render "devise/shared/links" %>
     </div>
   </div>

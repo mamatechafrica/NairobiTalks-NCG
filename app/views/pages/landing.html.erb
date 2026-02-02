@@ -1,21 +1,25 @@
 <div class="bg-base-100">
   <!-- Hero Section (Nairobi skyline background) -->
-  <section class="relative text-white h-screen min-h-screen bg-cover bg-center flex items-center" role="region" aria-label="Hero" style="background-image: url('<%= asset_path "hero-landing.jpg" %>'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+  <section class="relative text-white h-screen min-h-screen bg-cover bg-center flex items-center" role="region" aria-label="Hero" style="background-image: url('<%= (asset_path('hero-landing.jpg') rescue '/hero-landing.jpg') %>'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
     <!-- lighter mask so the image is more visible while keeping text readable -->
     <div class="absolute inset-0 bg-black/30"></div>
     <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
-      <div class="w-full bg-white/70 backdrop-blur-sm rounded p-6 text-black" style="background-color: rgba(255,255,255,0.75); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);">
+      <div class="w-full max-w-2xl mx-auto bg-white/70 backdrop-blur-sm rounded p-6 text-black" style="background-color: rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);">
         <div class="mx-auto mb-6">
           <div class="flex flex-col md:flex-row items-center gap-4 justify-center">
-        <div class="text-center md:text-left">
-          <h1 class="text-4xl md:text-6xl font-extrabold mb-2 drop-shadow-lg">Nairobi Talks</h1>
-          <p class="text-lg md:text-xl max-w-2xl">Empowering citizens to shape their community through anonymous idea submission and democratic voting.</p>
-        </div>
+            <div class="text-center md:text-left">
+              <h1 class="text-4xl md:text-6xl font-extrabold mb-2 drop-shadow-lg" style="color: black;">Nairobi Talks</h1>
+              <p class="text-lg md:text-xl max-w-2xl" style="color: black;">Empowering citizens to shape their community through anonymous idea submission and democratic voting.</p>
+            </div>
           </div>
+
           <div class="mt-6 flex items-center justify-center">
-        <%= render 'admin/shared/button', href: new_submission_path, variant: 'success', extra_classes: 'px-6 py-3 rounded text-lg focus:outline-none focus:ring-4 focus:ring-success/40' do %>
-          Submit an idea
-        <% end %>
+            <%= link_to new_submission_path, class: 'inline-flex items-center font-bold gap-2 bg-success text-white px-6 py-3 rounded text-lg focus:outline-none focus:ring-4 focus:ring-success/40', aria: { label: 'Submit a new idea' } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Submit an idea
+            <% end %>
           </div>
         </div>
       </div>
@@ -26,17 +30,17 @@
   <section class="py-8 bg-white" aria-label="Quick statistics">
     <div class="max-w-6xl mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center items-stretch" role="list">
-        <div class="p-6 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Ideas Submitted">
+        <div class="p-4 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Ideas Submitted">
           <h2 class="text-5xl md:text-6xl font-extrabold text-success leading-none" role="status" aria-live="polite"><%= number_with_delimiter(CommunityIdea.count) %></h2>
-          <p class="mt-2 text-sm text-gray-500">Ideas Submitted</p>
+          <p class="mt-2 text-sm text-gray-500 font-bold">Ideas Submitted</p>
         </div>
-        <div class="p-6 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Comments Made">
+        <div class="p-4 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Comments Made">
           <h2 class="text-5xl md:text-6xl font-extrabold text-success leading-none" role="status" aria-live="polite"><%= number_with_delimiter(Comment.count) %></h2>
-          <p class="mt-2 text-sm text-gray-500">Comments Made</p>
+          <p class="mt-2 text-sm text-gray-500 font-bold">Comments Made</p>
         </div>
-        <div class="p-6 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Citizens Engaged">
+        <div class="p-4 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Citizens Engaged">
           <h2 class="text-5xl md:text-6xl font-extrabold text-success leading-none" role="status" aria-live="polite"><%= number_with_delimiter(User.count) %></h2>
-          <p class="mt-2 text-sm text-gray-500">Citizens Engaged</p>
+          <p class="mt-2 text-sm text-gray-500 font-bold">Citizens Engaged</p>
         </div>
       </div>
     </div>
@@ -89,17 +93,19 @@
             <div class="h-40 w-full overflow-hidden">
               <img src="<%= img %>" alt="<%= idea.title %>" class="w-full h-full object-cover">
             </div>
-            <div class="p-4">
-              <h5 class="text-lg font-semibold text-success"><%= idea.title %></h5>
-              <p class="text-sm text-gray-600 mt-2"><%= idea.description.truncate(120) %></p>
-              <div class="flex items-center justify-between mt-3 text-sm text-gray-500">
-                <small><%= time_ago_in_words(idea.created_at) %> ago</small>
-                <span class="inline-block bg-success text-white text-xs px-2 py-1 rounded"><%= idea.comments.count %> comments</span>
+              <div class="p-4">
+                <h5 class="text-lg font-semibold text-success"><%= idea.title %></h5>
+                <p class="text-sm text-gray-600 mt-2"><%= idea.description.truncate(120) %></p>
+                <div class="flex items-center justify-between mt-3 text-sm text-gray-500">
+                  <small><%= time_ago_in_words(idea.created_at) %> ago</small>
+                  <span class="inline-block bg-success text-white text-xs px-2 py-1 rounded"><%= idea.comments.count %> comments</span>
+                </div>
               </div>
-            </div>
-            <div class="p-3 bg-transparent">
-              <%= link_to 'Read More', community_idea_path(idea), class: 'inline-block w-full text-center px-3 py-2 border border-success text-success rounded' %>
-            </div>
+              <div class="p-3 bg-transparent">
+                <%= link_to community_idea_path(idea), class: 'inline-block w-full text-center px-3 py-2 border border-success text-success rounded', aria: { label: "View details for #{idea.title}" } do %>
+                  View details
+                <% end %>
+              </div>
           </div>
         <% end %>
       </div>
