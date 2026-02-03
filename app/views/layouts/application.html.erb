@@ -15,11 +15,10 @@
   <!-- Removed Bootstrap: using Tailwind + Daisy UI -->
   
   <!-- Trix -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Trix CSS via jsDelivr (JS loaded from importmap/application.js) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.0.0/dist/trix.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
   <body class="flex flex-col min-h-screen bg-white">
