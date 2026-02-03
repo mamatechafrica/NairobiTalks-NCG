@@ -79,19 +79,8 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <% CommunityIdea.order(created_at: :desc).limit(3).each do |idea| %>
           <div class="bg-base-100 shadow rounded-lg overflow-hidden">
-            <% img = if idea.respond_to?(:image_url) && idea.image_url.present?
-                        # If the stored value points to an Unsplash photo page, convert to a direct image URL
-                        if idea.image_url =~ %r{unsplash.com/photos/([^/?]+)}
-                          "https://source.unsplash.com/#{$1}/800x600"
-                        else
-                          idea.image_url
-                        end
-                      else
-                        # fallback direct image URL (images.unsplash.com) for reliable rendering
-                        "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=800&q=60"
-                      end %>
             <div class="h-40 w-full overflow-hidden">
-              <img src="<%= img %>" alt="<%= idea.title %>" class="w-full h-full object-cover">
+              <%= image_tag 'hero-landing.jpg', alt: idea.title, class: 'w-full h-full object-cover' %>
             </div>
               <div class="p-4">
                 <h5 class="text-lg font-semibold text-success"><%= idea.title %></h5>
