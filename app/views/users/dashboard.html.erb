@@ -205,10 +205,10 @@
     "Mathare" => ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
   } %>
   <div class="modal-box bg-white w-11/12 max-w-2xl p-8 rounded">
-    <form method="dialog">
-      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    <form method="dialog" class="absolute right-4 top-4">
+      <button class="btn btn-sm btn-circle btn-ghost">✕</button>
     </form>
-    <h3 class="font-bold text-xl text-success mb-6">Submit Your Community Idea</h3>
+    <h3 class="font-bold text-xl text-success mb-6 pr-12">Submit Your Community Idea</h3>
     
     <form action="<%= submissions_path %>" method="post" class="space-y-4" novalidate>
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>

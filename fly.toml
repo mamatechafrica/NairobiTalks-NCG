@@ -1,0 +1,8 @@
+[app]
+  # Replace with your Fly app name
+  name = "your-app-name"
+  # primary_region = "iad"
+
+[deploy]
+  # Use default rolling strategy
+  strategy = "rolling"

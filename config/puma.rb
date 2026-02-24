@@ -1,4 +1,4 @@
-# config/puma.rb - Railway-friendly Puma config
+# config/puma.rb - Puma config (compatible with Fly.io)
 
 # Environment (also respect ENV for flexibility)
 environment ENV.fetch("RAILS_ENV") { "production" }

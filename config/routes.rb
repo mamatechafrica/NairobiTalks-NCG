@@ -13,11 +13,11 @@ Rails.application.routes.draw do
 
   # Separate admin login using Devise scope
   # This creates /admin/login, /admin/logout, etc. for admin-only sessions
-  # devise_scope :user do
-  #   get '/admin/login', to: 'devise/sessions#new', as: :new_admin_session
-  #   post '/admin/login', to: 'devise/sessions#create', as: :admin_session
-  #   delete '/admin/logout', to: 'devise/sessions#destroy', as: :destroy_admin_session
-  # end
+  devise_scope :user do
+    get "/admin/login", to: "devise/sessions#new", as: :new_admin_session
+    post "/admin/login", to: "devise/sessions#create", as: :admin_session
+    delete "/admin/logout", to: "devise/sessions#destroy", as: :destroy_admin_session
+  end
 
   # Profile routes
   get "profile", to: "users#dashboard", as: :profile

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="nairobi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nairobi Talks AI – Validation Prototype (CIVIC Residency 2025)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Source Sans 3', sans-serif; }
+    h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
+    #map { height: 450px; }
+  </style>
+</head>
+<body class="bg-base-100">
+
+  <!-- Validation Banner -->
+  <div class="bg-warning/20 border-b-4 border-warning py-6 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-2xl md:text-3xl font-bold text-base-content mb-2">
+        Validation Phase – Current CIVIC Residency 2025 Prototype
+      </h2>
+      <p class="text-lg text-base-content/80 max-w-3xl mx-auto">
+        This is the working prototype from the Dec 2025 residency sprint (map pin-drop, mock AI previews, feedback flows).  
+        It will be tested with real users before full rebuild on Liquio.tech.
+      </p>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="bg-[#004225] text-white py-12">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <img src="../app/assets/images/NairobiTalksLogo.png" alt="Nairobi Talks AI" class="h-32 mx-auto mb-4">
+      <p class="text-xl mb-6">Agentic Transparent Infrastructure Tracker</p>
+      <p class="text-lg opacity-90 max-w-3xl mx-auto">
+        Rebuilding on <strong>Liquio.tech</strong> post-GovTech training | Built on <strong>Rafikey PWA</strong> experience
+      </p>
+    </div>
+  </header>
+
+  <!-- Next Steps Card -->
+  <section class="py-10 bg-base-100">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="bg-primary/10 border border-primary/20 rounded-box p-8 shadow-lg">
+        <h2 class="text-2xl font-bold text-primary mb-4">Project Flow: Validate → Build → Iterate → Scale</h2>
+        <ol class="list-decimal list-inside space-y-3 text-base-content text-lg">
+          <li><strong>Now (Milestone 1)</strong>: Test this current residency prototype with real users to validate assumptions</li>
+          <li><strong>Next (Milestone 2)</strong>: Rebuild core platform on Liquio with live data from 2 depts</li>
+          <li><strong>Then (Milestone 3)</strong>: Test & iterate MVP based on pilot feedback</li>
+          <li><strong>Later (Milestone 4)</strong>: Scale to more depts/counties + NCCG hand-over</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="py-12 bg-neutral">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-8">Interactive Project Map (Current Prototype)</h2>
+      <div id="map" class="rounded-box shadow-lg border border-base-300"></div>
+      <p class="text-center mt-4 text-base-content/70">
+        Example: Kangundo Road Market – KSh 800M project, partial occupancy (2025). Click pin for details.
+      </p>
+    </div>
+  </section>
+
+  <!-- AI Agent Mock -->
+  <section class="py-12 bg-base-100">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-8">Mock AI Agent: Economic Impact Preview</h2>
+      <div class="bg-neutral rounded-box shadow-lg p-8">
+        <form id="agent-form" class="space-y-6">
+          <div>
+            <label for="issue" class="block text-lg font-medium text-base-content">Describe your issue or idea (e.g., "Market drainage needed")</label>
+            <textarea id="issue" rows="4" class="textarea textarea-bordered w-full mt-2"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">
+            Get AI Impact Preview
+          </button>
+        </form>
+
+        <div id="result" class="mt-8 hidden">
+          <div class="bg-success/10 border border-success/30 rounded-box p-6">
+            <h3 class="text-xl font-semibold text-success mb-4">AI Agent Preview (Mock Gemini Response)</h3>
+            <p class="text-base-content">
+              Issue classified: Market infrastructure (drainage). <br><br>
+              Projected impact if addressed: +KSh 3.8M annual trader revenue (reduced spoilage/downtime), 180 casual jobs during fix, improved affordability for low-income wards. <br><br>
+              Recommendation: Prioritize in next ADP cycle. Status: Submitted → County review. Notification sent.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#004225] text-white py-8">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+      <p class="text-lg mb-4">Open-source validation prototype for Nairobi Talks AI</p>
+      <p class="text-sm opacity-80">
+        Powered by <strong>Liquio.tech</strong> (GovTech Mentorship) + Gemini AI | 
+        Built on <strong>Rafikey PWA</strong> experience | 
+        <a href="https://github.com/yourusername/nairobi-talks-ai" class="underline hover:text-primary">GitHub Repo</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const map = L.map('map').setView([-1.2921, 36.8219], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([-1.315, 36.895]).addTo(map)
+      .bindPopup('<b>Kangundo Road Market</b><br>KSh 800M invested<br>Completed ~2018<br>Status: Partial Occupancy (2025)<br>AI Projection: Full use unlocks millions in trader revenue');
+
+    document.getElementById('agent-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('result').classList.remove('hidden');
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</body>
+</html>
