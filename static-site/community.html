@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Ideas - Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --color-primary: #004225; }
+    .bg-dark-green { background-color: #004225 !important; }
+    .text-dark-green { color: #004225 !important; }
+  </style>
+</head>
+<body class="bg-light min-vh-100 d-flex flex-column">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-dark-green text-white" style="padding: 0.6rem 0;">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="https://raw.githubusercontent.com/nairoti/nairobi-talks/main/app/assets/images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:80px;width:auto;border-radius:0.375rem;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="community.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Community Ideas</a>
+          </li>
+        </ul>
+        <div class="d-flex gap-2">
+          <a href="#" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Submit Idea</a>
+          <a href="#" class="btn btn-outline-light">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <h1 class="mb-4 fw-bold" style="color: #004225;">Explore Community Ideas</h1>
+    
+    <!-- Filters -->
+    <form class="row gx-3 gy-2 align-items-end p-3 rounded shadow-sm mb-4" style="background:#fff;border:2px solid #004225;">
+      <div class="col-md-3 col-6">
+        <label class="form-label fw-bold" style="color:#004225;">Search</label>
+        <input type="text" class="form-control border-success fw-bold" placeholder="Search ideas..." style="border-width:2px;">
+      </div>
+      <div class="col-md-3 col-6">
+        <label class="form-label fw-bold" style="color:#004225;">Sub-county</label>
+        <select class="form-select border-success fw-bold" style="border-width:2px;">
+          <option>All</option>
+          <option>Westlands</option>
+          <option>Dagoretti North</option>
+          <option>Dagoretti South</option>
+          <option>Langata</option>
+          <option>Kibra</option>
+          <option>Embakasi</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-6">
+        <label class="form-label fw-bold" style="color:#004225;">Topic</label>
+        <select class="form-select border-success fw-bold" style="border-width:2px;">
+          <option>All</option>
+          <option>Transportation</option>
+          <option>Environment</option>
+          <option>Education</option>
+          <option>Health</option>
+          <option>Infrastructure</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-6">
+        <label class="form-label fw-bold" style="color:#004225;">Status</label>
+        <select class="form-select border-success fw-bold" style="border-width:2px;">
+          <option>All</option>
+          <option>New</option>
+          <option>Under Review</option>
+          <option>Approved</option>
+          <option>Implemented</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-12">
+        <button type="submit" class="btn fw-bold w-100" style="background:#004225;color:#fff;">Search</button>
+      </div>
+    </form>
+
+    <!-- Ideas Grid -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="ideas-grid">
+      <!-- Loaded via JS -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark-green text-white py-4 mt-auto">
+    <div class="container text-center">
+      <p class="mb-0">© 2025 Nairobi Talks</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
+    
+    const mockIdeas = [
+      { title: 'Improve Public Transport in Westlands', description: 'Add more bus routes and dedicated lanes to reduce commute times for thousands of commuters.', topic: 'Transportation', sub_county: 'Westlands', status: 'Under Review', votes: 45, comments: 12 },
+      { title: 'Community Garden in Kibra', description: 'Create urban gardens to improve food security and provide community spaces for residents.', topic: 'Environment', sub_county: 'Kibra', status: 'New', votes: 32, comments: 8 },
+      { title: 'Digital Literacy Program for Youth', description: 'Free computer training for unemployed youth to improve their job prospects.', topic: 'Education', sub_county: 'Dagoretti North', status: 'Approved', votes: 67, comments: 15 },
+      { title: 'Better Street Lighting in Eastleigh', description: 'Install LED street lights to improve safety in commercial areas.', topic: 'Infrastructure', sub_county: 'Starehe', status: 'Under Review', votes: 28, comments: 5 },
+      { title: 'Mobile Health Clinics', description: 'Bring basic healthcare services to underserved areas of Nairobi.', topic: 'Health', sub_county: 'Embakasi', status: 'New', votes: 51, comments: 9 },
+      { title: 'Recycling Program for Residential Areas', description: 'Implement weekly recycling collection to reduce waste.', topic: 'Environment', sub_county: 'Langata', status: 'Implemented', votes: 89, comments: 22 }
+    ];
+
+    async function loadIdeas() {
+      const grid = document.getElementById('ideas-grid');
+      
+      if (GOOGLE_SHEET_ID === 'YOUR_SHEET_ID_HERE') {
+        renderIdeas(mockIdeas);
+        return;
+      }
+
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=ideas`;
+        const response = await fetch(url);
+        const csv = await response.text();
+        const ideas = parseCSV(csv);
+        renderIdeas(ideas);
+      } catch (e) {
+        renderIdeas(mockIdeas);
+      }
+    }
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+      return lines.slice(1).map(line => {
+        const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/"/g, ''));
+        return headers.reduce((obj, h, i) => ({ ...obj, [h]: values[i] }), {});
+      });
+    }
+
+    function getStatusBadge(status) {
+      const colors = {
+        'New': 'bg-primary',
+        'Under Review': 'bg-warning text-dark',
+        'Approved': 'bg-info',
+        'Implemented': 'bg-success'
+      };
+      return colors[status] || 'bg-secondary';
+    }
+
+    function renderIdeas(ideas) {
+      const grid = document.getElementById('ideas-grid');
+      grid.innerHTML = ideas.map(idea => `
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <span class="badge bg-success">${idea.topic || 'General'}</span>
+                <span class="badge ${getStatusBadge(idea.status)}">${idea.status || 'New'}</span>
+              </div>
+              <h5 class="card-title fw-bold text-dark">${idea.title}</h5>
+              <p class="card-text text-muted small">${idea.description}</p>
+              <div class="d-flex align-items-center text-muted small">
+                <i class="bi bi-geo-alt me-1"></i> ${idea.sub_county || 'Nairobi'}
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
+              <span><i class="bi bi-hand-thumbs-up me-1"></i> ${idea.votes || 0}</span>
+              <span><i class="bi bi-chat me-1"></i> ${idea.comments || 0}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    loadIdeas();
+  </script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Dashboard - Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --color-primary: #004225; }
+    .bg-dark-green { background-color: #004225 !important; }
+    .text-dark-green { color: #004225 !important; }
+    .border-success { border-width: 2px !important; }
+  </style>
+</head>
+<body class="bg-light min-vh-100 d-flex flex-column">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-dark-green text-white" style="padding: 0.6rem 0;">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="https://raw.githubusercontent.com/nairoti/nairobi-talks/main/app/assets/images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:80px;width:auto;border-radius:0.375rem;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="community.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Community Ideas</a>
+          </li>
+        </ul>
+        <div class="d-flex gap-2">
+          <a href="#" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Submit Idea</a>
+          <div class="dropdown">
+            <a class="d-flex align-items-center text-decoration-none text-white gap-2 dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <div class="rounded-circle bg-white text-dark-green d-flex align-items-center justify-content-center fw-bold" style="width:36px;height:36px;">J</div>
+              <span class="d-none d-lg-inline">john@example.com</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+              <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="#">Sign out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="container py-4">
+    <h2 class="fw-bold mb-4" style="color:#004225;">My Dashboard</h2>
+  </div>
+
+  <!-- User Info Card -->
+  <div class="container mb-5">
+    <div class="col-9" style="max-width: 75vw; margin: 0 auto;">
+      <div class="card border-success shadow-sm">
+        <div class="card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-md-2 text-center">
+              <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;font-size:2rem;">J</div>
+            </div>
+            <div class="col-md-7">
+              <h2 class="h4 fw-bold text-success mb-2">John Doe</h2>
+              <p class="text-muted mb-2">Member since January 2025</p>
+              <div class="row g-3">
+                <div class="col-auto">
+                  <div class="text-center">
+                    <div class="fw-bold text-success fs-5" id="stat-my-ideas">-</div>
+                    <small class="text-muted">Ideas</small>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="text-center">
+                    <div class="fw-bold text-primary fs-5" id="stat-comments">-</div>
+                    <small class="text-muted">Comments</small>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="text-center">
+                    <div class="fw-bold text-warning fs-5" id="stat-score">-</div>
+                    <small class="text-muted">Score</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Ideas & Voted Ideas -->
+  <div class="container mb-5">
+    <div class="col-9" style="max-width: 75vw; margin: 0 auto;">
+      <div class="card border-success shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 h5 fw-bold"><i class="bi bi-lightbulb me-2"></i>My Ideas & Voted Ideas</h2>
+          <button class="btn btn-outline-light btn-sm" data-bs-toggle="collapse" data-bs-target="#ideasCollapse">
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </div>
+        <div class="collapse show" id="ideasCollapse">
+          <div class="card-body">
+            <ul class="nav nav-tabs mb-4" id="ideasTab" role="tablist">
+              <li class="nav-item">
+                <button class="nav-link active" id="my-ideas-tab" data-bs-toggle="tab" data-bs-target="#my-ideas">My Ideas</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" id="voted-ideas-tab" data-bs-toggle="tab" data-bs-target="#voted-ideas">Voted Ideas</button>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="my-ideas" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="my-ideas-grid">
+                  <!-- Loaded via JS -->
+                </div>
+                <div id="my-ideas-empty" class="text-center py-5" style="display:none;">
+                  <i class="bi bi-lightbulb text-muted fs-1 mb-3"></i>
+                  <h5 class="text-muted mb-3">No ideas submitted yet</h5>
+                  <p class="text-muted mb-4">Share your vision for improving our community!</p>
+                  <a href="submit.html" class="btn btn-success">Submit Your First Idea</a>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="voted-ideas" role="tabpanel">
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="voted-ideas-grid">
+                  <!-- Loaded via JS -->
+                </div>
+                <div id="voted-ideas-empty" class="text-center py-5" style="display:none;">
+                  <i class="bi bi-hand-thumbs-up text-primary fs-1 mb-3"></i>
+                  <h5 class="text-muted mb-3">You haven't voted for any ideas yet</h5>
+                  <p class="text-muted mb-4">Explore and vote for ideas to see them here!</p>
+                  <a href="community.html" class="btn btn-primary">Explore Ideas</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="container mb-5">
+    <div class="col-9" style="max-width: 75vw; margin: 0 auto;">
+      <div class="card border-success shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h2 class="mb-0 h5 fw-bold"><i class="bi bi-clock-history me-2"></i>Recent Activity</h2>
+        </div>
+        <div class="card-body" id="activity-list">
+          <!-- Loaded via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Stats -->
+  <div class="container mb-5">
+    <div class="col-9" style="max-width: 75vw; margin: 0 auto;">
+      <div class="card border-success shadow-sm">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+          <h2 class="mb-0 h5 fw-bold"><i class="bi bi-bar-chart me-2"></i>Community Stats</h2>
+          <button class="btn btn-outline-light btn-sm" data-bs-toggle="collapse" data-bs-target="#statsCollapse">
+            <i class="bi bi-chevron-down"></i>
+          </button>
+        </div>
+        <div class="collapse show" id="statsCollapse">
+          <div class="card-body">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <h6 class="fw-bold text-success mb-3">Participation Trend</h6>
+                <div class="small" id="participation-trend"></div>
+              </div>
+              <div class="col-md-4">
+                <h6 class="fw-bold text-success mb-3">Ward Involvement</h6>
+                <div class="small" id="ward-involvement"></div>
+              </div>
+              <div class="col-md-4">
+                <h6 class="fw-bold text-success mb-3">Topic Preferences</h6>
+                <div class="small" id="topic-preferences"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark-green text-white py-4 mt-auto">
+    <div class="container text-center">
+      <p class="mb-0">© 2025 Nairobi Talks</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
+
+    const mockData = {
+      user: { name: 'John Doe', ideas: 3, comments: 12, score: 45 },
+      myIdeas: [
+        { title: 'Community Garden in Kibra', status: 'active', ward: 'Laini Saba', topics: ['Environment'], upvotes: 32, downvotes: 5, comments: 8, date: '2025-02-15' },
+        { title: 'Digital Literacy Program', status: 'implemented', ward: 'Kilimani', topics: ['Education'], upvotes: 67, downvotes: 2, comments: 15, date: '2025-02-10' }
+      ],
+      votedIdeas: [
+        { title: 'Improve Public Transport in Westlands', topic: 'Transportation', ward: 'Westlands', upvotes: 45, downvotes: 3, comments: 12 },
+        { title: 'Mobile Health Clinics', topic: 'Health', ward: 'Embakasi', upvotes: 51, downvotes: 8, comments: 9 }
+      ],
+      activities: [
+        { type: 'Submitted', description: 'Community Garden in Kibra', date: '2 days ago' },
+        { type: 'Voted', description: 'Improve Public Transport in Westlands', date: '3 days ago' },
+        { type: 'Comment', description: 'Digital Literacy Program', date: '5 days ago' }
+      ],
+      participation: [
+        { month: 'January', ideas: 12, comments: 45 },
+        { month: 'February', ideas: 18, comments: 62 }
+      ],
+      wards: [
+        { ward: 'Westlands', count: 15 },
+        { ward: 'Kibra', count: 12 },
+        { ward: 'Embakasi', count: 10 }
+      ],
+      topics: [
+        { topic: 'Environment', count: 25 },
+        { topic: 'Education', count: 20 },
+        { topic: 'Transportation', count: 18 }
+      ]
+    };
+
+    async function loadDashboard() {
+      let data = mockData;
+      
+      if (GOOGLE_SHEET_ID !== 'YOUR_SHEET_ID_HERE') {
+        try {
+          const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=dashboard`;
+          const response = await fetch(url);
+          data = parseCSV(await response.text()) || mockData;
+        } catch (e) {}
+      }
+
+      updateStats(data.user);
+      renderMyIdeas(data.myIdeas);
+      renderVotedIdeas(data.votedIdeas);
+      renderActivities(data.activities);
+      renderStats(data);
+    }
+
+    function parseCSV(csv) {
+      if (!csv) return null;
+      const lines = csv.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      const result = {};
+      lines.slice(1).forEach(line => {
+        const values = line.split(',');
+        headers.forEach((h, i) => result[h] = values[i]?.trim());
+      });
+      return result;
+    }
+
+    function updateStats(user) {
+      document.getElementById('stat-my-ideas').textContent = user.ideas;
+      document.getElementById('stat-comments').textContent = user.comments;
+      document.getElementById('stat-score').textContent = user.score;
+    }
+
+    function getStatusBadge(status) {
+      const colors = { 'active': 'bg-success', 'implemented': 'bg-primary', 'new': 'bg-warning' };
+      return colors[status] || 'bg-secondary';
+    }
+
+    function renderMyIdeas(ideas) {
+      const grid = document.getElementById('my-ideas-grid');
+      const empty = document.getElementById('my-ideas-empty');
+      
+      if (!ideas || ideas.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      grid.innerHTML = ideas.map(idea => `
+        <div class="col">
+          <div class="card h-100 border shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h6 class="card-title fw-bold mb-2 text-dark">${idea.title}</h6>
+                <span class="badge ${getStatusBadge(idea.status)} fw-bold">${idea.status}</span>
+              </div>
+              <p class="small mb-2 text-dark">Ward: ${idea.ward}</p>
+              <div class="mb-3">
+                ${(idea.topics || []).map(t => `<span class="badge bg-secondary me-1">${t}</span>`).join('')}
+              </div>
+              <div class="mt-auto">
+                <div class="d-flex justify-content-between align-items-center small">
+                  <span class="fw-bold text-success">👍 ${idea.upvotes}</span>
+                  <span class="fw-bold text-danger">👎 ${idea.downvotes}</span>
+                  <span class="fw-bold text-primary">💬 ${idea.comments}</span>
+                </div>
+                <small class="text-muted">Submitted: ${idea.date}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderVotedIdeas(ideas) {
+      const grid = document.getElementById('voted-ideas-grid');
+      const empty = document.getElementById('voted-ideas-empty');
+      
+      if (!ideas || ideas.length === 0) {
+        grid.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      grid.innerHTML = ideas.map(idea => `
+        <div class="col">
+          <div class="card h-100 shadow-sm border-success">
+            <div class="card-body d-flex flex-column">
+              <h3 class="card-title fw-bold text-success mb-2">${idea.title}</h3>
+              <div class="mb-2">
+                <span class="badge bg-secondary me-1">${idea.ward}</span>
+                <span class="badge bg-primary">${idea.topic}</span>
+              </div>
+              <p class="card-text text-muted mb-3">${idea.description || ''}</p>
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <span class="text-muted small">👍 ${idea.upvotes} | 👎 ${idea.downvotes}</span>
+                <a href="community-show.html" class="btn btn-outline-success btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderActivities(activities) {
+      const container = document.getElementById('activity-list');
+      if (!activities || activities.length === 0) {
+        container.innerHTML = '<div class="text-center py-4"><i class="bi bi-activity text-success fs-1 mb-3"></i><h5 class="text-muted mb-3">No recent activity</h5></div>';
+        return;
+      }
+      
+      container.innerHTML = '<ul class="list-group list-group-flush">' + 
+        activities.map(a => `<li class="list-group-item"><span class="fw-bold">${a.type}</span>: ${a.description} <span class="text-muted small ms-2">- ${a.date}</span></li>`).join('') + 
+        '</ul>';
+    }
+
+    function renderStats(data) {
+      document.getElementById('participation-trend').innerHTML = data.participation.map(p => `<div class="d-flex justify-content-between mb-1"><span>${p.month}</span><span class="text-muted">Ideas: ${p.ideas}, Comments: ${p.comments}</span></div>`).join('');
+      document.getElementById('ward-involvement').innerHTML = data.wards.map(w => `<div class="d-flex justify-content-between mb-1"><span>${w.ward}</span><span class="badge bg-primary">${w.count}</span></div>`).join('');
+      document.getElementById('topic-preferences').innerHTML = data.topics.map(t => `<div class="d-flex justify-content-between mb-1"><span>${t.topic}</span><span class="badge bg-success">${t.count}</span></div>`).join('');
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>

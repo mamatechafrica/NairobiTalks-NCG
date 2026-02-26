@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Idea - Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --color-primary: #004225; }
+    .bg-dark-green { background-color: #004225 !important; }
+    .text-dark-green { color: #004225 !important; }
+    .border-success { border-width: 2px !important; }
+  </style>
+</head>
+<body class="min-vh-100 bg-light d-flex flex-column justify-content-center py-5 px-3">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-dark-green text-white" style="padding: 0.6rem 0; position: absolute; top: 0; width: 100%;">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="https://raw.githubusercontent.com/nairoti/nairobi-talks/main/app/assets/images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:80px;width:auto;border-radius:0.375rem;">
+      </a>
+    </div>
+  </nav>
+
+  <div class="container" style="margin-top: 80px;">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-10 col-xl-9">
+
+        <!-- Header -->
+        <div class="text-center mb-5 mb-md-6">
+          <h1 class="display-4 fw-bold text-success mb-3">Share Your Community Idea</h1>
+          <p class="lead text-muted mx-auto" style="max-width: 720px;">Your suggestions help improve life in Nairobi's wards and communities</p>
+        </div>
+
+        <!-- Main Card -->
+        <div class="card border-success shadow-lg border-2">
+          <div class="card-body p-4 p-md-5">
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs nav-fill mb-5 border-success" id="ideaSubmissionTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active fw-semibold py-3" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button">Information</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link fw-semibold py-3" id="form-tab" data-bs-toggle="tab" data-bs-target="#form" type="button">Submit Idea</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link fw-semibold py-3" id="ideas-tab" data-bs-toggle="tab" data-bs-target="#ideas" type="button">Popular Ideas</button>
+              </li>
+            </ul>
+
+            <!-- Tab content -->
+            <div class="tab-content" id="ideaSubmissionTabsContent">
+
+              <!-- INFO TAB -->
+              <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                <div class="px-2 px-md-4">
+                  <h4 class="fw-bold text-success mb-4">How It Works</h4>
+                  <p class="text-muted fs-5 mb-4">1. Submit your idea → 2. Quick admin review → 3. Public voting → 4. Best ideas may be implemented!</p>
+                  <ul class="list-group list-group-flush fs-5">
+                    <li class="list-group-item border-0 ps-0">
+                      <i class="bi bi-check-circle-fill text-success me-3"></i>Be <strong>specific, realistic</strong> and clearly show community benefit
+                    </li>
+                    <li class="list-group-item border-0 ps-0">
+                      <i class="bi bi-check-circle-fill text-success me-3"></i>Include rough implementation idea, possible costs and expected outcomes if possible
+                    </li>
+                    <li class="list-group-item border-0 ps-0">
+                      <i class="bi bi-check-circle-fill text-success me-3"></i>You can submit <strong>anonymously</strong> — only admins see your identity
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- FORM TAB -->
+              <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="form-tab">
+                <form onsubmit="submitIdea(event)" class="needs-validation">
+                  <div class="row g-4">
+                    <!-- Title -->
+                    <div class="col-12">
+                      <label for="submission_title" class="form-label fw-semibold fs-5">Idea Title <span class="text-danger">*</span></label>
+                      <input type="text" name="title" id="submission_title" class="form-control form-control-lg" maxlength="100" required placeholder="e.g. Solar-powered street lighting in Kawangware">
+                      <div class="d-flex justify-content-between mt-1">
+                        <span class="text-muted small">Clear & descriptive (max 100 characters)</span>
+                        <span class="text-muted small" id="titleCharCount">0/100</span>
+                      </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="col-md-12">
+                      <label for="submission_description" class="form-label fw-semibold fs-5">Description <span class="text-danger">*</span></label>
+                      <textarea name="description" id="submission_description" class="form-control" rows="7" maxlength="500" required placeholder="Describe the problem, your proposed solution, who benefits, rough cost/time estimate if possible..."></textarea>
+                      <div class="d-flex justify-content-between mt-1">
+                        <span class="text-muted small">Be as detailed as possible</span>
+                        <span class="text-muted small" id="descCharCount">0/500</span>
+                      </div>
+                    </div>
+
+                    <!-- Sub-county & Ward -->
+                    <div class="col-md-6">
+                      <label for="submission_sub_county" class="form-label fw-semibold fs-5">Sub-county <span class="text-danger">*</span></label>
+                      <select name="sub_county" id="submission_sub_county" class="form-select form-select-lg" required>
+                        <option value="">Select your sub-county</option>
+                        <option value="Westlands">Westlands</option>
+                        <option value="Dagoretti North">Dagoretti North</option>
+                        <option value="Dagoretti South">Dagoretti South</option>
+                        <option value="Langata">Langata</option>
+                        <option value="Kibra">Kibra</option>
+                        <option value="Roysambu">Roysambu</option>
+                        <option value="Kasarani">Kasarani</option>
+                        <option value="Ruaraka">Ruaraka</option>
+                        <option value="Embakasi South">Embakasi South</option>
+                        <option value="Embakasi North">Embakasi North</option>
+                        <option value="Embakasi Central">Embakasi Central</option>
+                        <option value="Embakasi East">Embakasi East</option>
+                        <option value="Embakasi West">Embakasi West</option>
+                        <option value="Makadara">Makadara</option>
+                        <option value="Kamukunji">Kamukunji</option>
+                        <option value="Starehe">Starehe</option>
+                        <option value="Mathare">Mathare</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="submission_ward" class="form-label fw-semibold fs-5">Ward <span class="text-danger">*</span></label>
+                      <select name="ward" id="submission_ward" class="form-select form-select-lg" required>
+                        <option value="">Select your ward</option>
+                      </select>
+                    </div>
+
+                    <!-- Topics -->
+                    <div class="col-md-12">
+                      <label class="form-label fw-semibold fs-5">Main Topics (select all that apply)</label>
+                      <div class="row g-2 mt-2">
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Environment & Waste Management" id="topic_environment">
+                            <label class="form-check-label small" for="topic_environment">Environment & Waste Management</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Roads & Infrastructure" id="topic_roads">
+                            <label class="form-check-label small" for="topic_roads">Roads & Infrastructure</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Water & Sanitation" id="topic_water">
+                            <label class="form-check-label small" for="topic_water">Water & Sanitation</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Public Health Services" id="topic_health">
+                            <label class="form-check-label small" for="topic_health">Public Health Services</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Education & Schools" id="topic_education">
+                            <label class="form-check-label small" for="topic_education">Education & Schools</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Youth & Sports" id="topic_youth">
+                            <label class="form-check-label small" for="topic_youth">Youth & Sports</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Security & Safety" id="topic_security">
+                            <label class="form-check-label small" for="topic_security">Security & Safety</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Housing & Urban Planning" id="topic_housing">
+                            <label class="form-check-label small" for="topic_housing">Housing & Urban Planning</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Public Transport & Mobility" id="topic_transport">
+                            <label class="form-check-label small" for="topic_transport">Public Transport & Mobility</label>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="topics" value="Markets & Local Economy" id="topic_economy">
+                            <label class="form-check-label small" for="topic_economy">Markets & Local Economy</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Anonymous -->
+                    <div class="col-12">
+                      <div class="form-check form-switch form-switch-lg mt-3">
+                        <input class="form-check-input" type="checkbox" name="is_anonymous" id="submission_is_anonymous">
+                        <label class="form-check-label fw-medium fs-5" for="submission_is_anonymous">Submit anonymously</label>
+                        <div class="form-text mt-1">Your name won't appear publicly (only admins will see your identity)</div>
+                      </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="col-12 mt-5">
+                      <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                        <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-semibold">Submit My Idea</button>
+                        <a href="community.html" class="btn btn-outline-secondary btn-lg px-5 py-3">Cancel</a>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <div class="alert alert-info mt-5 mb-0">
+                  <strong>Pro tip:</strong> The most successful ideas are specific, realistic and clearly explain how they benefit people in the ward/community.
+                </div>
+              </div>
+
+              <!-- POPULAR IDEAS TAB -->
+              <div class="tab-pane fade" id="ideas" role="tabpanel" aria-labelledby="ideas-tab">
+                <h4 class="fw-bold text-success mb-4">Currently Popular Community Ideas</h4>
+                <p class="text-muted mb-4">These are the ideas receiving the most support right now</p>
+                <div id="popular-ideas">
+                  <!-- Loaded via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const subCounties = {
+      "Westlands": ["Westlands","Kitisuru","Parklands/Highridge","Kangemi","Mountain View","Karura"],
+      "Dagoretti North": ["Kilimani","Kawangware","Gatina","Kileleshwa","Kabiro"],
+      "Dagoretti South": ["Mutuini","Ngando","Riruta","Uthiru/Ruthimitu","Waithaka"],
+      "Langata": ["Karen","Nairobi West","Mugumo-ini","South C","Nyayo Highrise"],
+      "Kibra": ["Laini Saba","Lindi","Makina","Woodley/Kenyatta Golf","Sarangombe"],
+      "Roysambu": ["Githurai","Kahawa West","Zimmerman","Roysambu","Kahawa"],
+      "Kasarani": ["Clay City","Mwiki","Kasarani","Njiru","Ruai"],
+      "Ruaraka": ["Baba Dogo","Utalii","Mathare North","Lucky Summer","Korogocho"],
+      "Embakasi South": ["Imara Daima","Kwa Njenga","Kwa Reuben","Pipeline","Kware"],
+      "Embakasi North": ["Kariobangi North","Dandora Area I","Dandora Area II","Dandora Area III","Dandora Area IV"],
+      "Embakasi Central": ["Kayole North","Kayole Central","Kayole South","Komarock","Matopeni"],
+      "Embakasi East": ["Upper Savanna","Lower Savanna","Embakasi","Utawala","Mihango"],
+      "Embakasi West": ["Umoja I","Umoja II","Mowlem","Kariobangi South"],
+      "Makadara": ["Maringo/Hamza","Viwandani","Harambee","Makongeni","South B"],
+      "Kamukunji": ["Pumwani","Eastleigh North","Eastleigh South","Airbase","California"],
+      "Starehe": ["Landimawe","Nairobi Central","Ngara","Pangani","Ziwani/Kariokor"],
+      "Mathare": ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
+    };
+
+    const popularIdeas = [
+      { title: 'Improve Public Transport in Westlands', topic: 'Transportation', upvotes: 45 },
+      { title: 'Community Garden in Kibra', topic: 'Environment', upvotes: 32 },
+      { title: 'Digital Literacy Program for Youth', topic: 'Education', upvotes: 67 }
+    ];
+
+    // Character counter
+    document.getElementById('submission_title').addEventListener('input', function() {
+      document.getElementById('titleCharCount').textContent = this.value.length + '/100';
+    });
+    document.getElementById('submission_description').addEventListener('input', function() {
+      document.getElementById('descCharCount').textContent = this.value.length + '/500';
+    });
+
+    // Ward dropdown based on sub-county
+    document.getElementById('submission_sub_county').addEventListener('change', function(e) {
+      const sc = e.target.value;
+      const wardSelect = document.getElementById('submission_ward');
+      wardSelect.innerHTML = '<option value="">Select your ward</option>';
+      const wards = subCounties[sc] || [];
+      wards.forEach(w => {
+        const opt = document.createElement('option');
+        opt.value = w;
+        opt.textContent = w;
+        wardSelect.appendChild(opt);
+      });
+    });
+
+    // Render popular ideas
+    document.getElementById('popular-ideas').innerHTML = popularIdeas.map(idea => `
+      <div class="card mb-3 border-success">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="fw-bold text-success">${idea.title}</h6>
+              <span class="badge bg-primary">${idea.topic}</span>
+            </div>
+            <span class="fw-bold text-success">👍 ${idea.upvotes}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    function submitIdea(e) {
+      e.preventDefault();
+      alert('Thank you! Your idea has been submitted for review. (Demo mode - not saved)');
+      window.location.href = 'community.html';
+    }
+  </script>
+</body>
+</html>

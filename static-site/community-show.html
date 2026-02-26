@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea Details - Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root { --color-primary: #004225; }
+    .bg-dark-green { background-color: #004225 !important; }
+    .text-dark-green { color: #004225 !important; }
+    .border-success { border-width: 2px !important; }
+  </style>
+</head>
+<body class="bg-light min-vh-100 d-flex flex-column">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-dark-green text-white" style="padding: 0.6rem 0;">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="https://raw.githubusercontent.com/nairoti/nairobi-talks/main/app/assets/images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:80px;width:auto;border-radius:0.375rem;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="community.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Community Ideas</a>
+          </li>
+        </ul>
+        <div class="d-flex gap-2">
+          <a href="submit.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Submit Idea</a>
+          <div class="dropdown">
+            <a class="d-flex align-items-center text-decoration-none text-white gap-2 dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <div class="rounded-circle bg-white text-dark-green d-flex align-items-center justify-content-center fw-bold" style="width:36px;height:36px;">J</div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+              <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="#">Sign out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Back Link -->
+  <div class="container py-4">
+    <a href="community.html" class="text-success text-decoration-none">
+      <i class="bi bi-arrow-left"></i> Back to Community Ideas
+    </a>
+  </div>
+
+  <!-- Idea Detail -->
+  <main class="container py-3">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="mb-5" style="max-width: 100%;">
+          <div class="card h-100 shadow-sm border-success p-4" style="max-width: 700px; margin: 0 auto;">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80" alt="Idea image" class="card-img-top rounded" style="height: 340px; object-fit: cover;">
+            <div class="card-body d-flex flex-column">
+              <h3 class="card-title fw-bold text-success mb-2 fs-2">Improve Public Transport in Westlands</h3>
+              <div class="mb-2">
+                <span class="badge bg-secondary me-1">Westlands</span>
+                <span class="badge bg-primary">Transportation</span>
+              </div>
+              <p class="card-text text-muted mb-3" style="font-size: 1.15rem;">
+                Add more bus routes and dedicated lanes to reduce commute times for thousands of commuters traveling between Westlands and the city center. This would significantly improve accessibility for workers and students in the area.
+              </p>
+              <p class="card-text text-muted mb-3">
+                <strong>Expected Benefits:</strong> Reduced traffic congestion, faster commute times, lower transportation costs for residents, reduced carbon emissions from fewer vehicles on the road.
+              </p>
+              <div class="d-flex justify-content-between align-items-center mt-auto">
+                <span class="text-muted small fs-5">👍 <span id="upvotes">45</span> | 👎 <span id="downvotes">3</span></span>
+              </div>
+              <div class="d-flex justify-content-center gap-5 mt-4">
+                <button class="btn btn-outline-success btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center" style="width: 4rem; height: 4rem; font-size: 2rem;" onclick="vote('up')">
+                  <span>✔</span>
+                </button>
+                <button class="btn btn-outline-danger btn-lg rounded-circle d-flex flex-column align-items-center justify-content-center" style="width: 4rem; height: 4rem; font-size: 2rem;" onclick="vote('down')">
+                  <span>✖</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comment Form -->
+        <div class="card border-success shadow-sm mb-4">
+          <div class="card-body">
+            <h5 class="fw-bold text-success mb-3">Add a Comment</h5>
+            <form onsubmit="submitComment(event)">
+              <textarea class="form-control mb-3" rows="3" placeholder="Share your thoughts..."></textarea>
+              <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success">Post Comment</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Comments List -->
+        <div id="comments-section">
+          <h5 class="fw-bold text-success mb-3">Comments (<span id="comment-count">3</span>)</h5>
+          <div id="comments-list">
+            <!-- Loaded via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-dark-green text-white py-4 mt-auto">
+    <div class="container text-center">
+      <p class="mb-0">© 2025 Nairobi Talks</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
+
+    const mockComments = [
+      { user: 'mary_k', body: 'This is a great idea! Westlands traffic is terrible in the mornings.', time: '2 hours ago' },
+      { user: 'john_d', body: 'I fully support this. Public transport improvement is badly needed.', time: '5 hours ago' },
+      { user: 'sarah_n', body: 'Would love to see dedicated bike lanes too!', time: '1 day ago' }
+    ];
+
+    async function loadComments() {
+      let comments = mockComments;
+      
+      if (GOOGLE_SHEET_ID !== 'YOUR_SHEET_ID_HERE') {
+        try {
+          const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=comments`;
+          comments = parseCSV(await response.text()) || mockComments;
+        } catch (e) {}
+      }
+
+      renderComments(comments);
+    }
+
+    function parseCSV(csv) {
+      if (!csv) return null;
+      const lines = csv.trim().split('\n');
+      const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+      return lines.slice(1).map(line => {
+        const values = line.split(',');
+        return headers.reduce((obj, h, i) => ({ ...obj, [h]: values[i]?.trim() }), {});
+      });
+    }
+
+    function renderComments(comments) {
+      document.getElementById('comment-count').textContent = comments.length;
+      document.getElementById('comments-list').innerHTML = comments.map(c => `
+        <div class="card mb-4 shadow-sm border-0" style="border-radius: 1rem;">
+          <div class="card-body pb-3 pt-4 px-4">
+            <div class="d-flex align-items-center mb-2">
+              <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                ${c.user.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <div class="fw-bold" style="font-size: 1.1rem;">@${c.user}</div>
+                <div class="text-muted small">${c.time}</div>
+              </div>
+            </div>
+            <div class="mt-2 mb-0" style="font-size: 1.08rem; color: #222;">${c.body}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function vote(type) {
+      if (type === 'up') {
+        document.getElementById('upvotes').textContent = parseInt(document.getElementById('upvotes').textContent) + 1;
+      } else {
+        document.getElementById('downvotes').textContent = parseInt(document.getElementById('downvotes').textContent) + 1;
+      }
+      alert('Thank you for your vote!');
+    }
+
+    function submitComment(e) {
+      e.preventDefault();
+      const textarea = e.target.querySelector('textarea');
+      if (textarea.value.trim()) {
+        alert('Comment submitted! (Demo mode - not saved)');
+        textarea.value = '';
+      }
+    }
+
+    loadComments();
+  </script>
+</body>
+</html>
