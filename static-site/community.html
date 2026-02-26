@@ -97,43 +97,62 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
+    // ============================================
+    // CONFIGURATION
+    // ============================================
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const USE_DEMO_MODE = true; // Set to false when Supabase is configured
     
+    // ============================================
+    // SUPABASE CLIENT
+    // ============================================
+    let supabase;
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      const { createClient } = window.supabase;
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+    
+    // ============================================
+    // MOCK DATA (Demo Mode)
+    // ============================================
     let ideas = [
-      { id: 1, title: 'Improve Public Transport in Westlands', description: 'Add more bus routes and dedicated lanes to reduce commute times for thousands of commuters.', topic: 'Transportation', sub_county: 'Westlands', status: 'Under Review', votes: 45, comments: 12 },
-      { id: 2, title: 'Community Garden in Kibra', description: 'Create urban gardens to improve food security and provide community spaces for residents.', topic: 'Environment', sub_county: 'Kibra', status: 'New', votes: 32, comments: 8 },
-      { id: 3, title: 'Digital Literacy Program for Youth', description: 'Free computer training for unemployed youth to improve their job prospects.', topic: 'Education', sub_county: 'Dagoretti North', status: 'Approved', votes: 67, comments: 15 },
-      { id: 4, title: 'Better Street Lighting in Eastleigh', description: 'Install LED street lights to improve safety in commercial areas.', topic: 'Infrastructure', sub_county: 'Starehe', status: 'Under Review', votes: 28, comments: 5 },
-      { id: 5, title: 'Mobile Health Clinics', description: 'Bring basic healthcare services to underserved areas of Nairobi.', topic: 'Health', sub_county: 'Embakasi', status: 'New', votes: 51, comments: 9 },
-      { id: 6, title: 'Recycling Program for Residential Areas', description: 'Implement weekly recycling collection to reduce waste.', topic: 'Environment', sub_county: 'Langata', status: 'Implemented', votes: 89, comments: 22 }
+      { id: '1', title: 'Improve Public Transport in Westlands', description: 'Add more bus routes and dedicated lanes to reduce commute times for thousands of commuters.', topic: 'Transportation', sub_county: 'Westlands', status: 'Under Review', votes_up: 45, votes_down: 3 },
+      { id: '2', title: 'Community Garden in Kibra', description: 'Create urban gardens to improve food security and provide community spaces for residents.', topic: 'Environment', sub_county: 'Kibra', status: 'New', votes_up: 32, votes_down: 8 },
+      { id: '3', title: 'Digital Literacy Program for Youth', description: 'Free computer training for unemployed youth to improve their job prospects.', topic: 'Education', sub_county: 'Dagoretti North', status: 'Approved', votes_up: 67, votes_down: 2 },
+      { id: '4', title: 'Better Street Lighting in Eastleigh', description: 'Install LED street lights to improve safety in commercial areas.', topic: 'Infrastructure', sub_county: 'Starehe', status: 'Under Review', votes_up: 28, votes_down: 5 },
+      { id: '5', title: 'Mobile Health Clinics', description: 'Bring basic healthcare services to underserved areas of Nairobi.', topic: 'Health', sub_county: 'Embakasi', status: 'New', votes_up: 51, votes_down: 9 },
+      { id: '6', title: 'Recycling Program for Residential Areas', description: 'Implement weekly recycling collection to reduce waste.', topic: 'Environment', sub_county: 'Langata', status: 'Implemented', votes_up: 89, votes_down: 4 }
     ];
 
     let votedIdeas = new Set();
 
+    // ============================================
+    // DATA LOADING
+    // ============================================
     async function loadIdeas() {
       const grid = document.getElementById('ideas-grid');
       
-      if (GOOGLE_SHEET_ID !== 'YOUR_SHEET_ID_HERE') {
-        try {
-          const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=ideas`;
-          const response = await fetch(url);
-          const csv = await response.text();
-          const parsed = parseCSV(csv);
-          if (parsed) ideas = parsed;
-        } catch (e) {}
+      if (USE_DEMO_MODE) {
+        renderIdeas();
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('ideas')
+          .select('*, comments(id)')
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        if (data) ideas = data;
+      } catch (e) {
+        console.log('Error loading ideas:', e);
       }
 
       renderIdeas();
-    }
-
-    function parseCSV(csv) {
-      const lines = csv.trim().split('\n');
-      const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
-      return lines.slice(1).map(line => {
-        const values = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.trim().replace(/"/g, ''));
-        return headers.reduce((obj, h, i) => ({ ...obj, [h]: values[i] }), {});
-      });
     }
 
     function getStatusBadge(status) {
@@ -146,33 +165,67 @@
       return colors[status] || 'bg-secondary';
     }
 
-    function vote(ideaId, type, btn) {
+    // ============================================
+    // VOTING
+    // ============================================
+    async function vote(ideaId, type, btn) {
       if (votedIdeas.has(ideaId)) {
         alert('You have already voted on this idea!');
         return;
       }
 
       const idea = ideas.find(i => i.id === ideaId);
-      if (idea) {
-        if (type === 'up') idea.votes++;
-        else idea.votes--;
-        votedIdeas.add(ideaId);
-        renderIdeas();
-        
-        // Show toast
-        const toast = document.createElement('div');
-        toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success shadow';
-        toast.style.zIndex = '9999';
-        toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Vote recorded!';
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 2000);
+      if (!idea) return;
+
+      // Update local state immediately
+      if (type === 'up') idea.votes_up++;
+      else idea.votes_down++;
+      votedIdeas.add(ideaId);
+      renderIdeas();
+      
+      // Show toast
+      showToast('Vote recorded!');
+
+      // Save to Supabase if configured
+      if (!USE_DEMO_MODE && supabase) {
+        try {
+          // Record the vote
+          await supabase.from('votes').insert({
+            idea_id: ideaId,
+            vote_type: type
+          });
+          
+          // Update idea counts
+          const updateField = type === 'up' ? 'votes_up' : 'votes_down';
+          await supabase.rpc('increment_vote', { 
+            idea_id: ideaId, 
+            vote_field: updateField 
+          });
+        } catch (e) {
+          console.log('Error saving vote:', e);
+        }
       }
     }
 
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success shadow';
+      toast.style.zIndex = '9999';
+      toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>' + message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    // ============================================
+    // RENDERING
+    // ============================================
     function renderIdeas() {
       const grid = document.getElementById('ideas-grid');
       grid.innerHTML = ideas.map(idea => {
         const hasVoted = votedIdeas.has(idea.id);
+        const totalVotes = idea.votes_up || 0;
+        const commentCount = idea.comments ? idea.comments.length : 0;
+        
         return `
         <div class="col">
           <div class="card h-100 border-0 shadow-sm">
@@ -182,28 +235,40 @@
                 <span class="badge ${getStatusBadge(idea.status)}">${idea.status || 'New'}</span>
               </div>
               <h5 class="card-title fw-bold text-dark">${idea.title}</h5>
-              <p class="card-text text-muted small">${idea.description}</p>
+              <p class="card-text text-muted small">${idea.description || ''}</p>
               <div class="d-flex align-items-center text-muted small mb-3">
                 <i class="bi bi-geo-alt me-1"></i> ${idea.sub_county || 'Nairobi'}
               </div>
               <div class="d-flex gap-2 mb-2">
-                <button class="btn btn-sm ${hasVoted ? 'btn-success' : 'btn-outline-success'}" onclick="vote(${idea.id}, 'up', this)" ${hasVoted ? 'disabled' : ''}>
-                  <i class="bi bi-hand-thumbs-up"></i> Yes (${idea.votes})
+                <button class="btn btn-sm ${hasVoted ? 'btn-success' : 'btn-outline-success'}" onclick="vote('${idea.id}', 'up', this)" ${hasVoted ? 'disabled' : ''}>
+                  <i class="bi bi-hand-thumbs-up"></i> Yes (${totalVotes})
                 </button>
-                <button class="btn btn-sm ${hasVoted ? 'btn-danger' : 'btn-outline-danger'}" onclick="vote(${idea.id}, 'down', this)" ${hasVoted ? 'disabled' : ''}>
-                  <i class="bi bi-hand-thumbs-down"></i> No
+                <button class="btn btn-sm ${hasVoted ? 'btn-danger' : 'btn-outline-danger'}" onclick="vote('${idea.id}', 'down', this)" ${hasVoted ? 'disabled' : ''}>
+                  <i class="bi bi-hand-thumbs-down"></i> No (${idea.votes_down || 0})
                 </button>
               </div>
             </div>
             <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
               <div>
-                <span class="text-muted small"><i class="bi bi-chat me-1"></i> ${idea.comments || 0} comments</span>
+                <span class="text-muted small"><i class="bi bi-chat me-1"></i> ${commentCount} comments</span>
               </div>
-              <a href="community-show.html" class="btn btn-outline-success btn-sm">View</a>
+              <a href="community-show.html?id=${idea.id}" class="btn btn-outline-success btn-sm">View</a>
             </div>
           </div>
         </div>
       `}).join('');
+    }
+
+    // ============================================
+    // REAL-TIME SUBSCRIPTIONS
+    // ============================================
+    if (!USE_DEMO_MODE && supabase) {
+      supabase
+        .channel('ideas')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'ideas' }, () => {
+          loadIdeas();
+        })
+        .subscribe();
     }
 
     loadIdeas();
