@@ -123,23 +123,29 @@
   <script>
     const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
 
-    const mockComments = [
+    let comments = [
       { user: 'mary_k', body: 'This is a great idea! Westlands traffic is terrible in the mornings.', time: '2 hours ago' },
       { user: 'john_d', body: 'I fully support this. Public transport improvement is badly needed.', time: '5 hours ago' },
       { user: 'sarah_n', body: 'Would love to see dedicated bike lanes too!', time: '1 day ago' }
     ];
 
-    async function loadComments() {
-      let comments = mockComments;
-      
+    let userHasVoted = null;
+
+    function loadComments() {
       if (GOOGLE_SHEET_ID !== 'YOUR_SHEET_ID_HERE') {
         try {
           const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=comments`;
-          comments = parseCSV(await response.text()) || mockComments;
-        } catch (e) {}
+          fetch(url).then(r => r.text()).then(csv => {
+            const parsed = parseCSV(csv);
+            if (parsed) comments = parsed;
+            renderComments();
+          }).catch(() => renderComments());
+        } catch (e) {
+          renderComments();
+        }
+      } else {
+        renderComments();
       }
-
-      renderComments(comments);
     }
 
     function parseCSV(csv) {
@@ -152,7 +158,7 @@
       });
     }
 
-    function renderComments(comments) {
+    function renderComments() {
       document.getElementById('comment-count').textContent = comments.length;
       document.getElementById('comments-list').innerHTML = comments.map(c => `
         <div class="card mb-4 shadow-sm border-0" style="border-radius: 1rem;">
@@ -173,20 +179,57 @@
     }
 
     function vote(type) {
+      if (userHasVoted) {
+        alert('You have already voted on this idea!');
+        return;
+      }
+      
+      const upBtn = document.querySelector('button[onclick="vote(\'up\')"]');
+      const downBtn = document.querySelector('button[onclick="vote(\'down\')"]');
+      
       if (type === 'up') {
         document.getElementById('upvotes').textContent = parseInt(document.getElementById('upvotes').textContent) + 1;
+        upBtn.classList.remove('btn-outline-success');
+        upBtn.classList.add('btn-success');
+        upBtn.disabled = true;
       } else {
         document.getElementById('downvotes').textContent = parseInt(document.getElementById('downvotes').textContent) + 1;
+        downBtn.classList.remove('btn-outline-danger');
+        downBtn.classList.add('btn-danger');
+        downBtn.disabled = true;
       }
-      alert('Thank you for your vote!');
+      
+      userHasVoted = type;
+      
+      // Show toast notification
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success shadow';
+      toast.style.zIndex = '9999';
+      toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Thank you for your vote!';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
     }
 
     function submitComment(e) {
       e.preventDefault();
       const textarea = e.target.querySelector('textarea');
       if (textarea.value.trim()) {
-        alert('Comment submitted! (Demo mode - not saved)');
+        const newComment = {
+          user: 'you',
+          body: textarea.value,
+          time: 'Just now'
+        };
+        comments.unshift(newComment);
+        renderComments();
         textarea.value = '';
+        
+        // Show toast
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success shadow';
+        toast.style.zIndex = '9999';
+        toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>Comment posted!';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
       }
     }
 
