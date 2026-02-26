@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users - Admin - Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .sidebar { min-height: 100vh; background: #1a1a1a; }
+    .sidebar a { color: #aaa; text-decoration: none; padding: 12px 20px; display: block; }
+    .sidebar a:hover, .sidebar a.active { background: #333; color: #fff; }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="d-flex">
+    <nav class="sidebar d-none d-md-block" style="width:250px;position:fixed;height:100vh;">
+      <div class="p-3">
+        <h5 class="text-white fw-bold">Nairobi Talks</h5>
+        <small class="text-white-50">Admin Panel</small>
+      </div>
+      <hr class="border-secondary">
+      <a href="index.html"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+      <a href="ideas.html"><i class="bi bi-lightbulb me-2"></i> Community Ideas</a>
+      <a href="documents.html"><i class="bi bi-file-earmark-text me-2"></i> Planning Documents</a>
+      <a href="users.html" class="active"><i class="bi bi-people me-2"></i> Users</a>
+      <a href="analytics.html"><i class="bi bi-graph-up me-2"></i> Analytics</a>
+      <a href="broadcasts.html"><i class="bi bi-megaphone me-2"></i> Broadcasts</a>
+      <hr class="border-secondary">
+      <a href="../index.html"><i class="bi bi-house me-2"></i> View Site</a>
+      <a href="#"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
+    </nav>
+
+    <div class="flex-grow-1 p-4" style="margin-left:250px;">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="mb-1 fw-bold" style="color:#009339;">Users</h2>
+          <p class="text-muted mb-0">Manage registered users</p>
+        </div>
+        <button class="btn btn-success"><i class="bi bi-plus-circle me-2"></i>Add User</button>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Search users...">
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option>All Roles</option>
+                <option>User</option>
+                <option>Admin</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Pending</option>
+                <option>Suspended</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="px-4">User</th>
+                  <th>Role</th>
+                  <th>Ideas</th>
+                  <th>Comments</th>
+                  <th>Joined</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="px-4">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-2" style="width:36px;height:36px;">J</div>
+                      <div>
+                        <div class="fw-medium">John Doe</div>
+                        <small class="text-muted">john@example.com</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-secondary">User</span></td>
+                  <td>3</td>
+                  <td>12</td>
+                  <td class="text-muted">2025-01-15</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4">
+                    <div class="d-flex align-items-center">
+                      <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-2" style="width:36px;height:36px;">A</div>
+                      <div>
+                        <div class="fw-medium">Admin User</div>
+                        <small class="text-muted">admin@nairobi.gov</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="badge bg-danger">Admin</span></td>
+                  <td>0</td>
+                  <td>5</td>
+                  <td class="text-muted">2024-12-01</td>
+                  <td><span class="badge bg-success">Active</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-outline-warning me-1"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
