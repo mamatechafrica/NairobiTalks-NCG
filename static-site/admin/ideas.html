@@ -113,36 +113,144 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const mockIdeas = [
-      { title: 'Improve Public Transport in Westlands', author: 'john@example.com', topic: 'Transportation', sub_county: 'Westlands', status: 'Under Review', votes: 45, date: '2025-02-20' },
-      { title: 'Community Garden in Kibra', author: 'Anonymous', topic: 'Environment', sub_county: 'Kibra', status: 'New', votes: 32, date: '2025-02-19' },
-      { title: 'Digital Literacy Program', author: 'sarah@nairobi.gov', topic: 'Education', sub_county: 'Dagoretti', status: 'Approved', votes: 67, date: '2025-02-18' },
-      { title: 'Street Lighting Eastleigh', author: 'mike@company.com', topic: 'Infrastructure', sub_county: 'Starehe', status: 'Under Review', votes: 28, date: '2025-02-17' },
-      { title: 'Mobile Health Clinics', author: 'Anonymous', topic: 'Health', sub_county: 'Embakasi', status: 'New', votes: 51, date: '2025-02-16' }
+    // ============================================
+    // CONFIGURATION
+    // ============================================
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const USE_DEMO_MODE = true;
+    
+    let supabase;
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      const { createClient } = window.supabase;
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+    
+    // ============================================
+    // MOCK DATA
+    // ============================================
+    let ideas = [
+      { id: 1, title: 'Improve Public Transport in Westlands', author: 'john@example.com', topic: 'Transportation', sub_county: 'Westlands', status: 'Under Review', votes: 45, date: '2025-02-20' },
+      { id: 2, title: 'Community Garden in Kibra', author: 'Anonymous', topic: 'Environment', sub_county: 'Kibra', status: 'New', votes: 32, date: '2025-02-19' },
+      { id: 3, title: 'Digital Literacy Program', author: 'sarah@nairobi.gov', topic: 'Education', sub_county: 'Dagoretti', status: 'Approved', votes: 67, date: '2025-02-18' },
+      { id: 4, title: 'Street Lighting Eastleigh', author: 'mike@company.com', topic: 'Infrastructure', sub_county: 'Starehe', status: 'Under Review', votes: 28, date: '2025-02-17' },
+      { id: 5, title: 'Mobile Health Clinics', author: 'Anonymous', topic: 'Health', sub_county: 'Embakasi', status: 'New', votes: 51, date: '2025-02-16' }
     ];
+
+    // ============================================
+    // DATA LOADING
+    // ============================================
+    async function loadIdeas() {
+      if (USE_DEMO_MODE) {
+        renderIdeas();
+        return;
+      }
+      
+      try {
+        const { data } = await supabase.from('ideas').select('*').order('created_at', { ascending: false });
+        if (data) ideas = data;
+      } catch (e) {
+        console.log('Error:', e);
+      }
+      renderIdeas();
+    }
 
     function getStatusBadge(status) {
       const colors = { 'New': 'bg-primary', 'Under Review': 'bg-warning text-dark', 'Approved': 'bg-info', 'Implemented': 'bg-success' };
       return colors[status] || 'bg-secondary';
     }
 
-    document.getElementById('ideas-table').innerHTML = mockIdeas.map(idea => `
-      <tr>
-        <td class="px-4 fw-medium">${idea.title}</td>
-        <td>${idea.author}</td>
-        <td>${idea.topic}</td>
-        <td>${idea.sub_county}</td>
-        <td><span class="badge ${getStatusBadge(idea.status)}">${idea.status}</span></td>
-        <td>${idea.votes}</td>
-        <td class="text-muted">${idea.date}</td>
-        <td>
-          <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
-          <button class="btn btn-sm btn-outline-success me-1"><i class="bi bi-check"></i></button>
-          <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-        </td>
-      </tr>
-    `).join('');
+    // ============================================
+    // ACTIONS
+    // ============================================
+    function viewIdea(id) {
+      const idea = ideas.find(i => i.id === id);
+      if (idea) {
+        alert(`Viewing: ${idea.title}\n\nDescription: ${idea.description || 'N/A'}\n\nAuthor: ${idea.author}\nStatus: ${idea.status}`);
+      }
+    }
+
+    function approveIdea(id) {
+      const idea = ideas.find(i => i.id === id);
+      if (idea) {
+        if (confirm(`Approve "${idea.title}"?`)) {
+          idea.status = 'Approved';
+          renderIdeas();
+          showToast('Idea approved successfully!');
+          
+          if (!USE_DEMO_MODE && supabase) {
+            supabase.from('ideas').update({ status: 'approved' }).eq('id', id).then();
+          }
+        }
+      }
+    }
+
+    function deleteIdea(id) {
+      const idea = ideas.find(i => i.id === id);
+      if (idea) {
+        if (confirm(`Are you sure you want to delete "${idea.title}"?`)) {
+          ideas = ideas.filter(i => i.id !== id);
+          renderIdeas();
+          showToast('Idea deleted successfully!');
+          
+          if (!USE_DEMO_MODE && supabase) {
+            supabase.from('ideas').delete().eq('id', id).then();
+          }
+        }
+      }
+    }
+
+    function filterIdeas() {
+      const status = document.querySelector('select:nth-of-type(1)').value;
+      const topic = document.querySelector('select:nth-of-type(2)').value;
+      const subcounty = document.querySelector('select:nth-of-type(3)').value;
+      
+      let filtered = ideas;
+      if (status !== 'All') filtered = filtered.filter(i => i.status === status);
+      if (topic !== 'All Topics') filtered = filtered.filter(i => i.topic === topic);
+      if (subcounty !== 'All Sub-counties') filtered = filtered.filter(i => i.sub_county === subcounty);
+      
+      renderFilteredIdeas(filtered);
+    }
+
+    function renderFilteredIdeas(filteredIdeas) {
+      document.getElementById('ideas-table').innerHTML = filteredIdeas.map(idea => `
+        <tr>
+          <td class="px-4 fw-medium">${idea.title}</td>
+          <td>${idea.author}</td>
+          <td>${idea.topic}</td>
+          <td>${idea.sub_county}</td>
+          <td><span class="badge ${getStatusBadge(idea.status)}">${idea.status}</span></td>
+          <td>${idea.votes}</td>
+          <td class="text-muted">${idea.date}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary me-1" onclick="viewIdea(${idea.id})"><i class="bi bi-eye"></i></button>
+            <button class="btn btn-sm btn-outline-success me-1" onclick="approveIdea(${idea.id})"><i class="bi bi-check"></i></button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteIdea(${idea.id})"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderIdeas() {
+      renderFilteredIdeas(ideas);
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success shadow';
+      toast.style.zIndex = '9999';
+      toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>' + message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Filter button handler
+    document.querySelector('.btn-outline-secondary')?.addEventListener('click', filterIdeas);
+
+    loadIdeas();
   </script>
 </body>
 </html>

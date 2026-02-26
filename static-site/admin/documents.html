@@ -37,7 +37,9 @@
           <h2 class="mb-1 fw-bold" style="color:#009339;">Planning Documents</h2>
           <p class="text-muted mb-0">Manage official planning documents</p>
         </div>
-        <button class="btn btn-success"><i class="bi bi-plus-circle me-2"></i>Upload Document</button>
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#uploadModal">
+          <i class="bi bi-plus-circle me-2"></i>Upload Document
+        </button>
       </div>
 
       <div class="card border-0 shadow-sm">
@@ -55,44 +57,7 @@
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td class="px-4 fw-medium">Nairobi Integrated Urban Development Plan 2025</td>
-                  <td>Master Plan</td>
-                  <td>2025</td>
-                  <td>All</td>
-                  <td><span class="badge bg-success">Published</span></td>
-                  <td class="text-muted">2025-01-15</td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-4 fw-medium">Westlands Traffic Management Plan</td>
-                  <td>Infrastructure</td>
-                  <td>2024</td>
-                  <td>Westlands</td>
-                  <td><span class="badge bg-success">Published</span></td>
-                  <td class="text-muted">2024-11-20</td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-download"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="px-4 fw-medium">Kibra Community Development Proposal</td>
-                  <td>Proposal</td>
-                  <td>2025</td>
-                  <td>Kibra</td>
-                  <td><span class="badge bg-warning text-dark">Draft</span></td>
-                  <td class="text-muted">2025-02-10</td>
-                  <td>
-                    <button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-eye"></i></button>
-                    <button class="btn btn-sm btn-outline-success me-1"><i class="bi bi-pencil"></i></button>
-                    <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                  </td>
-                </tr>
+              <tbody id="documents-table">
               </tbody>
             </table>
           </div>
@@ -100,6 +65,158 @@
       </div>
     </div>
   </div>
+
+  <!-- Upload Modal -->
+  <div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Upload Planning Document</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="uploadForm">
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Title</label>
+              <input type="text" class="form-control" id="docTitle" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Type</label>
+              <select class="form-select" id="docType" required>
+                <option value="Master Plan">Master Plan</option>
+                <option value="Infrastructure">Infrastructure</option>
+                <option value="Proposal">Proposal</option>
+                <option value="Report">Report</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Year</label>
+              <select class="form-select" id="docYear" required>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Sub-county</label>
+              <select class="form-select" id="docSubcounty" required>
+                <option value="All">All</option>
+                <option value="Westlands">Westlands</option>
+                <option value="Kibra">Kibra</option>
+                <option value="Embakasi">Embakasi</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Document File</label>
+              <input type="file" class="form-control" accept=".pdf,.doc,.docx">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" onclick="uploadDocument()">Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const USE_DEMO_MODE = true;
+    
+    let supabase;
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+      const { createClient } = window.supabase;
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+    
+    let documents = [
+      { id: 1, title: 'Nairobi Integrated Urban Development Plan 2025', type: 'Master Plan', year: '2025', sub_county: 'All', status: 'Published', date: '2025-01-15' },
+      { id: 2, title: 'Westlands Traffic Management Plan', type: 'Infrastructure', year: '2024', sub_county: 'Westlands', status: 'Published', date: '2024-11-20' },
+      { id: 3, title: 'Kibra Community Development Proposal', type: 'Proposal', year: '2025', sub_county: 'Kibra', status: 'Draft', date: '2025-02-10' }
+    ];
+
+    function viewDocument(id) {
+      const doc = documents.find(d => d.id === id);
+      if (doc) alert(`Viewing: ${doc.title}\n\nType: ${doc.type}\nYear: ${doc.year}\nStatus: ${doc.status}`);
+    }
+
+    function editDocument(id) {
+      const doc = documents.find(d => d.id === id);
+      if (doc) {
+        const newStatus = prompt('Enter new status (Draft/Published):', doc.status);
+        if (newStatus) {
+          doc.status = newStatus;
+          renderDocuments();
+          showToast('Document updated!');
+        }
+      }
+    }
+
+    function deleteDocument(id) {
+      const doc = documents.find(d => d.id === id);
+      if (doc && confirm(`Delete "${doc.title}"?`)) {
+        documents = documents.filter(d => d.id !== id);
+        renderDocuments();
+        showToast('Document deleted!');
+      }
+    }
+
+    function uploadDocument() {
+      const title = document.getElementById('docTitle').value;
+      const type = document.getElementById('docType').value;
+      const year = document.getElementById('docYear').value;
+      const subcounty = document.getElementById('docSubcounty').value;
+      
+      if (!title) {
+        alert('Please enter a title');
+        return;
+      }
+      
+      documents.unshift({
+        id: Date.now(),
+        title, type, year, sub_county: subcounty,
+        status: 'Draft',
+        date: new Date().toISOString().split('T')[0]
+      });
+      
+      renderDocuments();
+      bootstrap.Modal.getInstance(document.getElementById('uploadModal')).hide();
+      document.getElementById('uploadForm').reset();
+      showToast('Document uploaded successfully!');
+    }
+
+    function renderDocuments() {
+      document.getElementById('documents-table').innerHTML = documents.map(doc => `
+        <tr>
+          <td class="px-4 fw-medium">${doc.title}</td>
+          <td>${doc.type}</td>
+          <td>${doc.year}</td>
+          <td>${doc.sub_county}</td>
+          <td><span class="badge ${doc.status === 'Published' ? 'bg-success' : 'bg-warning text-dark'}">${doc.status}</span></td>
+          <td class="text-muted">${doc.date}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary me-1" onclick="viewDocument(${doc.id})"><i class="bi bi-eye"></i></button>
+            <button class="btn btn-sm btn-outline-success me-1" onclick="editDocument(${doc.id})"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteDocument(${doc.id})"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'position-fixed bottom-0 end-0 m-3 alert alert-success shadow';
+      toast.style.zIndex = '9999';
+      toast.innerHTML = '<i class="bi bi-check-circle me-2"></i>' + message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    renderDocuments();
+  </script>
 </body>
 </html>
