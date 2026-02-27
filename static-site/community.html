@@ -195,11 +195,13 @@
             vote_type: type
           });
           
-          // Update idea counts
+          // Update idea counts in ideas table
           const updateField = type === 'up' ? 'votes_up' : 'votes_down';
-          await supabase.rpc('increment_vote', { 
-            idea_id: ideaId, 
-            vote_field: updateField 
+          await supabase.from('ideas').select().eq('id', ideaId).then(({ data }) => {
+            if (data && data[0]) {
+              const current = data[0][updateField] || 0;
+              supabase.from('ideas').update({ [updateField]: current + 1 }).eq('id', ideaId).then();
+            }
           });
         } catch (e) {
           console.log('Error saving vote:', e);
