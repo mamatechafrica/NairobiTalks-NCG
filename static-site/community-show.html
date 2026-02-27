@@ -125,9 +125,9 @@
     // ============================================
     // CONFIGURATION
     // ============================================
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-    const USE_DEMO_MODE = true;
+    const SUPABASE_URL = 'https://tfnvacmwachpadhekfzm.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_1lebrtqeey5Ni62L7TA4rA_4fTTete7';
+    const USE_DEMO_MODE = false;
     
     // Get idea ID from URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -137,7 +137,7 @@
     // SUPABASE CLIENT
     // ============================================
     let supabase;
-    if (!USE_DEMO_MODE && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'https://tfnvacmwachpadhekfzm.supabase.co') {
       const { createClient } = window.supabase;
       supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     }

@@ -105,12 +105,12 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
-    const USE_DEMO_MODE = true;
+    const SUPABASE_URL = 'https://tfnvacmwachpadhekfzm.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_1lebrtqeey5Ni62L7TA4rA_4fTTete7';
+    const USE_DEMO_MODE = false;
     
     let supabase;
-    if (!USE_DEMO_MODE && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'https://tfnvacmwachpadhekfzm.supabase.co') {
       const { createClient } = window.supabase;
       supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     }
