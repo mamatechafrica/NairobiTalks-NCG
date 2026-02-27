@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_19_103006) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
@@ -37,6 +37,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "admin_actions", force: :cascade do |t|
+    t.string "action"
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.json "metadata"
+    t.integer "record_id"
+    t.string "record_type"
+    t.datetime "updated_at", null: false
+    t.text "user_agent"
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_admin_actions_on_user_id"
   end
 
   create_table "broadcasts", force: :cascade do |t|
@@ -101,6 +114,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.integer "topic_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["topic_id"], name: "index_posts_on_topic_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "data"
@@ -125,15 +148,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
     t.string "ward"
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_topics_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.boolean "admin"
+    t.integer "consumed_timestep"
     t.datetime "created_at", null: false
+    t.datetime "current_sign_in_at"
+    t.string "current_sign_in_ip"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.boolean "otp_required_for_login"
+    t.string "otp_secret"
     t.string "phone_number"
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "timeout_at"
+    t.boolean "timeoutable"
+    t.boolean "trackable"
     t.datetime "updated_at", null: false
     t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -160,10 +203,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_122820) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admin_actions", "users"
   add_foreign_key "broadcasts", "wards"
   add_foreign_key "comments", "community_ideas"
   add_foreign_key "comments", "users"
   add_foreign_key "community_ideas", "users"
+  add_foreign_key "posts", "topics"
+  add_foreign_key "posts", "users"
+  add_foreign_key "topics", "users"
   add_foreign_key "votes", "community_ideas"
   add_foreign_key "votes", "users"
 end

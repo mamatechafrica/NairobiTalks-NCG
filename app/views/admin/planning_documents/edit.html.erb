@@ -1,6 +1,6 @@
 <div class="admin-edit-document">
   <div class="page-header">
-    <h1><i class="bi bi-pencil-square me-2"></i> Edit Planning Document</h1>
+    <h1>✏️ Edit Planning Document</h1>
     <p>Update document information and metadata</p>
   </div>
   <div class="form-container">
@@ -19,19 +19,19 @@
         <h3>Document Information</h3>
         <div class="form-group">
           <%= f.label :title, "Document Title", class: "form-label" %>
-          <%= f.text_field :title, class: "form-control", placeholder: "e.g., Nairobi County Integrated Development Plan 2024-2028" %>
+          <%= f.text_field :title, class: "input input-bordered w-full", placeholder: "e.g., Nairobi County Integrated Development Plan 2024-2028" %>
         </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <%= f.label :document_type, "Document Type", class: "form-label" %>
-              <%= f.select :document_type, [["CIDP", "CIDP"], ["ADP", "ADP"]], {}, class: "form-select" %>
+              <%= f.select :document_type, [["CIDP", "CIDP"], ["ADP", "ADP"]], {}, class: "select select-bordered w-full" %>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <%= f.label :status, "Status", class: "form-label" %>
-              <%= f.select :status, [["Draft", 0], ["Approved", 1]], {}, class: "form-select" %>
+              <%= f.select :status, [["Draft", 0], ["Approved", 1]], {}, class: "select select-bordered w-full" %>
             </div>
           </div>
         </div>
@@ -39,13 +39,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <%= f.label :start_year, "Start Year", class: "form-label" %>
-              <%= f.number_field :start_year, class: "form-control", placeholder: "2024" %>
+              <%= f.number_field :start_year, class: "input input-bordered w-full", placeholder: "2024" %>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <%= f.label :end_year, "End Year", class: "form-label" %>
-              <%= f.number_field :end_year, class: "form-control", placeholder: "2028" %>
+              <%= f.number_field :end_year, class: "input input-bordered w-full", placeholder: "2028" %>
               <div class="form-text">Required for CIDP documents</div>
             </div>
           </div>
@@ -54,21 +54,21 @@
       <div class="form-section">
         <h3>Document File</h3>
         <% if @planning_document.file.attached? %>
-          <div class="current-file">
+          <div class="current-file bg-slate-50 p-3 rounded border-l-4 border-emerald-500 mb-3">
             <p><strong>Current file:</strong> <%= @planning_document.file.filename %></p>
-            <p class="text-muted">Upload a new file to replace the current one</p>
+            <p class="text-sm text-gray-500">Upload a new file to replace the current one</p>
           </div>
         <% end %>
         <div class="form-group">
           <%= f.label :file, "Upload New PDF Document (optional)", class: "form-label" %>
-          <%= f.file_field :file, accept: ".pdf", class: "form-control" %>
-          <div class="form-text">Only PDF files are accepted. Leave empty to keep current file. Maximum file size: 10MB</div>
+          <%= f.file_field :file, accept: ".pdf", class: "file-input file-input-bordered w-full" %>
+          <div class="text-sm text-gray-500 mt-1">Only PDF files are accepted. Leave empty to keep current file. Maximum file size: 10MB</div>
         </div>
       </div>
       <div class="form-actions">
-        <%= f.submit "Update Document", class: "btn btn-primary btn-lg" %>
-        <%= link_to "Cancel", admin_planning_documents_path, class: "btn btn-secondary btn-lg" %>
-        <%= link_to "View Document", admin_planning_document_path(@planning_document), class: "btn btn-outline-info btn-lg" %>
+        <%= render 'admin/shared/button', label: 'Update Document', type: 'submit', variant: 'primary', size: 'lg' %>
+        <%= render 'admin/shared/button', label: 'Cancel', href: admin_planning_documents_path, variant: 'ghost', size: 'lg' %>
+        <%= render 'admin/shared/button', label: 'View Document', href: admin_planning_document_path(@planning_document), variant: 'outline', size: 'lg' %>
       </div>
     <% end %>
   </div>

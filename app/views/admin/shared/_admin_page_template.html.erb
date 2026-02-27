@@ -1,0 +1,16 @@
+<%# Admin Content Template - Use for consistent admin page structure %>
+<%= render 'admin/shared/admin_page_header', {
+  page_title: page_title,
+  page_icon: page_icon,
+  page_description: page_description,
+  page_actions: page_actions
+} %>
+<%= content_for(:title) { page_title } %>
+<%= render 'admin/shared/admin_page_content' %>
+<%# Alternative: If you want more control, use partials individually %>
+<%#
+<%= render 'admin/shared/admin_page_header', page_title: page_title, page_icon: page_icon %>
+<div class="container-fluid">
+  <%= yield %>
+</div>
+%>

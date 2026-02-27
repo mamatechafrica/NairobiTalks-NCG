@@ -1,0 +1,35 @@
+<div class="mt-8 w-full flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+  <% if current_page?(new_user_session_path) %>
+    <span class="inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold shadow-sm opacity-50 cursor-not-allowed" style="background-color: #18a147;" aria-disabled="true">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/></svg>
+      Log in
+    </span>
+  <% else %>
+    <%= link_to new_user_session_path, class: 'inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold shadow-sm hover:opacity-95', style: 'background-color: #18a147;', aria: { label: 'Log in' } do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/></svg>
+      Log in
+    <% end %>
+  <% end %>
+
+  <% if current_page?(new_user_registration_path) %>
+    <span class="inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold shadow-sm opacity-50 cursor-not-allowed" style="background-color: #18a147;" aria-disabled="true">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign up
+    </span>
+  <% else %>
+    <%= link_to new_user_registration_path, class: 'inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold shadow-sm hover:opacity-95', style: 'background-color: #18a147;', aria: { label: 'Sign up' } do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign up
+    <% end %>
+  <% end %>
+
+  <% if defined?(new_user_password_path) %>
+    <% if current_page?(new_user_password_path) %>
+      <span class="inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold shadow-sm opacity-50 cursor-not-allowed" style="background-color: #18a147;" aria-disabled="true">Forgot your password?</span>
+    <% else %>
+      <%= link_to new_user_password_path, class: 'inline-flex items-center gap-2 px-4 py-2 rounded text-white font-semibold shadow-sm hover:opacity-95', style: 'background-color: #18a147;', aria: { label: 'Forgot your password' } do %>
+        Forgot your password?
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

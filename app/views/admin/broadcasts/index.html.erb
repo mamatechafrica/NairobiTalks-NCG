@@ -1,51 +1,43 @@
-<div class="container-fluid py-4" style="background-color: var(--nairobi-talks-mint); min-height: 100vh;">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="text-center mb-2" style="color: var(--nairobi-talks-dark);">
-        <span aria-hidden="true">📢</span> Broadcast Center
-      </h1>
-      <p class="text-center text-muted mb-4">
-        Use this center to share public notices about idea submissions, participation sessions, and document reviews.
-      </p>
-    </div>
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6">
+  <div class="text-center mb-6">
+    <h1 class="mb-2 text-2xl font-semibold">📢 Broadcast Center</h1>
+    <p class="text-sm text-gray-500">Use this center to share public notices about idea submissions, participation sessions, and document reviews.</p>
   </div>
-  <div class="row mb-4">
-    <div class="col-12">
-      <%= link_to 'New Broadcast', new_admin_broadcast_path, class: 'btn btn-primary mb-3', aria: { label: 'Create New Broadcast' } %>
-    </div>
+
+  <div class="mb-4">
+    <%= render 'admin/shared/button', href: new_admin_broadcast_path, variant: 'primary', extra_classes: 'mb-3', html_options: { aria: { label: 'Create New Broadcast' } } do %>
+      New Broadcast
+    <% end %>
   </div>
-  <div class="row g-4">
+
+  <div class="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
     <% @broadcasts.each do |broadcast| %>
-      <div class="col-lg-6 col-xl-4">
-        <div class="card h-100 shadow-sm">
-          <div class="card-body">
-            <h2 class="card-title fw-bold mb-3" style="color: var(--nairobi-talks-dark);">
-              <%= broadcast.title %>
-            </h2>
-            <%= image_tag broadcast.image.url, class: 'img-fluid mb-3', alt: broadcast.title if broadcast.image.present? %>
-            <p class="card-text text-muted mb-3">
-              <%= broadcast.message.truncate(100) %>
-            </p>
-            <div class="mb-2">
-              <small class="text-muted d-block">
-                <strong>Audience:</strong> <%= broadcast.target_audience %>
-              </small>
-              <small class="text-muted d-block">
-                <strong>Delivery Type:</strong> <%= broadcast.delivery_type %>
-              </small>
-              <small class="text-muted d-block">
-                <strong>Status:</strong> <%= broadcast.status %>
-              </small>
-              <small class="text-muted d-block">
-                <strong>Created At:</strong> <%= broadcast.created_at.strftime('%Y-%m-%d %H:%M') %>
-              </small>
-            </div>
+      <div class="card bg-base-100 shadow h-full">
+        <div class="card-body">
+          <h2 class="text-lg font-semibold mb-3"><%= broadcast.title %></h2>
+          <% if broadcast.image.present? %>
+            <%= image_tag broadcast.image.url, class: 'w-full h-48 object-cover rounded mb-3', alt: broadcast.title %>
+          <% end %>
+          <p class="text-sm text-gray-500 mb-3"><%= broadcast.message.truncate(100) %></p>
+          <div class="mb-2 text-sm text-gray-600">
+            <div><strong>Audience:</strong> <%= broadcast.target_audience %></div>
+            <div><strong>Delivery Type:</strong> <%= broadcast.delivery_type %></div>
+            <div><strong>Status:</strong> <%= broadcast.status %></div>
+            <div><strong>Created At:</strong> <%= broadcast.created_at.strftime('%Y-%m-%d %H:%M') %></div>
           </div>
-          <div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-            <%= link_to 'Preview', admin_broadcast_path(broadcast), class: 'btn btn-outline-primary btn-sm', aria: { label: "Preview Broadcast: #{broadcast.title}" } %>
-            <%= link_to 'Edit', edit_admin_broadcast_path(broadcast), class: 'btn btn-outline-secondary btn-sm', aria: { label: "Edit Broadcast: #{broadcast.title}" } %>
-            <%= link_to 'Archive', admin_broadcast_path(broadcast), method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, class: 'btn btn-outline-danger btn-sm', aria: { label: "Archive Broadcast: #{broadcast.title}" } %>
+        </div>
+          <div class="card-actions p-4 flex items-center justify-between">
+          <div class="flex gap-2">
+            <%= render 'admin/shared/button', href: admin_broadcast_path(broadcast), variant: 'outline', size: 'sm', html_options: { aria: { label: "Preview Broadcast: #{broadcast.title}" } } do %>
+              Preview
+            <% end %>
+            <%= render 'admin/shared/button', href: edit_admin_broadcast_path(broadcast), variant: 'outline', size: 'sm', html_options: { aria: { label: "Edit Broadcast: #{broadcast.title}" } } do %>
+              Edit
+            <% end %>
           </div>
+          <%= render 'admin/shared/button', href: admin_broadcast_path(broadcast), variant: 'error', size: 'sm', html_options: { method: :delete, data: { confirm: 'Are you sure you want to archive this broadcast?' }, aria: { label: "Archive Broadcast: #{broadcast.title}" } } do %>
+            Archive
+          <% end %>
         </div>
       </div>
     <% end %>

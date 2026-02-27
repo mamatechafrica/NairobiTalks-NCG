@@ -1,9 +1,9 @@
-<fieldset class="form-group" aria-labelledby="delivery-method-legend">
+<fieldset aria-labelledby="delivery-method-legend" class="mb-4">
   <legend id="delivery-method-legend" class="sr-only">Broadcast Delivery Method</legend>
-  <%= f.label :delivery_method, "Delivery Method", class: "form-label" %>
-  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "form-control", aria: { describedby: 'delivery-method-desc' } %>
-  <span id="delivery-method-desc" class="form-text">Choose how this broadcast will be delivered.</span>
+  <%= f.label :delivery_method, "Delivery Method", class: "block text-sm font-medium text-gray-700" %>
+  <%= f.select :delivery_method, Broadcast.delivery_methods.keys.map { |method| [method.humanize, method] }, {}, class: "select select-bordered w-full mt-1", aria: { describedby: 'delivery-method-desc' } %>
+  <span id="delivery-method-desc" class="text-sm text-gray-500">Choose how this broadcast will be delivered.</span>
 </fieldset>
-<div class="form-group mt-4">
-  <%= f.submit "Update Broadcast", class: "btn btn-success btn-lg w-100", aria: { label: "Update broadcast details" } %>
+<div class="mt-4">
+  <%= render 'admin/shared/button', label: "Update Broadcast", type: 'submit', variant: 'success', size: 'lg', full: true %>
 </div>

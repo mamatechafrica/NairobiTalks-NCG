@@ -1,4 +1,4 @@
-# Health check endpoint for Railway
+# Health check endpoint
 class HealthController < ApplicationController
   skip_forgery_protection raise: false
 

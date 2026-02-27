@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+
+echo "🚀 Starting Fly.io deployment setup..."
+
+# Ensure Rails master key exists
+if [ ! -f config/master.key ]; then
+  if [ -z "$RAILS_MASTER_KEY" ]; then
+    echo "ERROR: RAILS_MASTER_KEY is not set. Export it and re-run."
+    exit 1
+  fi
+  echo "📝 Creating master key from environment..."
+  echo "$RAILS_MASTER_KEY" > config/master.key
+  chmod 600 config/master.key
+fi
+
+# Set environment for local helpers
+export RAILS_ENV=production
+export RACK_ENV=production
+
+echo "✅ Fly.io deployment setup script completed. Use 'flyctl deploy' to deploy."

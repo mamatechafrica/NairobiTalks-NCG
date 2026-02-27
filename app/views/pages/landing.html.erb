@@ -1,115 +1,136 @@
-<!-- app/views/pages/landing.html.erb -->
-<div class="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-
-  <!-- Navbar (keep your dark-green one, just cleaner) -->
-  <!-- ... your existing navbar ... -->
-
-  <main class="flex-grow">
-
-    <!-- Hero - bigger, bolder, more breathing room -->
-    <section class="relative bg-gradient-to-br from-green-900 via-green-800 to-green-950 text-white overflow-hidden">
-      <div class="absolute inset-0 bg-[url('/assets/hero-bg-pattern.svg')] opacity-10"></div> <!-- optional subtle pattern -->
-
-      <div class="relative container mx-auto px-6 py-24 lg:py-32 max-w-7xl">
-        <div class="text-center max-w-4xl mx-auto">
-          <div class="inline-flex items-center justify-center mb-6">
-            <img 
-              src="/assets/NairobiTalksLogo-7d84e68a.png" 
-              alt="Nairobi Talks Logo" 
-              class="h-24 w-auto rounded-xl shadow-2xl"
-            />
-          </div>
-
-          <h1 class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6">
-            Nairobi Talks
-          </h1>
-
-          <p class="text-xl md:text-2xl text-green-100/90 mb-10 leading-relaxed">
-            Empowering citizens to shape their community through <span class="font-semibold text-white">anonymous</span> idea submission and <span class="font-semibold text-white">democratic</span> voting.
-          </p>
-
-          <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
-            <a href="/users/sign_up" 
-               class="inline-flex items-center px-10 py-5 text-lg font-semibold rounded-full bg-white text-green-900 hover:bg-green-50 transition shadow-lg hover:shadow-xl">
-              Get Started — It's Free
-            </a>
-            <a href="/community_ideas" 
-               class="inline-flex items-center px-8 py-5 text-lg font-medium rounded-full border-2 border-white/40 text-white hover:bg-white/10 transition">
-              Explore Ideas →
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Stats - simple, elegant, floating effect -->
-    <section class="py-20 bg-white">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-          <%# Use real numbers later - can be dynamic %>
-          <div class="text-center p-10 bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div class="text-6xl font-bold text-green-700 mb-3">9+</div>
-            <p class="text-lg text-gray-600">Ideas Submitted</p>
-          </div>
-          <div class="text-center p-10 bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div class="text-6xl font-bold text-green-700 mb-3">9+</div>
-            <p class="text-lg text-gray-600">Comments Made</p>
-          </div>
-          <div class="text-center p-10 bg-gray-50 rounded-2xl shadow-sm hover:shadow-md transition">
-            <div class="text-6xl font-bold text-green-700 mb-3">5+</div>
-            <p class="text-lg text-gray-600">Citizens Engaged</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features / How it Works - ONE clean version -->
-    <section class="py-24 bg-gradient-to-b from-gray-50 to-white">
-      <div class="container mx-auto px-6 max-w-6xl">
-        <div class="text-center mb-16">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-5">How It Works</h2>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-            Three simple steps to turn your ideas into real change in Nairobi
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-10 lg:gap-14">
-          <div class="relative group">
-            <div class="absolute inset-0 bg-green-600 rounded-2xl blur-xl opacity-10 group-hover:opacity-20 transition"></div>
-            <div class="relative bg-white p-10 rounded-2xl shadow-lg border border-gray-100 text-center">
-              <div class="w-20 h-20 mx-auto mb-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-4xl font-bold">
-                1
-              </div>
-              <h3 class="text-2xl font-bold mb-4">Submit Your Idea</h3>
-              <p class="text-gray-600">Share your vision anonymously — from better matatus to safer streets.</p>
+<div class="bg-base-100">
+  <!-- Hero Section (Nairobi skyline background) -->
+  <section class="relative text-white h-screen min-h-screen bg-cover bg-center flex items-center" role="region" aria-label="Hero" style="background-image: url('<%= (asset_path('hero-landing.jpg') rescue '/hero-landing.jpg') %>'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+    <!-- lighter mask so the image is more visible while keeping text readable -->
+    <div class="absolute inset-0 bg-black/30"></div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <div class="w-full max-w-2xl mx-auto bg-white/70 backdrop-blur-sm rounded p-6 text-black" style="background-color: rgba(255,255,255,0.85); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);">
+        <div class="mx-auto mb-6">
+          <div class="flex flex-col md:flex-row items-center gap-4 justify-center">
+            <div class="text-center md:text-left">
+              <h1 class="text-4xl md:text-6xl font-extrabold mb-2 drop-shadow-lg" style="color: black;">Nairobi Talks</h1>
+              <p class="text-lg md:text-xl max-w-2xl" style="color: black;">Empowering citizens to shape their community through anonymous idea submission and democratic voting.</p>
             </div>
           </div>
 
-          <!-- Step 2 & 3 similar... -->
-
+          <div class="mt-6 flex items-center justify-center">
+            <%= link_to new_submission_path, class: 'inline-flex items-center font-bold gap-2 bg-success text-white px-6 py-3 rounded text-lg focus:outline-none focus:ring-4 focus:ring-success/40', aria: { label: 'Submit a new idea' } do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 font-bold" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Submit an idea
+            <% end %>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Recent Ideas - nice cards, keep your existing but style better -->
-    <!-- ... your recent ideas cards but with consistent Tailwind cards ... -->
-
-    <!-- Final Strong CTA -->
-    <section class="py-32 bg-green-900 text-white">
-      <div class="container mx-auto px-6 text-center max-w-4xl">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8">Ready to Shape Nairobi's Future?</h2>
-        <p class="text-xl md:text-2xl mb-12 text-green-100">Join thousands of citizens making real impact — anonymously & democratically.</p>
-        
-        <a href="/users/sign_up" 
-           class="inline-block px-12 py-6 text-xl font-semibold rounded-full bg-white text-green-900 hover:bg-green-50 transition shadow-2xl hover:shadow-green-950/30">
-          Sign Up Free →
-        </a>
+  <!-- Quick stats -->
+  <section class="py-8 bg-white" aria-label="Quick statistics">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center items-stretch" role="list">
+        <div class="p-4 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Ideas Submitted">
+          <h2 class="text-5xl md:text-6xl font-extrabold text-success leading-none" role="status" aria-live="polite"><%= number_with_delimiter(CommunityIdea.count) %></h2>
+          <p class="mt-2 text-sm text-gray-500 font-bold">Ideas Submitted</p>
+        </div>
+        <div class="p-4 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Comments Made">
+          <h2 class="text-5xl md:text-6xl font-extrabold text-success leading-none" role="status" aria-live="polite"><%= number_with_delimiter(Comment.count) %></h2>
+          <p class="mt-2 text-sm text-gray-500 font-bold">Comments Made</p>
+        </div>
+        <div class="p-4 bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center" role="listitem" aria-label="Citizens Engaged">
+          <h2 class="text-5xl md:text-6xl font-extrabold text-success leading-none" role="status" aria-live="polite"><%= number_with_delimiter(User.count) %></h2>
+          <p class="mt-2 text-sm text-gray-500 font-bold">Citizens Engaged</p>
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <!-- How It Works -->
+  <section class="py-12 bg-[var(--color-background)]">
+    <div class="max-w-6xl mx-auto px-6 text-center mb-10">
+      <h2 class="text-2xl font-bold mb-2">How It Works</h2>
+      <p class="text-gray-600 mb-6">Three simple steps to make your voice heard</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <% [
+          { title: 'Submit Your Idea', desc: 'Share your thoughts on how to improve Nairobi.' , n: 1 },
+          { title: 'Community Discussion', desc: 'Engage with fellow citizens — comment and refine ideas.', n: 2 },
+          { title: 'Vote & Impact', desc: 'Vote on ideas you support; popular ideas get attention.', n: 3 }
+        ].each do |item| %>
+          <div class="text-center">
+            <div class="bg-success text-white inline-flex items-center justify-center mb-3 h-20 w-20 mx-auto rounded-full">
+              <span class="font-bold text-xl"><%= item[:n] %></span>
+            </div>
+            <h4 class="font-bold mb-3"><%= item[:title] %></h4>
+            <p class="text-gray-600"><%= item[:desc] %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
 
-  <!-- Footer - keep yours, just clean classes -->
-  <!-- ... -->
+  <!-- Recent Ideas Preview -->
+  <section class="py-8 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-6">
+        <h2 class="text-xl font-semibold mb-1">Recent Community Ideas</h2>
+        <p class="text-gray-500">See what Nairobi citizens are talking about</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <% CommunityIdea.order(created_at: :desc).limit(3).each do |idea| %>
+          <div class="bg-base-100 shadow rounded-lg overflow-hidden">
+            <div class="h-40 w-full overflow-hidden">
+              <%= image_tag 'hero-landing.jpg', alt: idea.title, class: 'w-full h-full object-cover' %>
+            </div>
+              <div class="p-4">
+                <h5 class="text-lg font-semibold text-success"><%= idea.title %></h5>
+                <p class="text-sm text-gray-600 mt-2"><%= idea.description.truncate(120) %></p>
+                <div class="flex items-center justify-between mt-3 text-sm text-gray-500">
+                  <small><%= time_ago_in_words(idea.created_at) %> ago</small>
+                  <span class="inline-block bg-success text-white text-xs px-2 py-1 rounded"><%= idea.comments.count %> comments</span>
+                </div>
+              </div>
+              <div class="p-3 bg-transparent">
+                <%= link_to community_idea_path(idea), class: 'inline-block w-full text-center px-3 py-2 border border-success text-success rounded', aria: { label: "View details for #{idea.title}" } do %>
+                  View details
+                <% end %>
+              </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="text-center mt-6">
+        <%= render 'admin/shared/button', href: community_ideas_path, variant: 'success', extra_classes: 'btn-lg' do %>
+          View All Ideas
+        <% end %>
+      </div>
+    </div>
+  </section>
 
 </div>
+
+<!-- Privacy & Trust -->
+<section class="py-16 bg-[var(--color-muted)]">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="font-heading font-bold text-3xl text-[var(--color-primary)] mb-8">
+      Privacy & Trust
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="bg-[var(--color-card)] rounded-lg shadow-md p-6">
+        <h3 class="font-semibold text-xl text-[var(--color-primary)] mb-2">Secure</h3>
+        <p class="text-[var(--color-muted-foreground)] text-sm">Your data is safe with us.</p>
+      </div>
+      <div class="bg-[var(--color-card)] rounded-lg shadow-md p-6">
+        <h3 class="font-semibold text-xl text-[var(--color-primary)] mb-2">Anonymous</h3>
+        <p class="text-[var(--color-muted-foreground)] text-sm">Submit ideas without revealing your identity.</p>
+      </div>
+      <div class="bg-[var(--color-card)] rounded-lg shadow-md p-6">
+        <h3 class="font-semibold text-xl text-[var(--color-primary)] mb-2">Transparent</h3>
+        <p class="text-[var(--color-muted-foreground)] text-sm">See how decisions are made.</p>
+      </div>
+      <div class="bg-[var(--color-card)] rounded-lg shadow-md p-6">
+        <h3 class="font-semibold text-xl text-[var(--color-primary)] mb-2">Trusted</h3>
+        <p class="text-[var(--color-muted-foreground)] text-sm">Join a community you can trust.</p>
+      </div>
+    </div>
+  </div>
+</section>

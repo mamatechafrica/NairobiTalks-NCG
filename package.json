@@ -1,6 +1,34 @@
 {
   "dependencies": {
     "@tailwindcss/forms": "^0.5.11",
+    "daisyui": "^3.1.0",
+    "puppeteer": "^24.37.2",
     "tailwindcss-animate": "^1.0.7"
-  }
+  },
+  "devDependencies": {
+    "tailwindcss": "^3"
+  },
+  "name": "nairobitalks-ncg",
+  "version": "1.0.0",
+  "description": "NairobiTalks is committed to providing an inclusive and accessible platform for all users.",
+  "main": "screenshots.js",
+  "directories": {
+    "doc": "doc",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mamatechafrica/NairobiTalks-NCG.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mamatechafrica/NairobiTalks-NCG/issues"
+  },
+  "homepage": "https://github.com/mamatechafrica/NairobiTalks-NCG#readme"
 }

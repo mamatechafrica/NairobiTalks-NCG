@@ -3,10 +3,12 @@ class UsersController < ApplicationController
   before_action :set_user
 
   def show
+    authorize @user
     redirect_to dashboard_user_path
   end
 
   def dashboard
+    authorize @user
     if @user.admin?
       # Admin dashboard - platform-wide statistics
       @total_users = User.count
@@ -18,9 +20,9 @@ class UsersController < ApplicationController
     else
       # Citizen dashboard - comprehensive user data
       @user_data = {
-        name: @user.email.split('@').first.titleize, # Simple name derivation
+        name: @user.email.split("@").first.titleize, # Simple name derivation
         avatar: nil, # Could be added later with user avatar field
-        join_date: @user.created_at.strftime('%B %Y'),
+        join_date: @user.created_at.strftime("%B %Y"),
         total_ideas: @user.community_ideas.count,
         comments_count: @user.comments.count,
         community_score: calculate_community_score(@user)
@@ -37,9 +39,9 @@ class UsersController < ApplicationController
             upvotes: idea.upvotes,
             downvotes: idea.downvotes,
             comments: idea.comments.count,
-            submitted_date: idea.created_at.strftime('%Y-%m-%d'),
+            submitted_date: idea.created_at.strftime("%Y-%m-%d"),
             ward: idea.ward,
-            topics: idea.topic.present? ? [idea.topic] : [],
+            topics: idea.topic.present? ? [ idea.topic ] : [],
             image: nil, # Placeholder for now
             image_alt: "#{idea.title} community idea"
           }
@@ -55,8 +57,8 @@ class UsersController < ApplicationController
           {
             id: comment.id,
             idea_title: comment.community_idea.title,
-            activity_type: 'comment',
-            activity_date: comment.created_at.strftime('%Y-%m-%d'),
+            activity_type: "comment",
+            activity_date: comment.created_at.strftime("%Y-%m-%d"),
             ward: comment.community_idea.ward,
             body: comment.body.truncate(100)
           }
@@ -70,17 +72,19 @@ class UsersController < ApplicationController
       }
 
       # Filter parameters for future filtering functionality
-      @date_filter = params[:date_filter] || 'all'
-      @activity_filter = params[:activity_filter] || 'all'
+      @date_filter = params[:date_filter] || "all"
+      @activity_filter = params[:activity_filter] || "all"
     end
   end
 
   def edit
+    authorize @user
   end
 
   def update
+    authorize @user
     if @user.update(user_params)
-      redirect_to dashboard_user_path, notice: 'Profile updated successfully.'
+      redirect_to dashboard_user_path, notice: "Profile updated successfully."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -105,11 +109,11 @@ class UsersController < ApplicationController
     # Simple status logic - could be enhanced with actual status field
     days_old = (Time.current - idea.created_at) / 1.day
     if days_old < 7
-      'active'
+      "active"
     elsif idea.comments.count > 5 || idea.upvotes > 10
-      'implemented'
+      "implemented"
     else
-      'pending'
+      "pending"
     end
   end
 
@@ -122,7 +126,7 @@ class UsersController < ApplicationController
       ideas = @user.community_ideas.where(created_at: month_start..month_end).count
       comments = @user.comments.where(created_at: month_start..month_end).count
       months << {
-        month: month_start.strftime('%b'),
+        month: month_start.strftime("%b"),
         votes: 0, # No vote tracking
         ideas: ideas,
         comments: comments
@@ -135,12 +139,12 @@ class UsersController < ApplicationController
     # Count user's activity by ward (ideas and comments)
     ward_counts = {}
     @user.community_ideas.each do |idea|
-      ward = idea.ward || 'Unknown'
+      ward = idea.ward || "Unknown"
       ward_counts[ward] ||= 0
       ward_counts[ward] += 1
     end
     @user.comments.each do |comment|
-      ward = comment.community_idea.ward || 'Unknown'
+      ward = comment.community_idea.ward || "Unknown"
       ward_counts[ward] ||= 0
       ward_counts[ward] += 1
     end
@@ -152,12 +156,12 @@ class UsersController < ApplicationController
     # Count user's activity by topic
     topic_counts = {}
     @user.community_ideas.each do |idea|
-      topic = idea.topic || 'General'
+      topic = idea.topic || "General"
       topic_counts[topic] ||= 0
       topic_counts[topic] += 1
     end
     @user.votes.each do |vote|
-      topic = vote.votable.topic || 'General'
+      topic = vote.votable.topic || "General"
       topic_counts[topic] ||= 0
       topic_counts[topic] += 1
     end

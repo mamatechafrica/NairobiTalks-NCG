@@ -1,4 +1,4 @@
-<div class="bg-light min-vh-100 d-flex flex-column align-items-center justify-content-center py-5">
+<div class="min-h-screen bg-base-100 flex flex-col items-center justify-center py-5">
   <%= render partial: 'shared/header', locals: { title: 'Explore Community Ideas' } %>
 
   <% sub_counties = {
@@ -21,86 +21,80 @@
     "Mathare" => ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
   } %>
 
-  <div class="container mb-4">
-    <%= form_with url: community_ideas_path, method: :get, local: true, class: "row gx-3 gy-2 align-items-end p-3 rounded shadow-sm", style: 'background: #fff; border: 2px solid #004225; flex-wrap: wrap;' do |f| %>
-      <div class="col-md-3 col-6">
-        <%= f.label :search, "Search", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.text_field :search, value: params[:search], class: "form-control border-success fw-bold", placeholder: "Search ideas...", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+  <div class="w-full max-w-4xl mx-auto mb-4 px-4">
+    <%= form_with url: community_ideas_path, method: :get, local: true, class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 p-4 rounded-lg shadow-md", style: 'background: #fff; border: 2px solid #004225;' do |f| %>
+      <div class="lg:col-span-1 md:col-span-1 col-span-1">
+        <%= f.label :search, "Search", class: "block font-bold text-sm", style: 'color: #004225;' %>
+        <%= f.text_field :search, value: params[:search], class: "input input-bordered w-full text-sm", placeholder: "Search...", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-3 col-6">
-        <%= f.label :sub_county, "Sub-county", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.select :sub_county, options_for_select(["All"] + sub_counties.keys, params[:sub_county]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      <div class="lg:col-span-1 md:col-span-1 col-span-1">
+        <%= f.label :sub_county, "Sub-county", class: "block font-bold text-sm", style: 'color: #004225;' %>
+        <%= f.select :sub_county, options_for_select(["All"] + sub_counties.keys, params[:sub_county]), {}, class: "select select-bordered w-full text-sm", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2 col-6">
-        <%= f.label :ward, "Ward", class: "form-label fw-bold", style: 'color: #004225;' %>
+      <div class="lg:col-span-1 md:col-span-1 col-span-1">
+        <%= f.label :ward, "Ward", class: "block font-bold text-sm", style: 'color: #004225;' %>
         <% ward_list = if params[:sub_county].present? && params[:sub_county] != 'All'
           (sub_counties[params[:sub_county]] || [])
         else
           CommunityIdea.where.not(ward: [nil, ""]).distinct.pluck(:ward)
         end %>
-        <%= f.select :ward, options_for_select(["All"] + ward_list, params[:ward]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+        <%= f.select :ward, options_for_select(["All"] + ward_list, params[:ward]), {}, class: "select select-bordered w-full text-sm", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2 col-6">
-        <%= f.label :topic, "Topic", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      <div class="lg:col-span-1 md:col-span-1 col-span-1">
+        <%= f.label :topic, "Topic", class: "block font-bold text-sm", style: 'color: #004225;' %>
+        <%= f.select :topic, options_for_select(["All"] + CommunityIdea.where.not(topic: [nil, ""]).distinct.pluck(:topic), params[:topic]), {}, class: "select select-bordered w-full text-sm", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2 col-6">
-        <%= f.label :status, "Status", class: "form-label fw-bold", style: 'color: #004225;' %>
-        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "form-select border-success fw-bold", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
+      <div class="lg:col-span-1 md:col-span-1 col-span-1">
+        <%= f.label :status, "Status", class: "block font-bold text-sm", style: 'color: #004225;' %>
+        <%= f.select :status, options_for_select(["All"] + CommunityIdea::STATUSES.keys.map(&:to_s), params[:status]), {}, class: "select select-bordered w-full text-sm", style: 'background: #f8fff8; color: #004225; font-weight: bold; border-width: 2px;' %>
       </div>
-      <div class="col-md-2 col-12 d-flex align-items-end">
-        <%= f.submit "Search", class: "btn btn-lg fw-bold w-100", style: 'background: #004225; color: #fff; border-width: 2px; border-color: #004225;' %>
+      <div class="lg:col-span-1 md:col-span-2 col-span-1 flex items-end">
+        <%= f.submit "Search", class: "btn w-full font-bold", style: 'background: #004225; color: #fff; border-width: 2px; border-color: #004225;' %>
       </div>
     <% end %>
   </div>
 
-  <div class="container py-4">
+  <div class="w-full max-w-6xl mx-auto py-4 px-4">
     <% if @community_ideas.present? %>
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <% @community_ideas.each do |idea| %>
-          <div class="col">
+          <div>
             <%= render partial: "community_ideas/idea_card", locals: { idea: idea } %>
           </div>
         <% end %>
       </div>
     <% else %>
-      <div class="h-100 d-flex align-items-center justify-content-center text-muted text-center px-4">
-        <p class="h5">No ideas yet. Be the first to submit one!</p>
+      <div class="flex items-center justify-center text-gray-500 text-center px-4 py-12">
+        <p class="text-lg">No ideas yet. Be the first to submit one!</p>
       </div>
     <% end %>
   </div>
 
-  <!-- Pagination (preserves current search/filter params) -->
+  <!-- Pagination -->
   <% if defined?(@total_pages) && @total_pages && @total_pages > 1 %>
-    <div class="container mb-4">
-      <div class="row">
-        <div class="col text-center">
-          <nav aria-label="Community ideas pagination">
-            <ul class="pagination justify-content-center">
-              <% if @current_page && @current_page > 1 %>
-                <li class="page-item">
-                  <%= link_to "« Prev", url_for(params.permit!.to_h.merge(page: @current_page - 1)), class: "page-link" %>
-                </li>
-              <% else %>
-                <li class="page-item disabled"><span class="page-link">« Prev</span></li>
-              <% end %>
+    <div class="w-full max-w-6xl mx-auto mb-4 px-4">
+      <div class="flex justify-center">
+        <nav aria-label="Community ideas pagination" class="join">
+          <% if @current_page && @current_page > 1 %>
+            <%= link_to "« Prev", url_for(params.permit!.to_h.merge(page: @current_page - 1)), class: "join-item btn" %>
+          <% else %>
+            <button class="join-item btn btn-disabled">« Prev</button>
+          <% end %>
 
-              <% (1..@total_pages).each do |p| %>
-                <li class="page-item <%= 'active' if p == @current_page %>">
-                  <%= link_to p, url_for(params.permit!.to_h.merge(page: p)), class: "page-link" %>
-                </li>
-              <% end %>
+          <% (1..@total_pages).each do |p| %>
+            <% if p == @current_page %>
+              <button class="join-item btn btn-active"><%= p %></button>
+            <% else %>
+              <%= link_to p, url_for(params.permit!.to_h.merge(page: p)), class: "join-item btn" %>
+            <% end %>
+          <% end %>
 
-              <% if @current_page && @total_pages && @current_page < @total_pages %>
-                <li class="page-item">
-                  <%= link_to "Next »", url_for(params.permit!.to_h.merge(page: @current_page + 1)), class: "page-link" %>
-                </li>
-              <% else %>
-                <li class="page-item disabled"><span class="page-link">Next »</span></li>
-              <% end %>
-            </ul>
-          </nav>
-        </div>
+          <% if @current_page && @total_pages && @current_page < @total_pages %>
+            <%= link_to "Next »", url_for(params.permit!.to_h.merge(page: @current_page + 1)), class: "join-item btn" %>
+          <% else %>
+            <button class="join-item btn btn-disabled">Next »</button>
+          <% end %>
+        </nav>
       </div>
     </div>
   <% end %>

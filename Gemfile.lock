@@ -125,6 +125,7 @@ GEM
     cgi (0.5.1)
     childprocess (5.1.0)
       logger (~> 1.5)
+    chunky_png (1.4.0)
     concurrent-ruby (1.3.6)
     connection_pool (2.5.5)
     crass (1.0.6)
@@ -138,6 +139,11 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-two-factor (6.3.0)
+      activesupport (>= 7.0, < 8.2)
+      devise (>= 4.0, < 5.0)
+      railties (>= 7.0, < 8.2)
+      rotp (~> 6.0)
     dotenv (3.2.0)
     dotenv-rails (3.2.0)
       dotenv (= 3.2.0)
@@ -274,6 +280,8 @@ GEM
     public_suffix (7.0.2)
     puma (7.1.0)
       nio4r (~> 2.0)
+    pundit (2.5.2)
+      activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.2.4)
@@ -334,6 +342,11 @@ GEM
       actionpack (>= 7.0)
       railties (>= 7.0)
     rexml (3.4.4)
+    rotp (6.3.0)
+    rqrcode (3.2.0)
+      chunky_png (~> 1.0)
+      rqrcode_core (~> 2.0)
+    rqrcode_core (2.1.0)
     rubocop (1.82.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -423,8 +436,6 @@ GEM
     thread-local (1.1.0)
     thruster (0.1.17-x86_64-linux)
     timeout (0.6.0)
-    trix (0.10.1)
-      rails
     tsort (0.2.0)
     ttfunk (1.8.0)
       bigdecimal (~> 3.1)
@@ -467,6 +478,7 @@ DEPENDENCIES
   connection_pool (~> 2.2)
   debug
   devise
+  devise-two-factor
   dotenv-rails
   image_processing (~> 1.2)
   importmap-rails
@@ -479,9 +491,11 @@ DEPENDENCIES
   pg
   propshaft
   puma (>= 5.0)
+  pundit
   rails (~> 8.1.1)
   redis (~> 5.0)
   redis-session-store (~> 0.11.5)
+  rqrcode
   rubocop-rails-omakase
   ruby-openai
   selenium-webdriver
@@ -492,7 +506,6 @@ DEPENDENCIES
   stimulus-rails
   stimulus_reflex
   thruster
-  trix
   turbo-rails
   tzinfo-data
   web-console

@@ -1,323 +1,257 @@
-<div class="min-vh-100 bg-light d-flex flex-column justify-content-center py-5 px-3">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-lg-10 col-xl-9">
+<div class="min-h-screen bg-base-100 py-8 px-4">
+  <% sub_counties = {
+    "Westlands" => ["Westlands","Kitisuru","Parklands/Highridge","Kangemi","Mountain View","Karura"],
+    "Dagoretti North" => ["Kilimani","Kawangware","Gatina","Kileleshwa","Kabiro"],
+    "Dagoretti South" => ["Mutuini","Ngando","Riruta","Uthiru/Ruthimitu","Waithaka"],
+    "Langata" => ["Karen","Nairobi West","Mugumo-ini","South C","Nyayo Highrise"],
+    "Kibra" => ["Laini Saba","Lindi","Makina","Woodley/Kenyatta Golf","Sarangombe"],
+    "Roysambu" => ["Githurai","Kahawa West","Zimmerman","Roysambu","Kahawa"],
+    "Kasarani" => ["Clay City","Mwiki","Kasarani","Njiru","Ruai"],
+    "Ruaraka" => ["Baba Dogo","Utalii","Mathare North","Lucky Summer","Korogocho"],
+    "Embakasi South" => ["Imara Daima","Kwa Njenga","Kwa Reuben","Pipeline","Kware"],
+    "Embakasi North" => ["Kariobangi North","Dandora Area I","Dandora Area II","Dandora Area III","Dandora Area IV"],
+    "Embakasi Central" => ["Kayole North","Kayole Central","Kayole South","Komarock","Matopeni"],
+    "Embakasi East" => ["Upper Savanna","Lower Savanna","Embakasi","Utawala","Mihango"],
+    "Embakasi West" => ["Umoja I","Umoja II","Mowlem","Kariobangi South"],
+    "Makadara" => ["Maringo/Hamza","Viwandani","Harambee","Makongeni","South B"],
+    "Kamukunji" => ["Pumwani","Eastleigh North","Eastleigh South","Airbase","California"],
+    "Starehe" => ["Landimawe","Nairobi Central","Ngara","Pangani","Ziwani/Kariokor"],
+    "Mathare" => ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
+  } %>
 
-        <!-- Header -->
-        <div class="text-center mb-5 mb-md-6">
-          <h1 class="display-4 fw-bold text-success mb-3">
-            Share Your Community Idea
-          </h1>
-          <p class="lead text-muted mx-auto" style="max-width: 720px;">
-            Your suggestions help improve life in Nairobi's wards and communities
-          </p>
-        </div>
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-extrabold text-success mb-2">Share Your Community Idea</h1>
+      <p class="text-gray-600">Your suggestions help improve life in Nairobi's wards and communities</p>
+    </div>
 
-        <!-- Main Card -->
-        <div class="card border-success shadow-lg border-2">
-          <div class="card-body p-4 p-md-5">
+    <div class="tabs tabs-lifted" role="tablist">
+      <!-- Information Tab -->
+      <input id="tab-info" type="radio" name="submission_tabs" role="tab" class="tab" aria-controls="panel-info" checked>
+      <label for="tab-info" class="tab">How It Works</label>
 
-            <!-- Tabs -->
-            <ul class="nav nav-tabs nav-fill mb-5 border-success" id="ideaSubmissionTabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active fw-semibold py-3" 
-                        id="info-tab" 
-                        data-bs-toggle="tab" 
-                        data-bs-target="#info" 
-                        type="button" 
-                        role="tab" 
-                        aria-controls="info" 
-                        aria-selected="true">
-                  Information
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link fw-semibold py-3" 
-                        id="form-tab" 
-                        data-bs-toggle="tab" 
-                        data-bs-target="#form" 
-                        type="button" 
-                        role="tab" 
-                        aria-controls="form" 
-                        aria-selected="false">
-                  Submit Idea
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link fw-semibold py-3" 
-                        id="ideas-tab" 
-                        data-bs-toggle="tab" 
-                        data-bs-target="#ideas" 
-                        type="button" 
-                        role="tab" 
-                        aria-controls="ideas" 
-                        aria-selected="false">
-                  Popular Ideas
-                </button>
-              </li>
+      <!-- Submit Idea Tab -->
+      <input id="tab-form" type="radio" name="submission_tabs" role="tab" class="tab" aria-controls="panel-form">
+      <label for="tab-form" class="tab">Submit Idea</label>
+
+      <!-- Popular Ideas Tab -->
+      <input id="tab-popular" type="radio" name="submission_tabs" role="tab" class="tab" aria-controls="panel-popular">
+      <label for="tab-popular" class="tab">Popular Ideas</label>
+    </div>
+
+    <div id="panel-info" role="tabpanel" class="tab-content bg-base-100 border border-base-200 rounded-box p-8 mt-4">
+      <h4 class="text-xl font-semibold text-success mb-3">How It Works</h4>
+      <div class="mb-4">
+        <ol class="space-y-2">
+          <li class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-success text-white font-semibold">1</span>
+            <span class="text-gray-700"><strong>Submit your idea</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-success text-white font-semibold">2</span>
+            <span class="text-gray-700"><strong>Quick admin review</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-success text-white font-semibold">3</span>
+            <span class="text-gray-700"><strong>Public voting</strong></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex items-center justify-center w-8 h-8 rounded-full bg-success text-white font-semibold">4</span>
+            <span class="text-gray-700"><strong>Best ideas may be implemented!</strong></span>
+          </li>
+        </ol>
+      </div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex items-start gap-3"><span class="text-success text-xl">✅</span><span>Be <strong>specific</strong> and clearly show community benefit.</span></li>
+        <li class="flex items-start gap-3"><span class="text-success text-xl">✅</span><span>Include rough implementation idea, possible costs and expected outcomes if possible.</span></li>
+        <li class="flex items-start gap-3"><span class="text-success text-xl">✅</span><span>You can submit <strong>anonymously</strong> — only admins see your identity.</span></li>
+      </ul>
+    </div>
+
+    <div id="panel-form" role="tabpanel" class="tab-content bg-base-100 border border-base-200 rounded-box p-8 mt-4">
+      <h4 class="text-xl font-semibold text-success mb-4">Submit Your Idea</h4>
+      <form action="<%= submissions_path %>" method="post" class="space-y-6" novalidate>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+        <% if @submission&.errors&.any? %>
+          <div class="alert alert-error mb-4">
+            <div class="font-semibold">Oops! Please fix these errors:</div>
+            <ul class="mt-2 list-disc list-inside">
+              <% @submission.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
             </ul>
+          </div>
+        <% end %>
 
-            <!-- Tab content -->
-            <div class="tab-content" id="ideaSubmissionTabsContent">
+        <%= render 'admin/shared/form_field', label: 'Idea Title' do %>
+          <input id="submission_title" name="submission[title]" maxlength="100" required placeholder="e.g. Solar-powered street lighting in Kawangware" class="input input-lg input-bordered w-full" aria-describedby="titleHelp">
+        <% end %>
+        <div id="titleHelp" class="flex justify-between text-sm text-gray-500"><span>Clear & descriptive (max 100 characters)</span><span id="titleCharCount">0/100</span></div>
 
-              <!-- INFO TAB -->
-              <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
-                <div class="px-2 px-md-4">
-                  <h4 class="fw-bold text-success mb-4">How It Works</h4>
-                  <p class="text-muted fs-5 mb-4">
-                    1. Submit your idea → 2. Quick admin review → 3. Public voting → 4. Best ideas may be implemented!
-                  </p>
+        <%= render 'admin/shared/form_field', label: 'Description' do %>
+          <textarea id="submission_description" name="submission[description]" rows="6" maxlength="500" required placeholder="Describe the problem, your proposed solution..." class="textarea textarea-bordered w-full"></textarea>
+        <% end %>
+        <div id="descHelp" class="flex justify-between text-sm text-gray-500"><span>Be as detailed as possible</span><span id="descCharCount">0/500</span></div>
 
-                  <ul class="list-group list-group-flush fs-5">
-                    <li class="list-group-item border-0 ps-0">
-                      <i class="bi bi-check-circle-fill text-success me-3"></i>
-                      Be <strong>specific, realistic</strong> and clearly show community benefit
-                    </li>
-                    <li class="list-group-item border-0 ps-0">
-                      <i class="bi bi-check-circle-fill text-success me-3"></i>
-                      Include rough implementation idea, possible costs and expected outcomes if possible
-                    </li>
-                    <li class="list-group-item border-0 ps-0">
-                      <i class="bi bi-check-circle-fill text-success me-3"></i>
-                      You can submit <strong>anonymously</strong> — only admins see your identity
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              <!-- FORM TAB -->
-              <div class="tab-pane fade" id="form" role="tabpanel" aria-labelledby="form-tab">
-                <form action="<%= submissions_path %>" method="post" class="needs-validation" novalidate>
-                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-
-                  <% if @submission&.errors&.any? %>
-                    <div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
-                      <strong>Oops! Please fix these errors:</strong>
-                      <ul class="mb-0 mt-2 ps-4">
-                        <% @submission.errors.full_messages.each do |msg| %>
-                          <li><%= msg %></li>
-                        <% end %>
-                      </ul>
-                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                  <% end %>
-
-                  <div class="row g-4">
-
-                    <!-- Title -->
-                    <div class="col-12">
-                      <label for="submission_title" class="form-label fw-semibold fs-5">Idea Title <span class="text-danger">*</span></label>
-                      <input type="text" 
-                             name="submission[title]" 
-                             id="submission_title" 
-                             class="form-control form-control-lg" 
-                             maxlength="100" 
-                             required 
-                             placeholder="e.g. Solar-powered street lighting in Kawangware"
-                             aria-describedby="titleHelp">
-                      <div id="titleHelp" class="form-text d-flex justify-content-between mt-1">
-                        <span>Clear & descriptive (max 100 characters)</span>
-                        <span id="titleCharCount">0/100</span>
-                      </div>
-                    </div>
-
-                    <!-- Description -->
-                    <div class="col-md-12">
-                      <label for="submission_description" class="form-label fw-semibold fs-5">Description <span class="text-danger">*</span></label>
-                      <textarea name="submission[description]" 
-                                id="submission_description" 
-                                class="form-control" 
-                                rows="7" 
-                                maxlength="500" 
-                                required 
-                                placeholder="Describe the problem, your proposed solution, who benefits, rough cost/time estimate if possible..."
-                                aria-describedby="descHelp">
-                        </textarea>
-                      <div id="descHelp" class="form-text d-flex justify-content-between mt-1">
-                        <span>Be as detailed as possible</span>
-                        <span id="descCharCount">0/500</span>
-                      </div>
-                    </div>
-
-                    <!-- Ward -->
-                        <div class="col-md-6">
-                          <%# Sub-county -> ward mapping for submission form (client-side dependent) %>
-                          <% sub_counties = {
-                            "Westlands" => ["Westlands","Kitisuru","Parklands/Highridge","Kangemi","Mountain View","Karura"],
-                            "Dagoretti North" => ["Kilimani","Kawangware","Gatina","Kileleshwa","Kabiro"],
-                            "Dagoretti South" => ["Mutuini","Ngando","Riruta","Uthiru/Ruthimitu","Waithaka"],
-                            "Langata" => ["Karen","Nairobi West","Mugumo-ini","South C","Nyayo Highrise"],
-                            "Kibra" => ["Laini Saba","Lindi","Makina","Woodley/Kenyatta Golf","Sarangombe"],
-                            "Roysambu" => ["Githurai","Kahawa West","Zimmerman","Roysambu","Kahawa"],
-                            "Kasarani" => ["Clay City","Mwiki","Kasarani","Njiru","Ruai"],
-                            "Ruaraka" => ["Baba Dogo","Utalii","Mathare North","Lucky Summer","Korogocho"],
-                            "Embakasi South" => ["Imara Daima","Kwa Njenga","Kwa Reuben","Pipeline","Kware"],
-                            "Embakasi North" => ["Kariobangi North","Dandora Area I","Dandora Area II","Dandora Area III","Dandora Area IV"],
-                            "Embakasi Central" => ["Kayole North","Kayole Central","Kayole South","Komarock","Matopeni"],
-                            "Embakasi East" => ["Upper Savanna","Lower Savanna","Embakasi","Utawala","Mihango"],
-                            "Embakasi West" => ["Umoja I","Umoja II","Mowlem","Kariobangi South"],
-                            "Makadara" => ["Maringo/Hamza","Viwandani","Harambee","Makongeni","South B"],
-                            "Kamukunji" => ["Pumwani","Eastleigh North","Eastleigh South","Airbase","California"],
-                            "Starehe" => ["Landimawe","Nairobi Central","Ngara","Pangani","Ziwani/Kariokor"],
-                            "Mathare" => ["Hospital","Mabatini","Huruma","Ngei","Mlango Kubwa"]
-                          } %>
-
-                          <label for="submission_sub_county" class="form-label fw-semibold fs-5">Sub-county <span class="text-danger">*</span></label>
-                          <select name="submission[sub_county]" id="submission_sub_county" class="form-select form-select-lg" required>
-                            <option value="">Select your sub-county</option>
-                            <% sub_counties.keys.each do |sc| %>
-                              <option value="<%= sc %>" <%= 'selected' if (params.dig(:submission, :sub_county) || @submission&.sub_county) == sc %>><%= sc %></option>
-                            <% end %>
-                          </select>
-                        </div>
-
-                        <div class="col-md-6">
-                          <label for="submission_ward" class="form-label fw-semibold fs-5">Ward <span class="text-danger">*</span></label>
-                          <select name="submission[ward]" id="submission_ward" class="form-select form-select-lg" required>
-                            <option value="">Select your ward</option>
-                            <% selected_sc = (params.dig(:submission, :sub_county) || @submission&.sub_county)
-                               wards = selected_sc.present? ? (sub_counties[selected_sc] || []) : sub_counties.values.flatten.uniq.sort
-                            %>
-                            <% wards.each do |w| %>
-                              <option value="<%= w %>" <%= 'selected' if (params.dig(:submission, :ward) || @submission&.ward) == w %>><%= w %></option>
-                            <% end %>
-                          </select>
-                        </div>
-
-                    <!-- Topics - Checkboxes -->
-                    <div class="col-md-12">
-                      <label class="form-label fw-semibold fs-5">Main Topics (select all that apply)</label>
-                      <div class="row g-2 mt-2">
-                        <% [
-                          "Environment & Waste Management",
-                          "Roads & Infrastructure",
-                          "Water & Sanitation",
-                          "Public Health Services",
-                          "Education & Schools",
-                          "Youth & Sports",
-                          "Security & Safety",
-                          "Housing & Urban Planning",
-                          "Public Transport & Mobility",
-                          "Markets & Local Economy",
-                          "Community & Social Services",
-                          "Technology & Digital Services",
-                          "Parks & Recreation",
-                          "Disaster Preparedness",
-                          "Other"
-                        ].each do |topic| %>
-                          <div class="col-6">
-                            <div class="form-check">
-                              <input class="form-check-input" 
-                                     type="checkbox" 
-                                     name="submission[topics][]" 
-                                     value="<%= topic %>" 
-                                     id="topic_<%= topic.parameterize %>">
-                              <label class="form-check-label small" for="topic_<%= topic.parameterize %>">
-                                <%= topic %>
-                              </label>
-                            </div>
-                          </div>
-                        <% end %>
-                      </div>
-                    </div>
-
-                    <!-- Anonymous -->
-                    <div class="col-12">
-                      <div class="form-check form-switch form-switch-lg mt-3">
-                        <input class="form-check-input" 
-                               type="checkbox" 
-                               name="submission[is_anonymous]" 
-                               id="submission_is_anonymous">
-                        <label class="form-check-label fw-medium fs-5" for="submission_is_anonymous">
-                          Submit anonymously
-                        </label>
-                        <div class="form-text mt-1">
-                          Your name won't appear publicly (only admins will see your identity)
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- Buttons -->
-                    <div class="col-12 mt-5">
-                      <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                        <button type="submit" class="btn btn-success btn-lg px-5 py-3 fw-semibold">
-                          Submit My Idea
-                        </button>
-                        <a href="<%= submissions_path %>" class="btn btn-outline-secondary btn-lg px-5 py-3">
-                          Cancel
-                        </a>
-                      </div>
-                    </div>
-
-                  </div>
-                </form>
-
-                <div class="alert alert-info mt-5 mb-0" role="note">
-                  <strong>Pro tip:</strong> The most successful ideas are specific, realistic and clearly explain how they benefit people in the ward/community.
-                </div>
-              </div>
-
-              <!-- POPULAR IDEAS TAB -->
-              <div class="tab-pane fade" id="ideas" role="tabpanel" aria-labelledby="ideas-tab">
-                <h4 class="fw-bold text-success mb-4">Currently Popular Community Ideas</h4>
-                <div class="text-muted mb-4">
-                  These are the ideas receiving the most support right now
-                </div>
-                <%= render partial: 'community_ideas/voting_cards', 
-                          locals: { ideas: @community_ideas || CommunityIdea.order(upvotes: :desc).limit(10) } %>
-              </div>
-
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="submission_sub_county" class="text-sm font-medium">Sub-county</label>
+            <select name="submission[sub_county]" id="submission_sub_county" class="select select-bordered w-full" required>
+              <option value="">Select your sub-county</option>
+              <% sub_counties.keys.each do |sc| %>
+                <option value="<%= sc %>" <%= 'selected' if (params.dig(:submission, :sub_county) || @submission&.sub_county) == sc %>><%= sc %></option>
+              <% end %>
+            </select>
+          </div>
+          <div>
+            <label for="submission_ward" class="text-sm font-medium">Ward</label>
+            <select name="submission[ward]" id="submission_ward" class="select select-bordered w-full" required>
+              <option value="">Select your ward</option>
+              <% selected_sc = (params.dig(:submission, :sub_county) || @submission&.sub_county)
+                 wards = selected_sc.present? ? (sub_counties[selected_sc] || []) : sub_counties.values.flatten.uniq.sort
+              %>
+              <% wards.each do |w| %>
+                <option value="<%= w %>" <%= 'selected' if (params.dig(:submission, :ward) || @submission&.ward) == w %>><%= w %></option>
+              <% end %>
+            </select>
           </div>
         </div>
+
+        <div>
+          <label class="text-sm font-medium">Main Topics (select all that apply)</label>
+          <div class="grid grid-cols-2 gap-2 mt-2">
+            <% [
+              "Environment & Waste Management",
+              "Roads & Infrastructure",
+              "Water & Sanitation",
+              "Public Health Services",
+              "Education & Schools",
+              "Youth & Sports",
+              "Security & Safety",
+              "Housing & Urban Planning",
+              "Public Transport & Mobility",
+              "Markets & Local Economy",
+              "Community & Social Services",
+              "Technology & Digital Services",
+              "Parks & Recreation",
+              "Disaster Preparedness",
+              "Other"
+            ].each do |topic| %>
+              <label class="label cursor-pointer">
+                <input type="checkbox" name="submission[topics][]" value="<%= topic %>" class="checkbox mr-2" id="topic_<%= topic.parameterize %>">
+                <span class="label-text"><%= topic %></span>
+              </label>
+            <% end %>
+          </div>
+        </div>
+
+        <div>
+          <label class="flex items-center gap-3">
+            <input type="checkbox" name="submission[is_anonymous]" id="submission_is_anonymous" class="toggle" />
+            <span class="ml-2">Submit anonymously</span>
+          </label>
+          <p class="text-sm text-gray-500 mt-1">Your name won't appear publicly (only admins will see your identity)</p>
+        </div>
+
+        <div class="flex gap-3 justify-center mt-6">
+          <%= render 'admin/shared/button', type: 'submit', variant: 'success', extra_classes: 'px-6 py-3' do %>Submit My Idea<% end %>
+          <%= render 'admin/shared/button', href: submissions_path, variant: 'outline', extra_classes: 'px-6 py-3' do %>Cancel<% end %>
+        </div>
+      </form>
+
+      <div class="mt-6 p-8 bg-info/10 rounded">
+        <strong>Pro tip:</strong> The most successful ideas are specific, realistic and clearly explain how they benefit people in the ward/community.
       </div>
+    </div>
+
+    <div id="panel-popular" role="tabpanel" class="tab-content bg-base-100 border border-base-200 rounded-box p-8 mt-4">
+      <h4 class="text-lg font-semibold text-success mb-3">Currently Popular Community Ideas</h4>
+      <div class="text-gray-600 mb-4">These are the ideas receiving the most support right now</div>
+      <%= render partial: 'community_ideas/voting_cards', locals: { ideas: @community_ideas || CommunityIdea.order(upvotes: :desc).limit(10) } %>
     </div>
   </div>
 </div>
 
 <!-- Character Counter Script -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+function initSubmissionCharCounter() {
   const titleInput = document.getElementById('submission_title');
   const titleCount = document.getElementById('titleCharCount');
   const descInput = document.getElementById('submission_description');
   const descCount = document.getElementById('descCharCount');
 
-  if (titleInput && titleCount) {
+  if (titleInput && titleCount && !titleInput.dataset._charCounterInit) {
+    titleInput.dataset._charCounterInit = true;
     titleInput.addEventListener('input', function () {
       titleCount.textContent = this.value.length + '/100';
     });
+    // initialize
+    titleCount.textContent = (titleInput.value || '').length + '/100';
   }
 
-  if (descInput && descCount) {
+  if (descInput && descCount && !descInput.dataset._charCounterInit) {
+    descInput.dataset._charCounterInit = true;
     descInput.addEventListener('input', function () {
       descCount.textContent = this.value.length + '/500';
     });
+    descCount.textContent = (descInput.value || '').length + '/500';
   }
-});
+}
+
+document.addEventListener('DOMContentLoaded', initSubmissionCharCounter);
+document.addEventListener('turbo:load', initSubmissionCharCounter);
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  var sub = document.getElementById('submission_sub_county');
-  var ward = document.getElementById('submission_ward');
-  var subCounties = <%= raw((defined?(sub_counties) ? sub_counties : {}).to_json) %>;
-  if (sub && ward) {
-    sub.addEventListener('change', function(e){
-      var sc = e.target.value;
-      var wards = (sc && sc !== '') ? (subCounties[sc] || []) : [];
-      ward.innerHTML = '';
-      var placeholder = document.createElement('option');
-      placeholder.value = '';
-      placeholder.text = 'Select your ward';
-      ward.appendChild(placeholder);
-      wards.forEach(function(w){
-        var o = document.createElement('option');
-        o.value = w;
-        o.text = w;
-        ward.appendChild(o);
-      });
+function initSubmissionWardSelector() {
+  const subSelect = document.querySelector('select[name="submission[sub_county]"]');
+  const wardSelect = document.querySelector('select[name="submission[ward]"]');
+  if (!subSelect || !wardSelect || subSelect.dataset._wardInit) return;
+  subSelect.dataset._wardInit = true;
+
+  const subCounties = <%= raw(sub_counties.to_json) %>;
+
+  subSelect.addEventListener('change', (e) => {
+    const selected = e.target.value;
+    const wards = (selected !== '' && subCounties[selected])
+      ? subCounties[selected]
+      : [];
+
+    wardSelect.innerHTML = '<option value="">Select your ward</option>';
+
+    wards.forEach(w => {
+      const opt = new Option(w, w);
+      wardSelect.appendChild(opt);
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initSubmissionWardSelector);
+document.addEventListener('turbo:load', initSubmissionWardSelector);
+</script>
+
+<!-- Tabs visibility script: show only the checked tab panel -->
+<script>
+function initSubmissionTabs() {
+  const radios = document.querySelectorAll('input[name="submission_tabs"]');
+  if (!radios || radios.length === 0) return;
+  if (radios[0].dataset._tabsInit) return;
+  radios[0].dataset._tabsInit = true;
+
+  function updatePanels() {
+    radios.forEach(r => {
+      const panelId = r.getAttribute('aria-controls') || r.id.replace('tab-', 'panel-');
+      const panel = document.getElementById(panelId);
+      if (!panel) return;
+      panel.style.display = r.checked ? 'block' : 'none';
     });
   }
-});
+
+  radios.forEach(r => r.addEventListener('change', updatePanels));
+  updatePanels();
+}
+
+document.addEventListener('DOMContentLoaded', initSubmissionTabs);
+document.addEventListener('turbo:load', initSubmissionTabs);
 </script>

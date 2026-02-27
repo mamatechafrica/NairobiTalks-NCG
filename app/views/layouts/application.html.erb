@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en" class="h-100" data-theme="nairobi">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,42 +12,92 @@
   <link rel="icon" href="/icon.png" type="image/png">
   <link rel="apple-touch-icon" href="/icon.png">
 
-  <!-- Using Tailwind (compiled into application.css) - removed Bootstrap CSS and icons -->
+  <!-- Removed Bootstrap: using Tailwind + Daisy UI -->
   
   <!-- Trix -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <!-- Minimal skip-link styles: hidden off-screen until keyboard focus -->
+  <style>
+    /* Keep skip link hidden visually until focused for keyboard users */
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: 0.75rem;
+      background: #ffffff;
+      color: #004225;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      transform: translateY(-150%);
+      opacity: 0;
+      z-index: 50;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      transition: transform .18s ease, opacity .12s ease;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      transform: translateY(0);
+      opacity: 1;
+      outline: 2px solid rgba(0,66,37,0.15);
+      outline-offset: 2px;
+    }
+  </style>
   <%= javascript_importmap_tags %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/2.0.0/trix.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Trix CSS via jsDelivr (JS loaded from importmap/application.js) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.0.0/dist/trix.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body class="flex flex-col min-h-screen bg-white">
+  <body class="flex flex-col min-h-screen bg-white">
 
   <!-- Skip link -->
-  <a href="#main-content" class="visually-hidden-focusable position-absolute start-0 mt-2 ms-2 z-3">Skip to main content</a>
+  <a href="#main-content" class="skip-link" aria-label="Skip to main content">Skip to main content</a>
 
-  <!-- Navbar (Tailwind) -->
-  <nav class="bg-[var(--color-primary)] text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center">
-          <%= link_to root_path, class: "flex items-center" do %>
-            <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks', class: 'h-14 w-auto rounded-sm object-contain' %>
-          <% end %>
+  <!-- Navbar ─────────────────────────────────────────────── -->
+  <nav class="bg-[#004225] text-white py-4">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 flex items-center justify-between">
+
+      <!-- Left: Brand + Community Ideas -->
+      <div class="flex items-center gap-4">
+        <%= link_to root_path, class: "flex items-center py-2" do %>
+          <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks', style: 'height:120px; width:auto; object-fit:contain;' %>
+        <% end %>
+
+        <!-- Quick link: Community Ideas -->
+        <div class="inline-block border border-white rounded">
+          <%= link_to "Community Ideas", community_ideas_path, class: "inline-flex items-center px-3 py-2 rounded text-white font-semibold hover:bg-white/10 focus:outline-none", aria: { label: 'View community ideas' } %>
         </div>
-        <div class="lg:hidden">
-          <button id="nav-toggler" type="button" aria-controls="mainNav" aria-expanded="false" class="inline-flex items-center justify-center p-2 rounded-md text-white" style="border:1px solid rgba(255,255,255,0.18); background: transparent;">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          </button>
-        </div>
-        <div id="mainNav" class="hidden lg:flex lg:items-center lg:space-x-6">
-          <div class="hidden lg:flex lg:items-center lg:space-x-4">
-            <%= link_to "Community Ideas", community_ideas_path, class: "bg-white text-[var(--color-primary)] font-semibold px-3 py-2 rounded" %>
-          </div>
-          <div class="flex items-center space-x-2">
-            <%= link_to "Submit Idea", new_submission_path, class: "bg-white text-[var(--color-primary)] font-semibold px-3 py-2 rounded", aria: { label: "Submit a new idea" } %>
-            <%= link_to (user_signed_in? ? "Account" : "Sign in"), (user_signed_in? ? profile_path : new_user_session_path), class: "bg-white/90 text-[var(--color-primary)] font-semibold px-3 py-2 rounded" %>
+      </div>
+
+      <!-- Right: Action Items -->
+      <div class="flex items-center gap-3">
+        <!-- Toggler -->
+        <button class="lg:hidden border border-white/20 bg-transparent text-white p-2" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="22" viewBox="0 0 30 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M3 6h24" />
+            <path d="M3 12h24" />
+            <path d="M3 18h24" />
+          </svg>
+        </button>
+
+        <div id="mainNav" class="hidden lg:flex lg:items-center lg:gap-6">
+          <div class="flex items-center gap-8">
+            <% if user_signed_in? %>
+              <%= link_to "Submit Idea", new_submission_path, class: "btn btn-primary", aria: { label: "Submit a new idea" } %>
+            <% else %>
+              <%= link_to "Submit Idea", new_submission_path, class: "btn btn-primary", aria: { label: "Submit a new idea (sign in required)" } %>
+            <% end %>
+
+            <% if user_signed_in? %>
+              <div class="flex items-center gap-3">
+                <div class="rounded-full bg-white text-[#004225] flex items-center justify-center font-bold" style="width:36px; height:36px; font-size:1rem;">
+                  <%= current_user.email.first.upcase %>
+                </div>
+                <span class="hidden lg:inline text-white"><%= current_user.email.truncate(22) %></span>
+                <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-outline text-white border-white hover:bg-white hover:text-[#004225]" %>
+              </div>
+            <% else %>
+              <%= link_to "Sign in", new_user_session_path, class: "inline-flex items-center gap-2 px-4 py-2 rounded bg-white text-[#004225] font-bold border border-white/20 hover:opacity-95 focus:outline-none", aria: { label: 'Sign in to your account' } %>
+            <% end %>
           </div>
         </div>
       </div>
@@ -61,58 +111,49 @@
     </div>
   </main>
 
-  <!-- Footer (Tailwind) -->
-  <footer class="bg-[var(--color-primary)] text-white py-12 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div>
-          <div class="flex items-center mb-4">
-            <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks', class: 'h-20 w-auto rounded-sm object-contain' %>
+  <!-- Footer ─────────────────────────────────────────────── -->
+  <footer class="mt-auto w-full bg-[#004225] text-white py-8">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-5">
+          <div class="flex items-center mb-3">
+            <%= image_tag 'NairobiTalksLogo.png', alt: 'Nairobi Talks', style: 'height: 80px; width: auto; border-radius: 0.375rem; object-fit: contain;' %>
           </div>
-          <p class="text-white/80 max-w-md">
+          <p class="text-white/90 mb-0 max-w-md">
             Empowering Nairobi citizens to propose, discuss and vote on community ideas — anonymously and democratically.
           </p>
         </div>
 
-        <div>
+        <div class="lg:col-span-2">
           <h6 class="uppercase font-semibold mb-3">Explore</h6>
           <ul class="space-y-2 text-sm">
-            <li><%= link_to "All Ideas", community_ideas_path, class: "text-white/90 hover:underline" %></li>
+            <li><%= link_to "All Ideas", community_ideas_path, class: "text-white/75 hover:text-white" %></li>
             <% if user_signed_in? %>
-              <li><%= link_to "Submit Idea", new_submission_path, class: "text-white/90 hover:underline" %></li>
+              <li><%= link_to "Submit Idea", new_submission_path, class: "text-white/75 hover:text-white" %></li>
             <% end %>
           </ul>
         </div>
 
-        <div>
+        <div class="lg:col-span-2">
           <h6 class="uppercase font-semibold mb-3">Account</h6>
           <ul class="space-y-2 text-sm">
             <% if user_signed_in? %>
-              <li><%= link_to "Profile", profile_path, class: "text-white/90 hover:underline" %></li>
-              <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "text-white/90 hover:underline" %></li>
+              <li><%= link_to "Profile", profile_path, class: "text-white/75 hover:text-white" %></li>
+              <li><%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "text-white/75 hover:text-white" %></li>
             <% else %>
-              <li><%= link_to "Sign up", new_user_registration_path, class: "text-white/90 hover:underline" %></li>
+              <li><%= link_to "Sign up", new_user_registration_path, class: "text-white/75 hover:text-white" %></li>
             <% end %>
           </ul>
         </div>
       </div>
 
-      <div class="border-t border-white/10 mt-8 pt-6 text-center text-sm text-white/80">
+      <hr class="my-4 border-white/20">
+
+      <div class="text-center text-sm text-white/70">
         <p class="mb-1">© <%= Time.current.year %> Nairobi Talks</p>
         <p class="mb-0">Made by citizens • For citizens</p>
       </div>
     </div>
   </footer>
-
-  <script>
-    // Mobile nav toggle (no Bootstrap dependency)
-    document.addEventListener('DOMContentLoaded', function () {
-      var toggler = document.getElementById('nav-toggler');
-      var nav = document.getElementById('mainNav');
-      if (toggler && nav) {
-        toggler.addEventListener('click', function () { nav.classList.toggle('hidden'); });
-      }
-    });
-  </script>
 </body>
 </html>

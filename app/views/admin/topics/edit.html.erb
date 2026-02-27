@@ -1,0 +1,68 @@
+<%= render 'admin/shared/admin_page_header', {
+  page_title: 'Edit Topic',
+  page_icon: '✏️',
+  page_description: 'Update topic information'
+} %>
+<div class="admin-page-content">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div>
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <h5 class="mb-3">Edit Topic</h5>
+          <%= form_with(model: [:admin, @topic], local: true) do |form| %>
+            <% if @topic.errors.any? %>
+              <div class="bg-red-50 border border-red-200 p-3 rounded">
+                <h5 class="font-semibold text-red-700">Errors:</h5>
+                <ul class="mt-2 list-disc list-inside text-sm text-red-600">
+                  <% @topic.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <div class="mb-4">
+              <%= form.label :title, class: 'block text-sm font-medium text-gray-700' %>
+              <%= form.text_field :title, class: 'input input-bordered w-full mt-1', placeholder: 'Enter topic title...' %>
+            </div>
+            <div class="mb-4">
+              <%= form.label :description, class: 'block text-sm font-medium text-gray-700' %>
+              <%= form.text_area :description, class: 'textarea textarea-bordered w-full mt-1', rows: 4, placeholder: 'Describe the topic purpose...' %>
+            </div>
+            <div class="flex gap-3">
+              <%= render 'admin/shared/button', label: 'Update Topic', type: 'submit', variant: 'success', extra_classes: 'px-4 py-2' %>
+              <%= render 'admin/shared/button', label: 'Cancel', href: admin_topic_path(@topic), variant: 'ghost', extra_classes: 'px-4 py-2' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card bg-base-100 shadow">
+        <div class="card-body">
+          <h6 class="mb-3">Current Topic Info</h6>
+          <div class="mb-3">
+            <h6 class="font-medium">Preview</h6>
+            <div class="border rounded p-3 bg-gray-50">
+              <h6 class="font-semibold"><%= @topic.title %></h6>
+              <p class="text-sm text-gray-700"><%= @topic.description %></p>
+            </div>
+          </div>
+          <div class="mb-3">
+            <h6 class="font-medium">Statistics</h6>
+            <div class="grid grid-cols-2 gap-3 mt-2">
+              <div class="text-center p-3 border rounded">
+                <h5 class="text-lg font-bold"><%= @topic.posts&.count || 0 %></h5>
+                <p class="text-sm text-gray-500 mb-0">Posts</p>
+              </div>
+              <div class="text-center p-3 border rounded">
+                <h5 class="text-lg font-bold"><%= @topic.created_at.strftime('%b %d') %></h5>
+                <p class="text-sm text-gray-500 mb-0">Created</p>
+              </div>
+            </div>
+          </div>
+          <%= render 'admin/shared/button', label: 'View All Posts', href: admin_topic_posts_path(@topic), variant: 'ghost', full: true %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

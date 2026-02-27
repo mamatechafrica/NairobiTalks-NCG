@@ -10,6 +10,19 @@ module.exports = {
     './app/components/**/*.rb',
     './app/assets/stylesheets/**/*.css',
   ],
+  safelist: [
+    'tabs', 'tabs-lifted', 'tab', 'tab-content',
+    'btn', 'btn-primary', 'btn-success', 'btn-outline', 'btn-ghost', 'btn-error', 'btn-info',
+    'btn-sm', 'btn-lg', 'w-full',
+    'alert', 'alert-error',
+    'card', 'card-body',
+    'input', 'input-bordered', 'input-lg',
+    'textarea', 'textarea-bordered',
+    'select', 'select-bordered',
+    'label', 'label-text',
+    'checkbox', 'toggle',
+    'form-control', 'form-label'
+  ],
   theme: {
     extend: {
       colors: {
@@ -119,6 +132,37 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('tailwindcss-animate')
+    require('tailwindcss-animate'),
+    require('daisyui')
   ]
+
+  // DaisyUI config: provide a lightweight theme that maps to existing CSS variables
+  ,
+  daisyui: {
+    themes: [
+      {
+        'nairobi': {
+          'primary': '#16a34a',
+          'primary-focus': '#15803d',
+          'primary-content': '#ffffff',
+
+          'secondary': '#10b981',
+          'secondary-focus': '#059669',
+          'secondary-content': '#ffffff',
+
+          'accent': '#0ea5e9',
+          'accent-focus': '#0284c7',
+          'accent-content': '#ffffff',
+
+          'neutral': '#f8fafc',
+          'base-100': '#ffffff',
+          'info': '#60a5fa',
+          'success': '#10b981',
+          'warning': '#f59e0b',
+          'error': '#ef4444'
+        }
+      }
+    ],
+    darkTheme: "nairobi"
+  }
 }
