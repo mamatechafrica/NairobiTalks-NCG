@@ -1,312 +1,600 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nairobi Talks</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <style>
-    :root {
-      --color-primary: #004225;
-      --color-secondary: #3AA966;
-    }
-    .bg-dark-green { background-color: #004225 !important; }
-    .text-dark-green { color: #004225 !important; }
-    .btn-dark-green { background-color: #004225; color: white; }
-    .btn-dark-green:hover { background-color: #00331c; color: white; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NairobiTalks — Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#111827;--ink2:#1f2d3d;
+  --muted:#6B7280;--faint:#9CA3AF;
+  --paper:#FAFAF7;--surface:#F3F2EE;--surface2:#EAE8E3;
+  --green:#0B6B4E;--green-mid:#17A372;--green-light:#E6F4EF;
+  --saffron:#C97C0A;--saffron-light:#FEF3DC;--saffron-mid:#F5B942;
+  --red:#B91C1C;--red-light:#FEF2F2;
+  --blue:#1d4ed8;--blue-light:#eff6ff;
+  --border:#E2DDD8;--border-dark:#C9C4BC;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Sora',sans-serif;font-size:15px;line-height:1.75;min-height:100vh}
+
+/* NAV */
+.topbar{position:sticky;top:0;z-index:100;background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:52px;border-bottom:2px solid var(--green-mid)}
+.brand{font-family:'Lora',serif;font-size:16px;font-weight:600;color:#fff;display:flex;align-items:center;gap:10px;letter-spacing:-0.2px}
+.brand-pip{width:7px;height:7px;border-radius:50%;background:var(--saffron-mid);flex-shrink:0}
+.brand-sub{font-size:11px;color:rgba(255,255,255,0.35);font-weight:300;letter-spacing:0.5px;font-family:'Sora',sans-serif}
+.nav-tabs{display:flex;gap:2px;flex-wrap:wrap}
+.ntab{padding:5px 13px;font-size:11px;font-weight:500;letter-spacing:0.3px;color:rgba(255,255,255,0.45);background:none;border:none;border-radius:16px;cursor:pointer;font-family:'Sora',sans-serif;transition:all .15s;white-space:nowrap}
+.ntab:hover{color:#fff;background:rgba(255,255,255,0.08)}
+.ntab.on{color:var(--ink);background:var(--saffron-mid)}
+
+/* PAGES */
+.page{display:none;animation:up .28s ease}
+.page.on{display:block}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.wrap{max-width:820px;margin:0 auto;padding:0 1.5rem 100px}
+
+/* HERO */
+.hero{padding:60px 0 48px;border-bottom:1px solid var(--border)}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:20px}
+.hero-kicker::before{content:'';display:block;width:18px;height:2px;background:var(--green-mid)}
+.roles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.role{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;padding:4px 11px;border-radius:4px;border:1px solid}
+.role-pm{color:var(--green);border-color:var(--green);background:var(--green-light)}
+.role-dev{color:var(--blue);border-color:#bfdbfe;background:var(--blue-light)}
+.role-ux{color:var(--saffron);border-color:#fed7aa;background:#fff7ed}
+.hero h1{font-family:'Lora',serif;font-size:clamp(30px,5vw,50px);font-weight:600;line-height:1.1;letter-spacing:-1px;color:var(--ink);margin-bottom:18px}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero-lede{font-size:16px;color:var(--muted);line-height:1.75;max-width:560px;margin-bottom:28px;font-weight:300}
+.meta-row{display:flex;gap:24px;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:0.8px;color:var(--faint);font-weight:600}
+.meta-value{font-size:13px;color:var(--muted);font-weight:500}
+
+/* SECTIONS */
+.section{padding:48px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--green-mid);margin-bottom:10px}
+h2{font-family:'Lora',serif;font-size:clamp(20px,3vw,28px);font-weight:600;letter-spacing:-0.5px;color:var(--ink);margin-bottom:14px;line-height:1.25}
+h3{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:6px}
+p{color:var(--muted);margin-bottom:14px;font-weight:300}
+p:last-child{margin-bottom:0}
+p strong{color:var(--ink);font-weight:600}
+ul.prose{color:var(--muted);padding-left:1.2rem;font-weight:300;margin-bottom:14px}
+ul.prose li{margin-bottom:5px}
+
+/* PULL QUOTE */
+.pull{border-left:3px solid var(--green-mid);background:var(--green-light);border-radius:0 8px 8px 0;padding:18px 22px;margin:24px 0}
+.pull p{font-family:'Lora',serif;font-size:17px;font-style:italic;color:var(--ink);margin-bottom:6px;font-weight:400}
+.pull cite{font-size:12px;color:var(--faint);font-style:normal}
+
+/* CALLOUT */
+.callout{border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin:20px 0;background:#fff}
+.callout.warn{border-color:#fed7aa;background:#fff7ed}
+.callout.info{background:var(--surface);border-color:var(--border)}
+.callout-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.callout.warn .callout-label{color:var(--saffron)}
+.callout.info .callout-label{color:var(--green)}
+.callout p{font-size:14px}
+
+/* GRIDS */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin-top:16px}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px}
+.card h3{margin-bottom:5px}
+.card p{font-size:13px;margin:0}
+.card.al{border-left:3px solid var(--red)}
+.card.ag{border-left:3px solid var(--green-mid)}
+.card.ay{border-left:3px solid var(--saffron)}
+
+/* STATS */
+.stats-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.stat{background:var(--ink);color:#fff;border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px}
+.stat.g{background:var(--green)}.stat.y{background:var(--saffron)}
+.stat-n{font-family:'Lora',serif;font-size:30px;font-weight:600;line-height:1}
+.stat-l{font-size:11px;color:rgba(255,255,255,0.6);font-weight:300;line-height:1.4}
+
+/* FUNNEL */
+.funnel{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:20px 0}
+.fstep{flex:1;padding:18px 10px;text-align:center;border-right:1px solid var(--border)}
+.fstep:last-child{border-right:none}
+.fn{font-family:'Lora',serif;font-size:26px;font-weight:600;margin-bottom:4px}
+.fl{font-size:11px;color:var(--faint);font-weight:500;line-height:1.3}
+.fa{background:var(--green-light)}.fa .fn{color:var(--green)}
+.fb{background:#f0fdf4}.fb .fn{color:#16a34a}
+.fc{background:var(--saffron-light)}.fc .fn{color:var(--saffron)}
+.fd{background:var(--red-light)}.fd .fn{color:var(--red)}
+
+/* TIMELINE */
+.tl{margin-top:20px}
+.tl-row{display:flex;gap:16px;padding-bottom:24px;position:relative}
+.tl-row:not(:last-child)::before{content:'';position:absolute;left:13px;top:30px;bottom:0;width:1px;background:var(--border)}
+.tl-dot{width:28px;height:28px;min-width:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;margin-top:2px}
+.tl-body h3{margin-bottom:4px;font-size:14px}
+.tl-body p{font-size:13px;margin:0}
+
+/* TECH STACK */
+.stack{background:var(--ink2);border-radius:12px;padding:26px;margin-top:18px}
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stack-layer{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:rgba(255,255,255,0.3);margin-bottom:3px}
+.stack-val{font-size:13px;font-weight:500;color:rgba(255,255,255,0.8)}
+
+/* RETHINK */
+.rethink{background:var(--ink);border-radius:12px;padding:30px;margin-top:24px;position:relative;overflow:hidden}
+.rethink::after{content:'';position:absolute;bottom:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:var(--green-mid);opacity:0.07}
+.re-eye{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--saffron-mid);margin-bottom:10px}
+.rethink h3{font-family:'Lora',serif;font-size:20px;font-weight:600;color:#fff;margin-bottom:10px}
+.rethink p{font-size:14px;color:rgba(255,255,255,0.58);margin-bottom:0;font-weight:300}
+.versus{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:start;margin-top:22px}
+.vs-box{background:rgba(255,255,255,0.05);border-radius:10px;padding:16px}
+.vs-head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px}
+.vs-now .vs-head{color:#f87171}.vs-next .vs-head{color:var(--green-mid)}
+.vs-line{font-size:12px;color:rgba(255,255,255,0.58);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;gap:7px;align-items:flex-start;line-height:1.4;font-weight:300}
+.vs-line:last-child{border:none}
+.vs-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.vs-now .vs-pip{background:#f87171}.vs-next .vs-pip{background:var(--green-mid)}
+.vs-sep{display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:18px;font-style:italic;color:rgba(255,255,255,0.12);padding-top:6px}
+
+/* PIPELINE */
+.pipe-wrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:20px}
+.pipe-row{display:flex}
+.pstep{flex:1;padding:14px 8px;text-align:center;cursor:pointer;border-right:1px solid var(--border);background:var(--surface);transition:all .15s}
+.pstep:last-child{border-right:none}
+.pstep:hover{background:var(--surface2)}
+.pstep.on{background:var(--green);border-color:var(--green)}
+.pstep.on .ps-n,.pstep.on .ps-l,.pstep.on .ps-sub{color:#fff!important}
+.ps-n{font-size:9px;color:var(--faint);font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:3px}
+.ps-l{font-size:12px;font-weight:600;color:var(--ink)}
+.ps-sub{font-size:10px;color:var(--faint);margin-top:2px}
+.pipe-desc{background:var(--green-light);border:1px solid var(--green-mid);border-top:none;border-radius:0 0 10px 10px;padding:14px 18px;font-size:13px;color:var(--green);display:none;line-height:1.6;font-weight:300}
+
+/* FEAT ITEMS */
+.feat-head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--faint);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.feat-item{font-size:13px;color:var(--muted);display:flex;align-items:flex-start;gap:7px;padding:8px 10px;background:var(--surface);border-radius:6px;font-weight:300;line-height:1.4}
+.feat-item::before{content:'→';color:var(--green-mid);font-size:11px;flex-shrink:0;margin-top:1px;font-weight:700}
+
+/* SDG */
+.sdg-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:20px}
+.sdg{border-radius:10px;padding:18px 20px;flex:1;min-width:180px}
+.sdg-16{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff}
+.sdg-11{background:linear-gradient(135deg,#92400e,#d97706);color:#fff}
+.sdg-n{font-family:'Lora',serif;font-size:32px;font-weight:600;line-height:1;margin-bottom:6px}
+.sdg-t{font-size:12px;font-weight:600;margin-bottom:4px}
+.sdg-d{font-size:12px;opacity:0.72;line-height:1.5;font-weight:300}
+
+/* LINKS */
+.link-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.gh-link,.live-link{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;padding:9px 18px;border-radius:7px;text-decoration:none;border:1px solid;transition:all .15s;cursor:pointer;font-family:'Sora',sans-serif}
+.gh-link{background:var(--ink);color:#fff;border-color:var(--ink)}.gh-link:hover{background:var(--ink2)}
+.live-link{background:#fff;color:var(--green);border-color:var(--green)}.live-link:hover{background:var(--green-light)}
+
+/* WCAG */
+.wcag{display:flex;gap:14px;align-items:flex-start;background:var(--ink2);color:#fff;border-radius:10px;padding:18px 20px;margin-top:18px}
+.wcag-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.wcag h3{color:#fff;margin-bottom:4px;font-size:14px}
+.wcag p{color:rgba(255,255,255,0.55);font-size:13px;margin:0;font-weight:300}
+
+@media(max-width:620px){
+  .topbar{padding:0 1rem;height:auto;flex-direction:column;gap:8px;padding:8px 1rem}
+  .grid2,.grid3,.versus{grid-template-columns:1fr}
+  .funnel{flex-direction:column}
+  .fstep{border-right:none;border-bottom:1px solid var(--border)}
+  .fstep:last-child{border-bottom:none}
+  .pipe-row{flex-direction:column}
+  .pstep{border-right:none;border-bottom:1px solid var(--border)}
+  .stats-row{flex-direction:column}
+  .feat-grid{grid-template-columns:1fr}
+  .vs-sep{display:none}
+  .sdg-row{flex-direction:column}
+}
+</style>
 </head>
-<body class="d-flex flex-column min-vh-100">
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg bg-dark-green text-white" style="padding: 0.6rem 0;">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-        <img src="images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:80px; width:auto; border-radius:0.375rem;">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
-          <li class="nav-item">
-            <a href="community.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Community Ideas</a>
-          </li>
-        </ul>
-        <div class="d-flex gap-2">
-          <a href="submit.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Submit Idea</a>
-          <a href="signin.html" class="btn btn-outline-light">Sign in</a>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-pip"></div>
+    NairobiTalks
+    <span class="brand-sub">GovTech Case Study</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="ntab on" onclick="go('story',this)">The Story</button>
+    <button class="ntab" onclick="go('problem',this)">Problem</button>
+    <button class="ntab" onclick="go('built',this)">What I Built</button>
+    <button class="ntab" onclick="go('rethink',this)">Rethink</button>
+    <button class="ntab" onclick="go('next',this)">What's Next</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- THE STORY -->
+<div class="page on" id="p-story">
+  <div class="hero">
+    <div class="hero-kicker">CIVIC Residency 2025 · Naivasha, Kenya</div>
+    <div class="roles">
+      <span class="role role-pm">Product Lead &amp; UX</span>
+      <span class="role role-dev">Full-Stack Developer</span>
+    </div>
+    <h1>I bridge government,<br>community, and <em>code</em></h1>
+    <p class="hero-lede">NairobiTalks is a civic tech platform I conceived, designed, and shipped during a 1.1.5-day co-design sprint in Naivasha — bringing citizens, government officials, civil society, and engineers into the same room to solve a problem none of them could fix alone.</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Sprint</span><span class="meta-value">December 2025 · 1.5 days</span></div>
+      <div class="meta-item"><span class="meta-label">Location</span><span class="meta-value">Naivasha, Kenya</span></div>
+      <div class="meta-item"><span class="meta-label">Partners</span><span class="meta-value">World Bank · Nairobi County Government</span></div>
+      <div class="meta-item"><span class="meta-label">Stack</span><span class="meta-value">Rails 8.1 · OpenAI · PostgreSQL</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The context</div>
+    <h2>Kenya mandates participation. Barely anyone participates.</h2>
+    <p>Kenya's constitution requires every county to produce a County Integrated Development Plan with meaningful public participation. In Nairobi, that mandate is functionally failing. Forums are poorly attended, feedback disappears into bureaucracy, and planning remains opaque to the 4.5 million residents it's meant to serve.</p>
+    <div class="stats-row">
+      <div class="stat"><span class="stat-n">0.07%</span><span class="stat-l">Actual participation rate in county planning</span></div>
+      <div class="stat g"><span class="stat-n">33%</span><span class="stat-l">Citizens who ever get feedback on their input</span></div>
+      <div class="stat y"><span class="stat-n">3 yrs</span><span class="stat-l">Average wait to see a proposed project materialise</span></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">My approach</div>
+    <h2>Get everyone in the room. Then build.</h2>
+    <p>The residency brought four stakeholder groups together physically for 1.5 days: <strong>citizens, county officials, civil society, and technology teams</strong>. My job as Product Lead was to turn that room into a product — to facilitate discovery, hold competing needs in tension, and ship something real by end of the sprint.</p>
+    <p>The most important realisation came early: this isn't a technology problem. It's a trust problem, a systems problem, and a participation design problem. Code is only useful here if it closes the loop between submitting an idea and seeing it become reality.</p>
+    <div class="pull">
+      <p>"Feedback should not depend on goodwill — it should be built on a system that works irrespective of who is in office."</p>
+      <cite>— Workshop output, CIVIC Residency 2025</cite>
+    </div>
+    <div class="callout info">
+      <div class="callout-label">Why co-design matters</div>
+      <p>The product decisions made in that room were only possible because all four groups were physically present. Multi-stakeholder co-design isn't a methodology preference — it's the only way to build something government will actually adopt and citizens will actually trust.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">Global alignment</div>
+    <h2>Built for global goals, grounded in local reality</h2>
+    <div class="sdg-row">
+      <div class="sdg sdg-16">
+        <div class="sdg-n">16</div>
+        <div class="sdg-t">Peace, Justice & Strong Institutions</div>
+        <div class="sdg-d">Transparent citizen engagement, participatory governance, and accountability in local government.</div>
+      </div>
+      <div class="sdg sdg-11">
+        <div class="sdg-n">11</div>
+        <div class="sdg-t">Sustainable Cities & Communities</div>
+        <div class="sdg-d">Empowering residents to shape more inclusive, resilient urban development in Nairobi.</div>
+      </div>
+    </div>
+    <div class="link-row" style="margin-top:28px">
+      <a class="gh-link" href="https://github.com/mamatechafrica/NairobiTalks-NCG" target="_blank">⟨/⟩ GitHub Repository</a>
+      <a class="live-link" href="https://your-live-url.com" target="_blank">↗ Live Platform</a>
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<div class="page" id="p-problem">
+  <div class="section" style="padding-top:52px">
+    <div class="eyebrow">What the workshop revealed</div>
+    <h2>The funnel collapses at every handoff</h2>
+    <p>Baseline analysis across 8 Nairobi departments told the same story at each layer. Input enters. Accountability never returns.</p>
+    <div class="funnel">
+      <div class="fstep fa"><div class="fn">79%</div><div class="fl">Received prior information</div></div>
+      <div class="fstep fb"><div class="fn">67%</div><div class="fl">Gave views at forums</div></div>
+      <div class="fstep fc"><div class="fn">33%</div><div class="fl">Got feedback on their input</div></div>
+      <div class="fstep fd"><div class="fn">26%</div><div class="fl">Saw the final report</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">From citizens</div>
+    <h2>What residents told us directly</h2>
+    <div class="grid2">
+      <div class="card al"><h3>Budget opacity</h3><p>No visibility into how much is available or how ideas get costed. The planning envelope is invisible to citizens.</p></div>
+      <div class="card al"><h3>No feedback loop</h3><p>The single most consistent frustration: submitting ideas and never hearing back. People stop trying after one or two attempts.</p></div>
+      <div class="card al"><h3>Fear of retribution</h3><p>Citizens reluctant to submit ideas publicly — particularly on sensitive local issues or when challenging officials.</p></div>
+      <div class="card al"><h3>Digital exclusion</h3><p>Android storage issues, device compatibility gaps, and low-bandwidth environments locking people out before they start.</p></div>
+      <div class="card al"><h3>Inaccessible documents</h3><p>ADP formats written for planners, not residents. Planning language is itself a barrier to meaningful participation.</p></div>
+      <div class="card al"><h3>Last-minute information</h3><p>Planning information released with no lead time. Citizens can't engage meaningfully under those conditions.</p></div>
+    </div>
+    <div class="pull" style="margin-top:28px">
+      <p>"Engagement with County is one-way traffic... County Government provides no responses."</p>
+      <cite>— KARA Representative, Nairobi City County Baseline 2025</cite>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">From government</div>
+    <h2>County officials face structural constraints too</h2>
+    <div class="grid2">
+      <div class="card ay"><h3>No visibility on submissions</h3><p>Poor traceability of submitted ideas across departments. No shared system, no shared reference number.</p></div>
+      <div class="card ay"><h3>Political misalignment</h3><p>Decisions not aligned to development plans. Budget allocations shift based on patronage, not community input.</p></div>
+      <div class="card ay"><h3>Expectations without delivery</h3><p>Too much outreach, too little follow-through. Citizen cynicism grows faster when promises aren't kept.</p></div>
+      <div class="card ay"><h3>Data ownership gaps</h3><p>Unclear which government levels can access what. No formal data-sharing agreements across departments.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">Where input gets lost</div>
+    <h2>The planning hierarchy mapped in the workshop</h2>
+    <p>Public input enters at ward level — but the path from ward forum to CIDP to ADP is completely opaque, and feedback never flows back down the chain.</p>
+    <div class="tl">
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--green)">1</div>
+        <div class="tl-body"><h3>Ward Forums</h3><p>Citizens submit ideas at ward level. High attendance when well-promoted — but no guarantee input travels further.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--green)">2</div>
+        <div class="tl-body"><h3>Sub-County Collation</h3><p>Ward inputs feed into sub-county units. This stage receives the fewest inputs and has the least public visibility of all.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--saffron)">3</div>
+        <div class="tl-body"><h3>Sector Economic Planning</h3><p>Collated inputs feed 10 sector plans. Internal sector budgets are never shared publicly — the envelope is invisible.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--saffron)">4</div>
+        <div class="tl-body"><h3>CIDP → ADP</h3><p>Sector plans feed the CIDP and Annual Development Plan. Validation before finalisation is inconsistent. Citizens never see this stage.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT I BUILT -->
+<div class="page" id="p-built">
+  <div class="section" style="padding-top:52px">
+    <div class="eyebrow">The product</div>
+    <h2>A two-sided civic platform — shipped in 1.5 days</h2>
+    <p>NairobiTalks has two faces: a <strong>resident-facing experience</strong> built around radical simplicity, and an <strong>admin dashboard</strong> that gives county officials a structured, data-driven view of citizen input — for the first time.</p>
+    <div class="callout info">
+      <div class="callout-label">Core design principle</div>
+      <p>Simplicity is a civic responsibility. Every layer of complexity in a public participation tool is a barrier to inclusion — particularly for low-literacy users and those on low-end Android devices in Nairobi's low-income settlements.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The citizen experience</div>
+    <h2>Swipe to participate. No forms. No jargon.</h2>
+    <p>The core interaction is a <strong>swipe-based card interface</strong> — deliberately modelled on familiar consumer patterns — where residents see ideas others have submitted for their ward. The swipe mechanic was a deliberate accessibility choice, not a design gimmick. It also generates rich prioritisation data immediately useful to planners.</p>
+    <div class="feat-head" style="margin-top:20px">Citizen features</div>
+    <div class="feat-grid">
+      <div class="feat-item">Swipe or tap to upvote/downvote community ideas</div>
+      <div class="feat-item">Submit original ideas in free text or voice</div>
+      <div class="feat-item">Filter ideas by area, issue category, or demographic</div>
+      <div class="feat-item">Track whether a submitted idea has been acknowledged</div>
+      <div class="feat-item">Comment on ideas and participate in discussions</div>
+      <div class="feat-item">View idea details and community engagement in real time</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The AI layer</div>
+    <h2>A chatbot that explains government in plain language</h2>
+    <p>A separate AI chat interface built on the <strong>OpenAI API</strong> makes the planning system legible to ordinary residents. Not everyone knows what a CIDP is. Now they can just ask.</p>
+    <div class="grid2">
+      <div class="card ag"><h3>Planning literacy</h3><p>Explains what the CIDP and ADP are in plain language — without a lawyer or planner in the room.</p></div>
+      <div class="card ag"><h3>Budget navigation</h3><p>Helps residents understand the current budget cycle and how to participate meaningfully.</p></div>
+      <div class="card ag"><h3>Guided submission</h3><p>Walks users through submitting a structured idea or petition — step by step, in accessible language.</p></div>
+      <div class="card ag"><h3>Historical context</h3><p>Answers questions about previous projects and outcomes — building institutional memory that currently doesn't exist.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The admin side</div>
+    <h2>Giving government a data-driven view of its citizens</h2>
+    <p>The dashboard gives county officials something that didn't previously exist: a structured, filterable view of citizen input — by ward, sector, issue, and demographic group — with a direct path to close the feedback loop.</p>
+    <div class="feat-head" style="margin-top:16px">Administrator features</div>
+    <div class="feat-grid">
+      <div class="feat-item">See which ideas are gaining traction across wards</div>
+      <div class="feat-item">Flag items for inclusion in the next ADP cycle</div>
+      <div class="feat-item">Send acknowledgment back to citizens — closing the loop</div>
+      <div class="feat-item">Schedule, moderate, and analyse civic forums</div>
+      <div class="feat-item">Broadcast centre for public announcements</div>
+      <div class="feat-item">Bulk actions: approve, reject, or flag submissions</div>
+      <div class="feat-item">Analytics and charts for platform activity over time</div>
+      <div class="feat-item">Filter by status, type, date, and department</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">Technology</div>
+    <h2>Built to be owned — not just delivered</h2>
+    <p>The stack was chosen for convention, speed, and county team maintainability. Open source under MIT. Designed from day one to be handed over to county ownership without external dependency.</p>
+    <div class="stack">
+      <div class="stack-grid">
+        <div><div class="stack-layer">Backend</div><div class="stack-val">Ruby on Rails 8.1.1</div></div>
+        <div><div class="stack-layer">Frontend</div><div class="stack-val">Bootstrap 5 · Hotwire · Stimulus</div></div>
+        <div><div class="stack-layer">Database</div><div class="stack-val">PostgreSQL (prod) · SQLite (dev)</div></div>
+        <div><div class="stack-layer">Auth</div><div class="stack-val">Devise</div></div>
+        <div><div class="stack-layer">Files</div><div class="stack-val">Active Storage</div></div>
+        <div><div class="stack-layer">AI</div><div class="stack-val">OpenAI API</div></div>
+        <div><div class="stack-layer">Deployment</div><div class="stack-val">Kamal-ready</div></div>
+        <div><div class="stack-layer">License</div><div class="stack-val">MIT Open Source</div></div>
+      </div>
+    </div>
+    <div class="wcag">
+      <div class="wcag-icon">♿</div>
+      <div><h3>WCAG 2.1 Compliant</h3><p>NairobiTalks is committed to accessibility for all users regardless of race, ethnicity, gender, age, religion, disability, or sexual orientation. Follows WCAG 2.1 guidelines, regularly tested with people of diverse backgrounds and abilities.</p></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">Honest reflection</div>
+    <h2>One thing I'd do differently</h2>
+    <div class="callout warn">
+      <div class="callout-label">Lesson learned</div>
+      <p>The hardest part wasn't the build — it was ensuring stakeholders understood the value of what we'd created and left with clear next steps and genuine buy-in. A working prototype means nothing if the people who need to champion it walk away uncertain about what happens next. <strong>Closing a sprint with explicit commitment, not just applause, is now something I design for deliberately.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- RETHINK -->
+<div class="page" id="p-rethink">
+  <div class="section" style="padding-top:52px">
+    <div class="eyebrow">Architecture evolution</div>
+    <h2>The prototype proved the concept.<br>Now I'm rethinking the foundation.</h2>
+    <p>My recent exposure to <strong>OpenFn</strong> and <strong>Liquio.tech</strong> has changed how I think about what NairobiTalks should become. Rails got us to a working prototype in 1.5 days — and I'd make that same call again. The question isn't the framework. <em>The same ceiling applies whether you build this in Rails, React, Django, or anything else.</em> The moment you need multi-department workflow automation, omnichannel government reach, and participatory budgeting at county scale, a single-framework application hits its limits — and purpose-built GovTech infrastructure takes over.</p>
+
+    <div class="rethink">
+      <div class="re-eye">The shift in thinking</div>
+      <h3>From "build the feature" to "connect the systems"</h3>
+      <p>Any single-framework app serves one county well. Open, interoperable infrastructure serves every county — and every country. That's the difference between a project and a platform. The framework is not the constraint. The architecture is.</p>
+      <div class="versus">
+        <div class="vs-box vs-now">
+          <div class="vs-head">Any monolith, any framework</div>
+          <div class="vs-line"><div class="vs-pip"></div>Custom routing logic per department</div>
+          <div class="vs-line"><div class="vs-pip"></div>Hard-coded notification flows</div>
+          <div class="vs-line"><div class="vs-pip"></div>No USSD / SMS omnichannel</div>
+          <div class="vs-line"><div class="vs-pip"></div>Budget tracking is manual</div>
+          <div class="vs-line"><div class="vs-pip"></div>Replication needs a new build each time</div>
+        </div>
+        <div class="vs-sep">→</div>
+        <div class="vs-box vs-next">
+          <div class="vs-head">OpenFn + Liquio.tech</div>
+          <div class="vs-line"><div class="vs-pip"></div>Visual workflow builder, no code per dept</div>
+          <div class="vs-line"><div class="vs-pip"></div>SMS / WhatsApp / email automated</div>
+          <div class="vs-line"><div class="vs-pip"></div>USSD adaptor built-in</div>
+          <div class="vs-line"><div class="vs-pip"></div>Participatory budgeting with audit trail</div>
+          <div class="vs-line"><div class="vs-pip"></div>County-agnostic, replicable by design</div>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
 
-  <!-- Hero -->
-  <section class="bg-success text-white py-5">
-    <div class="container text-center">
-      <div class="bg-white rounded d-inline-flex align-items-center justify-content-center mb-4" style="width:80px;height:80px;">
-        <span class="text-success fw-bold fs-2">NT</span>
-      </div>
-      <h1 class="display-4 fw-bold mb-4">Nairobi Talks</h1>
-      <p class="lead mb-5">Empowering citizens to shape their community through anonymous idea submission and democratic voting.</p>
+  <div class="section">
+    <div class="eyebrow">OpenFn</div>
+    <h2>Workflow automation for government — without custom code</h2>
+    <p>OpenFn is a certified Digital Public Good already deployed in government contexts across Africa. For NairobiTalks, it would replace all the custom routing, SLA escalation, and notification logic I currently write and maintain by hand — making the platform far easier for county IT teams to own and extend.</p>
+    <div class="grid2">
+      <div class="card ag"><h3>Department routing</h3><p>Visual workflow builder routes submissions to the right department — no code changes when org structures change.</p></div>
+      <div class="card ag"><h3>SLA automation</h3><p>Automatic escalation when deadlines slip — removing individual officer dependency from the accountability chain.</p></div>
+      <div class="card ag"><h3>Omnichannel reach</h3><p>SMS, WhatsApp, and email triggered automatically — every citizen reached on their own channel.</p></div>
+      <div class="card ag"><h3>System interoperability</h3><p>Connects NairobiTalks to existing county CRM, GIS, and case tracking systems without bespoke integration work.</p></div>
     </div>
-  </section>
+  </div>
 
-  <!-- Stats -->
-  <section class="py-5 bg-white">
-    <div class="container">
-      <div class="row text-center">
-        <div class="col-md-4 mb-4">
-          <div class="h-100 p-4 border rounded">
-            <h2 class="text-success fw-bold display-4" id="stat-ideas">-</h2>
-            <p class="text-muted mb-0">Ideas Submitted</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="h-100 p-4 border rounded">
-            <h2 class="text-success fw-bold display-4" id="stat-comments">-</h2>
-            <p class="text-muted mb-0">Comments Made</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="h-100 p-4 border rounded">
-            <h2 class="text-success fw-bold display-4" id="stat-users">-</h2>
-            <p class="text-muted mb-0">Citizens Engaged</p>
-          </div>
-        </div>
-      </div>
+  <div class="section">
+    <div class="eyebrow">Liquio.tech</div>
+    <h2>Participatory budgeting with a structural corruption defence</h2>
+    <p>The political economy analysis identified budget manipulation as a core failure mode — CCOs pressured to shift allocations, CECMs changing budgets without consultation. Liquio.tech addresses this structurally by creating a publicly auditable trail from proposal through to allocation — not dependent on anyone's goodwill.</p>
+    <div class="grid2">
+      <div class="card ay"><h3>Ward-level budget voting</h3><p>Citizens vote on priorities — publicly, on record, resistant to behind-the-scenes reallocation.</p></div>
+      <div class="card ay"><h3>Immutable audit trail</h3><p>Every allocation decision is recorded. Survives elections, officer turnover, and political pressure.</p></div>
     </div>
-  </section>
-
-  <!-- Features -->
-  <section class="py-5 bg-light">
-    <div class="container">
-      <div class="row text-center mb-5">
-        <div class="col-12">
-          <h2 class="fw-bold mb-3">How It Works</h2>
-          <p class="text-muted lead">Three simple steps to make your voice heard</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4 mb-4">
-          <div class="text-center">
-            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
-              <span class="fw-bold fs-4">1</span>
-            </div>
-            <h4 class="fw-bold mb-3">Submit Your Idea</h4>
-            <p class="text-muted">Share your thoughts on how to improve Nairobi.</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="text-center">
-            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
-              <span class="fw-bold fs-4">2</span>
-            </div>
-            <h4 class="fw-bold mb-3">Community Discussion</h4>
-            <p class="text-muted">Engage with fellow citizens. Comment and debate ideas.</p>
-          </div>
-        </div>
-        <div class="col-md-4 mb-4">
-          <div class="text-center">
-            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
-              <span class="fw-bold fs-4">3</span>
-            </div>
-            <h4 class="fw-bold mb-3">Vote & Impact</h4>
-            <p class="text-muted">Vote on ideas you support. Popular ideas get attention.</p>
-          </div>
-        </div>
-      </div>
+    <div class="callout info" style="margin-top:20px">
+      <div class="callout-label">Why this matters</div>
+      <p>Smart Nairobi procured a CRM that was never integrated. The ERP is mid-court-case after Kshs 150M of 840M was paid. Technology alone doesn't fix trust. But <strong>architecture that removes the opportunity for manipulation</strong> is a meaningfully different proposition.</p>
     </div>
-  </section>
+  </div>
 
-  <!-- Recent Ideas -->
-  <section class="py-5 bg-white">
-    <div class="container">
-      <div class="row mb-5">
-        <div class="col-12 text-center">
-          <h2 class="fw-bold mb-3">Recent Community Ideas</h2>
-        </div>
+  <div class="section">
+    <div class="eyebrow">The full feedback cycle</div>
+    <h2>Six stages — tracked, public, connected</h2>
+    <p>Click any stage to see what it looks like with OpenFn and Liquio.tech in the stack.</p>
+    <div class="pipe-wrap">
+      <div class="pipe-row">
+        <div class="pstep" onclick="pipe(0,this)"><div class="ps-n">01</div><div class="ps-l">Propose</div><div class="ps-sub">CIDP / ADP</div></div>
+        <div class="pstep" onclick="pipe(1,this)"><div class="ps-n">02</div><div class="ps-l">Assess</div><div class="ps-sub">Feasibility</div></div>
+        <div class="pstep" onclick="pipe(2,this)"><div class="ps-n">03</div><div class="ps-l">Budget</div><div class="ps-sub">Liquio.tech</div></div>
+        <div class="pstep" onclick="pipe(3,this)"><div class="ps-n">04</div><div class="ps-l">Procure</div><div class="ps-sub">Timeline</div></div>
+        <div class="pstep" onclick="pipe(4,this)"><div class="ps-n">05</div><div class="ps-l">Implement</div><div class="ps-sub">Real-time</div></div>
+        <div class="pstep" onclick="pipe(5,this)"><div class="ps-n">06</div><div class="ps-l">Complete</div><div class="ps-sub">Audit trail</div></div>
       </div>
-      <div class="row" id="recent-ideas">
-        <!-- Loaded via JS from Google Sheets -->
+      <div class="pipe-desc" id="pdesc"></div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT'S NEXT -->
+<div class="page" id="p-next">
+  <div class="section" style="padding-top:52px">
+    <div class="eyebrow">Roadmap</div>
+    <h2>The prototype is real. Now comes scale.</h2>
+    <div class="tl">
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--green)">1</div>
+        <div class="tl-body"><h3>Merge AI chatbot into the main platform</h3><p>Built separately during the sprint. Integrating it into the main Rails app is the immediate technical priority.</p></div>
       </div>
-      <div class="text-center mt-4">
-        <a href="community.html" class="btn btn-success btn-lg">View All Ideas</a>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--green)">2</div>
+        <div class="tl-body"><h3>Usability testing across Nairobi wards</h3><p>Specific focus on low-literacy and low-bandwidth users — the people most excluded by current participation systems.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--green)">3</div>
+        <div class="tl-body"><h3>OpenFn integration</h3><p>Replace custom routing and notification logic with OpenFn workflows. Reduce maintenance overhead. Increase county IT ownership.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--saffron)">4</div>
+        <div class="tl-body"><h3>Liquio.tech — participatory budgeting</h3><p>Add the budget voting and audit trail layer. Directly addresses the manipulation dynamics identified in the political economy analysis.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--saffron)">5</div>
+        <div class="tl-body"><h3>Formal CIDP data-sharing agreement</h3><p>Establish institutional integration with Nairobi County Government to connect NairobiTalks to the official planning cycle.</p></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-dot" style="background:var(--saffron)">6</div>
+        <div class="tl-body"><h3>Replication to other Kenyan counties</h3><p>The architecture is county-agnostic by design. Apply for Google AI Impact Grant to fund scale-out.</p></div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- CTA -->
-  <section class="bg-success text-white py-5">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-3">Ready to Make a Difference?</h2>
-      <p class="lead mb-4">Join thousands of Nairobi citizens shaping the future of our city.</p>
-      <a href="#" class="btn btn-light btn-lg me-3">Sign Up Now</a>
+  <div class="section">
+    <div class="eyebrow">What technology cannot do alone</div>
+    <h2>The conditions for this to actually work</h2>
+    <div class="grid2">
+      <div class="card"><h3>Political will at the top</h3><p>Smart Nairobi procured tools that were never used. Commitment needs to sit at the CECM level, not just with a project champion.</p></div>
+      <div class="card"><h3>Honest broker facilitation</h3><p>Civil society must play a non-partisan bridging role — connecting county government and citizens without political capture on either side.</p></div>
+      <div class="card"><h3>Non-political branding</h3><p>No ribbon cutting. No campaign association. The platform must belong to the institution and survive the next election cycle.</p></div>
+      <div class="card"><h3>Local ownership from day one</h3><p>County IT and the Citizen Engagement Office as co-designers, not recipients. Handover planning starts before launch — not after.</p></div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="bg-dark-green text-white py-5 mt-auto">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-5">
-          <img src="images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:60px;width:auto;border-radius:0.375rem;" class="mb-3">
-          <p class="text-white-75">Empowering Nairobi citizens to propose, discuss and vote on community ideas.</p>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h6 class="text-uppercase fw-semibold mb-3">Explore</h6>
-          <ul class="list-unstyled lh-lg">
-            <li><a href="community.html" class="text-white text-opacity-75 text-decoration-none">All Ideas</a></li>
-          </ul>
-        </div>
-      </div>
-      <hr class="my-4 opacity-25">
-      <div class="d-flex justify-content-between align-items-center flex-wrap">
-        <p class="mb-0">© 2025 Nairobi Talks</p>
-        <a href="admin/index.html" class="text-white-50 text-decoration-none small">Admin Panel</a>
-      </div>
+    <div class="pull" style="margin-top:32px">
+      <p>"Built at the intersection of civic participation, AI, and human-centred design."</p>
+      <cite>— NairobiTalks · December 2025 · Naivasha, Kenya · World Bank & Nairobi County Government</cite>
     </div>
-  </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // ============================================
-    // CONFIGURATION - Choose your backend:
-    // ============================================
-    
-    // Option 1: Supabase (real-time database)
-    // Get your credentials from: https://supabase.com
-    // 1. Create a project
-    // 2. Go to Settings → API
-    // 3. Copy Project URL and anon public key
-    const SUPABASE_URL = 'https://tfnvacmwachpadhekfzm.supabase.co'; // e.g., 'https://xyzabc.supabase.co'
-    const SUPABASE_KEY = 'sb_publishable_1lebrtqeey5Ni62L7TA4rA_4fTTete7'; // e.g., 'eyJhbGciOiJIUzI1NiIs...'
-    
-    // Option 2: Google Sheets (simpler, no real-time)
-    // const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
-    
-    // Option 3: Demo mode (no backend) - DEFAULT
-    const USE_DEMO_MODE = false; // Set to false when you have Supabase configured
-    
-    // ============================================
-    // SUPABASE CLIENT SETUP
-    // ============================================
-    let supabase;
-    if (!USE_DEMO_MODE && SUPABASE_URL !== 'https://tfnvacmwachpadhekfzm.supabase.co') {
-      const { createClient } = window.supabase;
-      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-    }
-    
-    // ============================================
-    // MOCK DATA (Demo Mode)
-    // ============================================
-    const mockData = {
-      ideas: 156,
-      comments: 423,
-      users: 89,
-      recentIdeas: [
-        { title: 'Improve Public Transport in Westlands', description: 'Add more bus routes and dedicated lanes to reduce commute times.', topic: 'Transportation', comments: 12 },
-        { title: 'Community Garden in Kibra', description: 'Create urban gardens to improve food security and community spaces.', topic: 'Environment', comments: 8 },
-        { title: 'Digital Literacy Program for Youth', description: 'Free computer training for unemployed youth in Nairobi.', topic: 'Education', comments: 15 }
-      ]
-    };
+    <div class="link-row">
+      <a class="gh-link" href="https://github.com/mamatechafrica/NairobiTalks-NCG" target="_blank">⟨/⟩ GitHub Repository</a>
+      <a class="live-link" href="https://your-live-url.com" target="_blank">↗ Live Platform</a>
+    </div>
+  </div>
+</div>
 
-    // ============================================
-    // DATA LOADING FUNCTIONS
-    // ============================================
-    async function loadData() {
-      const container = document.getElementById('recent-ideas');
-      
-      if (USE_DEMO_MODE) {
-        updateStats(mockData);
-        renderIdeas(mockData.recentIdeas);
-        return;
-      }
+</div>
 
-      try {
-        // Load stats from Supabase
-        const [ideasResult, commentsResult, usersResult] = await Promise.all([
-          supabase.from('ideas').select('id', { count: 'exact' }),
-          supabase.from('comments').select('id', { count: 'exact' }),
-          supabase.from('users').select('id', { count: 'exact' })
-        ]);
-        
-        const stats = {
-          ideas: ideasResult.count || 0,
-          comments: commentsResult.count || 0,
-          users: usersResult.count || 0
-        };
-        
-        // Load recent ideas
-        const { data: recentIdeas } = await supabase
-          .from('ideas')
-          .select('*, comments(id)')
-          .order('created_at', { ascending: false })
-          .limit(3);
-        
-        updateStats(stats);
-        renderIdeas(recentIdeas || []);
-      } catch (e) {
-        console.log('Error loading data:', e);
-        updateStats(mockData);
-        renderIdeas(mockData.recentIdeas);
-      }
-    }
+<script>
+const pdata=[
+  "Propose — Citizens submit ideas via USSD, WhatsApp, swipe interface, or community meetings. Every submission receives a unique county-wide ticket ID. OpenFn triggers an immediate acknowledgment notification.",
+  "Assess — The relevant department reviews feasibility with a documented rationale. OpenFn notifies the citizen of receipt and estimated response time. Status is publicly visible in the platform.",
+  "Budget — Proposals are linked to budget lines. Liquio.tech enables ward-level citizen voting on priorities — creating a publicly auditable record that structurally resists behind-the-scenes reallocation.",
+  "Procure — Procurement status and timelines are published publicly on the platform. OpenFn sends status updates to subscribed citizens across SMS, WhatsApp, and email. No more 3-year blackouts.",
+  "Implement — Real-time project updates flow through the platform. Citizens see progress on their ward's ideas. OpenFn routes milestone notifications automatically across every channel.",
+  "Complete — Final documentation is published and citizen-accessible. Citizens can verify outcomes and flag incomplete delivery. The full audit trail is preserved regardless of who is in office."
+];
 
-    function updateStats(data) {
-      document.getElementById('stat-ideas').textContent = data.ideas || '-';
-      document.getElementById('stat-comments').textContent = data.comments || '-';
-      document.getElementById('stat-users').textContent = data.users || '-';
-    }
+function pipe(i,el){
+  document.querySelectorAll('.pstep').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  const d=document.getElementById('pdesc');
+  d.textContent=pdata[i];
+  d.style.display='block';
+}
 
-    function renderIdeas(ideas) {
-      const container = document.getElementById('recent-ideas');
-      container.innerHTML = ideas.map(idea => {
-        const commentCount = idea.comments ? idea.comments.length : 0;
-        return `
-        <div class="col-md-4 mb-4">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body">
-              <span class="badge bg-success mb-2">${idea.topic || 'General'}</span>
-              <h5 class="card-title fw-bold text-success">${idea.title}</h5>
-              <p class="card-text text-muted">${idea.description || ''}</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <small class="text-muted">${formatDate(idea.created_at)}</small>
-                <span class="badge bg-light text-dark">${commentCount} comments</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      `}).join('');
-    }
-
-    function formatDate(dateStr) {
-      if (!dateStr) return 'Recently';
-      const date = new Date(dateStr);
-      const now = new Date();
-      const diffMs = now - date;
-      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-      if (diffDays === 0) return 'Today';
-      if (diffDays === 1) return 'Yesterday';
-      if (diffDays < 7) return `${diffDays} days ago`;
-      return date.toLocaleDateString();
-    }
-
-    // ============================================
-    // REAL-TIME SUBSCRIPTIONS (Supabase only)
-    // ============================================
-    if (!USE_DEMO_MODE && supabase) {
-      // Subscribe to ideas changes
-      supabase
-        .channel('ideas')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'ideas' }, () => {
-          loadData(); // Reload when data changes
-        })
-        .subscribe();
-    }
-
-    loadData();
-  </script>
+function go(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('p-'+id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
 </body>
 </html>
