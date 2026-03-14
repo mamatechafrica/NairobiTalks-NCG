@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum - Admin - Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    .sidebar { min-height: 100vh; background: #1a1a1a; }
+    .sidebar a { color: #aaa; text-decoration: none; padding: 12px 20px; display: block; }
+    .sidebar a:hover, .sidebar a.active { background: #333; color: #fff; }
+    .forum-card { background-color: #EDF6F2; }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="d-flex">
+    <nav class="sidebar d-none d-md-block" style="width:250px;position:fixed;height:100vh;">
+      <div class="p-3">
+        <h5 class="text-white fw-bold">Nairobi Talks</h5>
+        <small class="text-white-50">Admin Panel</small>
+      </div>
+      <hr class="border-secondary">
+      <a href="index.html"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+      <a href="ideas.html"><i class="bi bi-lightbulb me-2"></i> Community Ideas</a>
+      <a href="documents.html"><i class="bi bi-file-earmark-text me-2"></i> Planning Documents</a>
+      <a href="users.html"><i class="bi bi-people me-2"></i> Users</a>
+      <a href="analytics.html"><i class="bi bi-graph-up me-2"></i> Analytics</a>
+      <a href="broadcasts.html"><i class="bi bi-megaphone me-2"></i> Broadcasts</a>
+      <a href="forums.html"><i class="bi bi-megaphone me-2"></i> Broadcasts</a>
+      <a href="forums.html" class="active"><i class="bi bi-chat-dots me-2"></i> Forum</a>
+      <hr class="border-secondary">
+      <a href="../index.html"><i class="bi bi-house me-2"></i> View Site</a>
+      <a href="#"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
+    </nav>
+
+    <div class="flex-grow-1 p-4" style="margin-left:250px;">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4 px-3 py-3 bg-white rounded shadow-sm">
+        <div class="flex-grow-1">
+          <h1 class="mb-1 fw-bold" style="color: #009339;">Forum</h1>
+          <p class="text-muted mb-0">Community engagement and civic discussions</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <div class="rounded-circle text-white text-center me-3 d-flex align-items-center justify-content-center fw-bold" style="width: 45px; height: 45px; background-color: #3AA966;">A</div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+          <!-- About Forum -->
+          <div class="card shadow-sm border-0 mb-4 forum-card">
+            <div class="card-body p-4">
+              <h2 class="card-title fw-bold mb-3" style="color: #3AA966;">
+                <i class="bi bi-question-circle-fill me-2"></i>
+                What is This Forum?
+              </h2>
+              <p class="card-text text-dark mb-0" style="line-height: 1.6;">
+                This forum allows civic engagement via online meetups and text-based discussions between Nairobi residents and county officials.
+                Community members can participate in virtual town halls, share ideas, and engage directly with local government representatives.
+              </p>
+            </div>
+          </div>
+
+          <!-- Upcoming Virtual Calls -->
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+              <h2 class="card-title fw-bold mb-3" style="color: #3AA966;">
+                <i class="bi bi-calendar-event-fill me-2"></i>
+                Upcoming Zoom/Google Meet Forums
+              </h2>
+              <p class="text-muted mb-3">Join virtual community meetings and engage with county officials</p>
+              
+              <div class="row g-3" id="events-list">
+                <!-- Events loaded via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+          <!-- Community Discussions -->
+          <div class="card shadow-sm border-0 mb-4 forum-card">
+            <div class="card-body p-4">
+              <h2 class="card-title fw-bold mb-3" style="color: #3AA966;">
+                <i class="bi bi-chat-dots-fill me-2"></i>
+                Community Discussions
+              </h2>
+              <div class="text-center py-4">
+                <div class="rounded-circle bg-white mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                  <i class="bi bi-chat-quote text-muted fs-1"></i>
+                </div>
+                <h6 class="fw-bold text-muted mb-2">Coming Soon</h6>
+                <p class="text-muted small mb-0">
+                  In future versions, users will post, reply, and react to community topics.
+                </p>
+              </div>
+              <hr class="my-3" style="border-color: rgba(58, 169, 102, 0.2);">
+              <div class="d-grid gap-2">
+                <button class="btn btn-outline-primary" disabled>
+                  <i class="bi bi-plus-circle me-2"></i>Start Discussion
+                </button>
+                <button class="btn btn-outline-secondary" disabled>
+                  <i class="bi bi-search me-2"></i>Browse Topics
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forum Stats -->
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+              <h2 class="card-title fw-bold mb-3" style="color: #3AA966;">
+                <i class="bi bi-bar-chart-line-fill me-2"></i>
+                Forum Statistics
+              </h2>
+              <div class="row g-3">
+                <div class="col-6">
+                  <div class="text-center">
+                    <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
+                    <small class="text-muted">Active Discussions</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="text-center">
+                    <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
+                    <small class="text-muted">Registered Users</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="text-center">
+                    <div class="fw-bold fs-4" style="color: #3AA966;">3</div>
+                    <small class="text-muted">Upcoming Events</small>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="text-center">
+                    <div class="fw-bold fs-4" style="color: #3AA966;">0</div>
+                    <small class="text-muted">Total Posts</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://tfnvacmwachpadhekfzm.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_1lebrtqeey5Ni62L7TA4rA_4fTTete7';
+    const USE_DEMO_MODE = false;
+    
+    let supabase;
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'https://tfnvacmwachpadhekfzm.supabase.co') {
+      const { createClient } = window.supabase;
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+
+    // Demo events data
+    const events = [
+      { title: "Public Consultation - Urban Planning 2026", date: "January 25, 2026", time: "2:00 PM EAT", status: "open", registered: 47, max: 100 },
+      { title: "Environment Planning Meetup", date: "February 10, 2026", time: "10:00 AM EAT", status: "closed", registered: 85, max: 100 },
+      { title: "Budget Forum 2026", date: "March 5, 2026", time: "3:00 PM EAT", status: "open", registered: 23, max: 50 }
+    ];
+
+    function renderEvents() {
+      document.getElementById('events-list').innerHTML = events.map(event => `
+        <div class="col-md-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title fw-bold mb-2" style="color: #1E1E1E;">${event.title}</h3>
+              <p class="card-text text-muted small mb-2">
+                <i class="bi bi-calendar me-1"></i>${event.date} •
+                <i class="bi bi-clock me-1"></i>${event.time}
+              </p>
+              ${event.status === 'open' 
+                ? '<span class="badge bg-success mb-2">🟢 Open Registration</span>' 
+                : '<span class="badge bg-danger mb-2">🔴 Closed Registration</span>'}
+              <div class="mb-0">
+                <small class="text-muted">
+                  <i class="bi bi-people me-1"></i>👥 Registered: ${event.registered}<br>
+                  <i class="bi bi-check-circle me-1"></i>✅ Max: ${event.max}
+                </small>
+              </div>
+            </div>
+            <div class="card-footer bg-transparent border-0 pt-0">
+              ${event.status === 'open'
+                ? `<button class="btn btn-danger btn-sm float-end" onclick="toggleRegistration(${event.registered}, ${event.max})">
+                    <i class="bi bi-x-circle me-1"></i>Close Registration
+                   </button>`
+                : `<button class="btn btn-success btn-sm float-end" disabled>
+                    <i class="bi bi-check-circle me-1"></i>Registration Closed
+                   </button>`}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleRegistration(registered, max) {
+      if (confirm('Close registration for this event?')) {
+        alert('Registration closed! (Demo mode - not saved)');
+        renderEvents();
+      }
+    }
+
+    renderEvents();
+  </script>
+</body>
+</html>

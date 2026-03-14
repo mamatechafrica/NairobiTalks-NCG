@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nairobi Talks</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --color-primary: #004225;
+      --color-secondary: #3AA966;
+    }
+    .bg-dark-green { background-color: #004225 !important; }
+    .text-dark-green { color: #004225 !important; }
+    .btn-dark-green { background-color: #004225; color: white; }
+    .btn-dark-green:hover { background-color: #00331c; color: white; }
+  </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-dark-green text-white" style="padding: 0.6rem 0;">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:80px; width:auto; border-radius:0.375rem;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a href="community.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Community Ideas</a>
+          </li>
+        </ul>
+        <div class="d-flex gap-2">
+          <a href="submit.html" class="btn btn-light text-dark-green fw-semibold px-3 py-2">Submit Idea</a>
+          <a href="signin.html" class="btn btn-outline-light">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="bg-success text-white py-5">
+    <div class="container text-center">
+      <div class="bg-white rounded d-inline-flex align-items-center justify-content-center mb-4" style="width:80px;height:80px;">
+        <span class="text-success fw-bold fs-2">NT</span>
+      </div>
+      <h1 class="display-4 fw-bold mb-4">Nairobi Talks</h1>
+      <p class="lead mb-5">Empowering citizens to shape their community through anonymous idea submission and democratic voting.</p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-4 mb-4">
+          <div class="h-100 p-4 border rounded">
+            <h2 class="text-success fw-bold display-4" id="stat-ideas">-</h2>
+            <p class="text-muted mb-0">Ideas Submitted</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="h-100 p-4 border rounded">
+            <h2 class="text-success fw-bold display-4" id="stat-comments">-</h2>
+            <p class="text-muted mb-0">Comments Made</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="h-100 p-4 border rounded">
+            <h2 class="text-success fw-bold display-4" id="stat-users">-</h2>
+            <p class="text-muted mb-0">Citizens Engaged</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-12">
+          <h2 class="fw-bold mb-3">How It Works</h2>
+          <p class="text-muted lead">Three simple steps to make your voice heard</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="text-center">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
+              <span class="fw-bold fs-4">1</span>
+            </div>
+            <h4 class="fw-bold mb-3">Submit Your Idea</h4>
+            <p class="text-muted">Share your thoughts on how to improve Nairobi.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="text-center">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
+              <span class="fw-bold fs-4">2</span>
+            </div>
+            <h4 class="fw-bold mb-3">Community Discussion</h4>
+            <p class="text-muted">Engage with fellow citizens. Comment and debate ideas.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="text-center">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:80px;height:80px;">
+              <span class="fw-bold fs-4">3</span>
+            </div>
+            <h4 class="fw-bold mb-3">Vote & Impact</h4>
+            <p class="text-muted">Vote on ideas you support. Popular ideas get attention.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Ideas -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-12 text-center">
+          <h2 class="fw-bold mb-3">Recent Community Ideas</h2>
+        </div>
+      </div>
+      <div class="row" id="recent-ideas">
+        <!-- Loaded via JS from Google Sheets -->
+      </div>
+      <div class="text-center mt-4">
+        <a href="community.html" class="btn btn-success btn-lg">View All Ideas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-success text-white py-5">
+    <div class="container text-center">
+      <h2 class="fw-bold mb-3">Ready to Make a Difference?</h2>
+      <p class="lead mb-4">Join thousands of Nairobi citizens shaping the future of our city.</p>
+      <a href="#" class="btn btn-light btn-lg me-3">Sign Up Now</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark-green text-white py-5 mt-auto">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5">
+          <img src="images/NairobiTalksLogo.png" alt="Nairobi Talks" style="height:60px;width:auto;border-radius:0.375rem;" class="mb-3">
+          <p class="text-white-75">Empowering Nairobi citizens to propose, discuss and vote on community ideas.</p>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6 class="text-uppercase fw-semibold mb-3">Explore</h6>
+          <ul class="list-unstyled lh-lg">
+            <li><a href="community.html" class="text-white text-opacity-75 text-decoration-none">All Ideas</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr class="my-4 opacity-25">
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <p class="mb-0">© 2025 Nairobi Talks</p>
+        <a href="admin/index.html" class="text-white-50 text-decoration-none small">Admin Panel</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ============================================
+    // CONFIGURATION - Choose your backend:
+    // ============================================
+    
+    // Option 1: Supabase (real-time database)
+    // Get your credentials from: https://supabase.com
+    // 1. Create a project
+    // 2. Go to Settings → API
+    // 3. Copy Project URL and anon public key
+    const SUPABASE_URL = 'https://tfnvacmwachpadhekfzm.supabase.co'; // e.g., 'https://xyzabc.supabase.co'
+    const SUPABASE_KEY = 'sb_publishable_1lebrtqeey5Ni62L7TA4rA_4fTTete7'; // e.g., 'eyJhbGciOiJIUzI1NiIs...'
+    
+    // Option 2: Google Sheets (simpler, no real-time)
+    // const GOOGLE_SHEET_ID = 'YOUR_SHEET_ID_HERE';
+    
+    // Option 3: Demo mode (no backend) - DEFAULT
+    const USE_DEMO_MODE = false; // Set to false when you have Supabase configured
+    
+    // ============================================
+    // SUPABASE CLIENT SETUP
+    // ============================================
+    let supabase;
+    if (!USE_DEMO_MODE && SUPABASE_URL !== 'https://tfnvacmwachpadhekfzm.supabase.co') {
+      const { createClient } = window.supabase;
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    }
+    
+    // ============================================
+    // MOCK DATA (Demo Mode)
+    // ============================================
+    const mockData = {
+      ideas: 156,
+      comments: 423,
+      users: 89,
+      recentIdeas: [
+        { title: 'Improve Public Transport in Westlands', description: 'Add more bus routes and dedicated lanes to reduce commute times.', topic: 'Transportation', comments: 12 },
+        { title: 'Community Garden in Kibra', description: 'Create urban gardens to improve food security and community spaces.', topic: 'Environment', comments: 8 },
+        { title: 'Digital Literacy Program for Youth', description: 'Free computer training for unemployed youth in Nairobi.', topic: 'Education', comments: 15 }
+      ]
+    };
+
+    // ============================================
+    // DATA LOADING FUNCTIONS
+    // ============================================
+    async function loadData() {
+      const container = document.getElementById('recent-ideas');
+      
+      if (USE_DEMO_MODE) {
+        updateStats(mockData);
+        renderIdeas(mockData.recentIdeas);
+        return;
+      }
+
+      try {
+        // Load stats from Supabase
+        const [ideasResult, commentsResult, usersResult] = await Promise.all([
+          supabase.from('ideas').select('id', { count: 'exact' }),
+          supabase.from('comments').select('id', { count: 'exact' }),
+          supabase.from('users').select('id', { count: 'exact' })
+        ]);
+        
+        const stats = {
+          ideas: ideasResult.count || 0,
+          comments: commentsResult.count || 0,
+          users: usersResult.count || 0
+        };
+        
+        // Load recent ideas
+        const { data: recentIdeas } = await supabase
+          .from('ideas')
+          .select('*, comments(id)')
+          .order('created_at', { ascending: false })
+          .limit(3);
+        
+        updateStats(stats);
+        renderIdeas(recentIdeas || []);
+      } catch (e) {
+        console.log('Error loading data:', e);
+        updateStats(mockData);
+        renderIdeas(mockData.recentIdeas);
+      }
+    }
+
+    function updateStats(data) {
+      document.getElementById('stat-ideas').textContent = data.ideas || '-';
+      document.getElementById('stat-comments').textContent = data.comments || '-';
+      document.getElementById('stat-users').textContent = data.users || '-';
+    }
+
+    function renderIdeas(ideas) {
+      const container = document.getElementById('recent-ideas');
+      container.innerHTML = ideas.map(idea => {
+        const commentCount = idea.comments ? idea.comments.length : 0;
+        return `
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+              <span class="badge bg-success mb-2">${idea.topic || 'General'}</span>
+              <h5 class="card-title fw-bold text-success">${idea.title}</h5>
+              <p class="card-text text-muted">${idea.description || ''}</p>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <small class="text-muted">${formatDate(idea.created_at)}</small>
+                <span class="badge bg-light text-dark">${commentCount} comments</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'Recently';
+      const date = new Date(dateStr);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays === 0) return 'Today';
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 7) return `${diffDays} days ago`;
+      return date.toLocaleDateString();
+    }
+
+    // ============================================
+    // REAL-TIME SUBSCRIPTIONS (Supabase only)
+    // ============================================
+    if (!USE_DEMO_MODE && supabase) {
+      // Subscribe to ideas changes
+      supabase
+        .channel('ideas')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'ideas' }, () => {
+          loadData(); // Reload when data changes
+        })
+        .subscribe();
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
